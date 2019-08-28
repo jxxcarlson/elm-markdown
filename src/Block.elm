@@ -248,7 +248,7 @@ runFSM option str =
     let
         folder : String -> FSM -> FSM
         folder =
-            \line fsm -> nextState option (Debug.log "\nREAD" line) fsm
+            \line fsm -> nextState option line fsm
     in
     List.foldl folder initialFSM (splitIntoLines str)
 
@@ -318,7 +318,7 @@ initialFSM =
 
 nextState : Option -> String -> FSM -> FSM
 nextState option str fsm =
-    case Debug.log "STATE (TOP)" (stateOfFSM fsm) of
+    case stateOfFSM fsm of
         Start ->
             nextStateS option str fsm
 
@@ -331,13 +331,6 @@ nextState option str fsm =
 
 nextStateS : Option -> String -> FSM -> FSM
 nextStateS option line (FSM state blockList register) =
-    let
-        _ =
-            Debug.log "NSS, LINE" line
-
-        _ =
-            Debug.log "NSS, STATE" state
-    in
     case (BlockType.get option) line of
         ( _, Nothing ) ->
             FSM Error blockList register
@@ -346,7 +339,6 @@ nextStateS option line (FSM state blockList register) =
         ( level, Just blockType ) ->
             let
                 ( newBlockType, newRegister) =
-                    Debug.log "START, blockType, reg" <|
                         updateRegister blockType level register
 
                 newLine =
@@ -386,29 +378,21 @@ nextStateIB option line ((FSM state_ blocks_ register) as fsm) =
 
 processMarkDownBlock : Option -> BlockType -> String -> FSM -> FSM
 processMarkDownBlock option blockTypeOfLine line ((FSM state blocks register) as fsm) =
-    let
-        _ =
-            Debug.log "STATE (PMDB)" state
-
-        _ =
-            -- xxx
-            Debug.log "LINE, (PMDB)" line
-    in
     case state of
         -- add current block to block list and
         -- start new block with the current line and lineType
         InBlock ((Block typeOfCurrentBlock levelOfCurrentBlock _) as currentBlock) ->
             if BlockType.isBalanced typeOfCurrentBlock then
                 -- add line to current balanced block
-                addLineToFSM (Debug.log "MD1 (ADD BALANCED)" line) fsm
+                addLineToFSM line fsm
 
             else if blockTypeOfLine == MarkdownBlock Blank then
                 -- start new block
-                FSM Start (Debug.log "MD1 (START)" (adjustLevel currentBlock) :: blocks) register
+                FSM Start (adjustLevel currentBlock :: blocks) register
 
             else if blockTypeOfLine == MarkdownBlock Plain then
                 -- continue, add content to current block
-                addLineToFSM (Debug.log "MD1 (ADD)" line) fsm
+                addLineToFSM line fsm
                 -- else if blockTypeOfLine /= typeOfCurrentBlock then
                 --     -- start new block
                 --     FSM Start (Debug.log "MD1 (START2)" (adjustLevel currentBlock) :: blocks) register
@@ -445,14 +429,12 @@ addNewMarkdownBlock option ((Block typeOfCurrentBlock levelOfCurrentBlock _) as 
         ( level, Just newBlockType_ ) ->
             let
                 ( newBlockType, newRegister ) =
-                    Debug.log "(NBT, NR)" <|
                         updateRegister newBlockType_ level register
 
                 newLine =
                     removePrefix typeOfCurrentBlock line
 
                 newBlock =
-                    Debug.log "MD1 NEW MD BLOCK" <|
                         Block newBlockType level (removePrefix newBlockType newLine)
             in
             FSM (InBlock newBlock) (adjustLevel currentBlock :: blocks) newRegister
@@ -463,7 +445,6 @@ adjustLevel ((Block blockType level content) as block) =
     if blockType == MarkdownBlock Plain then
         let
             newLevel =
-                Debug.log "NEW LEVEL" <|
                     BlockType.level content
         in
         Block blockType newLevel content
@@ -482,7 +463,7 @@ processBalancedBlock lineType line ((FSM state_ blocks_ register) as fsm) =
                     line_ =
                         removePrefix lineType line
                 in
-                FSM Start (addLineToBlock (Debug.log "CLOSE" line_) block_ :: blocks_) register
+                FSM Start (addLineToBlock line_ block_ :: blocks_) register
 
             _ ->
                 fsm
@@ -491,7 +472,7 @@ processBalancedBlock lineType line ((FSM state_ blocks_ register) as fsm) =
     else
         case stateOfFSM fsm of
             InBlock block_ ->
-                FSM (InBlock (Block lineType (BlockType.level (Debug.log "OPEN" line)) line)) (block_ :: blocks_) register
+                FSM (InBlock (Block lineType (BlockType.level line) line)) (block_ :: blocks_) register
 
             _ ->
                 fsm

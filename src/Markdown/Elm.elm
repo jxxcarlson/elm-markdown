@@ -66,10 +66,6 @@ renderBlock block =
             Html.hr [ HA.class "mm-thematic-break" ] []
 
         MMBlock (MarkdownBlock BlockType.Image) level blockContent ->
-            let
-                _ =
-                    Debug.log "IMG (BC)" blockContent
-            in
             renderBlockContent blockContent
 
         MMBlock (BalancedBlock DisplayMath) level blockContent ->
@@ -125,7 +121,7 @@ renderUListItem k blockContent =
         [ style "margin-left" margin
         , HA.class "mm-olist-item"
         ]
-        [ renderBlockContent <| Debug.log "LIIII" (prependToParagraph (OrdinaryText label) blockContent) ]
+        [ renderBlockContent <| prependToParagraph (OrdinaryText label) blockContent ]
 
 
 prependToParagraph : MMInline -> BlockContent -> BlockContent
@@ -151,7 +147,6 @@ renderOListItem index k blockContent =
                 ++ "px"
 
         label =
-            Debug.log "N, LABEL" <|
                 case k of
                     1 ->
                         String.fromInt index ++ ". "
