@@ -64,3 +64,11 @@ with ">>" instead of ">".  Line endings are respected
 in poetry blocks.  Verbatim blocks are like code blocks,
 except that they are set off by four backticks instead of 
 three.  No syntax coloring is applied to verbatim blocks.
+
+## Bugs and whatnot
+
+Please write me at jxxcarlson@gmail.com or post an
+issue on the [Github repository](https://github.com/jxxcarlson/elm-markdown)
+regarding bugs or anything else. I will steer
+this library towards the Commonmark spec to the greatest
+extent possible by the method of successive approximations
