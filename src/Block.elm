@@ -1,7 +1,6 @@
 module Block exposing
-    ( Block(..), parse, runFSM
-    , BlockContent(..), MMBlock(..), parseToBlockTree, parseToMMBlockTree, stringOfBlockContent, stringOfBlockTree, stringOfMMBlockTree, updateRegister
-    )
+    ( BlockContent(..), MMBlock(..), parseToMMBlockTree)
+
 
 {-| A markdown document is parsed into a tree
 of Blocks using
@@ -36,7 +35,7 @@ If the FSM consumes all its input and no error
 id encountered, then the `(List Block)` component of the FSM contains
 the result of parsing the input string into blocks.
 
-@docs Block, parseToTree, parse, runFSM
+@docs BlockContent(..), MMBlock(..), parseToMMBlockTree)
 
 -}
 
@@ -69,7 +68,7 @@ type Block
 type MMBlock
     = MMBlock BlockType Level BlockContent
 
-
+{-| The type of parsed MMarkdown -}
 type BlockContent
     = M MMInline
     | T String

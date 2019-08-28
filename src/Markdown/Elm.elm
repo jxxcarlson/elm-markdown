@@ -1,5 +1,19 @@
 module Markdown.Elm exposing (toHtml)
 
+{-|
+
+Markdown.Elm exposes one function,
+
+    toHtml : Tree MMBlock -> Html msg
+
+It is used to render the output of the parser,
+
+    parseToMMBlockTree : String -> Tree MMBlock
+
+@docs toHtml
+
+-}
+
 import Block exposing (BlockContent(..), MMBlock(..))
 import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
 import Html exposing (Html)
@@ -9,6 +23,9 @@ import MMInline exposing (MMInline(..))
 import Tree exposing (Tree)
 
 
+{-| Render output of the parser to Html.
+
+-}
 toHtml : Tree MMBlock -> Html msg
 toHtml tree =
     Tree.foldl (\block elements -> renderBlock block :: elements) [] tree

@@ -146,10 +146,7 @@ renderedSource model =
 
 
 
--- [ ( String.fromInt model.counter, MMarkdown.toHtml [] (model.sourceText ++ "\n\n") ) ]
---
--- BUTTONS
---
+-- BUTTONS --
 
 
 clearButton width =
