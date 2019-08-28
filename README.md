@@ -17,7 +17,9 @@ is properly rendered.
 
 
 See [markdown.minilatex.app](https://markdown.minilatex.app)
-for a demo of the latest implementation.
+for a demo of the latest implementation.  The package on which
+this app relies can be found on [the Elm package manager](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)
+
 
 
 ## Example
