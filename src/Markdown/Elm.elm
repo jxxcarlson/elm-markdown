@@ -87,7 +87,7 @@ renderBlock block =
         MMBlock (BalancedBlock DisplayCode) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.pre [] [ Html.text str ]
+                    Html.pre [] [ Html.code [] [Html.text str] ]
 
                 _ ->
                     displayMathText ""
@@ -244,11 +244,6 @@ renderToHtmlMsg mmInline =
             Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
 
         Line arg ->
---            let
---                renderedLines =
---                    List.map renderToHtmlMsg arg
---            in
---            Html.span [] (List.map (\rl -> Html.span [ style "margin-right" "5px" ] [ rl ]) renderedLines)
               Html.span [] (joinLine arg)
 
         Paragraph arg ->
