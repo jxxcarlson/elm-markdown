@@ -1,0 +1,7 @@
+NOTES.md
+grammar.md
+elm-stuff/
+.idea/
+app-test/Main.js
+app-test/package-lock.json
+src/MDExample.elm
