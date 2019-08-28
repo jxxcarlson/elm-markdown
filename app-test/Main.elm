@@ -142,7 +142,7 @@ renderedSource model =
     in
     Keyed.node "div"
         renderedSourceStyle
-        [ ( token, Block.parseToMMBlockTree model.sourceText |> Markdown.Elm.toHtml ) ]
+        [ ( token, Markdown.Elm.toHtml  model.sourceText) ]
 
 
 
