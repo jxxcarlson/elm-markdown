@@ -12,26 +12,24 @@ $$
 The Markdown used here offers three options: *Standard*,
 *Extended* and *Extended-Math*. The Extended option offers strike-through
  text, verbatim blocks, and poetry blocks.  The Extended-Math
- option is, in additin, able to  render
+ option is, in addition, able to  render
 formulas written in TeX/LaTeX.  It is suitable for
 light-weight writing tasks that require
 mathematical notation — problem sets, short class notes, etc.
 
 
-This is a work in progress: we have quite a bit to do to make the output
-look right and to make it adhere as closely as possible to the CommonMark spec.
-
+This project is a work in progress: more to to do make
+it adhere as closely as possible to the CommonMark spec.
+Write me at jxxcarlson@gmail.com with comments and bug reports,
+or post an issue on the [GitHub repo](https://github.com/jxxcarlson/elm-markdown).
 
 For installation, see the notes
-at the end. The MMarkdown package is written in pure Elm.
-It uses MathJax.js to render formulas.
+at the end. This Markdown package is written in pure Elm.
+It uses MathJax.js to render math formulas.
 
 ## Demo
 
-In general, if you run into
-something that is not working for you, please post an issue on
-[GitHub](https://github.com/jxxcarlson/elm-markdown).
-
+Below we illustrate some typical Markdown elements: images, links, headings, etc.
 
 ![Hummingbird](https://www.allaboutbirds.org/guide/noindex/photo/60395551-1280px.jpg)
 
@@ -167,8 +165,8 @@ Etcetera!
 ___
 
 
-NOTE: MMarkdown is also implemented as an option for [knode.io](https://knode.io).
-knode offers MiniLaTeX, a web-friendly subset of TeX/LaTex.  To see
+NOTE: this Markdown implementation is an option for writing documents on [knode.io](https://knode.io).
+Knode also offers MiniLaTeX, a web-friendly subset of TeX/LaTex.  To see
 how it works without a sign-in, please see [demo.minilatex.app](https://demo.minilatex.app).
 
 

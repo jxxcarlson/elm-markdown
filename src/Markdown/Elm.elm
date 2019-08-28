@@ -244,11 +244,12 @@ renderToHtmlMsg mmInline =
             Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
 
         Line arg ->
-            let
-                renderedLines =
-                    List.map renderToHtmlMsg arg
-            in
-            Html.span [] (List.map (\rl -> Html.span [ style "margin-right" "5px" ] [ rl ]) renderedLines)
+--            let
+--                renderedLines =
+--                    List.map renderToHtmlMsg arg
+--            in
+--            Html.span [] (List.map (\rl -> Html.span [ style "margin-right" "5px" ] [ rl ]) renderedLines)
+              Html.span [] (joinLine arg)
 
         Paragraph arg ->
             Html.p [] (List.map renderToHtmlMsg arg)
@@ -257,6 +258,27 @@ renderToHtmlMsg mmInline =
             Html.p [] (List.map renderToHtmlMsg arg)
 
 
+
+joinLine : List MMInline -> List (Html msg)
+joinLine items =
+    let
+        folder : MMInline -> List (Html msg) -> List (Html msg)
+        folder item acc =
+            case item of
+                OrdinaryText str ->
+                    if isPunctuation (String.left 1 str) then
+                      (renderToHtmlMsg item) :: acc
+                    else
+                      (Html.span [ style "margin-left" "5px"] [ renderToHtmlMsg item ]) :: acc
+                _ -> Html.span [ style "margin-left" "5px" ] [ renderToHtmlMsg item ] :: acc
+
+    in
+      (List.foldl folder [] items) |> List.reverse
+
+
+isPunctuation : String -> Bool
+isPunctuation str =
+    List.member str [".", ",", ";", ":", "?", "!"]
 
 strikethrough : String -> Html msg
 strikethrough str =
