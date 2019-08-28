@@ -1,6 +1,7 @@
 module MMInline exposing (MMInline(..), inlineList, parse, parseLine, render, string, wrap)
 
 import Parser.Advanced exposing (..)
+import Option exposing(Option(..))
 
 
 type alias Parser a =
@@ -29,11 +30,7 @@ type MMInline
     | Image String String
     | Line (List MMInline)
     | Paragraph (List MMInline)
-      --    | MathText String
-      --    | CodeText String
-      --    | VerbatimText String
     | Error (List MMInline)
-
 
 string : MMInline -> String
 string mmInline =
@@ -124,12 +121,12 @@ type alias PrefixedString =
     { prefix : String, text : String }
 
 
-parse : String -> MMInline
-parse str =
+parse : Option -> String -> MMInline
+parse option str =
     str
         |> String.split "\n"
         |> wrap
-        |> List.map parseLine
+        |> List.map (parseLine option)
         |> Paragraph
 
 
@@ -164,10 +161,18 @@ endsWithPumctuation str =
     List.member (String.right 1 str) [ "." ]
 
 
-parseLine : String -> MMInline
-parseLine str =
-    run inlineList str
+parseLine : Option -> String -> MMInline
+parseLine option str =
+    run (inlineList option) str
         |> resolveInlineResult
+
+
+inline : Option -> Parser MMInline
+inline option =
+    case option of
+        Standard -> inlineStandard
+        Extended -> inlineExtended
+        ExtendedMath -> inlineExtendedMath
 
 
 {-|
@@ -182,9 +187,17 @@ parseLine str =
 > Ok (OrdinaryText "hahaha")
 
 -}
-inline : Parser MMInline
-inline =
-    oneOf [ code, image, link, boldText, italicText, strikeThroughText, inlineMath, ordinaryText ]
+inlineExtendedMath : Parser MMInline
+inlineExtendedMath =
+    oneOf [ code, image, link, boldText, italicText, strikeThroughText, inlineMath, ordinaryTextExtendedMath ]
+
+inlineExtended : Parser MMInline
+inlineExtended =
+    oneOf [ code, image, link, boldText, italicText, strikeThroughText, ordinaryTextExtended ]
+
+inlineStandard : Parser MMInline
+inlineStandard =
+    oneOf [ code, image, link, boldText, italicText, ordinaryTextStandard ]
 
 
 
@@ -219,8 +232,8 @@ parseWhile accepting =
 > Ok (OrdinaryText "abc")
 
 -}
-ordinaryText : Parser MMInline
-ordinaryText =
+ordinaryTextExtendedMath : Parser MMInline
+ordinaryTextExtendedMath =
     (succeed ()
         |. chompIf (\c -> not <| List.member c [ '`', '~', '[', '$', '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
         |. chompWhile (\c -> not <| List.member c [ '`', '~', '[', ']', '$', '*', '\n' ])
@@ -228,6 +241,23 @@ ordinaryText =
         |> getChompedString
         |> map OrdinaryText
 
+ordinaryTextExtended : Parser MMInline
+ordinaryTextExtended =
+    (succeed ()
+        |. chompIf (\c -> not <| List.member c [ '`', '~', '[', '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
+        |. chompWhile (\c -> not <| List.member c [ '`', '~', '[', ']', '*', '\n' ])
+    )
+        |> getChompedString
+        |> map OrdinaryText
+
+ordinaryTextStandard : Parser MMInline
+ordinaryTextStandard =
+    (succeed ()
+        |. chompIf (\c -> not <| List.member c [ '`', '[',  '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
+        |. chompWhile (\c -> not <| List.member c [ '`', '[', ']', '*', '\n' ])
+    )
+        |> getChompedString
+        |> map OrdinaryText
 
 image : Parser MMInline
 image =
@@ -372,9 +402,9 @@ code =
     MMInlineList [ItalicText ("foo "),OrdinaryText ("hahaha: hohoho, "),InlineMath ("a^6 + 2")]
 
 -}
-inlineList : Parser (List MMInline)
-inlineList =
-    many inline
+inlineList : Option -> Parser (List MMInline)
+inlineList option =
+    many (inline option)
 
 
 resolveInlineResult : Result (List (DeadEnd Context Problem)) (List MMInline) -> MMInline

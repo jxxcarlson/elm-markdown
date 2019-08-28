@@ -17,14 +17,15 @@ import Html.Attributes as HA exposing (style)
 import Json.Encode
 import MMInline exposing (MMInline(..))
 import Tree exposing (Tree)
+import Option exposing(Option(..))
 
 
 {-| Render a string to Html.
 
 -}
-toHtml : String -> Html msg
-toHtml str =
-    Block.parseToMMBlockTree str |> blockTreeToHtml
+toHtml : Option -> String -> Html msg
+toHtml option str =
+    (Block.parseToMMBlockTree option) str |> blockTreeToHtml
 
 {-| Render output of the parser to Html.
 

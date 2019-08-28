@@ -7,6 +7,7 @@ import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
 import Markdown.Elm
+import Option exposing(Option(..))
 import Random
 import Strings
 import Style exposing (..)
@@ -116,7 +117,7 @@ view model =
 display : Model -> Html Msg
 display model =
     div []
-        [ h1 [ style "margin-left" "20px" ] [ text "MMarkdown Demo (Experimental)" ]
+        [ h1 [ style "margin-left" "20px" ] [ text "Markdown Demo (Experimental)" ]
         , p [ style "margin-left" "20px", style "margin-bottom" "0", style "margin-top" "0" ] [ text "This project is in its very earliest stages ..." ]
         , p [ style "margin-left" "20px", style "margin-top" "0" ] [ text "Edit or write new MMarkdown below." ]
         , editor model
@@ -142,7 +143,7 @@ renderedSource model =
     in
     Keyed.node "div"
         renderedSourceStyle
-        [ ( token, Markdown.Elm.toHtml  model.sourceText) ]
+        [ ( token, (Markdown.Elm.toHtml Extended) model.sourceText) ]
 
 
 

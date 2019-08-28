@@ -42,6 +42,7 @@ the result of parsing the input string into blocks.
 import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
 import HTree
 import MMInline exposing (MMInline(..))
+import Option exposing(Option(..))
 import Tree exposing (Tree)
 
 
@@ -122,10 +123,10 @@ type State
     -->    ]
 
 -}
-parseToBlockTree : String -> Tree Block
-parseToBlockTree str =
+parseToBlockTree : Option -> String -> Tree Block
+parseToBlockTree option str =
     str
-        |> parse
+        |> (parse option)
         |> List.map (changeLevel 1)
         |> HTree.fromList rootBlock blockLevel
 
@@ -135,29 +136,89 @@ changeLevel k (Block bt_ level_ content_) =
     Block bt_ (level_ + k) content_
 
 
-parseToMMBlockTree : String -> Tree MMBlock
-parseToMMBlockTree str =
-    let
-        mapper : Block -> MMBlock
-        mapper (Block bt level_ content_) =
-            case bt of
-                MarkdownBlock mt ->
-                    MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse content_))
-
-                BalancedBlock DisplayCode ->
-                    MMBlock (BalancedBlock DisplayCode) level_ (T content_)
-
-                BalancedBlock Verbatim ->
-                    MMBlock (BalancedBlock Verbatim) level_ (T content_)
-
-                BalancedBlock DisplayMath ->
-                    MMBlock (BalancedBlock DisplayMath) level_ (T content_)
-    in
+parseToMMBlockTree : Option -> String -> Tree MMBlock
+parseToMMBlockTree option str =
+--    let
+--       mapper = selectMapper option
+--        mapper : Option -> Block -> MMBlock
+--        mapper option_ (Block bt level_ content_) =
+--            case bt of
+--                MarkdownBlock mt ->
+--                    MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+--
+--                BalancedBlock DisplayCode ->
+--                    MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+--
+--                BalancedBlock Verbatim ->
+--                    MMBlock (BalancedBlock Verbatim) level_ (T content_)
+--
+--                BalancedBlock DisplayMath ->
+--                    MMBlock (BalancedBlock DisplayMath) level_ (T content_)
+--    in
     str
-        |> parseToBlockTree
-        |> Tree.map mapper
+        |> (parseToBlockTree option)
+        |> Tree.map ((selectMapper option))
+
+selectMapper :  Option -> (Block -> MMBlock)
+selectMapper  option ((Block bt level_ content_) as block) =
+    case option of
+        Standard -> mapperStandard option block
+        Extended -> mapperExtended option block
+        ExtendedMath -> mapperExtendedMath option block
 
 
+mapperExtendedMath :  Option -> Block -> MMBlock
+mapperExtendedMath option_ (Block bt level_ content_) =
+       case bt of
+           MarkdownBlock mt ->
+               MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+
+           BalancedBlock DisplayCode ->
+               MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+
+           BalancedBlock Verbatim ->
+               MMBlock (BalancedBlock Verbatim) level_ (T content_)
+
+           BalancedBlock DisplayMath ->
+               MMBlock (BalancedBlock DisplayMath) level_ (T content_)
+--       in
+--       str
+--           |> (parseToBlockTree option)
+--           |> Tree.map (mapper option)
+
+mapperExtended :  Option -> Block -> MMBlock
+mapperExtended option_ (Block bt level_ content_) =
+       case bt of
+           MarkdownBlock mt ->
+                MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+
+           BalancedBlock DisplayCode ->
+               MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+
+           BalancedBlock Verbatim ->
+               MMBlock (BalancedBlock Verbatim) level_ (T content_)
+
+           _ ->  MMBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
+--       in
+--       str
+--           |> (parseToBlockTree option)
+--           |> Tree.map (mapper option)
+
+mapperStandard :  Option -> Block -> MMBlock
+mapperStandard option_ (Block bt level_ content_) =
+       case bt of
+           MarkdownBlock mt ->
+                MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+
+           BalancedBlock DisplayCode ->
+               MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+
+           _ ->  MMBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
+
+--       in
+--       str
+--           |> (parseToBlockTree option)
+--           |> Tree.map (mapper option)
 {-|
 
     parse "- One\nsome stuff\n- Two\nMore stuff"
@@ -168,9 +229,9 @@ parseToMMBlockTree str =
     --> ]
 
 -}
-parse : String -> List Block
-parse str =
-    runFSM str |> flush
+parse : Option -> String -> List Block
+parse option str =
+    runFSM option str |> flush
 
 
 {-|
@@ -182,12 +243,12 @@ parse str =
     -->        1 ("- One\nsome stuff\n")]
 
 -}
-runFSM : String -> FSM
-runFSM str =
+runFSM : Option -> String -> FSM
+runFSM option str =
     let
         folder : String -> FSM -> FSM
         folder =
-            \line fsm -> nextState (Debug.log "\nREAD" line) fsm
+            \line fsm -> nextState option (Debug.log "\nREAD" line) fsm
     in
     List.foldl folder initialFSM (splitIntoLines str)
 
@@ -255,21 +316,21 @@ initialFSM =
     FSM Start [] emptyRegister
 
 
-nextState : String -> FSM -> FSM
-nextState str fsm =
+nextState : Option -> String -> FSM -> FSM
+nextState option str fsm =
     case Debug.log "STATE (TOP)" (stateOfFSM fsm) of
         Start ->
-            nextStateS str fsm
+            nextStateS option str fsm
 
         InBlock _ ->
-            nextStateIB str fsm
+            nextStateIB option str fsm
 
         Error ->
             fsm
 
 
-nextStateS : String -> FSM -> FSM
-nextStateS line (FSM state blockList register) =
+nextStateS : Option -> String -> FSM -> FSM
+nextStateS option line (FSM state blockList register) =
     let
         _ =
             Debug.log "NSS, LINE" line
@@ -277,14 +338,14 @@ nextStateS line (FSM state blockList register) =
         _ =
             Debug.log "NSS, STATE" state
     in
-    case BlockType.get line of
+    case (BlockType.get option) line of
         ( _, Nothing ) ->
             FSM Error blockList register
 
         -- add line
         ( level, Just blockType ) ->
             let
-                ( newBlockType, newRegister ) =
+                ( newBlockType, newRegister) =
                     Debug.log "START, blockType, reg" <|
                         updateRegister blockType level register
 
@@ -304,9 +365,9 @@ removePrefix blockType line_ =
     String.replace p "" line_
 
 
-nextStateIB : String -> FSM -> FSM
-nextStateIB line ((FSM state_ blocks_ register) as fsm) =
-    case BlockType.get line of
+nextStateIB : Option -> String -> FSM -> FSM
+nextStateIB option line ((FSM state_ blocks_ register) as fsm) =
+    case BlockType.get option line of
         ( _, Nothing ) ->
             FSM Error (blockListOfFSM fsm) register
 
@@ -317,14 +378,14 @@ nextStateIB line ((FSM state_ blocks_ register) as fsm) =
                 -- add markDown block d
 
             else if BlockType.isMarkDown blockType then
-                processMarkDownBlock blockType line fsm
+                processMarkDownBlock option blockType line fsm
 
             else
                 fsm
 
 
-processMarkDownBlock : BlockType -> String -> FSM -> FSM
-processMarkDownBlock blockTypeOfLine line ((FSM state blocks register) as fsm) =
+processMarkDownBlock : Option -> BlockType -> String -> FSM -> FSM
+processMarkDownBlock option blockTypeOfLine line ((FSM state blocks register) as fsm) =
     let
         _ =
             Debug.log "STATE (PMDB)" state
@@ -353,7 +414,7 @@ processMarkDownBlock blockTypeOfLine line ((FSM state blocks register) as fsm) =
                 --     FSM Start (Debug.log "MD1 (START2)" (adjustLevel currentBlock) :: blocks) register
 
             else
-                addNewMarkdownBlock currentBlock line fsm
+                addNewMarkdownBlock option currentBlock line fsm
 
         -- -- add new markdown block
         -- let
@@ -375,9 +436,9 @@ processMarkDownBlock blockTypeOfLine line ((FSM state blocks register) as fsm) =
     current line and use that line to update the register
 
 -}
-addNewMarkdownBlock : Block -> String -> FSM -> FSM
-addNewMarkdownBlock ((Block typeOfCurrentBlock levelOfCurrentBlock _) as currentBlock) line ((FSM state blocks register) as fsm) =
-    case BlockType.get line of
+addNewMarkdownBlock : Option -> Block -> String -> FSM -> FSM
+addNewMarkdownBlock option ((Block typeOfCurrentBlock levelOfCurrentBlock _) as currentBlock) line ((FSM state blocks register) as fsm) =
+    case BlockType.get option line of
         ( _, Nothing ) ->
             fsm
 

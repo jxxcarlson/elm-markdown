@@ -17,6 +17,7 @@ module BlockType exposing
     )
 
 import Parser.Advanced exposing (..)
+import Option exposing(Option(..))
 
 
 type alias Parser a =
@@ -238,13 +239,13 @@ type alias Line =
     String
 
 
-get : String -> ( Level, Maybe BlockType )
-get str =
+get : Option -> String -> ( Level, Maybe BlockType )
+get option str =
     if str == "\n" then
         ( 0, Just (MarkdownBlock Blank) )
 
     else
-        case run parse (dropLeadingBlanks str) of
+        case run (parse option) (dropLeadingBlanks str) of
             Ok result ->
                 ( level str, Just result )
 
@@ -299,8 +300,29 @@ level ln =
         |> Maybe.withDefault 0
 
 
-parse : Parser BlockType
-parse =
+
+parse : Option ->  Parser BlockType
+parse option =
+    case option of
+        Standard -> parseStandard
+        _ -> parseExtended
+
+
+parseStandard :  Parser BlockType
+parseStandard =
+    oneOf
+        [ imageBlock
+        , mathBlock
+        , unorderedListItemBlock
+        , orderedListItemBlock
+        , quotationBlock
+        , codeBlock
+        , headingBlock
+        , horizontalRuleBlock
+        ]
+
+parseExtended :  Parser BlockType
+parseExtended =
     oneOf
         [ imageBlock
         , mathBlock
@@ -313,7 +335,6 @@ parse =
         , headingBlock
         , horizontalRuleBlock
         ]
-
 
 
 -- PARSERS --
