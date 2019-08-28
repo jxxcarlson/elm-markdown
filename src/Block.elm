@@ -1,6 +1,4 @@
-module Block exposing
-    ( BlockContent(..), MMBlock(..), parseToMMBlockTree, runFSM)
-
+module Block exposing (BlockContent(..), MMBlock(..), parseToMMBlockTree, runFSM)
 
 {-| A markdown document is parsed into a tree
 of Blocks using
@@ -17,8 +15,8 @@ and then the partially applied function
        List Block -> Tree Block
 
 This last step is possible because the elements of `List Block`
-are annotated by their level.  The `parse` function operated
-by running a finite-state machine.  This machine has type
+are annotated by their level. The `parse` function operated
+by running a finite-state machine. This machine has type
 
     type FSM
         = FSM State (List Block)
@@ -34,14 +32,14 @@ If the FSM consumes all its input and no error
 is encountered, then the `(List Block)` component of the FSM contains
 the result of parsing the input string into blocks.
 
-@docs BlockContent(..), MMBlock(..), parseToMMBlockTree)
+@docs BlockContent, MMBlock, parseToMMBlockTree)
 
 -}
 
 import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
 import HTree
 import MMInline exposing (MMInline(..))
-import Option exposing(Option(..))
+import Option exposing (Option(..))
 import Tree exposing (Tree)
 
 
@@ -80,7 +78,9 @@ Extended, or ExtendedMath.
 type MMBlock
     = MMBlock BlockType Level BlockContent
 
-{-| The type of parsed MMarkdown -}
+
+{-| The type of parsed MMarkdown
+-}
 type BlockContent
     = M MMInline
     | T String
@@ -101,14 +101,15 @@ type alias Content =
 type FSM
     = FSM State (List Block) Register
 
+
 type State
     = Start
     | InBlock Block
     | Error
 
+
 {-| The registers collection information
 about the numbering of sections, subsections, etc.
-
 -}
 type alias Register =
     { itemIndex1 : Int
@@ -127,13 +128,11 @@ emptyRegister =
     }
 
 
-
 {-| `parseToBlockTree` runs the FSM to parse the input into
-a list of Blocks.  The machine is flushed to obtain
+a list of Blocks. The machine is flushed to obtain
 the last block and the level of elements is incremented
-so that only the Root block has level 0.  Finally,
+so that only the Root block has level 0. Finally,
 a three of Blocks in constructed using the level information.
-
 
     parseToTree  "- One\nsome stuff\n- Two\nMore stuff"
     -->    Tree (Block (MarkdownBlock Plain) 0 "*") [
@@ -159,62 +158,71 @@ changeLevel k (Block bt_ level_ content_) =
 parseToMMBlockTree : Option -> String -> Tree MMBlock
 parseToMMBlockTree option str =
     str
-        |> (parseToBlockTree option)
-        |> Tree.map ((selectMapper option))
+        |> parseToBlockTree option
+        |> Tree.map (selectMapper option)
 
-selectMapper :  Option -> (Block -> MMBlock)
-selectMapper  option ((Block bt level_ content_) as block) =
+
+selectMapper : Option -> (Block -> MMBlock)
+selectMapper option ((Block bt level_ content_) as block) =
     case option of
-        Standard -> mapperStandard option block
-        Extended -> mapperExtended option block
-        ExtendedMath -> mapperExtendedMath option block
+        Standard ->
+            mapperStandard option block
+
+        Extended ->
+            mapperExtended option block
+
+        ExtendedMath ->
+            mapperExtendedMath option block
 
 
-mapperExtendedMath :  Option -> Block -> MMBlock
+mapperExtendedMath : Option -> Block -> MMBlock
 mapperExtendedMath option_ (Block bt level_ content_) =
-       case bt of
-           MarkdownBlock mt ->
-               MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+    case bt of
+        MarkdownBlock mt ->
+            MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
 
-           BalancedBlock DisplayCode ->
-               MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+        BalancedBlock DisplayCode ->
+            MMBlock (BalancedBlock DisplayCode) level_ (T content_)
 
-           BalancedBlock Verbatim ->
-               MMBlock (BalancedBlock Verbatim) level_ (T content_)
+        BalancedBlock Verbatim ->
+            MMBlock (BalancedBlock Verbatim) level_ (T content_)
 
-           BalancedBlock DisplayMath ->
-               MMBlock (BalancedBlock DisplayMath) level_ (T content_)
+        BalancedBlock DisplayMath ->
+            MMBlock (BalancedBlock DisplayMath) level_ (T content_)
 
 
-mapperExtended :  Option -> Block -> MMBlock
+mapperExtended : Option -> Block -> MMBlock
 mapperExtended option_ (Block bt level_ content_) =
-       case bt of
-           MarkdownBlock mt ->
-                MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+    case bt of
+        MarkdownBlock mt ->
+            MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
 
-           BalancedBlock DisplayCode ->
-               MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+        BalancedBlock DisplayCode ->
+            MMBlock (BalancedBlock DisplayCode) level_ (T content_)
 
-           BalancedBlock Verbatim ->
-               MMBlock (BalancedBlock Verbatim) level_ (T content_)
+        BalancedBlock Verbatim ->
+            MMBlock (BalancedBlock Verbatim) level_ (T content_)
 
-           _ ->  MMBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
+        _ ->
+            MMBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
 
 
-mapperStandard :  Option -> Block -> MMBlock
+mapperStandard : Option -> Block -> MMBlock
 mapperStandard option_ (Block bt level_ content_) =
-       case bt of
-           MarkdownBlock mt ->
-                MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+    case bt of
+        MarkdownBlock mt ->
+            MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
 
-           BalancedBlock DisplayCode ->
-               MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+        BalancedBlock DisplayCode ->
+            MMBlock (BalancedBlock DisplayCode) level_ (T content_)
 
-           _ ->  MMBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
+        _ ->
+            MMBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
 
 
 
 -- THE FINITE STATE MACHINE --
+
 
 {-| runFSM runs a function
 
@@ -248,7 +256,9 @@ runFSM option str =
     List.foldl folder initialFSM (splitIntoLines str)
 
 
+
 -- FINITE STATE MACHINE: HELPER FUNCTIONS --
+
 
 blockLevel : Block -> Int
 blockLevel (Block _ k _) =
@@ -313,7 +323,9 @@ initialFSM =
     FSM Start [] emptyRegister
 
 
+
 -- FINITE STATE MACHINE: NEXT STATE FUNCTION --
+
 
 nextState : Option -> String -> FSM -> FSM
 nextState option str fsm =
@@ -330,23 +342,21 @@ nextState option str fsm =
 
 nextStateS : Option -> String -> FSM -> FSM
 nextStateS option line (FSM state blockList register) =
-    case (BlockType.get option) line of
+    case BlockType.get option line of
         ( _, Nothing ) ->
             FSM Error blockList register
 
         -- add line
         ( level, Just blockType ) ->
             let
-                ( newBlockType, newRegister) =
-                        updateRegister blockType level register
+                ( newBlockType, newRegister ) =
+                    updateRegister blockType level register
 
                 newLine =
                     removePrefix blockType line
             in
             -- xxx
             FSM (InBlock (Block newBlockType level newLine)) blockList newRegister
-
-
 
 
 nextStateIB : Option -> String -> FSM -> FSM
@@ -388,10 +398,9 @@ processMarkDownBlock option blockTypeOfLine line ((FSM state blocks register) as
 
             else
                 addNewMarkdownBlock option currentBlock line fsm
+
         _ ->
             fsm
-
-
 
 
 processBalancedBlock : BlockType -> String -> FSM -> FSM
@@ -419,6 +428,7 @@ processBalancedBlock lineType line ((FSM state_ blocks_ register) as fsm) =
                 fsm
 
 
+
 -- FINITE STATE MACHINE: HELPER FUNCTIONS FOR THE UPDATE FUNCTION
 
 
@@ -438,16 +448,15 @@ addNewMarkdownBlock option ((Block typeOfCurrentBlock levelOfCurrentBlock _) as 
         ( level, Just newBlockType_ ) ->
             let
                 ( newBlockType, newRegister ) =
-                        updateRegister newBlockType_ level register
+                    updateRegister newBlockType_ level register
 
                 newLine =
                     removePrefix typeOfCurrentBlock line
 
                 newBlock =
-                        Block newBlockType level (removePrefix newBlockType newLine)
+                    Block newBlockType level (removePrefix newBlockType newLine)
             in
             FSM (InBlock newBlock) (adjustLevel currentBlock :: blocks) newRegister
-
 
 
 removePrefix : BlockType -> String -> String
@@ -458,12 +467,13 @@ removePrefix blockType line_ =
     in
     String.replace p "" line_
 
+
 adjustLevel : Block -> Block
 adjustLevel ((Block blockType level content) as block) =
     if blockType == MarkdownBlock Plain then
         let
             newLevel =
-                    BlockType.level content
+                BlockType.level content
         in
         Block blockType newLevel content
 
@@ -584,8 +594,6 @@ indent k str =
         |> String.split "\n"
         |> List.map (\s -> String.repeat (2 * k) " " ++ s)
         |> String.join "\n"
-
-
 
 
 stringOfMMBlockTree : Tree MMBlock -> String

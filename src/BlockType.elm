@@ -3,21 +3,32 @@ module BlockType exposing
     , BlockType(..)
     , Level
     , MarkdownType(..)
-    , dropLeadingBlanks
     , get
     , isBalanced
     , isMarkDown
     , isOListItem
-    , leadingString
     , level
-    , oListPrefix
-    , parse
     , prefixOfBlockType
     , stringOfBlockType
     )
 
+{-| The BlockType module provides a parser that
+inspects lines and determines the kind of block
+they belong to (its BlockType). This parser is not
+used directly, but rather is called by the function
+
+    get : Option -> Line -> ( Level, Maybe BlockType )
+
+which computes a tuple consisting of the Level and
+BlockType of a Line. A Line is an alias for a Sting
+and Level, which is an alias for Int, is a measure
+of indentation: the number of leading spaces divided
+by 3, where division is integer division.
+
+-}
+
+import Option exposing (Option(..))
 import Parser.Advanced exposing (..)
-import Option exposing(Option(..))
 
 
 type alias Parser a =
@@ -32,6 +43,14 @@ type Context
 
 type Problem
     = Expecting String
+
+
+type alias Level =
+    Int
+
+
+type alias Line =
+    String
 
 
 type BlockType
@@ -56,6 +75,157 @@ type MarkdownType
     | Plain
     | Image
     | Blank
+
+
+get : Option -> Line -> ( Level, Maybe BlockType )
+get option str =
+    if str == "\n" then
+        ( 0, Just (MarkdownBlock Blank) )
+
+    else
+        case run (parse option) (dropLeadingBlanks str) of
+            Ok result ->
+                ( level str, Just result )
+
+            Err _ ->
+                ( 0, Just (MarkdownBlock Plain) )
+
+
+
+-- PARSER BLOCKTYPE --
+
+
+{-| The top-level parse function dispatches
+work to parserStandard or parseExtended
+according to the given option
+-}
+parse : Option -> Parser BlockType
+parse option =
+    case option of
+        Standard ->
+            parseStandard
+
+        _ ->
+            parseExtended
+
+
+parseStandard : Parser BlockType
+parseStandard =
+    oneOf
+        [ imageBlock
+        , mathBlock
+        , unorderedListItemBlock
+        , orderedListItemBlock
+        , quotationBlock
+        , codeBlock
+        , headingBlock
+        , horizontalRuleBlock
+        ]
+
+
+parseExtended : Parser BlockType
+parseExtended =
+    oneOf
+        [ imageBlock
+        , mathBlock
+        , unorderedListItemBlock
+        , orderedListItemBlock
+        , quotationBlock
+        , poetryBlock
+        , backtrackable verbatimBlock
+        , codeBlock
+        , headingBlock
+        , horizontalRuleBlock
+        ]
+
+
+
+-- PARSERS --
+
+
+poetryBlock : Parser BlockType
+poetryBlock =
+    (succeed ()
+        |. symbol (Token ">> " (Expecting "expecting '>> ' to begin poetry block"))
+    )
+        |> map (\_ -> MarkdownBlock Poetry)
+
+
+quotationBlock : Parser BlockType
+quotationBlock =
+    (succeed ()
+        |. symbol (Token "> " (Expecting "expecting '> ' to begin quotation"))
+    )
+        |> map (\_ -> MarkdownBlock Quotation)
+
+
+orderedListItemBlock : Parser BlockType
+orderedListItemBlock =
+    (succeed ()
+        |. parseWhile (\c -> c == ' ')
+        |. chompIf (\c -> Char.isDigit c) (Expecting "Expecting digit to begin ordered list item")
+        |. chompWhile (\c -> Char.isDigit c)
+        |. symbol (Token ". " (Expecting "expecting period"))
+    )
+        |> map (\_ -> MarkdownBlock (OListItem 0))
+
+
+horizontalRuleBlock : Parser BlockType
+horizontalRuleBlock =
+    (succeed ()
+        |. spaces
+        |. symbol (Token "___" (Expecting "Expecting at least three underscores to begin thematic break"))
+    )
+        |> map (\x -> MarkdownBlock HorizontalRule)
+
+
+headingBlock : Parser BlockType
+headingBlock =
+    (succeed identity
+        |. spaces
+        |. symbol (Token "#" (Expecting "Expecting '#' to begin heading block"))
+        |= parseWhile (\c -> c == '#')
+    )
+        |> map (\s -> MarkdownBlock (Heading (String.length s + 1)))
+
+
+codeBlock : Parser BlockType
+codeBlock =
+    succeed (BalancedBlock DisplayCode)
+        |. symbol (Token "```" (Expecting "Expecting four ticks to begin verbatim block"))
+
+
+verbatimBlock : Parser BlockType
+verbatimBlock =
+    succeed (BalancedBlock Verbatim)
+        |. symbol (Token "````" (Expecting "Expecting four ticks to begin verbatim block"))
+
+
+mathBlock : Parser BlockType
+mathBlock =
+    succeed (BalancedBlock DisplayMath)
+        |. symbol (Token "$$" (Expecting "Expecting four ticks to begin verbatim block"))
+
+
+imageBlock : Parser BlockType
+imageBlock =
+    succeed (MarkdownBlock Image)
+        |. symbol (Token "![" (Expecting "Expecting '![' to begin image block"))
+
+
+unorderedListItemBlock : Parser BlockType
+unorderedListItemBlock =
+    succeed (MarkdownBlock UListItem)
+        |. symbol (Token "- " (Expecting "Expecting '-' to begin list item"))
+
+
+parseWhile : (Char -> Bool) -> Parser String
+parseWhile accepting =
+    chompWhile accepting |> getChompedString
+
+
+
+-- HELPER FUNCTIONS --
 
 
 prefixOfBalancedType : BalancedType -> String
@@ -144,6 +314,87 @@ uListPrefix =
             (\s -> s ++ "- ")
 
 
+isBalanced : BlockType -> Bool
+isBalanced bt =
+    case bt of
+        BalancedBlock _ ->
+            True
+
+        MarkdownBlock _ ->
+            False
+
+
+isOListItem : BlockType -> Bool
+isOListItem blockType =
+    case blockType of
+        MarkdownBlock (OListItem _) ->
+            True
+
+        _ ->
+            False
+
+
+isMarkDown : BlockType -> Bool
+isMarkDown bt =
+    case bt of
+        BalancedBlock _ ->
+            False
+
+        MarkdownBlock _ ->
+            True
+
+
+numberOfLeadingBlanks : Parser Int
+numberOfLeadingBlanks =
+    (succeed ()
+        |. chompWhile (\c -> c == ' ')
+    )
+        |> getChompedString
+        |> map String.length
+
+
+{-|
+
+    run leadingString "   xyz"
+    --> Ok ("   x") : Result (List (DeadEnd Context Problem)) String
+
+-}
+leadingString : Parser String
+leadingString =
+    getChompedString <|
+        succeed ()
+            |. chompWhile (\c -> c == ' ')
+            |. chompIf (\c -> c /= ' ') (Expecting "expecting non-blank character after run of blanks")
+
+
+
+--|> map String.trim
+
+
+getNumberOfLeadingBlanks : String -> Int
+getNumberOfLeadingBlanks str =
+    run numberOfLeadingBlanks str
+        |> Result.toMaybe
+        |> Maybe.withDefault 0
+
+
+dropLeadingBlanks : String -> String
+dropLeadingBlanks str =
+    String.dropLeft (getNumberOfLeadingBlanks str) str
+
+
+level : Line -> Int
+level ln =
+    run numberOfLeadingBlanks ln
+        |> Result.toMaybe
+        |> Maybe.map (\l -> l // 3)
+        |> Maybe.withDefault 0
+
+
+
+-- STRING REPRESENTATIONS --
+
+
 stringOfBlockType : BlockType -> String
 stringOfBlockType bt =
     case bt of
@@ -199,223 +450,3 @@ stringOfMarkDownType mt =
 
         Blank ->
             "Blank"
-
-
-isBalanced : BlockType -> Bool
-isBalanced bt =
-    case bt of
-        BalancedBlock _ ->
-            True
-
-        MarkdownBlock _ ->
-            False
-
-
-isOListItem : BlockType -> Bool
-isOListItem blockType =
-    case blockType of
-        MarkdownBlock (OListItem _) ->
-            True
-
-        _ ->
-            False
-
-
-isMarkDown : BlockType -> Bool
-isMarkDown bt =
-    case bt of
-        BalancedBlock _ ->
-            False
-
-        MarkdownBlock _ ->
-            True
-
-
-type alias Level =
-    Int
-
-
-type alias Line =
-    String
-
-
-get : Option -> String -> ( Level, Maybe BlockType )
-get option str =
-    if str == "\n" then
-        ( 0, Just (MarkdownBlock Blank) )
-
-    else
-        case run (parse option) (dropLeadingBlanks str) of
-            Ok result ->
-                ( level str, Just result )
-
-            Err _ ->
-                ( 0, Just (MarkdownBlock Plain) )
-
-
-numberOfLeadingBlanks : Parser Int
-numberOfLeadingBlanks =
-    (succeed ()
-        |. chompWhile (\c -> c == ' ')
-    )
-        |> getChompedString
-        |> map String.length
-
-
-{-|
-
-    run leadingString "   xyz"
-    --> Ok ("   x") : Result (List (DeadEnd Context Problem)) String
-
--}
-leadingString : Parser String
-leadingString =
-    getChompedString <|
-        succeed ()
-            |. chompWhile (\c -> c == ' ')
-            |. chompIf (\c -> c /= ' ') (Expecting "expecting non-blank character after run of blanks")
-
-
-
---|> map String.trim
-
-
-getNumberOfLeadingBlanks : String -> Int
-getNumberOfLeadingBlanks str =
-    run numberOfLeadingBlanks str
-        |> Result.toMaybe
-        |> Maybe.withDefault 0
-
-
-dropLeadingBlanks : String -> String
-dropLeadingBlanks str =
-    String.dropLeft (getNumberOfLeadingBlanks str) str
-
-
-level : Line -> Int
-level ln =
-    run numberOfLeadingBlanks ln
-        |> Result.toMaybe
-        |> Maybe.map (\l -> l // 3)
-        |> Maybe.withDefault 0
-
-
-
-parse : Option ->  Parser BlockType
-parse option =
-    case option of
-        Standard -> parseStandard
-        _ -> parseExtended
-
-
-parseStandard :  Parser BlockType
-parseStandard =
-    oneOf
-        [ imageBlock
-        , mathBlock
-        , unorderedListItemBlock
-        , orderedListItemBlock
-        , quotationBlock
-        , codeBlock
-        , headingBlock
-        , horizontalRuleBlock
-        ]
-
-parseExtended :  Parser BlockType
-parseExtended =
-    oneOf
-        [ imageBlock
-        , mathBlock
-        , unorderedListItemBlock
-        , orderedListItemBlock
-        , quotationBlock
-        , poetryBlock
-        , backtrackable verbatimBlock
-        , codeBlock
-        , headingBlock
-        , horizontalRuleBlock
-        ]
-
-
--- PARSERS --
-
-
-poetryBlock : Parser BlockType
-poetryBlock =
-    (succeed ()
-        |. symbol (Token ">> " (Expecting "expecting '>> ' to begin poetry block"))
-    )
-        |> map (\_ -> MarkdownBlock Poetry)
-
-
-quotationBlock : Parser BlockType
-quotationBlock =
-    (succeed ()
-        |. symbol (Token "> " (Expecting "expecting '> ' to begin quotation"))
-    )
-        |> map (\_ -> MarkdownBlock Quotation)
-
-
-orderedListItemBlock : Parser BlockType
-orderedListItemBlock =
-    (succeed ()
-        |. parseWhile (\c -> c == ' ')
-        |. chompIf (\c -> Char.isDigit c) (Expecting "Expecting digit to begin ordered list item")
-        |. chompWhile (\c -> Char.isDigit c)
-        |. symbol (Token ". " (Expecting "expecting period"))
-    )
-        |> map (\_ -> MarkdownBlock (OListItem 0))
-
-
-horizontalRuleBlock : Parser BlockType
-horizontalRuleBlock =
-    (succeed ()
-        |. spaces
-        |. symbol (Token "___" (Expecting "Expecting at least three underscores to begin thematic break"))
-    )
-        |> map (\x -> MarkdownBlock HorizontalRule)
-
-
-headingBlock : Parser BlockType
-headingBlock =
-    (succeed identity
-        |. spaces
-        |. symbol (Token "#" (Expecting "Expecting '#' to begin heading block"))
-        |= parseWhile (\c -> c == '#')
-    )
-        |> map (\s -> MarkdownBlock (Heading (String.length s + 1)))
-
-
-codeBlock : Parser BlockType
-codeBlock =
-    succeed (BalancedBlock DisplayCode)
-        |. symbol (Token "```" (Expecting "Expecting four ticks to begin verbatim block"))
-
-
-verbatimBlock : Parser BlockType
-verbatimBlock =
-    succeed (BalancedBlock Verbatim)
-        |. symbol (Token "````" (Expecting "Expecting four ticks to begin verbatim block"))
-
-
-mathBlock : Parser BlockType
-mathBlock =
-    succeed (BalancedBlock DisplayMath)
-        |. symbol (Token "$$" (Expecting "Expecting four ticks to begin verbatim block"))
-
-
-imageBlock : Parser BlockType
-imageBlock =
-    succeed (MarkdownBlock Image)
-        |. symbol (Token "![" (Expecting "Expecting '![' to begin image block"))
-
-
-unorderedListItemBlock : Parser BlockType
-unorderedListItemBlock =
-    succeed (MarkdownBlock UListItem)
-        |. symbol (Token "- " (Expecting "Expecting '-' to begin list item"))
-
-
-parseWhile : (Char -> Bool) -> Parser String
-parseWhile accepting =
-    chompWhile accepting |> getChompedString

@@ -1,7 +1,24 @@
-module MMInline exposing (MMInline(..), inlineList, parse, parseLine, render, string, wrap)
+module MMInline exposing (MMInline(..), parse, string)
 
+{-| Module MMInline provides one type and two functions. The
+type is MMInline, which is the type of inline Markdown elements
+such as italic and bold. The `parse` function parses a string
+into an MMinline value, a custom type with parts such as
+Paragraph, Line, Italic, Bold, Ordered and Unnumbered lists, etc.
+
+The MMInline.parse function is used in the second of the two
+parsing operationss. A string is first parserd into a hierachical
+list -- a list of strings paired with an integer level.
+The hierachical list is converted to tree. The parser in This
+module is mapped over the nodes of the tree to form a new tree.
+
+The MMInline.string function is used to give a string representation
+of the BlockMMTree values.
+
+-}
+
+import Option exposing (Option(..))
 import Parser.Advanced exposing (..)
-import Option exposing(Option(..))
 
 
 type alias Parser a =
@@ -31,6 +48,7 @@ type MMInline
     | Line (List MMInline)
     | Paragraph (List MMInline)
     | Error (List MMInline)
+
 
 string : MMInline -> String
 string mmInline =
@@ -170,9 +188,14 @@ parseLine option str =
 inline : Option -> Parser MMInline
 inline option =
     case option of
-        Standard -> inlineStandard
-        Extended -> inlineExtended
-        ExtendedMath -> inlineExtendedMath
+        Standard ->
+            inlineStandard
+
+        Extended ->
+            inlineExtended
+
+        ExtendedMath ->
+            inlineExtendedMath
 
 
 {-|
@@ -191,9 +214,11 @@ inlineExtendedMath : Parser MMInline
 inlineExtendedMath =
     oneOf [ code, image, link, boldText, italicText, strikeThroughText, inlineMath, ordinaryTextExtendedMath ]
 
+
 inlineExtended : Parser MMInline
 inlineExtended =
     oneOf [ code, image, link, boldText, italicText, strikeThroughText, ordinaryTextExtended ]
+
 
 inlineStandard : Parser MMInline
 inlineStandard =
@@ -241,6 +266,7 @@ ordinaryTextExtendedMath =
         |> getChompedString
         |> map OrdinaryText
 
+
 ordinaryTextExtended : Parser MMInline
 ordinaryTextExtended =
     (succeed ()
@@ -250,14 +276,16 @@ ordinaryTextExtended =
         |> getChompedString
         |> map OrdinaryText
 
+
 ordinaryTextStandard : Parser MMInline
 ordinaryTextStandard =
     (succeed ()
-        |. chompIf (\c -> not <| List.member c [ '`', '[',  '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
+        |. chompIf (\c -> not <| List.member c [ '`', '[', '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
         |. chompWhile (\c -> not <| List.member c [ '`', '[', ']', '*', '\n' ])
     )
         |> getChompedString
         |> map OrdinaryText
+
 
 image : Parser MMInline
 image =
