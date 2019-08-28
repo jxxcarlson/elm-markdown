@@ -18,7 +18,7 @@ light-weight writing tasks that require
 mathematical notation — problem sets, short class notes, etc.
 
 
-This is a work in project: we have quite a bit to do to make the output
+This is a work in progress: we have quite a bit to do to make the output
 look right and to make it adhere as closely as possible to the CommonMark spec.
 
 
@@ -28,18 +28,10 @@ It uses MathJax.js to render formulas.
 
 ## Demo
 
-The present document illustrates most of the features of MMarkdown, minus the
-math.  MMarkdown implements the usual Markdown features such as headings,
-bold, italic, and strike-through, links, images, etc. There is one extension, for poetry (see below).
-
-MMarkdown is to some extent *paragraph-centric*, meaning that certain elements, e.g., headings and
-displayed math, like to be surrounded by blank lines.
-
 In general, if you run into
 something that is not working for you, please post an issue on
-[GitHub](https://github.com/jxxcarlson/math-markdown).
+[GitHub](https://github.com/jxxcarlson/elm-markdown).
 
-MMarkdown is one of the markup options on [knode.io](https://knode.io).
 
 ![Hummingbird](https://www.allaboutbirds.org/guide/noindex/photo/60395551-1280px.jpg)
 
