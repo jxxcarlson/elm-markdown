@@ -1,34 +1,40 @@
  
-# Math Markdown
+# jxxcarlson/elm-markdown
 
 
-The aim of the Math Markdown library is
-to provide a tool for rendering Markdown
-text with embedded math-mode TeX, e.g.,
+The aim of this Markdown library is
+to provide a pure Elm implementation of Markdown
+which offers a small set of extensions, along with options:
 
+- Standard: the usual thing
+- Extended: strike-though text, Poetry and Verbatim blocks 
+- ExtendedMath: like extended, but math formulas written in 
+TeX/LaTeX are rendered, e.g.,
 ```
 This **is** a test: $a^2 + b^2 = c^2$.
 ```
 
-At the moment, the "version" of Markdown
-we have implemented is primitive. Nonetheless, it is quite serviceable.  See
-[markdown.minilatex.app](https://markdown.minilatex.app)
-for a working example.
 
-I am currently working on a much better parser.  See the `Block.elm`
-file.
+
+See [markdown.minilatex.app](https://markdown.minilatex.app)
+for a demo of the latest implementation.
+
 
 ## Example
 
 To convert text to Html, do something like this:
 
 ```
-MMarkdown.toHtml [ ] "This **is** a test: $a^2 + b^2 = c^2$."
+Markdown.Elm.toHtml ExtendedMath "This **is** a test: $a^2 + b^2 = c^2$."
 ```
+
+According to your needs, you can also use `Standard` or `Extended`.
 
 ## Demo app
 
-There is a demo in `./app`.  To run
+There is a demo in `./app-test` of the 
+[Github repository](https://github.com/jxxcarlson/elm-markdown).  
+To run
 it, go into that folder and say `sh make.sh`.  Then
 double-click on `index.html`.
 
@@ -36,15 +42,15 @@ double-click on `index.html`.
 
 The style used by MMarkdown is entirely determined by the
 definitions of the CSS classes given in `index.html`.
-See the code in `./app/index.html` for examles to imitate.
-Consequently they are easily configured for whatever
-application yuo have in mind.
+See the code in `./app-test/index.html` for an example.
+You can easily reconfigure this CSS for whatever
+needs you have.
 
 ## MathJax
 
-The javascript code in `.app/index.html` is essential to the
+The javascript code in `.app/index.html`, [MathJax](https:mathjax.org) is essential to the
 proper rendering of mathematical text.  It should be copied
-verbatim for your own app.
+verbatim for your own app if you use the `ExtendedMath` option.
 
 ## Markdown extensions
 
@@ -57,15 +63,3 @@ with ">>" instead of ">".  Line endings are respected
 in poetry blocks.  Verbatim blocks are like code blocks,
 except that they are set off by four backticks instead of 
 three.  No syntax coloring is applied to verbatim blocks.
-
-## Technical stuff: the Differ module
-
-Math Markdown exposes only two modules — `MMarkdown` and `Differ`.
-The purpose of the Differ module is to speed up the parse-render
-operation by reparsing and rerendering only text that has been
-changed.  This module is used in the demo app.
-
-I addition increased speed, using `Differ` results in a smoother
-user experience, since only small parts of the document being
-edited need to be re-processed.
-

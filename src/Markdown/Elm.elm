@@ -2,9 +2,8 @@ module Markdown.Elm exposing (toHtml)
 
 {-|
 
-Markdown.Elm exposes one function,
-
-    toHtml : String -> Html msg
+Render Markdown text to Html using one of the
+options defined in the `Option` module.
 
 @docs toHtml
 
@@ -20,16 +19,16 @@ import Tree exposing (Tree)
 import Option exposing(Option(..))
 
 
-{-| Render a string to Html.
+{-| Render output of the parser to Html, e.g.,
+
+   toHtml ExtendedMath "Pythagoras said: $a^2 + b^2  c^2$."
 
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
     (Block.parseToMMBlockTree option) str |> blockTreeToHtml
 
-{-| Render output of the parser to Html.
 
--}
 blockTreeToHtml : Tree MMBlock -> Html msg
 blockTreeToHtml tree =
     Tree.foldl (\block elements -> renderBlock block :: elements) [] tree
