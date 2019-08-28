@@ -1,4 +1,4 @@
-module Style exposing (buttonStyle, colorBlue, colorDark, colorLight, editorTextStyle, labelStyle, macroPanelStyle, outerStyle, renderedSourceStyle, textStyle)
+module Style exposing (buttonStyle, buttonStyleSelected, colorBlue, colorDarkRed, colorDark, colorLight, editorTextStyle, labelStyle, macroPanelStyle, outerStyle, renderedSourceStyle, textStyle)
 
 -- import Html exposing (..)
 
@@ -14,6 +14,8 @@ import Html.Attributes exposing (style)
 colorBlue =
     "rgb(100,100,200)"
 
+colorDarkRed =
+    "rgb(180,0,0)"
 
 colorLight =
     "#88a"
@@ -40,6 +42,25 @@ buttonStyle color width =
     , style "border" "none"
     ]
 
+
+buttonStyleSelected : Bool -> String -> String -> Int -> List (Html.Attribute msg)
+buttonStyleSelected bit color color2 width =
+    let
+        realWidth =
+            width + 0 |> String.fromInt |> (\x -> x ++ "px")
+    in
+    [ case bit of
+        False -> style "backgroundColor" color
+        True -> style "backgroundColor" color2
+    , style "color" "white"
+    , style "width" realWidth
+    , style "height" "25px"
+    , style "margin-top" "20px"
+    , style "margin-right" "12px"
+    , style "font-size" "9pt"
+    , style "text-align" "center"
+    , style "border" "none"
+    ]
 
 
 -- STYLE FUNCTIONS

@@ -27,6 +27,7 @@ type alias Model =
     { sourceText : String
     , counter : Int
     , seed : Int
+    , option: Option
     }
 
 
@@ -37,6 +38,10 @@ type Msg
     | NewSeed Int
     | RestoreText
     | RefreshText
+    | SelectStandard
+    | SelectExtended
+    | SelectExtendedMath
+
 
 
 type alias Flags =
@@ -50,6 +55,7 @@ init flags =
             { sourceText = Strings.initialText
             , counter = 0
             , seed = 0
+            , option = ExtendedMath
             }
     in
     ( model, Cmd.none )
@@ -100,6 +106,25 @@ update msg model =
             , Cmd.none
             )
 
+        SelectStandard ->
+            ( { model
+                | option = Standard
+              }
+            , Cmd.none
+            )
+        SelectExtended ->
+            ( { model
+                | option = Extended
+              }
+            , Cmd.none
+            )
+
+        SelectExtendedMath ->
+            ( { model
+                | option = ExtendedMath
+              }
+            , Cmd.none
+            )
 
 
 --
@@ -117,12 +142,11 @@ view model =
 display : Model -> Html Msg
 display model =
     div []
-        [ h1 [ style "margin-left" "20px" ] [ text "Markdown Demo (Experimental)" ]
-        , p [ style "margin-left" "20px", style "margin-bottom" "0", style "margin-top" "0" ] [ text "This project is in its very earliest stages ..." ]
-        , p [ style "margin-left" "20px", style "margin-top" "0" ] [ text "Edit or write new MMarkdown below." ]
+        [ h1 [ style "margin-left" "20px" , style "margin-bottom" "0px"] [ text "Pure Elm Markdown Demo (Experimental)" ]
+        , p [ style "margin-left" "20px", style "margin-top" "0" ] [ text "Edit text below; " , text "choose Markdown flavor here: ", standardMarkdownButton model 100, extendedMarkdownButton model 100, extendedMathMarkdownButton model 140 ]
         , editor model
         , renderedSource model
-        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80, refreshButton 80 ]
+        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80 ]
         ]
 
 
@@ -143,7 +167,7 @@ renderedSource model =
     in
     Keyed.node "div"
         renderedSourceStyle
-        [ ( token, (Markdown.Elm.toHtml Extended) model.sourceText) ]
+        [ ( token, (Markdown.Elm.toHtml model.option) model.sourceText) ]
 
 
 
@@ -158,5 +182,11 @@ restoreTextButton width =
     button ([ onClick RestoreText ] ++ buttonStyle colorBlue width) [ text "Restore" ]
 
 
-refreshButton width =
-    button ([ onClick RefreshText ] ++ buttonStyle colorBlue width) [ text "Refresh" ]
+standardMarkdownButton model width =
+    button ([ onClick SelectStandard ] ++ buttonStyleSelected (model.option == Standard) colorBlue colorDarkRed width) [ text "Standard" ]
+
+extendedMarkdownButton model width =
+    button ([ onClick SelectExtended ] ++ buttonStyleSelected (model.option == Extended) colorBlue colorDarkRed width) [ text "Extended" ]
+
+extendedMathMarkdownButton model width =
+    button ([ onClick SelectExtendedMath] ++ buttonStyleSelected (model.option == ExtendedMath) colorBlue colorDarkRed width) [ text "Extended-Math" ]

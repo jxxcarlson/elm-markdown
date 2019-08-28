@@ -2,21 +2,24 @@ module Strings exposing (initialText, notes)
 
 
 initialText =
-    """# MMarkdown
+    """# About this Markdown
 
 $$
 \\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
 $$
 
 
-MMarkdown is a dialect of Markdown which can render
+The Markdown used here offers three options: *Standard*,
+*Extended* and *Extended-Math*. The Extended option offers strike-through
+ text, verbatim blocks, and poetry blocks.  The Extended-Math
+ option is, in additin, able to  render
 formulas written in TeX/LaTeX.  It is suitable for
 light-weight writing tasks that require
 mathematical notation — problem sets, short class notes, etc.
 
 
-MMarkdown extends Markdown with two new elements: Poetry and Verbatim.
-See below.
+This is a work in project: we have quite a bit to do to make the output
+look right and to make it adhere as closely as possible to the CommonMark spec.
 
 
 For installation, see the notes
@@ -75,7 +78,7 @@ sum
 
 ## 4. Verbatim (Extension)
 
-A verabatim block begins and ends with four tick marks.
+A verbatim block begins and ends with four tick marks.
 It is just like a code block, except that there is no
 syntax highlighting.  Verbatim blocks are an extension
 of normal Markdown.
