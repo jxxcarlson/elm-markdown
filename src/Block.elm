@@ -287,10 +287,10 @@ nextState option str fsm =
 
 
 nextStateS : Option -> String -> FSM -> FSM
-nextStateS option line (FSM state blockList register) =
+nextStateS option line (FSM state blocks register) =
     case BlockType.get option line of
         ( _, Nothing ) ->
-            FSM Error blockList register
+            FSM Error blocks register
 
         -- add line
         ( level, Just blockType ) ->
@@ -302,7 +302,7 @@ nextStateS option line (FSM state blockList register) =
                     removePrefix blockType line
             in
             -- xxx
-            FSM (InBlock (Block newBlockType level newLine)) blockList newRegister
+            FSM (InBlock (Block newBlockType level newLine)) blocks newRegister
 
 
 nextStateIB : Option -> String -> FSM -> FSM
@@ -350,14 +350,14 @@ processMarkDownBlock option blockTypeOfLine line ((FSM state blocks register) as
 
 
 processBalancedBlock : BlockType -> String -> FSM -> FSM
-processBalancedBlock lineType line ((FSM state_ blocks_ register) as fsm) =
+processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
     -- the currently processed block should be closed and a new one opened
-    if Just lineType == typeOfState (stateOfFSM fsm) then
+    if Just blockType == typeOfState (stateOfFSM fsm) then
         case stateOfFSM fsm of
             InBlock block_ ->
                 let
                     line_ =
-                        removePrefix lineType line
+                        removePrefix blockType line
                 in
                 FSM Start (addLineToBlock line_ block_ :: blocks_) register
 
@@ -368,7 +368,7 @@ processBalancedBlock lineType line ((FSM state_ blocks_ register) as fsm) =
     else
         case stateOfFSM fsm of
             InBlock block_ ->
-                FSM (InBlock (Block lineType (BlockType.level line) line)) (block_ :: blocks_) register
+                FSM (InBlock (Block blockType (BlockType.level line) line)) (block_ :: blocks_) register
 
             _ ->
                 fsm
@@ -414,6 +414,8 @@ removePrefix blockType line_ =
     String.replace p "" line_
 
 
+{-| Recall that lines are stripped of leading space
+-}
 adjustLevel : Block -> Block
 adjustLevel ((Block blockType level content) as block) =
     if blockType == MarkdownBlock Plain then
