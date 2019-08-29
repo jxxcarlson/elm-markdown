@@ -90,6 +90,12 @@ renderBlock block =
                 _ ->
                     displayMathText ""
 
+        MMBlock (MarkdownBlock TableRow) level blockContent ->
+            Html.div [] [ renderBlockContent blockContent ]
+
+        MMBlock (MarkdownBlock Table) level blockContent ->
+            Html.div [] [ renderBlockContent blockContent ]
+
 
 renderUListItem : Int -> BlockContent -> Html msg
 renderUListItem k blockContent =
