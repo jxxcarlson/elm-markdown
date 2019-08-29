@@ -182,7 +182,12 @@ mapperExtendedMath : Option -> Block -> MMBlock
 mapperExtendedMath option_ (Block bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
-            MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+            case mt of
+                Poetry ->
+                    MMBlock (MarkdownBlock mt) level_ (M (Stanza content_))
+
+                _ ->
+                    MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
             MMBlock (BalancedBlock DisplayCode) level_ (T content_)
@@ -198,7 +203,12 @@ mapperExtended : Option -> Block -> MMBlock
 mapperExtended option_ (Block bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
-            MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+            case mt of
+                Poetry ->
+                    MMBlock (MarkdownBlock mt) level_ (M (Stanza content_))
+
+                _ ->
+                    MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
             MMBlock (BalancedBlock DisplayCode) level_ (T content_)

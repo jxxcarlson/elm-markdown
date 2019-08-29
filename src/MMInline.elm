@@ -47,6 +47,7 @@ type MMInline
     | Image String String
     | Line (List MMInline)
     | Paragraph (List MMInline)
+    | Stanza String
     | Error (List MMInline)
 
 
@@ -85,6 +86,9 @@ string mmInline =
 
         Paragraph arg ->
             "Paragraph [" ++ (List.map string arg |> List.map indentLine |> String.join "\n") ++ "]"
+
+        Stanza arg ->
+            "Stanza [\n" ++ arg ++ "\n]"
 
         Error arg ->
             "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
@@ -125,6 +129,9 @@ render mmInline =
 
         Paragraph arg ->
             "<p>\n" ++ (List.map render arg |> List.map indentLine |> String.join "\n") ++ "\n</p>"
+
+        Stanza arg ->
+            "<p class=mm.inline>\n" ++ arg ++ "</p>"
 
         Error arg ->
             "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
@@ -167,15 +174,15 @@ wrapper str acc =
     if acc.currentString == "" then
         { currentString = str, lst = [] }
 
-    else if endsWithPumctuation acc.currentString then
+    else if endsWithPunctuation acc.currentString then
         { currentString = str, lst = acc.currentString :: acc.lst }
 
     else
         { acc | currentString = acc.currentString ++ " " ++ str }
 
 
-endsWithPumctuation : String -> Bool
-endsWithPumctuation str =
+endsWithPunctuation : String -> Bool
+endsWithPunctuation str =
     List.member (String.right 1 str) [ "." ]
 
 

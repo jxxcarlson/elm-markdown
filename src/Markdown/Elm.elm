@@ -1,8 +1,6 @@
 module Markdown.Elm exposing (toHtml)
 
-{-|
-
-Render Markdown text to Html using one of the
+{-| Render Markdown text to Html using one of the
 options defined in the `Option` module.
 
 @docs toHtml
@@ -15,18 +13,18 @@ import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
 import Json.Encode
 import MMInline exposing (MMInline(..))
+import Option exposing (Option(..))
 import Tree exposing (Tree)
-import Option exposing(Option(..))
 
 
 {-| Render output of the parser to Html, e.g.,
 
-   toHtml ExtendedMath "Pythagoras said: $a^2 + b^2  c^2$."
+toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
-    (Block.parseToMMBlockTree option) str |> blockTreeToHtml
+    Block.parseToMMBlockTree option str |> blockTreeToHtml
 
 
 blockTreeToHtml : Tree MMBlock -> Html msg
@@ -87,7 +85,7 @@ renderBlock block =
         MMBlock (BalancedBlock DisplayCode) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.pre [] [ Html.code [] [Html.text str] ]
+                    Html.pre [] [ Html.code [] [ Html.text str ] ]
 
                 _ ->
                     displayMathText ""
@@ -147,21 +145,21 @@ renderOListItem index k blockContent =
                 ++ "px"
 
         label =
-                case k of
-                    1 ->
-                        String.fromInt index ++ ". "
+            case k of
+                1 ->
+                    String.fromInt index ++ ". "
 
-                    2 ->
-                        alphabet index ++ ". "
+                2 ->
+                    alphabet index ++ ". "
 
-                    3 ->
-                        romanNumeral index ++ ". "
+                3 ->
+                    romanNumeral index ++ ". "
 
-                    4 ->
-                        String.fromInt index ++ ". "
+                4 ->
+                    String.fromInt index ++ ". "
 
-                    _ ->
-                        "N. "
+                _ ->
+                    "N. "
     in
     Html.li
         [ style "margin-left" margin
@@ -244,14 +242,28 @@ renderToHtmlMsg mmInline =
             Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
 
         Line arg ->
-              Html.span [] (joinLine arg)
+            Html.span [] (joinLine arg)
 
         Paragraph arg ->
             Html.p [] (List.map renderToHtmlMsg arg)
 
+        Stanza arg ->
+            renderStanza arg
+
         Error arg ->
             Html.p [] (List.map renderToHtmlMsg arg)
 
+
+renderStanza : String -> Html msg
+renderStanza arg =
+    let
+        lines =
+            String.split "\n" arg
+
+        poetryLine line =
+            Html.div [] [ Html.text line ]
+    in
+    Html.div [ HA.class "mm-poetry" ] (List.map poetryLine lines)
 
 
 joinLine : List MMInline -> List (Html msg)
@@ -262,18 +274,21 @@ joinLine items =
             case item of
                 OrdinaryText str ->
                     if isPunctuation (String.left 1 str) then
-                      (renderToHtmlMsg item) :: acc
-                    else
-                      (Html.span [ style "margin-left" "5px"] [ renderToHtmlMsg item ]) :: acc
-                _ -> Html.span [ style "margin-left" "5px" ] [ renderToHtmlMsg item ] :: acc
+                        renderToHtmlMsg item :: acc
 
+                    else
+                        Html.span [ style "margin-left" "5px" ] [ renderToHtmlMsg item ] :: acc
+
+                _ ->
+                    Html.span [ style "margin-left" "5px" ] [ renderToHtmlMsg item ] :: acc
     in
-      (List.foldl folder [] items) |> List.reverse
+    List.foldl folder [] items |> List.reverse
 
 
 isPunctuation : String -> Bool
 isPunctuation str =
-    List.member str [".", ",", ";", ":", "?", "!"]
+    List.member str [ ".", ",", ";", ":", "?", "!" ]
+
 
 strikethrough : String -> Html msg
 strikethrough str =
