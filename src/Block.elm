@@ -1,4 +1,7 @@
-module Block exposing (BlockContent(..), MMBlock(..), parseToMMBlockTree, runFSM)
+module Block exposing
+    ( BlockContent(..), MMBlock(..)
+    , parseToMMBlockTree, runFSM
+    )
 
 {-| A markdown document is parsed into a tree
 of Blocks using
@@ -494,7 +497,7 @@ updateRegister blockType level_ register =
         ( newBlockType, newRegister )
 
     else
-        ( blockType, register )
+        ( blockType, emptyRegister )
 
 
 incrementRegister : Int -> Register -> ( Int, Register )
