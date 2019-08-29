@@ -287,27 +287,22 @@ nextState option str fsm =
 
 
 nextStateS : Option -> String -> FSM -> FSM
-nextStateS option line ((FSM state blockList register) as fsm) =
+nextStateS option line (FSM state blockList register) =
     case BlockType.get option line of
         ( _, Nothing ) ->
             FSM Error blockList register
 
         -- add line
-        ( level, Just blockTypeOfLine ) ->
-            case blockTypeOfState state of
-                Just currentBlockType ->
-                    let
-                        ( newBlockType, newRegister ) =
-                            updateRegisterAndBlockType currentBlockType blockTypeOfLine level register
+        ( level, Just blockType ) ->
+            let
+                ( newBlockType, newRegister ) =
+                    updateRegisterAndBlockType blockType level register
 
-                        newLine =
-                            removePrefix blockTypeOfLine line
-                    in
-                    -- xxx
-                    FSM (InBlock (Block newBlockType level newLine)) blockList newRegister
-
-                _ ->
-                    fsm
+                newLine =
+                    removePrefix blockType line
+            in
+            -- xxx
+            FSM (InBlock (Block newBlockType level newLine)) blockList newRegister
 
 
 nextStateIB : Option -> String -> FSM -> FSM
@@ -357,7 +352,7 @@ processMarkDownBlock option blockTypeOfLine line ((FSM state blocks register) as
 processBalancedBlock : BlockType -> String -> FSM -> FSM
 processBalancedBlock lineType line ((FSM state_ blocks_ register) as fsm) =
     -- the currently processed block should be closed and a new one opened
-    if Just lineType == blockTypeOfState (stateOfFSM fsm) then
+    if Just lineType == typeOfState (stateOfFSM fsm) then
         case stateOfFSM fsm of
             InBlock block_ ->
                 let
@@ -399,7 +394,7 @@ addNewMarkdownBlock option ((Block typeOfCurrentBlock levelOfCurrentBlock _) as 
         ( level, Just newBlockType_ ) ->
             let
                 ( newBlockType, newRegister ) =
-                    updateRegisterAndBlockType typeOfCurrentBlock newBlockType_ level register
+                    updateRegisterAndBlockType newBlockType_ level register
 
                 newLine =
                     removePrefix typeOfCurrentBlock line
@@ -432,9 +427,9 @@ adjustLevel ((Block blockType level content) as block) =
         block
 
 
-updateRegisterAndBlockType : BlockType -> BlockType -> Int -> Register -> ( BlockType, Register )
-updateRegisterAndBlockType currentBlockType blockTypeOfLine level_ register =
-    if BlockType.isOListItem blockTypeOfLine then
+updateRegisterAndBlockType : BlockType -> Int -> Register -> ( BlockType, Register )
+updateRegisterAndBlockType blockType level_ register =
+    if BlockType.isOListItem blockType then
         let
             ( index, newRegister ) =
                 incrementRegister level_ register
@@ -443,11 +438,9 @@ updateRegisterAndBlockType currentBlockType blockTypeOfLine level_ register =
                 MarkdownBlock (OListItem index)
         in
         ( newBlockType, newRegister )
-        -- else if blockTypeOfLine == MarkdownBlock TableRow && currentBlockType /= MarkdownBlock TableRow then
-        --     ( MarkdownBlock Table, register )
 
     else
-        ( blockTypeOfLine, emptyRegister )
+        ( blockType, emptyRegister )
 
 
 incrementRegister : Int -> Register -> ( Int, Register )
@@ -532,8 +525,8 @@ type_ (Block bt _ _) =
     bt
 
 
-blockTypeOfState : State -> Maybe BlockType
-blockTypeOfState s =
+typeOfState : State -> Maybe BlockType
+typeOfState s =
     case s of
         Start ->
             Nothing
