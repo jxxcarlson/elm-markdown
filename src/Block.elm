@@ -1,6 +1,6 @@
 module Block exposing
     ( BlockContent(..), MMBlock(..)
-    , parseToMMBlockTree, runFSM
+    , parseToBlockTree, parseToMMBlockTree, runFSM
     )
 
 {-| A markdown document is parsed into a tree
@@ -270,73 +270,6 @@ runFSM option str =
 
 
 
--- FINITE STATE MACHINE: HELPER FUNCTIONS --
-
-
-blockLevel : Block -> Int
-blockLevel (Block _ k _) =
-    k
-
-
-type_ : Block -> BlockType
-type_ (Block bt _ _) =
-    bt
-
-
-typeOfState : State -> Maybe BlockType
-typeOfState s =
-    case s of
-        Start ->
-            Nothing
-
-        InBlock b ->
-            Just (type_ b)
-
-        Error ->
-            Nothing
-
-
-rootBlock =
-    Block (MarkdownBlock Root) 0 "DOCUMENT"
-
-
-flush : FSM -> List Block
-flush fsm =
-    case stateOfFSM fsm of
-        Start ->
-            List.reverse (blockListOfFSM fsm)
-
-        Error ->
-            List.reverse (blockListOfFSM fsm)
-
-        InBlock b ->
-            List.reverse (b :: blockListOfFSM fsm)
-
-
-stateOfFSM : FSM -> State
-stateOfFSM (FSM state_ _ _) =
-    state_
-
-
-blockListOfFSM : FSM -> List Block
-blockListOfFSM (FSM _ blockList_ _) =
-    blockList_
-
-
-splitIntoLines : String -> List String
-splitIntoLines str =
-    str
-        |> String.lines
-        |> List.map
-            (\l -> l ++ "\n")
-
-
-initialFSM : FSM
-initialFSM =
-    FSM Start [] emptyRegister
-
-
-
 -- FINITE STATE MACHINE: NEXT STATE FUNCTION --
 
 
@@ -354,22 +287,27 @@ nextState option str fsm =
 
 
 nextStateS : Option -> String -> FSM -> FSM
-nextStateS option line (FSM state blockList register) =
+nextStateS option line ((FSM state blockList register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
             FSM Error blockList register
 
         -- add line
-        ( level, Just blockType ) ->
-            let
-                ( newBlockType, newRegister ) =
-                    updateRegister blockType level register
+        ( level, Just blockTypeOfLine ) ->
+            case blockTypeOfState state of
+                Just currentBlockType ->
+                    let
+                        ( newBlockType, newRegister ) =
+                            updateRegisterAndBlockType currentBlockType blockTypeOfLine level register
 
-                newLine =
-                    removePrefix blockType line
-            in
-            -- xxx
-            FSM (InBlock (Block newBlockType level newLine)) blockList newRegister
+                        newLine =
+                            removePrefix blockTypeOfLine line
+                    in
+                    -- xxx
+                    FSM (InBlock (Block newBlockType level newLine)) blockList newRegister
+
+                _ ->
+                    fsm
 
 
 nextStateIB : Option -> String -> FSM -> FSM
@@ -419,7 +357,7 @@ processMarkDownBlock option blockTypeOfLine line ((FSM state blocks register) as
 processBalancedBlock : BlockType -> String -> FSM -> FSM
 processBalancedBlock lineType line ((FSM state_ blocks_ register) as fsm) =
     -- the currently processed block should be closed and a new one opened
-    if Just lineType == typeOfState (stateOfFSM fsm) then
+    if Just lineType == blockTypeOfState (stateOfFSM fsm) then
         case stateOfFSM fsm of
             InBlock block_ ->
                 let
@@ -461,7 +399,7 @@ addNewMarkdownBlock option ((Block typeOfCurrentBlock levelOfCurrentBlock _) as 
         ( level, Just newBlockType_ ) ->
             let
                 ( newBlockType, newRegister ) =
-                    updateRegister newBlockType_ level register
+                    updateRegisterAndBlockType typeOfCurrentBlock newBlockType_ level register
 
                 newLine =
                     removePrefix typeOfCurrentBlock line
@@ -494,9 +432,9 @@ adjustLevel ((Block blockType level content) as block) =
         block
 
 
-updateRegister : BlockType -> Int -> Register -> ( BlockType, Register )
-updateRegister blockType level_ register =
-    if BlockType.isOListItem blockType then
+updateRegisterAndBlockType : BlockType -> BlockType -> Int -> Register -> ( BlockType, Register )
+updateRegisterAndBlockType currentBlockType blockTypeOfLine level_ register =
+    if BlockType.isOListItem blockTypeOfLine then
         let
             ( index, newRegister ) =
                 incrementRegister level_ register
@@ -505,9 +443,11 @@ updateRegister blockType level_ register =
                 MarkdownBlock (OListItem index)
         in
         ( newBlockType, newRegister )
+        -- else if blockTypeOfLine == MarkdownBlock TableRow && currentBlockType /= MarkdownBlock TableRow then
+        --     ( MarkdownBlock Table, register )
 
     else
-        ( blockType, emptyRegister )
+        ( blockTypeOfLine, emptyRegister )
 
 
 incrementRegister : Int -> Register -> ( Int, Register )
@@ -576,6 +516,73 @@ addLineToState str state_ =
 addLineToBlock : String -> Block -> Block
 addLineToBlock str (Block blockType_ level_ content_) =
     Block blockType_ level_ (content_ ++ str)
+
+
+
+-- FINITE STATE MACHINE: HELPER FUNCTIONS --
+
+
+blockLevel : Block -> Int
+blockLevel (Block _ k _) =
+    k
+
+
+type_ : Block -> BlockType
+type_ (Block bt _ _) =
+    bt
+
+
+blockTypeOfState : State -> Maybe BlockType
+blockTypeOfState s =
+    case s of
+        Start ->
+            Nothing
+
+        InBlock b ->
+            Just (type_ b)
+
+        Error ->
+            Nothing
+
+
+rootBlock =
+    Block (MarkdownBlock Root) 0 "DOCUMENT"
+
+
+flush : FSM -> List Block
+flush fsm =
+    case stateOfFSM fsm of
+        Start ->
+            List.reverse (blockListOfFSM fsm)
+
+        Error ->
+            List.reverse (blockListOfFSM fsm)
+
+        InBlock b ->
+            List.reverse (b :: blockListOfFSM fsm)
+
+
+stateOfFSM : FSM -> State
+stateOfFSM (FSM state_ _ _) =
+    state_
+
+
+blockListOfFSM : FSM -> List Block
+blockListOfFSM (FSM _ blockList_ _) =
+    blockList_
+
+
+splitIntoLines : String -> List String
+splitIntoLines str =
+    str
+        |> String.lines
+        |> List.map
+            (\l -> l ++ "\n")
+
+
+initialFSM : FSM
+initialFSM =
+    FSM Start [] emptyRegister
 
 
 

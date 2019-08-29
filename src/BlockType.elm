@@ -75,6 +75,8 @@ type MarkdownType
     | Plain
     | Image
     | Blank
+    | TableRow
+    | Table
 
 
 get : Option -> Line -> ( Level, Maybe BlockType )
@@ -112,7 +114,8 @@ parse option =
 parseStandard : Parser BlockType
 parseStandard =
     oneOf
-        [ imageBlock
+        [ tableBlock
+        , imageBlock
         , mathBlock
         , unorderedListItemBlock
         , orderedListItemBlock
@@ -134,6 +137,7 @@ parseExtended =
         , poetryBlock
         , backtrackable verbatimBlock
         , codeBlock
+        , tableBlock
         , headingBlock
         , horizontalRuleBlock
         ]
@@ -141,6 +145,14 @@ parseExtended =
 
 
 -- PARSERS --
+
+
+tableBlock : Parser BlockType
+tableBlock =
+    (succeed ()
+        |. symbol (Token "| " (Expecting "expecting '| ' to begin poetry block"))
+    )
+        |> map (\_ -> MarkdownBlock TableRow)
 
 
 poetryBlock : Parser BlockType
@@ -187,6 +199,16 @@ headingBlock =
         |= parseWhile (\c -> c == '#')
     )
         |> map (\s -> MarkdownBlock (Heading (String.length s + 1)))
+
+
+
+-- tableBlock : Parser BlockType
+-- tableBlock =
+--     (succeed identity
+--         |. spaces
+--         |. symbol (Token "|" (Expecting "Expecting '|' to begin table block"))
+--     )
+--         |> map (\s -> MarkdownBlock TableBlock)
 
 
 codeBlock : Parser BlockType
@@ -289,6 +311,12 @@ prefixOfMarkdownType mdt line =
             ""
 
         Image ->
+            ""
+
+        TableRow ->
+            ""
+
+        Table ->
             ""
 
         Blank ->
@@ -447,6 +475,12 @@ stringOfMarkDownType mt =
 
         Image ->
             "Image"
+
+        TableRow ->
+            "TableRow"
+
+        Table ->
+            "Table"
 
         Blank ->
             "Blank"
