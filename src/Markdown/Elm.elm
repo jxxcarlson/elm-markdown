@@ -24,13 +24,25 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
-    Block.parseToMMBlockTree option str |> blockTreeToHtml
+    Block.parseToMMBlockTree option str |> mmBlockTreeToHtml2
 
 
-blockTreeToHtml : Tree MMBlock -> Html msg
-blockTreeToHtml tree =
+mmBlockTreeToHtml : Tree MMBlock -> Html msg
+mmBlockTreeToHtml tree =
     Tree.foldl (\block elements -> renderBlock block :: elements) [] tree
         |> (\x -> Html.div [] (List.reverse x))
+
+
+mmBlockTreeToHtml2 : Tree MMBlock -> Html msg
+mmBlockTreeToHtml2 tree =
+    if Tree.children tree == [] then
+        Html.div [] [ renderBlock (Tree.label tree) ]
+
+    else
+        Html.div []
+            [ renderBlock (Tree.label tree)
+            , Html.div [] (List.map mmBlockTreeToHtml2 (Tree.children tree))
+            ]
 
 
 renderBlock : MMBlock -> Html msg
@@ -90,11 +102,24 @@ renderBlock block =
                 _ ->
                     displayMathText ""
 
+        MMBlock (MarkdownBlock TableCell) level blockContent ->
+            Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent (Debug.log "TTTABLECELL" blockContent) ]
+
         MMBlock (MarkdownBlock TableRow) level blockContent ->
-            Html.div [] [ renderBlockContent blockContent ]
+            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent (Debug.log "TTTROW" blockContent) ]
 
         MMBlock (MarkdownBlock Table) level blockContent ->
-            Html.div [] [ renderBlockContent blockContent ]
+            Html.tbody [ HA.class "mm-table" ] [ renderBlockContent (Debug.log "TTTABLE" blockContent) ]
+
+
+unWrapParagraph : MMInline -> List MMInline
+unWrapParagraph mmInline =
+    case mmInline of
+        Paragraph element ->
+            element
+
+        _ ->
+            []
 
 
 renderUListItem : Int -> BlockContent -> Html msg
