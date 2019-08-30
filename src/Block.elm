@@ -1,6 +1,6 @@
 module Block exposing
     ( BlockContent(..), MMBlock(..)
-    , parseToBlockTree, parseToMMBlockTree, runFSM
+    , parseTableRow, parseToBlockTree, parseToMMBlockTree, runFSM, stringOfBlockTree, stringOfMMBlockTree
     )
 
 {-| A markdown document is parsed into a tree
@@ -39,7 +39,7 @@ the result of parsing the input string into blocks.
 
 -}
 
-import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
+import BlockType exposing (BalancedType(..), BlockType(..), Line, MarkdownType(..))
 import HTree
 import MMInline exposing (MMInline(..))
 import Option exposing (Option(..))
@@ -119,6 +119,7 @@ type alias Register =
     , itemIndex2 : Int
     , itemIndex3 : Int
     , itemIndex4 : Int
+    , level : Int
     }
 
 
@@ -128,6 +129,7 @@ emptyRegister =
     , itemIndex2 = 0
     , itemIndex3 = 0
     , itemIndex4 = 0
+    , level = 0
     }
 
 
@@ -151,6 +153,15 @@ parseToBlockTree option str =
         |> flush
         |> List.map (changeLevel 1)
         |> HTree.fromList rootBlock blockLevel
+
+
+parseTableRow : Level -> String -> List Block
+parseTableRow level str =
+    str
+        |> String.split "|"
+        |> List.map String.trim
+        |> List.filter (\s -> s /= "")
+        |> List.map (\s -> Block (MarkdownBlock TableCell) level s)
 
 
 changeLevel : Int -> Block -> Block
@@ -301,8 +312,25 @@ nextStateS option line (FSM state blocks register) =
                 newLine =
                     removePrefix blockType line
             in
-            -- xxx
-            FSM (InBlock (Block newBlockType level newLine)) blocks newRegister
+            if
+                newBlockType
+                    == MarkdownBlock TableRow
+                    && newBlockTypeIsDifferent newBlockType state
+            then
+                handleTableStart blockType level line state blocks register
+
+            else
+                FSM (InBlock (Block newBlockType level newLine)) blocks newRegister
+
+
+newBlockTypeIsDifferent : BlockType -> State -> Bool
+newBlockTypeIsDifferent blockType state =
+    case state of
+        InBlock currentBlock ->
+            type_ currentBlock /= blockType
+
+        _ ->
+            False
 
 
 nextStateIB : Option -> String -> FSM -> FSM
@@ -318,14 +346,24 @@ nextStateIB option line ((FSM state_ blocks_ register) as fsm) =
                 -- add markDown block d
 
             else if BlockType.isMarkDown blockType then
-                processMarkDownBlock option blockType line fsm
+                processMarkDownBlock option level blockType line fsm
 
             else
                 fsm
 
 
-processMarkDownBlock : Option -> BlockType -> String -> FSM -> FSM
-processMarkDownBlock option blockTypeOfLine line ((FSM state blocks register) as fsm) =
+processMarkDownBlock : Option -> Level -> BlockType -> Line -> FSM -> FSM
+processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks register) as fsm) =
+    let
+        _ =
+            Debug.log "\nBTOL" blockTypeOfLine
+
+        _ =
+            Debug.log "STATE" state
+
+        _ =
+            Debug.log "BIT" <| newBlockTypeIsDifferent blockTypeOfLine state
+    in
     case state of
         -- add current block to block list and
         -- start new block with the current line and lineType
@@ -338,15 +376,71 @@ processMarkDownBlock option blockTypeOfLine line ((FSM state blocks register) as
                 -- start new block
                 FSM Start (adjustLevel currentBlock :: blocks) register
 
-            else if blockTypeOfLine == MarkdownBlock Plain then
+            else if
+                (blockTypeOfLine == MarkdownBlock Plain)
+                    && (typeOfCurrentBlock /= MarkdownBlock TableRow)
+            then
                 -- continue, add content to current block
                 addLineToFSM line fsm
+
+            else if blockTypeOfLine == MarkdownBlock TableRow then
+                handleTableRow blockTypeOfLine level line state blocks register
 
             else
                 addNewMarkdownBlock option currentBlock line fsm
 
         _ ->
             fsm
+
+
+handleTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
+handleTableRow blockTypeOfLine level line state blocks register =
+    if newBlockTypeIsDifferent blockTypeOfLine state then
+        handleTableStart blockTypeOfLine level line state blocks register
+
+    else
+        handleInnerTableRow blockTypeOfLine level line state blocks register
+
+
+handleTableStart : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
+handleTableStart blockTypeOfLine level line state blocks register =
+    let
+        tableBlock : Block
+        tableBlock =
+            Block (MarkdownBlock Table) level "tableRoot"
+
+        newBlock : Block
+        newBlock =
+            Block blockTypeOfLine level "row"
+
+        childrenOfNewBlock =
+            parseTableRow (level + 1) line
+                |> List.reverse
+    in
+    --xxx
+    FSM (InBlock newBlock) (childrenOfNewBlock ++ tableBlock :: blocks) { register | level = register.level + 1 }
+
+
+handleInnerTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
+handleInnerTableRow blockTypeOfLine level line state blocks register =
+    case state of
+        Start ->
+            FSM state blocks register
+
+        Error ->
+            FSM state blocks register
+
+        InBlock currentBlock ->
+            let
+                newBlock : Block
+                newBlock =
+                    Block blockTypeOfLine level "row"
+
+                childrenOfNewBlock =
+                    parseTableRow (level + 1) line
+                        |> List.reverse
+            in
+            FSM (InBlock newBlock) (childrenOfNewBlock ++ currentBlock :: blocks) register
 
 
 processBalancedBlock : BlockType -> String -> FSM -> FSM
