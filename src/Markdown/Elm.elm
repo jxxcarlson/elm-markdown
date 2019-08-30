@@ -24,7 +24,7 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
-    Block.parseToMMBlockTree option str |> mmBlockTreeToHtml2
+    Block.parseToMMBlockTree option str |> mmBlockTreeToHtml3
 
 
 mmBlockTreeToHtml : Tree MMBlock -> Html msg
@@ -36,13 +36,35 @@ mmBlockTreeToHtml tree =
 mmBlockTreeToHtml2 : Tree MMBlock -> Html msg
 mmBlockTreeToHtml2 tree =
     if Tree.children tree == [] then
-        Html.div [] [ renderBlock (Tree.label tree) ]
+        Html.span [] [ renderBlock (Tree.label tree) ]
 
     else
         Html.div []
             [ renderBlock (Tree.label tree)
             , Html.div [] (List.map mmBlockTreeToHtml2 (Tree.children tree))
             ]
+
+
+mmBlockTreeToHtml3 : Tree MMBlock -> Html msg
+mmBlockTreeToHtml3 tree =
+    if Tree.children tree == [] then
+        Html.span [ HA.class "no-children" ] [ renderBlock (Tree.label tree) ]
+
+    else
+        case Tree.label tree of
+            MMBlock (MarkdownBlock TableRow) _ _ ->
+                Html.tr [ HA.class "mm-table-row" ]
+                    (List.map mmBlockTreeToHtml3 (Tree.children tree))
+
+            MMBlock (MarkdownBlock Table) _ _ ->
+                Html.tr [ HA.class "mm-table" ]
+                    (List.map mmBlockTreeToHtml3 (Tree.children tree))
+
+            _ ->
+                Html.div []
+                    [ renderBlock (Tree.label tree)
+                    , Html.div [] (List.map mmBlockTreeToHtml3 (Tree.children tree))
+                    ]
 
 
 renderBlock : MMBlock -> Html msg
@@ -106,10 +128,12 @@ renderBlock block =
             Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent (Debug.log "TTTABLECELL" blockContent) ]
 
         MMBlock (MarkdownBlock TableRow) level blockContent ->
-            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent (Debug.log "TTTROW" blockContent) ]
+            -- Html.tr [ HA.class "mm-table-row" ] [renderBlockContent (Debug.log "TTTABLEROW" blockContent)]
+            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent (Debug.log "TTTABLEROW" blockContent) ]
 
         MMBlock (MarkdownBlock Table) level blockContent ->
-            Html.tbody [ HA.class "mm-table" ] [ renderBlockContent (Debug.log "TTTABLE" blockContent) ]
+            -- Html.tbody [ HA.class "mm-table" ] [ renderBlockContent (Debug.log "TTTABLE" blockContent) ]
+            Html.tbody [ HA.class "mm-table" ] []
 
 
 unWrapParagraph : MMInline -> List MMInline
