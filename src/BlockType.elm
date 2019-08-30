@@ -2,6 +2,7 @@ module BlockType exposing
     ( BalancedType(..)
     , BlockType(..)
     , Level
+    , Line
     , MarkdownType(..)
     , get
     , isBalanced
@@ -75,6 +76,7 @@ type MarkdownType
     | Plain
     | Image
     | Blank
+    | TableCell
     | TableRow
     | Table
 
@@ -313,6 +315,9 @@ prefixOfMarkdownType mdt line =
         Image ->
             ""
 
+        TableCell ->
+            ""
+
         TableRow ->
             ""
 
@@ -475,6 +480,9 @@ stringOfMarkDownType mt =
 
         Image ->
             "Image"
+
+        TableCell ->
+            "TableCell"
 
         TableRow ->
             "TableRow"
