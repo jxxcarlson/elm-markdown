@@ -8,6 +8,9 @@ $$
 \\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
 $$
 
+| Formula   | Meaning| Remarks |
+| $a^2 = b^4$ | *Description* | Test Text   |
+| Header      | Title       | Here's this   |
 
 The Markdown used here offers three options: *Standard*,
 *Extended* and *Extended-Math*. The Extended option offers strike-through
