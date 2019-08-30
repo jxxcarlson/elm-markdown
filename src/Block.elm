@@ -404,21 +404,29 @@ handleTableRow blockTypeOfLine level line state blocks register =
 
 handleTableStart : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
 handleTableStart blockTypeOfLine level line state blocks register =
-    let
-        tableBlock : Block
-        tableBlock =
-            Block (MarkdownBlock Table) level "tableRoot"
+    case state of
+        Start ->
+            FSM state blocks register
 
-        newBlock : Block
-        newBlock =
-            Block blockTypeOfLine level "row"
+        Error ->
+            FSM state blocks register
 
-        childrenOfNewBlock =
-            parseTableRow (level + 1) line
-                |> List.reverse
-    in
-    --xxx
-    FSM (InBlock newBlock) (childrenOfNewBlock ++ tableBlock :: blocks) { register | level = register.level + 1 }
+        InBlock currentBlock ->
+            let
+                tableBlock : Block
+                tableBlock =
+                    Block (MarkdownBlock Table) level "tableRoot"
+
+                rowBlock : Block
+                rowBlock =
+                    Block blockTypeOfLine (level + 1) "row"
+
+                childrenOfNewBlock =
+                    parseTableRow (level + 2) line
+                        |> List.reverse
+            in
+            --xxx
+            FSM (InBlock rowBlock) (childrenOfNewBlock ++ tableBlock :: currentBlock :: blocks) { register | level = register.level + 1 }
 
 
 handleInnerTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
@@ -432,15 +440,15 @@ handleInnerTableRow blockTypeOfLine level line state blocks register =
 
         InBlock currentBlock ->
             let
-                newBlock : Block
-                newBlock =
-                    Block blockTypeOfLine level "row"
+                rowBlock : Block
+                rowBlock =
+                    Block blockTypeOfLine (level + 1) "row"
 
                 childrenOfNewBlock =
-                    parseTableRow (level + 1) line
+                    parseTableRow (level + 2) line
                         |> List.reverse
             in
-            FSM (InBlock newBlock) (childrenOfNewBlock ++ currentBlock :: blocks) register
+            FSM (InBlock rowBlock) (childrenOfNewBlock ++ currentBlock :: blocks) register
 
 
 processBalancedBlock : BlockType -> String -> FSM -> FSM
