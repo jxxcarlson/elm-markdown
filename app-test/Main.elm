@@ -148,7 +148,6 @@ display model =
         , editor model
         , renderedSource model
         , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80 ]
-        , a [ style "margin-left" "20px", HA.href "https://minilatex.io" ] [ Html.text "minilatex.io" ]
         ]
 
 

@@ -275,9 +275,6 @@ Recall that
 runFSM : Option -> String -> FSM
 runFSM option str =
     let
-        _ =
-            Debug.log "run" "FSM"
-
         folder : String -> FSM -> FSM
         folder =
             \line fsm -> nextState option line fsm
@@ -310,15 +307,20 @@ nextState option str ((FSM state blocks register) as fsm) =
                                 tableBlock =
                                     Block (MarkdownBlock Table) 0 "tableRoot"
 
+                                rowBlock : Block
+                                rowBlock =
+                                    Block (MarkdownBlock TableRow) 1 "row"
+
                                 tableData =
                                     List.reverse register.blockStack
-                                        |> (\x -> x ++ [ tableBlock ])
+                                        |> (\x -> x ++ [ rowBlock, tableBlock ])
+                                        |> List.map editBlock
 
                                 newBlocks =
                                     -- NOTE: the below is a very bad solution!!
                                     List.filter (\(Block _ _ content) -> content /= "deleteMe") blocks
                             in
-                            FSM Start (tableData ++ blocks) { register | blockStack = [] }
+                            FSM Start (tableData ++ newBlocks) { register | blockStack = [] }
     in
     case stateOfFSM fsm of
         Start ->
@@ -329,6 +331,15 @@ nextState option str ((FSM state blocks register) as fsm) =
 
         Error ->
             fsm_
+
+
+editBlock : Block -> Block
+editBlock ((Block bt lev content) as block) =
+    if bt == MarkdownBlock TableRow && content == "row" then
+        Block bt lev ""
+
+    else
+        block
 
 
 nextStateS : Option -> String -> FSM -> FSM
@@ -388,16 +399,6 @@ nextStateIB option line ((FSM state_ blocks_ register) as fsm) =
 
 processMarkDownBlock : Option -> Level -> BlockType -> Line -> FSM -> FSM
 processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks register) as fsm) =
-    let
-        _ =
-            Debug.log "\nBTOL" blockTypeOfLine
-
-        _ =
-            Debug.log "STATE" state
-
-        _ =
-            Debug.log "BIT" <| newBlockTypeIsDifferent blockTypeOfLine state
-    in
     case state of
         -- add current block to block list and
         -- start new block with the current line and lineType
@@ -429,10 +430,6 @@ processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks regist
 
 handleTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
 handleTableRow blockTypeOfLine level line state blocks register =
-    let
-        _ =
-            Debug.log "HTROW" line
-    in
     if newBlockTypeIsDifferent blockTypeOfLine state then
         handleTableStart blockTypeOfLine level line state blocks register
 
@@ -635,10 +632,6 @@ incrementRegister level register =
 
 addLineToFSM : String -> FSM -> FSM
 addLineToFSM str (FSM state_ blocks_ register) =
-    let
-        _ =
-            Debug.log "ADD LINE" str
-    in
     case state_ of
         Start ->
             FSM state_ blocks_ register

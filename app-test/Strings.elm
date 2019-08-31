@@ -10,7 +10,7 @@ $$
 
 The Markdown used here offers three options: *Standard*,
 *Extended* and *Extended-Math*. The Extended option offers strike-through
- text, verbatim blocks, and poetry blocks.  The Extended-Math
+ text, verbatim blocks, poetry blocks, and tables.  The Extended-Math
  option is, in addition, able to  render
 formulas written in TeX/LaTeX.  It is suitable for
 light-weight writing tasks that require
@@ -65,7 +65,7 @@ for n in range(1..100):
 sum
 ```
 
-## 4. Verbatim  and Tables (Extension)
+## 4. Verbatim and Tables (Extensions)
 
 A verbatim block begins and ends with four tick marks.
 It is just like a code block, except that there is no
@@ -83,6 +83,7 @@ Verbatim text has many uses:
 ````
 
 But better is to use Markdown tables:
+
 | Element   | Symbol |  Z |   A     |
 | Hydrogen  | H      |  1 | 1.008   |
 | Helium    | He     |  2 |  4.0026 |

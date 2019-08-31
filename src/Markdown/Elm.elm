@@ -125,15 +125,13 @@ renderBlock block =
                     displayMathText ""
 
         MMBlock (MarkdownBlock TableCell) level blockContent ->
-            Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent (Debug.log "TTTABLECELL" blockContent) ]
+            Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent blockContent ]
 
         MMBlock (MarkdownBlock TableRow) level blockContent ->
-            -- Html.tr [ HA.class "mm-table-row" ] [renderBlockContent (Debug.log "TTTABLEROW" blockContent)]
-            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent (Debug.log "TTTABLEROW" blockContent) ]
+            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent blockContent ]
 
         MMBlock (MarkdownBlock Table) level blockContent ->
-            -- Html.tbody [ HA.class "mm-table" ] [ renderBlockContent (Debug.log "TTTABLE" blockContent) ]
-            Html.table [ HA.class "mm-table" ] [ renderBlockContent (Debug.log "TTTABLE" blockContent) ]
+            Html.table [ HA.class "mm-table" ] [ renderBlockContent blockContent ]
 
 
 unWrapParagraph : MMInline -> List MMInline
