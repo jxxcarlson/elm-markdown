@@ -304,7 +304,11 @@ nextState option str ((FSM state blocks register) as fsm) =
                             fsm
 
                         _ ->
-                            FSM state (block :: blocks) { register | blockStack = List.drop 1 register.blockStack }
+                            let
+                                tableData =
+                                    List.reverse register.blockStack
+                            in
+                            FSM state (tableData ++ blocks) { register | blockStack = [] }
     in
     case stateOfFSM fsm of
         Start ->
@@ -447,17 +451,15 @@ handleTableStart blockTypeOfLine level line state blocks register =
 
                 childrenOfNewBlock =
                     parseTableRow (level + 2) line
-                        |> List.reverse
 
-                tableMarker : Block
-                tableMarker =
-                    Block (MarkdownBlock TableRow) (level + 1) "row"
+                newRow =
+                    childrenOfNewBlock ++ [ rowBlock ]
             in
             --xxx
             -- FSM (InBlock tableBlock) ((rowBlock :: childrenOfNewBlock) ++ currentBlock :: blocks) { register | level = register.level + 1 }
             FSM (InBlock rowBlock)
                 blocks
-                { register | level = register.level + 0, blockStack = childrenOfNewBlock ++ (rowBlock :: tableBlock :: register.blockStack) }
+                { register | level = register.level + 0, blockStack = newRow }
 
 
 handleInnerTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
@@ -477,13 +479,15 @@ handleInnerTableRow blockTypeOfLine level line state blocks register =
 
                 childrenOfNewBlock =
                     parseTableRow (level + 2) line
-                        |> List.reverse
 
                 tableMarker : Block
                 tableMarker =
-                    Block (MarkdownBlock TableRow) (level + 1) "row"
+                    Block (MarkdownBlock TableRow) (level + 1) "deleteMe"
+
+                newRow =
+                    childrenOfNewBlock ++ [ rowBlock ]
             in
-            FSM (InBlock tableMarker) blocks { register | blockStack = childrenOfNewBlock ++ (rowBlock :: register.blockStack) }
+            FSM (InBlock tableMarker) blocks { register | blockStack = register.blockStack ++ newRow }
 
 
 processBalancedBlock : BlockType -> String -> FSM -> FSM
