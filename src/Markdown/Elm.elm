@@ -57,7 +57,7 @@ mmBlockTreeToHtml3 tree =
                     (List.map mmBlockTreeToHtml3 (Tree.children tree))
 
             MMBlock (MarkdownBlock Table) _ _ ->
-                Html.tr [ HA.class "mm-table" ]
+                Html.table [ HA.class "mm-table" ]
                     (List.map mmBlockTreeToHtml3 (Tree.children tree))
 
             _ ->
