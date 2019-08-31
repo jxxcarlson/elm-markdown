@@ -1,6 +1,6 @@
 module Block exposing
     ( BlockContent(..), MMBlock(..)
-    , parseTableRow, parseToBlockTree, parseToMMBlockTree, runFSM, stringOfBlockTree, stringOfFSM, stringOfMMBlockTree
+    , flush, fsmToPairs, fsmToPairsTree, pairsListToPairsTree, pairsTreeToString, parseTableRow, parseToBlockTree, parseToMMBlockTree, runFSM, stringOfBlockTree, stringOfFSM, stringOfMMBlockTree, toAnnotatedStringList
     )
 
 {-| A markdown document is parsed into a tree
@@ -448,12 +448,16 @@ handleTableStart blockTypeOfLine level line state blocks register =
                 childrenOfNewBlock =
                     parseTableRow (level + 2) line
                         |> List.reverse
+
+                tableMarker : Block
+                tableMarker =
+                    Block (MarkdownBlock TableRow) (level + 1) "row"
             in
             --xxx
             -- FSM (InBlock tableBlock) ((rowBlock :: childrenOfNewBlock) ++ currentBlock :: blocks) { register | level = register.level + 1 }
             FSM (InBlock rowBlock)
-                (childrenOfNewBlock ++ currentBlock :: blocks)
-                { register | level = register.level + 0, blockStack = tableBlock :: register.blockStack }
+                blocks
+                { register | level = register.level + 0, blockStack = childrenOfNewBlock ++ (rowBlock :: tableBlock :: register.blockStack) }
 
 
 handleInnerTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
@@ -474,8 +478,12 @@ handleInnerTableRow blockTypeOfLine level line state blocks register =
                 childrenOfNewBlock =
                     parseTableRow (level + 2) line
                         |> List.reverse
+
+                tableMarker : Block
+                tableMarker =
+                    Block (MarkdownBlock TableRow) (level + 1) "row"
             in
-            FSM (InBlock rowBlock) (childrenOfNewBlock ++ currentBlock :: blocks) register
+            FSM (InBlock tableMarker) blocks { register | blockStack = childrenOfNewBlock ++ (rowBlock :: register.blockStack) }
 
 
 processBalancedBlock : BlockType -> String -> FSM -> FSM
@@ -723,12 +731,37 @@ initialFSM =
 -- STRING FUNCTIONS: WERE USED TO DEBUG DURING DEVELOPMENT --
 
 
+toAnnotatedStringList : List Block -> List ( Int, String )
+toAnnotatedStringList blocks =
+    List.map (\(Block _ level content) -> ( level, content )) blocks
+
+
 stringOfFSM : FSM -> String
 stringOfFSM fsm =
     fsm
         |> flush
         |> List.map stringOfBlock
         |> String.join "\n\n"
+
+
+fsmToPairs : FSM -> List ( Int, String )
+fsmToPairs fsm =
+    fsm |> flush |> toAnnotatedStringList
+
+
+pairsListToPairsTree : List ( Int, String ) -> Tree ( Int, String )
+pairsListToPairsTree lst =
+    lst |> HTree.fromList ( -1, "ROOT" ) Tuple.first
+
+
+pairsTreeToString : Tree ( Int, String ) -> String
+pairsTreeToString tree =
+    HTree.toOutline Tuple.second tree
+
+
+fsmToPairsTree : FSM -> Tree ( Int, String )
+fsmToPairsTree fsm =
+    fsm |> fsmToPairs |> HTree.fromList ( -1, "ROOT" ) Tuple.first
 
 
 stringOfBlockTree : Tree Block -> String
