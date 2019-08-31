@@ -306,7 +306,7 @@ nextState option str ((FSM state blocks register) as fsm) =
                         _ ->
                             let
                                 tableData =
-                                    List.reverse register.blockStack
+                                    List.reverse register.blockStack |> List.drop 1
                             in
                             FSM state (tableData ++ blocks) { register | blockStack = [] }
     in
