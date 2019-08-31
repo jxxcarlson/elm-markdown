@@ -1,6 +1,6 @@
 module Block exposing
     ( BlockContent(..), MMBlock(..)
-    , parseTableRow, parseToBlockTree, parseToMMBlockTree, runFSM, stringOfBlockTree, stringOfMMBlockTree
+    , parseTableRow, parseToBlockTree, parseToMMBlockTree, runFSM, stringOfBlockTree, stringOfFSM, stringOfMMBlockTree
     )
 
 {-| A markdown document is parsed into a tree
@@ -120,6 +120,7 @@ type alias Register =
     , itemIndex3 : Int
     , itemIndex4 : Int
     , level : Int
+    , blockStack : List Block
     }
 
 
@@ -130,6 +131,7 @@ emptyRegister =
     , itemIndex3 = 0
     , itemIndex4 = 0
     , level = 0
+    , blockStack = []
     }
 
 
@@ -273,6 +275,9 @@ Recall that
 runFSM : Option -> String -> FSM
 runFSM option str =
     let
+        _ =
+            Debug.log "run" "FSM"
+
         folder : String -> FSM -> FSM
         folder =
             \line fsm -> nextState option line fsm
@@ -285,16 +290,31 @@ runFSM option str =
 
 
 nextState : Option -> String -> FSM -> FSM
-nextState option str fsm =
+nextState option str ((FSM state blocks register) as fsm) =
+    let
+        fsm_ =
+            case List.head register.blockStack of
+                Nothing ->
+                    --xxx
+                    fsm
+
+                Just block ->
+                    case typeOfState state of
+                        Just (MarkdownBlock TableRow) ->
+                            fsm
+
+                        _ ->
+                            FSM state (block :: blocks) { register | blockStack = List.drop 1 register.blockStack }
+    in
     case stateOfFSM fsm of
         Start ->
-            nextStateS option str fsm
+            nextStateS option str fsm_
 
         InBlock _ ->
-            nextStateIB option str fsm
+            nextStateIB option str fsm_
 
         Error ->
-            fsm
+            fsm_
 
 
 nextStateS : Option -> String -> FSM -> FSM
@@ -395,6 +415,10 @@ processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks regist
 
 handleTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
 handleTableRow blockTypeOfLine level line state blocks register =
+    let
+        _ =
+            Debug.log "HTROW" line
+    in
     if newBlockTypeIsDifferent blockTypeOfLine state then
         handleTableStart blockTypeOfLine level line state blocks register
 
@@ -426,7 +450,10 @@ handleTableStart blockTypeOfLine level line state blocks register =
                         |> List.reverse
             in
             --xxx
-            FSM (InBlock rowBlock) (childrenOfNewBlock ++ tableBlock :: currentBlock :: blocks) { register | level = register.level + 1 }
+            -- FSM (InBlock tableBlock) ((rowBlock :: childrenOfNewBlock) ++ currentBlock :: blocks) { register | level = register.level + 1 }
+            FSM (InBlock rowBlock)
+                (childrenOfNewBlock ++ currentBlock :: blocks)
+                { register | level = register.level + 0, blockStack = tableBlock :: register.blockStack }
 
 
 handleInnerTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
@@ -586,6 +613,10 @@ incrementRegister level register =
 
 addLineToFSM : String -> FSM -> FSM
 addLineToFSM str (FSM state_ blocks_ register) =
+    let
+        _ =
+            Debug.log "ADD LINE" str
+    in
     case state_ of
         Start ->
             FSM state_ blocks_ register
@@ -594,7 +625,13 @@ addLineToFSM str (FSM state_ blocks_ register) =
             FSM state_ blocks_ register
 
         InBlock _ ->
-            FSM (addLineToState str state_) blocks_ register
+            case List.head register.blockStack of
+                Nothing ->
+                    FSM (addLineToState str state_) blocks_ register
+
+                Just block ->
+                    --xxx
+                    FSM (addLineToState str state_) (block :: blocks_) { register | blockStack = List.drop 1 register.blockStack }
 
 
 addLineToState : String -> State -> State
@@ -684,6 +721,14 @@ initialFSM =
 
 
 -- STRING FUNCTIONS: WERE USED TO DEBUG DURING DEVELOPMENT --
+
+
+stringOfFSM : FSM -> String
+stringOfFSM fsm =
+    fsm
+        |> flush
+        |> List.map stringOfBlock
+        |> String.join "\n\n"
 
 
 stringOfBlockTree : Tree Block -> String
