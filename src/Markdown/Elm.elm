@@ -133,7 +133,7 @@ renderBlock block =
 
         MMBlock (MarkdownBlock Table) level blockContent ->
             -- Html.tbody [ HA.class "mm-table" ] [ renderBlockContent (Debug.log "TTTABLE" blockContent) ]
-            Html.tbody [ HA.class "mm-table" ] []
+            Html.table [ HA.class "mm-table" ] [ renderBlockContent (Debug.log "TTTABLE" blockContent) ]
 
 
 unWrapParagraph : MMInline -> List MMInline

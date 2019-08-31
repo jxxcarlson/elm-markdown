@@ -299,16 +299,22 @@ nextState option str ((FSM state blocks register) as fsm) =
                     fsm
 
                 Just block ->
+                    -- Pop the blockStack the new item is not a table row
                     case typeOfState state of
                         Just (MarkdownBlock TableRow) ->
                             fsm
 
                         _ ->
                             let
+                                tableBlock : Block
+                                tableBlock =
+                                    Block (MarkdownBlock Table) 0 "tableRoot"
+
                                 tableData =
-                                    List.reverse register.blockStack |> List.drop 1
+                                    List.reverse register.blockStack
+                                        |> (\x -> x ++ [ tableBlock ])
                             in
-                            FSM state (tableData ++ blocks) { register | blockStack = [] }
+                            FSM Start (tableData ++ blocks) { register | blockStack = [] }
     in
     case stateOfFSM fsm of
         Start ->
