@@ -313,6 +313,10 @@ nextState option str ((FSM state blocks register) as fsm) =
                                 tableData =
                                     List.reverse register.blockStack
                                         |> (\x -> x ++ [ tableBlock ])
+
+                                newBlocks =
+                                    -- NOTE: the below is a very bad solution!!
+                                    List.filter (\(Block _ _ content) -> content /= "deleteMe") blocks
                             in
                             FSM Start (tableData ++ blocks) { register | blockStack = [] }
     in

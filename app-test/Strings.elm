@@ -8,10 +8,6 @@ $$
 \\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
 $$
 
-| Formula   | Meaning| Remarks |
-| $a^2 = b^4$ | *Description* | Test Text   |
-| Header      | Title       | Here's this   |
-
 The Markdown used here offers three options: *Standard*,
 *Extended* and *Extended-Math*. The Extended option offers strike-through
  text, verbatim blocks, and poetry blocks.  The Extended-Math
@@ -69,7 +65,7 @@ for n in range(1..100):
 sum
 ```
 
-## 4. Verbatim (Extension)
+## 4. Verbatim  and Tables (Extension)
 
 A verbatim block begins and ends with four tick marks.
 It is just like a code block, except that there is no
@@ -85,6 +81,20 @@ Verbatim text has many uses:
    Brazilium  |    7/5
    Certium    |    9/5
 ````
+
+But better is to use Markdown tables:
+| Element   | Symbol |  Z |   A     |
+| Hydrogen  | H      |  1 | 1.008   |
+| Helium    | He     |  2 |  4.0026 |
+| Lithium   | Li     |  3 |  6.94   |
+| Beryllium | Be     |  4 |  9.0122 |
+| Boron     | B      |  5 | 10.81   |
+| Carbon    | C      |  6 | 12.011  |
+| Nitrogen  | N      |  7 | 14.007  |
+| Oxygen    | O      |  8 | 15.999  |
+| Flourine  | F      |  9 | 18.998  |
+| Neon      | Ne     | 10 | 20.180  |
+
 
 ## 5. Lists
 
