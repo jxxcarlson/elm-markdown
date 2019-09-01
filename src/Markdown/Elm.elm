@@ -298,7 +298,7 @@ renderToHtmlMsg mmInline =
             Html.span [] (joinLine arg)
 
         Paragraph arg ->
-            Html.p [] (List.map renderToHtmlMsg arg)
+            Html.p [ HA.class "mm-paragraph" ] (List.map renderToHtmlMsg arg)
 
         Stanza arg ->
             renderStanza arg
