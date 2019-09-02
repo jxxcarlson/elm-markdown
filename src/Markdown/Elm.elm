@@ -11,7 +11,6 @@ import Block exposing (BlockContent(..), MMBlock(..))
 import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
 import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
-import Html.Keyed as Keyed
 import Json.Encode
 import MMInline exposing (MMInline(..))
 import Option exposing (Option(..))
@@ -362,7 +361,7 @@ mathText content =
 
 inlineMathText : String -> Html msg
 inlineMathText str =
-    Keyed.node "span" [ HA.class "mm-inline-math" ] [ ( "foo5671", mathText <| "$ " ++ String.trim str ++ " $ " ) ]
+    mathText <| "$ " ++ String.trim str ++ " $ "
 
 
 displayMathText : String -> Html msg
