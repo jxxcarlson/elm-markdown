@@ -83,8 +83,8 @@ Verbatim text has many uses:
 ````
 
 But better is to use Markdown tables:
-
-| Element   | Symbol |  Z |   A     |
+  
+|  Element  | Symbol |  Z | A |
 | Hydrogen  | H      |  1 | 1.008   |
 | Helium    | He     |  2 |  4.0026 |
 | Lithium   | Li     |  3 |  6.94   |
