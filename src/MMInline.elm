@@ -1,4 +1,4 @@
-module MMInline exposing (MMInline(..), parse, string)
+module MMInline exposing (MMInline(..), Problem(..), ordinaryTextExtended, ordinaryTextExtendedMath, ordinaryTextStandard, parse, string)
 
 {-| Module MMInline provides one type and two functions. The
 type is MMInline, which is the type of inline Markdown elements
@@ -183,7 +183,7 @@ wrapper str acc =
 
 endsWithPunctuation : String -> Bool
 endsWithPunctuation str =
-    List.member (String.right 1 str) [ "." ]
+    String.right 1 str == "."
 
 
 parseLine : Option -> String -> MMInline
@@ -258,6 +258,29 @@ parseWhile accepting =
 --
 
 
+{-| Characters that have a special meaning in standard markdown
+
+omits the closing square bracket `]` because on its own it is a regular character.
+It only gets special meaning when it closes a corresponding opening square bracket
+
+-}
+isSpecialCharacter : Char -> Bool
+isSpecialCharacter c =
+    c == '`' || c == '[' || c == '*' || c == '\n'
+
+
+ordinaryTextParser : (Char -> Bool) -> Parser MMInline
+ordinaryTextParser validStart =
+    let
+        -- a regular character must not be a ']' and must be a valid starting character
+        isRegular c =
+            not (c == ']') && validStart c
+    in
+    chompIf validStart (Expecting "expecting regular character to begin ordinary text line")
+        |. chompWhile isRegular
+        |> mapChompedString (\s _ -> OrdinaryText s)
+
+
 {-|
 
 > run ordinaryText "abc"
@@ -266,32 +289,29 @@ parseWhile accepting =
 -}
 ordinaryTextExtendedMath : Parser MMInline
 ordinaryTextExtendedMath =
-    (succeed ()
-        |. chompIf (\c -> not <| List.member c [ '`', '~', '[', '$', '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
-        |. chompWhile (\c -> not <| List.member c [ '`', '~', '[', ']', '$', '*', '\n' ])
-    )
-        |> getChompedString
-        |> map OrdinaryText
+    let
+        validStart c =
+            not (c == '~' || c == '$' || isSpecialCharacter c)
+    in
+    ordinaryTextParser validStart
 
 
 ordinaryTextExtended : Parser MMInline
 ordinaryTextExtended =
-    (succeed ()
-        |. chompIf (\c -> not <| List.member c [ '`', '~', '[', '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
-        |. chompWhile (\c -> not <| List.member c [ '`', '~', '[', ']', '*', '\n' ])
-    )
-        |> getChompedString
-        |> map OrdinaryText
+    let
+        validStart c =
+            not (c == '~' || isSpecialCharacter c)
+    in
+    ordinaryTextParser validStart
 
 
 ordinaryTextStandard : Parser MMInline
 ordinaryTextStandard =
-    (succeed ()
-        |. chompIf (\c -> not <| List.member c [ '`', '[', '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
-        |. chompWhile (\c -> not <| List.member c [ '`', '[', ']', '*', '\n' ])
-    )
-        |> getChompedString
-        |> map OrdinaryText
+    let
+        validStart =
+            not << isSpecialCharacter
+    in
+    ordinaryTextParser validStart
 
 
 image : Parser MMInline
