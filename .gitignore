@@ -7,3 +7,4 @@ app-test/package-lock.json
 src/MDExample.elm
 app-test/mathjax3-test.html
 app-test/mathjax3/
+app-test/tex-chtml.js
