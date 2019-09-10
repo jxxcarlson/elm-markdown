@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
+		
 		<title>Math + MarkDown (Experimenal)</title>
 
     <!-- Syntax highilighting -->
@@ -11,93 +12,17 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
+    <!-- Style -->
 		<link rel="stylesheet" href="style.css">
 
+    <!-- Load app -->
     <script src="Main.js" charset="utf-8"></script>
 
-
-    <!-- MathJax stuff -->
-		<script type="text/x-mathjax-config">
-		// Same as kokoc3
-			MathJax.Hub.Config(
-				{ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
-					processEscapes: true,
-					messageStyle: "none",
-					processSectionDelay: 0,
-					processUpdateTime: 0,
-					"fast-preview": {disabled: true},
-					TeX: { equationNumbers: {autoNumber: "AMS"},
-						   noErrors: {disabled: true},
-						   extensions: ["mhchem.js"]
-						  }
-				}
-	        );
-		</script>
-
+    <!-- Set up MathJax -->
+    <script src="mathjax-setup.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="math-text.js"></script>
 
-	  <script>
-
-			var typesetTimeout = null
-			var typesetQueue = []
-			function enqueueTypeset(el) {
-				// console.log("enqueueTypeset: " + el)
-				typesetQueue.push(el)
-				clearTimeout(typesetTimeout)
-				typesetTimeout = setTimeout(function () {
-					var toTypeset = typesetQueue
-					MathJax.Hub.Queue(["resetEquationNumbers", MathJax.InputJax.TeX]);
-					MathJax.Hub.Queue(['Typeset', MathJax.Hub, typesetQueue], function (arg) {
-						toTypeset.forEach(function (el) { el.style.opacity = 1 })
-					})
-					typesetQueue = []
-				}, 1)
-			}
-
-			var updateQueue = []
-			var updateTimeout = null
-			function enqueueUpdate(el) {
-				// console.log("enqueueUpdate: " + el)
-				updateQueue.push(el)
-				clearTimeout(updateTimeout)
-				updateTimeout = setTimeout(function () {
-					MathJax.Hub.Queue(['Update', MathJax.Hub, updateQueue])
-					updateQueue = []
-				}, 0)
-			}
-
-		  customElements.define('math-text', class extends HTMLElement {
-			  constructor() {
-				super()
-				this._content = this.content
-			  }
-
-				get content() {
-					// console.log("get content: " + this._content)
-					return this._content
-				}
-
-				set content(value) {
-					// console.log("set content: " + value)
-					if (this._content === value) return
-					this._content = value
-					var jaxScript = this.querySelector('script')
-					if (!jaxScript) return
-					jaxScript.textContent = this._content
-					enqueueUpdate(this)
-				}
-
-				connectedCallback() {
-					// console.log("connectedCallback: " + this._content )
-					this.textContent = this._content
-					this._connected = true
-					this.style.opacity = 1
-					this.style.display = 'inline'
-						enqueueTypeset(this)
-				}
-			})
-	 </script>
-	 
 	</head>
 
 	<body>
