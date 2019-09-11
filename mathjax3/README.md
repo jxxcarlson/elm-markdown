@@ -17,3 +17,8 @@
 - [Mathjax 3 demos (repo)](https://github.com/mathjax/MathJax-demos-web)
 
 - [Medium article on custom elements](https://medium.com/recraftrelic/what-are-html-custom-elements-c6ffea9c4244)
+
+
+## Markdown
+
+https://www.reddit.com/r/haskell/comments/16kf0j/parsing_markdown_with_parsec_how_pandoc_does_it/

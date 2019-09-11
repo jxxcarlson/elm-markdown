@@ -15,26 +15,23 @@
     </style>
   </head>
   <body>
-    <h1>Custom Element MathML test: ARGS</h1>
-
-    <p>MathML outside of a custom element: <math><mrow><mfrac><mn>10</mn><mrow><mn>12</mn></mrow></mfrac></mrow></math></p>
+    <h1>Custom Element TeX test</h1>
 
     <p>
       Use custom element:
       <custom-element>
-          <math><mrow><mfrac><mn>17</mn><mrow><mn>616</mn></mrow></mfrac></mrow></math>
+          $a^2 + b^2 = c^2$
       </custom-element>
     </p>
 
     <p>
       Another test:
       <custom-element>
-          <math><mrow><mfrac><mn>1899</mn><mrow><mn>1234</mn></mrow></mfrac></mrow></math>
+$$
+\int_{-\infty}^\infty e^{-x^2} dx = \pi
+$$
       </custom-element>
     </p>
-
-    <p><b>Question:</b> why is it necessary to put the script referring to "custom-element.js"
-      at the end of the body rather than in the head?</p>
 
     <script src="custom-element.js"></script>
 
