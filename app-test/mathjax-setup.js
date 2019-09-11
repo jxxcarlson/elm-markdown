@@ -10,4 +10,4 @@ MathJax.Hub.Config(
          extensions: ["mhchem.js"]
         }
   }
-    );
+);

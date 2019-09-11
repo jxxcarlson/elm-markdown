@@ -1,4 +1,6 @@
 
+// From Luke
+
 var typesetTimeout = null
 var typesetQueue = []
 function enqueueTypeset(el) {
