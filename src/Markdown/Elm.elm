@@ -13,7 +13,7 @@ import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
 import Json.Encode
 import MMInline exposing (MMInline(..))
-import Option exposing (Option(..))
+import Markdown.Option exposing (Option(..))
 import Tree exposing (Tree)
 
 

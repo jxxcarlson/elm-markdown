@@ -17,7 +17,7 @@ of the BlockMMTree values.
 
 -}
 
-import Option exposing (Option(..))
+import Markdown.Option exposing (Option(..))
 import Parser.Advanced exposing (..)
 
 

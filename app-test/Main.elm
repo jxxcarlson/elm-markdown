@@ -7,7 +7,7 @@ import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
 import Markdown.Elm
-import Option exposing (Option(..))
+import Markdown.Option exposing (Option(..))
 import Random
 import Strings
 import Style exposing (..)

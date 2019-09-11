@@ -42,7 +42,7 @@ the result of parsing the input string into blocks.
 import BlockType exposing (BalancedType(..), BlockType(..), Line, MarkdownType(..))
 import HTree
 import MMInline exposing (MMInline(..))
-import Option exposing (Option(..))
+import Markdown.Option exposing (Option(..))
 import Tree exposing (Tree)
 
 

@@ -28,7 +28,7 @@ by 3, where division is integer division.
 
 -}
 
-import Option exposing (Option(..))
+import Markdown.Option exposing (Option(..))
 import Parser.Advanced exposing (..)
 
 
