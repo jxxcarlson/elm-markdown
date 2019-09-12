@@ -97,6 +97,14 @@ type alias Content =
     String
 
 
+type alias Line =
+    String
+
+
+type alias Document =
+    String
+
+
 
 -- THE FINITE-STATE MACHINE --
 
@@ -148,9 +156,9 @@ a three of Blocks in constructed using the level information.
     -->    ]
 
 -}
-parseToBlockTree : Option -> String -> Tree Block
-parseToBlockTree option str =
-    str
+parseToBlockTree : Option -> Document -> Tree Block
+parseToBlockTree option document =
+    document
         |> splitIntoLines
         |> runFSM option
         |> flush
@@ -158,9 +166,9 @@ parseToBlockTree option str =
         |> HTree.fromList rootBlock blockLevel
 
 
-parseTableRow : Level -> String -> List Block
-parseTableRow level str =
-    str
+parseTableRow : Level -> Line -> List Block
+parseTableRow level line =
+    line
         |> String.split "|"
         |> List.map String.trim
         |> List.filter (\s -> s /= "")
@@ -172,9 +180,9 @@ changeLevel k (Block bt_ level_ content_) =
     Block bt_ (level_ + k) content_
 
 
-parseToMMBlockTree : Option -> String -> Tree MMBlock
-parseToMMBlockTree option str =
-    str
+parseToMMBlockTree : Option -> Document -> Tree MMBlock
+parseToMMBlockTree option document =
+    document
         |> parseToBlockTree option
         |> Tree.map (selectMapper option)
 
@@ -273,7 +281,7 @@ Recall that
     -->   { itemIndex1 = 2, itemIndex2 = 0, itemIndex3 = 0, itemIndex4 = 0 }
 
 -}
-runFSM : Option -> List String -> FSM
+runFSM : Option -> List Line -> FSM
 runFSM option lines =
     let
         folder : String -> FSM -> FSM
@@ -287,51 +295,56 @@ runFSM option lines =
 -- FINITE STATE MACHINE: NEXT STATE FUNCTION --
 
 
-nextState : Option -> String -> FSM -> FSM
-nextState option str ((FSM state blocks register) as fsm) =
+nextState : Option -> Line -> FSM -> FSM
+nextState option line ((FSM state blocks register) as fsm) =
     let
         fsm_ =
-            case List.head register.blockStack of
-                Nothing ->
-                    --xxx
-                    fsm
-
-                Just block ->
-                    -- Pop the blockStack the new item is not a table row
-                    case typeOfState state of
-                        Just (MarkdownBlock TableRow) ->
-                            fsm
-
-                        _ ->
-                            let
-                                tableBlock : Block
-                                tableBlock =
-                                    Block (MarkdownBlock Table) 0 "tableRoot"
-
-                                rowBlock : Block
-                                rowBlock =
-                                    Block (MarkdownBlock TableRow) 1 "row"
-
-                                tableData =
-                                    List.reverse register.blockStack
-                                        |> (\x -> x ++ [ rowBlock, tableBlock ])
-                                        |> List.map editBlock
-
-                                newBlocks =
-                                    -- NOTE: the below is a very bad solution!!
-                                    List.filter (\(Block _ _ content) -> content /= "deleteMe") blocks
-                            in
-                            FSM Start (tableData ++ newBlocks) { register | blockStack = [] }
+            handleRegister fsm
     in
     case stateOfFSM fsm of
         Start ->
-            nextStateS option str fsm_
+            nextStateS option line fsm_
 
         InBlock _ ->
-            nextStateIB option str fsm_
+            nextStateIB option line fsm_
 
         Error ->
             fsm_
+
+
+handleRegister : FSM -> FSM
+handleRegister ((FSM state blocks register) as fsm) =
+    case List.head register.blockStack of
+        Nothing ->
+            --xxx
+            fsm
+
+        Just block ->
+            -- Pop the blockStack the new item is not a table row
+            case typeOfState state of
+                Just (MarkdownBlock TableRow) ->
+                    fsm
+
+                _ ->
+                    let
+                        tableBlock : Block
+                        tableBlock =
+                            Block (MarkdownBlock Table) 0 "tableRoot"
+
+                        rowBlock : Block
+                        rowBlock =
+                            Block (MarkdownBlock TableRow) 1 "row"
+
+                        tableData =
+                            List.reverse register.blockStack
+                                |> (\x -> x ++ [ rowBlock, tableBlock ])
+                                |> List.map editBlock
+
+                        newBlocks =
+                            -- NOTE: the below is a very bad solution!!
+                            List.filter (\(Block _ _ content) -> content /= "deleteMe") blocks
+                    in
+                    FSM Start (tableData ++ newBlocks) { register | blockStack = [] }
 
 
 editBlock : Block -> Block
@@ -343,7 +356,7 @@ editBlock ((Block bt lev content) as block) =
         block
 
 
-nextStateS : Option -> String -> FSM -> FSM
+nextStateS : Option -> Line -> FSM -> FSM
 nextStateS option line (FSM state blocks register) =
     case BlockType.get option line of
         ( _, Nothing ) ->
@@ -379,7 +392,7 @@ newBlockTypeIsDifferent blockType state =
             False
 
 
-nextStateIB : Option -> String -> FSM -> FSM
+nextStateIB : Option -> Line -> FSM -> FSM
 nextStateIB option line ((FSM state_ blocks_ register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
@@ -498,7 +511,7 @@ handleInnerTableRow blockTypeOfLine level line state blocks register =
             FSM (InBlock tableMarker) blocks { register | blockStack = register.blockStack ++ newRow }
 
 
-processBalancedBlock : BlockType -> String -> FSM -> FSM
+processBalancedBlock : BlockType -> Line -> FSM -> FSM
 processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
     -- the currently processed block should be closed and a new one opened
     if Just blockType == typeOfState (stateOfFSM fsm) then
@@ -534,7 +547,7 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
     current line and use that line to update the register
 
 -}
-addNewMarkdownBlock : Option -> Block -> String -> FSM -> FSM
+addNewMarkdownBlock : Option -> Block -> Line -> FSM -> FSM
 addNewMarkdownBlock option ((Block typeOfCurrentBlock levelOfCurrentBlock _) as currentBlock) line ((FSM state blocks register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
@@ -554,7 +567,7 @@ addNewMarkdownBlock option ((Block typeOfCurrentBlock levelOfCurrentBlock _) as 
             FSM (InBlock newBlock) (adjustLevel currentBlock :: blocks) newRegister
 
 
-removePrefix : BlockType -> String -> String
+removePrefix : BlockType -> Line -> Line
 removePrefix blockType line_ =
     let
         p =
@@ -631,8 +644,8 @@ incrementRegister level register =
             ( 0, register )
 
 
-addLineToFSM : String -> FSM -> FSM
-addLineToFSM str (FSM state_ blocks_ register) =
+addLineToFSM : Line -> FSM -> FSM
+addLineToFSM line (FSM state_ blocks_ register) =
     case state_ of
         Start ->
             FSM state_ blocks_ register
@@ -643,15 +656,15 @@ addLineToFSM str (FSM state_ blocks_ register) =
         InBlock _ ->
             case List.head register.blockStack of
                 Nothing ->
-                    FSM (addLineToState str state_) blocks_ register
+                    FSM (addLineToState line state_) blocks_ register
 
                 Just block ->
                     --xxx
-                    FSM (addLineToState str state_) (block :: blocks_) { register | blockStack = List.drop 1 register.blockStack }
+                    FSM (addLineToState line state_) (block :: blocks_) { register | blockStack = List.drop 1 register.blockStack }
 
 
-addLineToState : String -> State -> State
-addLineToState str state_ =
+addLineToState : Line -> State -> State
+addLineToState line state_ =
     case state_ of
         Start ->
             Start
@@ -660,12 +673,12 @@ addLineToState str state_ =
             Error
 
         InBlock block_ ->
-            InBlock (addLineToBlock str block_)
+            InBlock (addLineToBlock line block_)
 
 
-addLineToBlock : String -> Block -> Block
-addLineToBlock str (Block blockType_ level_ content_) =
-    Block blockType_ level_ (content_ ++ str)
+addLineToBlock : Line -> Block -> Block
+addLineToBlock line (Block blockType_ level_ content_) =
+    Block blockType_ level_ (content_ ++ line)
 
 
 
@@ -722,7 +735,7 @@ blockListOfFSM (FSM _ blockList_ _) =
     blockList_
 
 
-splitIntoLines : String -> List String
+splitIntoLines : String -> List Line
 splitIntoLines str =
     str
         |> String.lines

@@ -124,14 +124,38 @@ runFSM option str =
     List.foldl folder initialFSM (splitIntoLines str)
 ```
 
-where `Document` is a type alias for `String`For the definition of `nextState`, see the code.  While the definition is rather elaborate, we can describe the rough idea here.  
+where `Document` is a type alias for `String`For the definition of `nextState`, see the code.  While the definition is rather elaborate, we can describe the rough idea here. 
 
-### 1.2.2 The Register 
+### 1.2.2 The nextState function 
+
+The `nextState` 
+function examines the line to see whether it begins a new block.  This would happen, for example, if the leading non-blank character, in which case this is the first line of a quotation block.
+
+```
+nextState : Option -> Line -> FSM -> FSM
+nextState option str ((FSM state blocks register) as fsm) =
+    let
+        fsm_ =
+            handleRegister fsm
+    in
+    case stateOfFSM fsm of
+        Start ->
+            nextStateS option str fsm_
+
+        InBlock _ ->
+            nextStateIB option str fsm_
+
+        Error ->
+            fsm_
+
+```
+
+### 1.2.3 The Register 
 
 The `Register` is a record which accumulates information needed 
 properly define the 
 
-### 1.2.3 Hierarchical lists
+### 1.2.4 Hierarchical lists
 
 Suppose given a value of type `List a`.  That list is *hierarchical* if there is a function `level: a -> Int` which assigns a non-negative integer to values of type `a`.  It is *well-formed* if 
 
@@ -167,7 +191,7 @@ Another example is
 
 The level function is `Tuple.first`, so this also a hierarchical list.
 
-### 1.2.4 Rose trees from hierarchical lists
+### 1.2.5 Rose trees from hierarchical lists
 
 A rose tree is a tree where the nodes carry a label of type `a` and where a node may have an arbitrary and variable number of children. 
 From a hierarchical list, one can deduce a rose tree.  For example, the outline above defines the tree
