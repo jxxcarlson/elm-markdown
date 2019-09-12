@@ -96,7 +96,7 @@ The finite state machine is defined by
 
 
     type FSM
-        = FSM State (List Block)
+        = FSM State (List Block) Register
 
 where there are just three states:
 
@@ -108,13 +108,13 @@ where there are just three states:
 The transition function for the machine is
 
 ```
-nextState : Option -> String -> FSM -> FSM
+nextState : Option -> Line -> FSM -> FSM
 ```
 
-One uses it in conjunction with a fold to "run" the machine:
+where `Line` is a type alias for `String`. One uses it in conjunction with a fold to "run" the machine:
 
 ```
-runFSM : Option -> String -> FSM
+runFSM : Option -> Document -> FSM
 runFSM option str =
     let
         folder : String -> FSM -> FSM
@@ -124,8 +124,83 @@ runFSM option str =
     List.foldl folder initialFSM (splitIntoLines str)
 ```
 
+where `Document` is a type alias for `String`For the definition of `nextState`, see the code.  While the definition is rather elaborate, we can describe the rough idea here.  
 
+### 1.2.2 The Register 
 
+The `Register` is a record which accumulates information needed 
+properly define the 
+
+### 1.2.3 Hierarchical lists
+
+Suppose given a value of type `List a`.  That list is *hierarchical* if there is a function `level: a -> Int` which assigns a non-negative integer to values of type `a`.  It is *well-formed* if 
+
+- the first element of the list is the unique element of level zero
+- if `x` and `y` are successive elements of the list, then either 
+    - `level y = level + 1`
+    - `level y <= level x`
+
+An example of a well-formed hierarchical list is given by an *outline*, where the level of an entry is the number of leading spaces divided by three (integer division).  Consider the outline:
+ 
+```
+Errands
+   Groceries
+      Eggs
+      Bacon
+      Bread
+    Drycleaning
+    Taekwondo
+```
+
+The corresponding hierarchical list is
+
+```
+["Errands", "   Groceries", "      Eggs", ... ]
+```
+
+Another example is
+
+```
+[(0, "Errands", (1, "Groceries"), (2, "Eggs"), (2, "Bacon"),
+ (2, "Bread"), (1, "Drycleaning"), (1, "Taekwondo")]
+```
+
+The level function is `Tuple.first`, so this also a hierarchical list.
+
+### 1.2.4 Rose trees from hierarchical lists
+
+A rose tree is a tree where the nodes carry a label of type `a` and where a node may have an arbitrary and variable number of children. 
+From a hierarchical list, one can deduce a rose tree.  For example, the outline above defines the tree
+
+```
+                       Errands
+                          |
+            ------------------------------
+            |             |              |
+        Groceries     Drycleaning     Taekwondo
+            |
+     --------------
+     |     |      |
+   Eggs  Bacon  Bread
+```
+
+This is a tree of type `Tree String` in the language of [zwilias/elm-rosetree](https://package.elm-lang.org/packages/zwilias/elm-rosetree/latest/).
+
+One can transform a hierarchial list to a rose tree using 
+the function 
+
+```
+HList.fromList : a -> (a -> Int) -> List a -> Tree a
+```
+
+in the library [jxxcarlson/htree](https://package.elm-lang.org/packages/jxxcarlson/htree/latest/HTree).  In the case at hand, the
+level function is given by
+
+```
+blockLevel : Block -> Level
+blockLevel (Block _ k _) =
+    k
+```
 
 ### Phase 2
 
