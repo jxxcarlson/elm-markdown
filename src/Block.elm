@@ -151,6 +151,7 @@ a three of Blocks in constructed using the level information.
 parseToBlockTree : Option -> String -> Tree Block
 parseToBlockTree option str =
     str
+        |> splitIntoLines
         |> runFSM option
         |> flush
         |> List.map (changeLevel 1)
@@ -272,14 +273,14 @@ Recall that
     -->   { itemIndex1 = 2, itemIndex2 = 0, itemIndex3 = 0, itemIndex4 = 0 }
 
 -}
-runFSM : Option -> String -> FSM
-runFSM option str =
+runFSM : Option -> List String -> FSM
+runFSM option lines =
     let
         folder : String -> FSM -> FSM
         folder =
             \line fsm -> nextState option line fsm
     in
-    List.foldl folder initialFSM (splitIntoLines str)
+    List.foldl folder initialFSM lines
 
 
 
