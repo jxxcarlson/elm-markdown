@@ -1,12 +1,12 @@
 module Block exposing
     ( BlockContent(..), MMBlock(..)
-    , parseToMMBlockTree
+    , parseToMMBlockTree, runFSM
     )
 
 {-| A markdown document is parsed into a tree
 of Blocks using
 
-    parseToTree : String -> Tree Block
+    parseToBlockTree : String -> Tree Block
 
 This function applies
 
