@@ -7,12 +7,12 @@ options defined in the `Option` module.
 
 -}
 
-import Parse exposing (BlockContent(..), MBlock(..))
+import Parse exposing (BlockContent(..), MDBlock(..))
 import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
 import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
 import Json.Encode
-import MMInline exposing (MMInline(..))
+import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
 import Tree exposing (Tree)
 
@@ -24,21 +24,21 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
-    Parse.toMBlockTree option str |> mmBlockTreeToHtml
+    Parse.toMDBlockTree option str |> mmBlockTreeToHtml
 
 
-mmBlockTreeToHtml : Tree MBlock -> Html msg
+mmBlockTreeToHtml : Tree MDBlock -> Html msg
 mmBlockTreeToHtml tree =
     if Tree.children tree == [] then
         Html.span [ HA.class "no-children" ] [ renderBlock (Tree.label tree) ]
 
     else
         case Tree.label tree of
-            MBlock (MarkdownBlock TableRow) _ _ ->
+            MDBlock (MarkdownBlock TableRow) _ _ ->
                 Html.tr [ HA.class "mm-table-row" ]
                     (List.map mmBlockTreeToHtml (Tree.children tree))
 
-            MBlock (MarkdownBlock Table) _ _ ->
+            MDBlock (MarkdownBlock Table) _ _ ->
                 Html.table [ HA.class "mm-table" ]
                     (List.map mmBlockTreeToHtml (Tree.children tree))
 
@@ -49,40 +49,40 @@ mmBlockTreeToHtml tree =
                     ]
 
 
-renderBlock : MBlock -> Html msg
+renderBlock : MDBlock -> Html msg
 renderBlock block =
     case block of
-        MBlock (MarkdownBlock Root) _ _ ->
+        MDBlock (MarkdownBlock Root) _ _ ->
             Html.div [] []
 
-        MBlock (MarkdownBlock Plain) level blockContent ->
+        MDBlock (MarkdownBlock Plain) level blockContent ->
             renderBlockContent blockContent
 
-        MBlock (MarkdownBlock Blank) level blockContent ->
+        MDBlock (MarkdownBlock Blank) level blockContent ->
             renderBlockContent blockContent
 
-        MBlock (MarkdownBlock (Heading k)) level blockContent ->
+        MDBlock (MarkdownBlock (Heading k)) level blockContent ->
             renderHeading k blockContent
 
-        MBlock (MarkdownBlock Quotation) level blockContent ->
+        MDBlock (MarkdownBlock Quotation) level blockContent ->
             renderQuotation blockContent
 
-        MBlock (MarkdownBlock Poetry) level blockContent ->
+        MDBlock (MarkdownBlock Poetry) level blockContent ->
             renderPoetry blockContent
 
-        MBlock (MarkdownBlock UListItem) level blockContent ->
+        MDBlock (MarkdownBlock UListItem) level blockContent ->
             renderUListItem level blockContent
 
-        MBlock (MarkdownBlock (OListItem index)) level blockContent ->
+        MDBlock (MarkdownBlock (OListItem index)) level blockContent ->
             renderOListItem index level blockContent
 
-        MBlock (MarkdownBlock HorizontalRule) level blockContent ->
+        MDBlock (MarkdownBlock HorizontalRule) level blockContent ->
             Html.hr [ HA.class "mm-thematic-break" ] []
 
-        MBlock (MarkdownBlock BlockType.Image) level blockContent ->
+        MDBlock (MarkdownBlock BlockType.Image) level blockContent ->
             renderBlockContent blockContent
 
-        MBlock (BalancedBlock DisplayMath) level blockContent ->
+        MDBlock (BalancedBlock DisplayMath) level blockContent ->
             case blockContent of
                 T str ->
                     displayMathText str
@@ -90,7 +90,7 @@ renderBlock block =
                 _ ->
                     displayMathText ""
 
-        MBlock (BalancedBlock Verbatim) level blockContent ->
+        MDBlock (BalancedBlock Verbatim) level blockContent ->
             case blockContent of
                 T str ->
                     Html.pre [] [ Html.text str ]
@@ -98,7 +98,7 @@ renderBlock block =
                 _ ->
                     displayMathText ""
 
-        MBlock (BalancedBlock DisplayCode) level blockContent ->
+        MDBlock (BalancedBlock DisplayCode) level blockContent ->
             case blockContent of
                 T str ->
                     Html.pre [] [ Html.code [] [ Html.text str ] ]
@@ -106,17 +106,17 @@ renderBlock block =
                 _ ->
                     displayMathText ""
 
-        MBlock (MarkdownBlock TableCell) level blockContent ->
+        MDBlock (MarkdownBlock TableCell) level blockContent ->
             Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent blockContent ]
 
-        MBlock (MarkdownBlock TableRow) level blockContent ->
+        MDBlock (MarkdownBlock TableRow) level blockContent ->
             Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent blockContent ]
 
-        MBlock (MarkdownBlock Table) level blockContent ->
+        MDBlock (MarkdownBlock Table) level blockContent ->
             Html.table [ HA.class "mm-table" ] [ renderBlockContent blockContent ]
 
 
-unWrapParagraph : MMInline -> List MMInline
+unWrapParagraph : MDInline -> List MDInline
 unWrapParagraph mmInline =
     case mmInline of
         Paragraph element ->
@@ -157,7 +157,7 @@ renderUListItem k blockContent =
         [ renderBlockContent <| prependToParagraph (OrdinaryText label) blockContent ]
 
 
-prependToParagraph : MMInline -> BlockContent -> BlockContent
+prependToParagraph : MDInline -> BlockContent -> BlockContent
 prependToParagraph head tail =
     case tail of
         T _ ->
@@ -246,7 +246,7 @@ renderBlockContent blockContent =
             Html.div [] [ Html.text str ]
 
 
-renderToHtmlMsg : MMInline -> Html msg
+renderToHtmlMsg : MDInline -> Html msg
 renderToHtmlMsg mmInline =
     case mmInline of
         OrdinaryText str ->
@@ -273,7 +273,7 @@ renderToHtmlMsg mmInline =
         Link url label ->
             Html.a [ HA.href url ] [ Html.text label ]
 
-        MMInline.Image label url ->
+        MDInline.Image label url ->
             Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
 
         Line arg ->
@@ -301,10 +301,10 @@ renderStanza arg =
     Html.div [ HA.class "mm-poetry" ] (List.map poetryLine lines)
 
 
-joinLine : List MMInline -> List (Html msg)
+joinLine : List MDInline -> List (Html msg)
 joinLine items =
     let
-        folder : MMInline -> List (Html msg) -> List (Html msg)
+        folder : MDInline -> List (Html msg) -> List (Html msg)
         folder item acc =
             case item of
                 OrdinaryText str ->

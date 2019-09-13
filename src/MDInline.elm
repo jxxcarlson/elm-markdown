@@ -1,19 +1,21 @@
-module MMInline exposing (MMInline(..), parse, string)
+module MDInline exposing (MDInline(..), parse, string)
 
-{-| Module MMInline provides one type and two functions. The
-type is MMInline, which is the type of inline Markdown elements
+{-| Module MDInline provides one type and two functions. The
+type is MDInline, which is the type of inline Markdown elements
 such as italic and bold. The `parse` function parses a string
 into an MMinline value, a custom type with parts such as
 Paragraph, Line, Italic, Bold, Ordered and Unnumbered lists, etc.
 
-The MMInline.parse function is used in the second of the two
+The MDInline.parse function is used in the second of the two
 parsing operations. A string is first parsed into a hierarchical
 list -- a list of strings paired with an integer level.
 The hierarchical list is converted to tree. The parser in This
 module is mapped over the nodes of the tree to form a new tree.
 
-The MMInline.string function is used to give a string representation
+The MDInline.string function is used to give a string representation
 of the BlockMMTree values.
+
+@docs MDInline, parse, string
 
 -}
 
@@ -35,7 +37,8 @@ type Problem
     = Expecting String
 
 
-type MMInline
+{-| The type for inline Markdown elements -}
+type MDInline
     = OrdinaryText String
     | ItalicText String
     | BoldText String
@@ -45,13 +48,14 @@ type MMInline
     | BracketedText String
     | Link String String
     | Image String String
-    | Line (List MMInline)
-    | Paragraph (List MMInline)
+    | Line (List MDInline)
+    | Paragraph (List MDInline)
     | Stanza String
-    | Error (List MMInline)
+    | Error (List MDInline)
 
 
-string : MMInline -> String
+{-| String representation of an MDInline value -}
+string : MDInline -> String
 string mmInline =
     case mmInline of
         OrdinaryText str ->
@@ -94,7 +98,7 @@ string mmInline =
             "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
 
 
-render : MMInline -> String
+render : MDInline -> String
 render mmInline =
     case mmInline of
         OrdinaryText str ->
@@ -146,7 +150,8 @@ type alias PrefixedString =
     { prefix : String, text : String }
 
 
-parse : Option -> String -> MMInline
+{-| MDInline parser -}
+parse : Option -> String -> MDInline
 parse option str =
     str
         |> String.split "\n"
@@ -186,13 +191,13 @@ endsWithPunctuation str =
     List.member (String.right 1 str) [ "." ]
 
 
-parseLine : Option -> String -> MMInline
+parseLine : Option -> String -> MDInline
 parseLine option str =
     run (inlineList option) str
         |> resolveInlineResult
 
 
-inline : Option -> Parser MMInline
+inline : Option -> Parser MDInline
 inline option =
     case option of
         Standard ->
@@ -217,17 +222,17 @@ inline option =
 > Ok (OrdinaryText "hahaha")
 
 -}
-inlineExtendedMath : Parser MMInline
+inlineExtendedMath : Parser MDInline
 inlineExtendedMath =
     oneOf [ code, image, link, boldText, italicText, strikeThroughText, inlineMath, ordinaryTextExtendedMath ]
 
 
-inlineExtended : Parser MMInline
+inlineExtended : Parser MDInline
 inlineExtended =
     oneOf [ code, image, link, boldText, italicText, strikeThroughText, ordinaryTextExtended ]
 
 
-inlineStandard : Parser MMInline
+inlineStandard : Parser MDInline
 inlineStandard =
     oneOf [ code, image, link, boldText, italicText, ordinaryTextStandard ]
 
@@ -264,7 +269,7 @@ parseWhile accepting =
 > Ok (OrdinaryText "abc")
 
 -}
-ordinaryTextExtendedMath : Parser MMInline
+ordinaryTextExtendedMath : Parser MDInline
 ordinaryTextExtendedMath =
     (succeed ()
         |. chompIf (\c -> not <| List.member c [ '`', '~', '[', '$', '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
@@ -274,7 +279,7 @@ ordinaryTextExtendedMath =
         |> map OrdinaryText
 
 
-ordinaryTextExtended : Parser MMInline
+ordinaryTextExtended : Parser MDInline
 ordinaryTextExtended =
     (succeed ()
         |. chompIf (\c -> not <| List.member c [ '`', '~', '[', '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
@@ -284,7 +289,7 @@ ordinaryTextExtended =
         |> map OrdinaryText
 
 
-ordinaryTextStandard : Parser MMInline
+ordinaryTextStandard : Parser MDInline
 ordinaryTextStandard =
     (succeed ()
         |. chompIf (\c -> not <| List.member c [ '`', '[', '*', '\n' ]) (Expecting "expecting regular character to begin ordinary text line")
@@ -294,7 +299,7 @@ ordinaryTextStandard =
         |> map OrdinaryText
 
 
-image : Parser MMInline
+image : Parser MDInline
 image =
     (succeed PrefixedString
         |. symbol (Token "![" (Expecting "Expecting '![' to begin image block"))
@@ -314,7 +319,7 @@ image =
 > Ok (ItalicText "abc")
 
 -}
-link : Parser MMInline
+link : Parser MDInline
 link =
     (succeed PrefixedString
         |. symbol (Token "[" (Expecting "expecting '[' to begin link"))
@@ -326,7 +331,7 @@ link =
         |> map (\ps -> linkOrBracket ps)
 
 
-linkOrBracket : PrefixedString -> MMInline
+linkOrBracket : PrefixedString -> MDInline
 linkOrBracket ps =
     case ps.text of
         " " ->
@@ -353,7 +358,7 @@ terminateBracket =
         |> map (\_ -> " ")
 
 
-strikeThroughText : Parser MMInline
+strikeThroughText : Parser MDInline
 strikeThroughText =
     (succeed ()
         |. symbol (Token "~~" (Expecting "expecting '~~' to begin strikethrough"))
@@ -367,7 +372,7 @@ strikeThroughText =
         |> map StrikeThroughText
 
 
-boldText : Parser MMInline
+boldText : Parser MDInline
 boldText =
     (succeed ()
         |. symbol (Token "**" (Expecting "expecting '**' to begin bold text"))
@@ -381,7 +386,7 @@ boldText =
         |> map BoldText
 
 
-italicText : Parser MMInline
+italicText : Parser MDInline
 italicText =
     (succeed ()
         |. symbol (Token "*" (Expecting "Expecting '*' to begin italic text"))
@@ -401,7 +406,7 @@ italicText =
 > Ok (InlineMath ("a^5 = 3"))
 
 -}
-inlineMath : Parser MMInline
+inlineMath : Parser MDInline
 inlineMath =
     (succeed ()
         |. symbol (Token "$" (Expecting "Expecting '$' to begin inline math"))
@@ -416,7 +421,7 @@ inlineMath =
         |> map InlineMath
 
 
-code : Parser MMInline
+code : Parser MDInline
 code =
     (succeed ()
         |. symbol (Token "`" (Expecting "Expecting '``' to begin inline code"))
@@ -433,16 +438,16 @@ code =
 
 {-|
 
-    > MMInline.parse "*foo* hahaha: hohoho, $a^6 + 2$"
+    > MDInline.parse "*foo* hahaha: hohoho, $a^6 + 2$"
     MMInlineList [ItalicText ("foo "),OrdinaryText ("hahaha: hohoho, "),InlineMath ("a^6 + 2")]
 
 -}
-inlineList : Option -> Parser (List MMInline)
+inlineList : Option -> Parser (List MDInline)
 inlineList option =
     many (inline option)
 
 
-resolveInlineResult : Result (List (DeadEnd Context Problem)) (List MMInline) -> MMInline
+resolveInlineResult : Result (List (DeadEnd Context Problem)) (List MDInline) -> MDInline
 resolveInlineResult result =
     case result of
         Ok res_ ->
@@ -452,7 +457,7 @@ resolveInlineResult result =
             decodeInlineError list
 
 
-decodeInlineError : List (DeadEnd Context Problem) -> MMInline
+decodeInlineError : List (DeadEnd Context Problem) -> MDInline
 decodeInlineError errorList =
     let
         errorMessage =
@@ -481,7 +486,7 @@ displayDeadEnd deadend =
 --
 
 
-joinMMInlineLists : MMInline -> MMInline -> MMInline
+joinMMInlineLists : MDInline -> MDInline -> MDInline
 joinMMInlineLists a b =
     case ( a, b ) of
         ( Line aList, Line bList ) ->

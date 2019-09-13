@@ -111,7 +111,7 @@ wish to write your own renderer, you can produce the abstract syntax
 tree of a document by running 
 
 ```
-Parse.toMBlockTree : Option -> Document -> Tree MBlock
+Parse.toMDBlockTree : Option -> Document -> Tree MDBlock
 ```
 
 where `Document` is a type alias for `String`.  This is also

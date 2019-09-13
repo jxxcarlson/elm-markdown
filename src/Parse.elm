@@ -1,5 +1,5 @@
 module Parse exposing
-    ( toMBlockTree, BlockContent(..), MBlock(..) )
+    ( toMDBlockTree, BlockContent(..), MDBlock(..) )
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
@@ -8,13 +8,13 @@ to a rendering function.  The AST is a rose tree
 of `MBlock` -- short for "Markdown Blocks."
 
 
-@docs toMBlockTree,  MBlock, BlockContent
+@docs toMDBlockTree,  MDBlock, BlockContent
 
 -}
 
 import BlockType exposing (BalancedType(..), BlockType(..), Line, MarkdownType(..))
 import HTree
-import MMInline exposing (MMInline(..))
+import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
 import Tree exposing (Tree)
 
@@ -45,18 +45,18 @@ type alias for String,
 has been parsed into a BlockContent value
 by applying
 
-    MMInline.parse : Option -> String -> MMInline
+    MDInline.parse : Option -> String -> MDInline
 
 
 -}
-type MBlock
-    = MBlock BlockType Level BlockContent
+type MDBlock
+    = MDBlock BlockType Level BlockContent
 
 
 {-| The type of a parsed Block
 -}
 type BlockContent
-    = M MMInline
+    = M MDInline
     | T String
 
 
@@ -90,8 +90,12 @@ type State
     | Error
 
 
-{-| The registers collection information
-about the numbering of sections, subsections, etc.
+{-| The register collects information
+needed to number list items and (with
+blocStack and level) to parse tables.
+For functions that use the level field,
+search for functions which contain
+Register in their type signature.
 -}
 type alias Register =
     { itemIndex1 : Int
@@ -154,18 +158,18 @@ changeLevel k (Block bt_ level_ content_) =
 {-| Parse a string using a Markdown flavor option, returning the AST.
 Example:
 
-    parseToMMBlockTree Extended "This **is** a test."
-    --> Tree (MMBlock (MarkdownBlock Root) 0 (M (Paragraph [Line [OrdinaryText "DOCUMENT"]]))) [Tree (MMBlock (MarkdownBlock Plain) 1 (M (Paragraph [Line [OrdinaryText ("This "),BoldText ("is "),OrdinaryText ("a test.")],Line []]))) []]
+    parseToMDBlockTree Extended "This **is** a test."
+    --> Tree (MDBlock (MarkdownBlock Root) 0 (M (Paragraph [Line [OrdinaryText "DOCUMENT"]]))) [Tree (MDBlock (MarkdownBlock Plain) 1 (M (Paragraph [Line [OrdinaryText ("This "),BoldText ("is "),OrdinaryText ("a test.")],Line []]))) []]
 
 -}
-toMBlockTree : Option -> Document -> Tree MBlock
-toMBlockTree option document =
+toMDBlockTree : Option -> Document -> Tree MDBlock
+toMDBlockTree option document =
     document
         |> parseToBlockTree option
         |> Tree.map (selectMapper option)
 
 
-selectMapper : Option -> (Block -> MBlock)
+selectMapper : Option -> (Block -> MDBlock)
 selectMapper option ((Block bt level_ content_) as block) =
     case option of
         Standard ->
@@ -178,59 +182,59 @@ selectMapper option ((Block bt level_ content_) as block) =
             mapperExtendedMath option block
 
 
-mapperExtendedMath : Option -> Block -> MBlock
+mapperExtendedMath : Option -> Block -> MDBlock
 mapperExtendedMath option_ (Block bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
             case mt of
                 Poetry ->
-                    MBlock (MarkdownBlock mt) level_ (M (Stanza content_))
+                    MDBlock (MarkdownBlock mt) level_ (M (Stanza content_))
 
                 _ ->
-                    MBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+                    MDBlock (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MBlock (BalancedBlock DisplayCode) level_ (T content_)
+            MDBlock (BalancedBlock DisplayCode) level_ (T content_)
 
         BalancedBlock Verbatim ->
-            MBlock (BalancedBlock Verbatim) level_ (T content_)
+            MDBlock (BalancedBlock Verbatim) level_ (T content_)
 
         BalancedBlock DisplayMath ->
-            MBlock (BalancedBlock DisplayMath) level_ (T content_)
+            MDBlock (BalancedBlock DisplayMath) level_ (T content_)
 
 
-mapperExtended : Option -> Block -> MBlock
+mapperExtended : Option -> Block -> MDBlock
 mapperExtended option_ (Block bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
             case mt of
                 Poetry ->
-                    MBlock (MarkdownBlock mt) level_ (M (Stanza content_))
+                    MDBlock (MarkdownBlock mt) level_ (M (Stanza content_))
 
                 _ ->
-                    MBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+                    MDBlock (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MBlock (BalancedBlock DisplayCode) level_ (T content_)
+            MDBlock (BalancedBlock DisplayCode) level_ (T content_)
 
         BalancedBlock Verbatim ->
-            MBlock (BalancedBlock Verbatim) level_ (T content_)
+            MDBlock (BalancedBlock Verbatim) level_ (T content_)
 
         _ ->
-            MBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
+            MDBlock (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
 
 
-mapperStandard : Option -> Block -> MBlock
+mapperStandard : Option -> Block -> MDBlock
 mapperStandard option_ (Block bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
-            MBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+            MDBlock (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MBlock (BalancedBlock DisplayCode) level_ (T content_)
+            MDBlock (BalancedBlock DisplayCode) level_ (T content_)
 
         _ ->
-            MBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
+            MDBlock (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
 
 
 
@@ -274,20 +278,20 @@ runFSM option lines =
 
 
 nextState : Option -> Line -> FSM -> FSM
-nextState option line ((FSM state blocks register) as fsm) =
+nextState option line ((FSM state blocks register) as fsm_) =
     let
-        fsm_ =
-            handleRegister fsm
+        fsm =
+            handleRegister fsm_
     in
     case stateOfFSM fsm of
         Start ->
-            nextStateS option line fsm_
+            nextStateStart option line fsm
 
         InBlock _ ->
-            nextStateIB option line fsm_
+            nextStateInBlock option line fsm
 
         Error ->
-            fsm_
+            fsm
 
 
 handleRegister : FSM -> FSM
@@ -313,11 +317,13 @@ handleRegister ((FSM state blocks register) as fsm) =
                         rowBlock =
                             Block (MarkdownBlock TableRow) 1 "row"
 
+                        tableData : List Block
                         tableData =
                             List.reverse register.blockStack
                                 |> (\x -> x ++ [ rowBlock, tableBlock ])
                                 |> List.map editBlock
 
+                        newBlocks : List Block
                         newBlocks =
                             -- NOTE: the below is a very bad solution!!
                             List.filter (\(Block _ _ content) -> content /= "deleteMe") blocks
@@ -334,8 +340,8 @@ editBlock ((Block bt lev content) as block) =
         block
 
 
-nextStateS : Option -> Line -> FSM -> FSM
-nextStateS option line (FSM state blocks register) =
+nextStateStart : Option -> Line -> FSM -> FSM
+nextStateStart option line (FSM state blocks register) =
     case BlockType.get option line of
         ( _, Nothing ) ->
             FSM Error blocks register
@@ -370,8 +376,8 @@ newBlockTypeIsDifferent blockType state =
             False
 
 
-nextStateIB : Option -> Line -> FSM -> FSM
-nextStateIB option line ((FSM state_ blocks_ register) as fsm) =
+nextStateInBlock : Option -> Line -> FSM -> FSM
+nextStateInBlock option line ((FSM state_ blocks_ register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
             FSM Error (blockListOfFSM fsm) register
@@ -790,7 +796,7 @@ indent k str =
         |> String.join "\n"
 
 
-stringOfMMBlockTree : Tree MBlock -> String
+stringOfMMBlockTree : Tree MDBlock -> String
 stringOfMMBlockTree tree =
     tree
         |> Tree.flatten
@@ -798,8 +804,8 @@ stringOfMMBlockTree tree =
         |> String.join "\n"
 
 
-stringOfMMBlock : MBlock -> String
-stringOfMMBlock (MBlock bt lev_ content_) =
+stringOfMMBlock : MDBlock -> String
+stringOfMMBlock (MDBlock bt lev_ content_) =
     String.repeat (2 * lev_) " "
         ++ BlockType.stringOfBlockType bt
         ++ " ("
@@ -818,6 +824,6 @@ stringOfBlockContent blockContent =
             str
 
 
-stringOfMMInline : MMInline -> String
+stringOfMMInline : MDInline -> String
 stringOfMMInline mmInline =
-    MMInline.string mmInline
+    MDInline.string mmInline

@@ -67,18 +67,19 @@ type MarkdownType
 
 A Markdown document is transformed into a tree
 of Blocks using the code below, the key element of which
-is `runFSM option`, which runs a finite-state machine. The machine breaks the input string into lines, then consumes these one-by-one, building up a `List Block` value. The `flush` function extracts the proper `List Block` value from the machine, and the `changeLevel 1` function shifts the level of all blocks except the root block so that all blocks except the root block have positive level (the root block has level 0).  Finally, the last function converts the list of blocks into a tree of blocks.  That tree has the property that the depth of a block in the tree is the same as its level. 
+is `runFSM option`, which runs the lines of the input string through a finite-state machine. Processing the lines one at a time, the machine builds up a `List Block` value. The `flush` function extracts the `List Block` value from the machine. Every block has a *level* — an integer — which corresponds to the amount by which the text is indented. Applicaiton of `changeLevel 1` increments the level of all blocks except the root block.  Thus root block survives as the only block of level zero. The last function in the pipeline converts the list of blocks into a rose tree of blocks which has the property that the depth of a block in the tree is the same as its level. 
 
+    -- module Parse:
     
-    parseToBlockTree : Option -> String -> Tree Block
-    parseToBlockTree option str =
+    toBlockTree : Option -> String -> Tree Block
+    toBlockTree option str =
       str
         |> runFSM option
         |> flush
         |> List.map (changeLevel 1)
         |> HTree.fromList rootBlock blockLevel
 
-The first argument, `parseToBlockTree`, of type `Option`, determines which flavor of Markdown will be parsed:
+The first argument, of type `Option`, determines which flavor of Markdown will be parsed:
 
 ```
 type Option
@@ -124,12 +125,12 @@ runFSM option str =
     List.foldl folder initialFSM (splitIntoLines str)
 ```
 
-where `Document` is a type alias for `String`For the definition of `nextState`, see the code.  While the definition is rather elaborate, we can describe the rough idea here. 
+where `Document` is a type alias for `String`.
 
 ### 1.2.2 The nextState function 
 
 The `nextState` 
-function examines the line to see whether it begins a new block.  This would happen, for example, if the leading non-blank character, in which case this is the first line of a quotation block.
+function examines the input line to see whether it begins a new block.  This would happen, for example, if the leading non-blank character, in which case this is the first line of a quotation block.
 
 ```
 nextState : Option -> Line -> FSM -> FSM
@@ -140,10 +141,10 @@ nextState option str ((FSM state blocks register) as fsm) =
     in
     case stateOfFSM fsm of
         Start ->
-            nextStateS option str fsm_
+            nextStateStart option str fsm_
 
         InBlock _ ->
-            nextStateIB option str fsm_
+            nextStateInBlock option str fsm_
 
         Error ->
             fsm_
@@ -153,7 +154,18 @@ nextState option str ((FSM state blocks register) as fsm) =
 ### 1.2.3 The Register 
 
 The `Register` is a record which accumulates information needed 
-properly define the 
+automatically number lists and to parse tables.  To parse tables one uses the `blockStack` field.  
+
+```
+type alias Register =
+    { itemIndex1 : Int
+    , itemIndex2 : Int
+    , itemIndex3 : Int
+    , itemIndex4 : Int
+    , level : Int
+    , blockStack : List Block
+    }
+``` 
 
 ### 1.2.4 Hierarchical lists
 
