@@ -96,6 +96,28 @@ in poetry blocks.  Verbatim blocks are like code blocks,
 except that they are set off by four backticks instead of
 three.  No syntax coloring is applied to verbatim blocks.
 
+
+## AST
+
+The simplest way to render Markdown is to use a one of the built-in
+rendering functions, e.g., make the call
+
+```
+Markdown.Elm.toHtml Extended document
+```
+ 
+However, if you 
+wish to write your own renderer, you can produce the abstract syntax
+tree of a document by running 
+
+```
+Parse.toMBlockTree : Option -> Document -> Tree MBlock
+```
+
+where `Document` is a type alias for `String`.  This is also
+useful if you wish to transform the abstact syntax tree before 
+rendering it.
+
 ## Bugs and whatnot
 
 Please write me at jxxcarlson@gmail.com or post an

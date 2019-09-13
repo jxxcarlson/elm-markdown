@@ -7,9 +7,9 @@ into an MMinline value, a custom type with parts such as
 Paragraph, Line, Italic, Bold, Ordered and Unnumbered lists, etc.
 
 The MMInline.parse function is used in the second of the two
-parsing operationss. A string is first parserd into a hierachical
+parsing operations. A string is first parsed into a hierarchical
 list -- a list of strings paired with an integer level.
-The hierachical list is converted to tree. The parser in This
+The hierarchical list is converted to tree. The parser in This
 module is mapped over the nodes of the tree to form a new tree.
 
 The MMInline.string function is used to give a string representation

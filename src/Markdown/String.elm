@@ -1,6 +1,6 @@
 module Markdown.String exposing (toHtml)
 
-import Block exposing(MMBlock(..), BlockContent(..))
+import Parse exposing(MBlock(..), BlockContent(..))
 import BlockType exposing(BlockType(..), MarkdownType(..))
 import MMInline exposing(MMInline(..))
 import Tree exposing(Tree)
@@ -9,11 +9,11 @@ import Tree exposing(Tree)
 
 
 
-toHtml : Tree MMBlock -> String
+toHtml : Tree MBlock -> String
 toHtml tree =
     Tree.foldl (\block str -> renderBlock block ++ str) "" tree
 
-renderBlock : MMBlock -> String
+renderBlock : MBlock -> String
 renderBlock block =
     case block of
         (MMBlock (MarkdownBlock Plain) level blockContent) -> renderBlockContent blockContent

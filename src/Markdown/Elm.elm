@@ -7,7 +7,7 @@ options defined in the `Option` module.
 
 -}
 
-import Block exposing (BlockContent(..), MMBlock(..))
+import Parse exposing (BlockContent(..), MBlock(..))
 import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
 import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
@@ -24,16 +24,16 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
-    Block.parseToMMBlockTree option str |> mmBlockTreeToHtml3
+    Parse.toMBlockTree option str |> mmBlockTreeToHtml3
 
 
-mmBlockTreeToHtml : Tree MMBlock -> Html msg
+mmBlockTreeToHtml : Tree MBlock -> Html msg
 mmBlockTreeToHtml tree =
     Tree.foldl (\block elements -> renderBlock block :: elements) [] tree
         |> (\x -> Html.div [] (List.reverse x))
 
 
-mmBlockTreeToHtml2 : Tree MMBlock -> Html msg
+mmBlockTreeToHtml2 : Tree MBlock -> Html msg
 mmBlockTreeToHtml2 tree =
     if Tree.children tree == [] then
         Html.span [] [ renderBlock (Tree.label tree) ]
@@ -45,7 +45,7 @@ mmBlockTreeToHtml2 tree =
             ]
 
 
-mmBlockTreeToHtml3 : Tree MMBlock -> Html msg
+mmBlockTreeToHtml3 : Tree MBlock -> Html msg
 mmBlockTreeToHtml3 tree =
     if Tree.children tree == [] then
         Html.span [ HA.class "no-children" ] [ renderBlock (Tree.label tree) ]
@@ -67,7 +67,7 @@ mmBlockTreeToHtml3 tree =
                     ]
 
 
-renderBlock : MMBlock -> Html msg
+renderBlock : MBlock -> Html msg
 renderBlock block =
     case block of
         MMBlock (MarkdownBlock Root) _ _ ->

@@ -1,6 +1,6 @@
 module Main exposing (main)
 
-import Block
+import Parse
 import Browser
 import Html exposing (..)
 import Html.Attributes as HA exposing (style)

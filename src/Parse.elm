@@ -1,41 +1,41 @@
-module Block exposing
-    ( parseToMMBlockTree, BlockContent(..)
-    , MMBlock(..)
+module Parse exposing
+    ( toMBlockTree, BlockContent(..)
+    , MBlock(..)
     )
 
 {-| A markdown document is parsed into a tree
 of Blocks using
 
-    parseToBlockTree : String -> Tree Block
+    parseToBlockTree : String -> Tree Parse
 
 This function applies
 
-    parse : String -> List Block
+    parse : String -> List Parse
 
 and then the partially applied function
 
     HTree.fromList rootBlock blockLevel :
-       List Block -> Tree Block
+       List Parse -> Tree Parse
 
-This last step is possible because the elements of `List Block`
+This last step is possible because the elements of `List Parse`
 are annotated by their level. The `parse` function operated
 by running a finite-state machine. This machine has type
 
     type FSM
-        = FSM State (List Block)
+        = FSM State (List Parse)
 
 where the three possible states are defined by
 
     type State
         = Start
-        | InBlock Block
+        | InBlock Parse
         | Error
 
 If the FSM consumes all its input and no error
-is encountered, then the `(List Block)` component of the FSM contains
+is encountered, then the `(List Parse)` component of the FSM contains
 the result of parsing the input string into blocks.
 
-@docs parseToMMBlockTree, BlockContent, MMBlock)
+@docs toMBlockTree, BlockContent, MBlock)
 
 -}
 
@@ -50,10 +50,10 @@ import Tree exposing (Tree)
 -- TYPES --
 
 
-{-| A Block is defined as follows:
+{-| A Parse is defined as follows:
 
-    type Block
-        = Block BlockType Level Content
+    type Parse
+        = Parse BlockType Level Content
 
     type alias Level =
         Int
@@ -78,7 +78,7 @@ flavor of Markdown parsed: Standard,
 Extended, or ExtendedMath.
 
 -}
-type MMBlock
+type MBlock
     = MMBlock BlockType Level BlockContent
 
 
@@ -150,9 +150,9 @@ so that only the Root block has level 0. Finally,
 a three of Blocks in constructed using the level information.
 
     parseToTree  "- One\nsome stuff\n- Two\nMore stuff"
-    -->    Tree (Block (MarkdownBlock Plain) 0 "*") [
-    -->      Tree (Block (MarkdownBlock UListItem) 1 ("- One\nsome stuff\n")) []
-    -->      ,Tree (Block (MarkdownBlock UListItem) 1 ("- Two\nMore stuff\n")) []
+    -->    Tree (Parse (MarkdownBlock Plain) 0 "*") [
+    -->      Tree (Parse (MarkdownBlock UListItem) 1 ("- One\nsome stuff\n")) []
+    -->      ,Tree (Parse (MarkdownBlock UListItem) 1 ("- Two\nMore stuff\n")) []
     -->    ]
 
 -}
@@ -187,14 +187,14 @@ Example:
     --> Tree (MMBlock (MarkdownBlock Root) 0 (M (Paragraph [Line [OrdinaryText "DOCUMENT"]]))) [Tree (MMBlock (MarkdownBlock Plain) 1 (M (Paragraph [Line [OrdinaryText ("This "),BoldText ("is "),OrdinaryText ("a test.")],Line []]))) []]
 
 -}
-parseToMMBlockTree : Option -> Document -> Tree MMBlock
-parseToMMBlockTree option document =
+toMBlockTree : Option -> Document -> Tree MBlock
+toMBlockTree option document =
     document
         |> parseToBlockTree option
         |> Tree.map (selectMapper option)
 
 
-selectMapper : Option -> (Block -> MMBlock)
+selectMapper : Option -> (Block -> MBlock)
 selectMapper option ((Block bt level_ content_) as block) =
     case option of
         Standard ->
@@ -207,7 +207,7 @@ selectMapper option ((Block bt level_ content_) as block) =
             mapperExtendedMath option block
 
 
-mapperExtendedMath : Option -> Block -> MMBlock
+mapperExtendedMath : Option -> Block -> MBlock
 mapperExtendedMath option_ (Block bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
@@ -228,7 +228,7 @@ mapperExtendedMath option_ (Block bt level_ content_) =
             MMBlock (BalancedBlock DisplayMath) level_ (T content_)
 
 
-mapperExtended : Option -> Block -> MMBlock
+mapperExtended : Option -> Block -> MBlock
 mapperExtended option_ (Block bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
@@ -249,7 +249,7 @@ mapperExtended option_ (Block bt level_ content_) =
             MMBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
 
 
-mapperStandard : Option -> Block -> MMBlock
+mapperStandard : Option -> Block -> MBlock
 mapperStandard option_ (Block bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
@@ -272,18 +272,18 @@ mapperStandard option_ (Block bt level_ content_) =
 
 over the input, a list of strings, to run
 the finite-state-machine, thereby accumulating
-the parse result, a List Block.
+the parse result, a List Parse.
 
 Recall that
 
     type FSM
-      = FSM State (List Block) Register
+      = FSM State (List Parse) Register
 
     runFSM  Standard "1. A\nxx\n   6. u\nyy\n4.  B"
-    --> FSM (InBlock (Block (MarkdownBlock (OListItem 2)) 0 (" B\n")))
+    --> FSM (InBlock (Parse (MarkdownBlock (OListItem 2)) 0 (" B\n")))
     -->   [
-    -->       Block (MarkdownBlock (OListItem 1)) 1 "u\nyy\n"
-    -->     , Block (MarkdownBlock (OListItem 1)) 0 "A\nxx\n"
+    -->       Parse (MarkdownBlock (OListItem 1)) 1 "u\nyy\n"
+    -->     , Parse (MarkdownBlock (OListItem 1)) 0 "A\nxx\n"
     -->   ]
     -->   { itemIndex1 = 2, itemIndex2 = 0, itemIndex3 = 0, itemIndex4 = 0 }
 
@@ -819,7 +819,7 @@ indent k str =
         |> String.join "\n"
 
 
-stringOfMMBlockTree : Tree MMBlock -> String
+stringOfMMBlockTree : Tree MBlock -> String
 stringOfMMBlockTree tree =
     tree
         |> Tree.flatten
@@ -827,7 +827,7 @@ stringOfMMBlockTree tree =
         |> String.join "\n"
 
 
-stringOfMMBlock : MMBlock -> String
+stringOfMMBlock : MBlock -> String
 stringOfMMBlock (MMBlock bt lev_ content_) =
     String.repeat (2 * lev_) " "
         ++ BlockType.stringOfBlockType bt
