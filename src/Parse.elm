@@ -1,7 +1,5 @@
 module Parse exposing
-    ( toMBlockTree, BlockContent(..)
-    , MBlock(..)
-    )
+    ( toMBlockTree, BlockContent(..), MBlock(..) )
 
 {-| A markdown document is parsed into a tree
 of Blocks using

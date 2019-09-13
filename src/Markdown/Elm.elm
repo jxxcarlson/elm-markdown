@@ -24,29 +24,11 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
-    Parse.toMBlockTree option str |> mmBlockTreeToHtml3
+    Parse.toMBlockTree option str |> mmBlockTreeToHtml
 
 
 mmBlockTreeToHtml : Tree MBlock -> Html msg
 mmBlockTreeToHtml tree =
-    Tree.foldl (\block elements -> renderBlock block :: elements) [] tree
-        |> (\x -> Html.div [] (List.reverse x))
-
-
-mmBlockTreeToHtml2 : Tree MBlock -> Html msg
-mmBlockTreeToHtml2 tree =
-    if Tree.children tree == [] then
-        Html.span [] [ renderBlock (Tree.label tree) ]
-
-    else
-        Html.div []
-            [ renderBlock (Tree.label tree)
-            , Html.div [] (List.map mmBlockTreeToHtml2 (Tree.children tree))
-            ]
-
-
-mmBlockTreeToHtml3 : Tree MBlock -> Html msg
-mmBlockTreeToHtml3 tree =
     if Tree.children tree == [] then
         Html.span [ HA.class "no-children" ] [ renderBlock (Tree.label tree) ]
 
@@ -54,16 +36,16 @@ mmBlockTreeToHtml3 tree =
         case Tree.label tree of
             MMBlock (MarkdownBlock TableRow) _ _ ->
                 Html.tr [ HA.class "mm-table-row" ]
-                    (List.map mmBlockTreeToHtml3 (Tree.children tree))
+                    (List.map mmBlockTreeToHtml (Tree.children tree))
 
             MMBlock (MarkdownBlock Table) _ _ ->
                 Html.table [ HA.class "mm-table" ]
-                    (List.map mmBlockTreeToHtml3 (Tree.children tree))
+                    (List.map mmBlockTreeToHtml (Tree.children tree))
 
             _ ->
                 Html.div []
                     [ renderBlock (Tree.label tree)
-                    , Html.div [] (List.map mmBlockTreeToHtml3 (Tree.children tree))
+                    , Html.div [] (List.map mmBlockTreeToHtml (Tree.children tree))
                     ]
 
 
