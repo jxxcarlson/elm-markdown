@@ -71,18 +71,36 @@ you must have the files
 
 ```
 math-text.js
-mathjax-setup.js
 ```
 
 in the same directory as `index.html`, and `index.html` must
 contain the three lines below at the end of the `<head>` section:
 
 ```
+<!-- Set up MathJax -->
+<script type="text/x-mathjax-config">
+   // Same as kokoc3
+    MathJax.Hub.Config(
+        { tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
+            processEscapes: true,
+            messageStyle: "none",
+            processSectionDelay: 0,
+            processUpdateTime: 0,
+            "fast-preview": {disabled: true},
+            TeX: { equationNumbers: {autoNumber: "AMS"},
+                   noErrors: {disabled: true},
+                   extensions: ["mhchem.js"]
+                  }
+        }
+    );
+</script>
 <script src="math-text.js"></script>
-<script src="mathjax-setup.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
 ```
+
+The MathJax setup will be substantially simplified once we
+make the transition to MathJax 3.0, which will in addition perform 
+much faster.
 
 ## Markdown extensions
 
