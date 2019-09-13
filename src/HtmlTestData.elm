@@ -39,24 +39,39 @@ basic = [
         section = "Text"
       }
 
+  , {
+        markdown = "This **is** a test",
+        html = "",
+        example = 2,
+        section = "Text+inline"
+      }
+
+  , {
+        markdown = "This **is** a test\nAnd so *is* this",
+        html = "",
+        example = 3,
+        section = "Text+inline"
+      }
+
+
    , {
         markdown = "$a^2 + b^2 + c^2$",
         html = "",
-        example = 2,
+        example = 4,
         section = "Inline math"
       }
 
   , {
         markdown = "$$a^2 + b^2 + c^2$$",
         html = "",
-        example = 3,
+        example =5,
         section = "Inline math"
       }
 
   , {
      markdown = "# foo\n",
      html = "<h3>foo</h3>\n",
-     example = 4,
+     example = 6,
      section = "ATX headings"
      }
   ]
