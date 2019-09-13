@@ -282,6 +282,8 @@ nextState option line ((FSM state blocks register) as fsm_) =
     let
         fsm =
             handleRegister fsm_
+
+        _ = Debug.log "Line" line
     in
     case stateOfFSM fsm of
         Start ->
@@ -341,7 +343,7 @@ editBlock ((Block bt lev content) as block) =
 
 
 nextStateStart : Option -> Line -> FSM -> FSM
-nextStateStart option line (FSM state blocks register) =
+nextStateStart option line ((FSM state blocks register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
             FSM Error blocks register
@@ -354,6 +356,8 @@ nextStateStart option line (FSM state blocks register) =
 
                 newLine =
                     removePrefix blockType line
+
+                _ = Debug.log "nextStateStart, line" line
             in
             if
                 newBlockType
@@ -362,8 +366,11 @@ nextStateStart option line (FSM state blocks register) =
             then
                 handleTableStart blockType level line state blocks register
 
-            else
+            else if lineIsNotBlank line then
                 FSM (InBlock (Block newBlockType level newLine)) blocks newRegister
+
+            else
+              fsm
 
 
 newBlockTypeIsDifferent : BlockType -> State -> Bool
@@ -412,6 +419,7 @@ processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks regist
             else if
                 (blockTypeOfLine == MarkdownBlock Plain)
                     && (typeOfCurrentBlock /= MarkdownBlock TableRow)
+                    && lineIsNotBlank line
             then
                 -- continue, add content to current block
                 addLineToFSM line fsm
@@ -425,6 +433,10 @@ processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks regist
         _ ->
             fsm
 
+
+lineIsNotBlank : Line -> Bool
+lineIsNotBlank line =
+    String.trim line /= ""
 
 handleTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
 handleTableRow blockTypeOfLine level line state blocks register =
