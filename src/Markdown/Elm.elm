@@ -22,15 +22,18 @@ import Tree exposing (Tree)
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Option -> String -> Html msg
 toHtml option str =
-    Parse.toMDBlockTree option str |> mmBlockTreeToHtml
+    Parse.toMDBlockTree option str
+      |> Tree.children
+      |> List.map mmBlockTreeToHtml
+      |> (\x -> Html.div [] x)
 
 
 mmBlockTreeToHtml : Tree MDBlock -> Html msg
 mmBlockTreeToHtml tree =
     if Tree.children tree == [] then
-        Html.span [ HA.class "no-children" ] [ renderBlock (Tree.label tree) ]
+        -- Html.span [ HA.class "no-children" ] [ renderBlock (Tree.label tree) ]
+        renderBlock (Tree.label tree)
 
     else
         case Tree.label tree of
@@ -427,3 +430,4 @@ romanNumeral k =
             ]
     in
     List.drop (k - 1) alpha |> List.head |> Maybe.withDefault "zz"
+
