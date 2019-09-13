@@ -131,8 +131,8 @@ a three of Blocks in constructed using the level information.
     -->    ]
 
 -}
-parseToBlockTree : Option -> Document -> Tree Block
-parseToBlockTree option document =
+toBlockTree : Option -> Document -> Tree Block
+toBlockTree option document =
     document
         |> splitIntoLines
         |> runFSM option
@@ -165,7 +165,7 @@ Example:
 toMDBlockTree : Option -> Document -> Tree MDBlock
 toMDBlockTree option document =
     document
-        |> parseToBlockTree option
+        |> toBlockTree option
         |> Tree.map (selectMapper option)
 
 
