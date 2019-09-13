@@ -2,7 +2,8 @@
     "type": "application",
     "source-directories": [
         "../src",
-        "."
+        ".",
+        "../tests"
     ],
     "elm-version": "0.19.0",
     "dependencies": {
@@ -14,9 +15,14 @@
             "elm/parser": "1.1.0",
             "elm/random": "1.0.0",
             "jxxcarlson/htree": "2.0.1",
+            "zwilias/elm-html-string": "2.0.2",
             "zwilias/elm-rosetree": "1.4.0"
         },
         "indirect": {
+            "NoRedInk/elm-string-conversions": "1.0.1",
+            "elm/bytes": "1.0.8",
+            "elm/file": "1.0.5",
+            "elm/http": "2.0.0",
             "elm/time": "1.0.0",
             "elm/url": "1.0.0",
             "elm/virtual-dom": "1.0.2"

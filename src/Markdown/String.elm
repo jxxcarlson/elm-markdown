@@ -23,9 +23,13 @@ import Tree exposing (Tree)
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Option -> String -> Html msg
+-- åtoHtml : Option -> String -> Html msg
+
 toHtml option str =
-    Parse.toMDBlockTree option str |> mmBlockTreeToHtml
+    Parse.toMDBlockTree option str
+      |> Tree.children
+      |> List.map mmBlockTreeToHtml
+      |> (\x -> Html.div [] x)
 
 
 mmBlockTreeToHtml : Tree MDBlock -> Html msg
