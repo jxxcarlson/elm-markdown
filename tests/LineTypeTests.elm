@@ -1,10 +1,8 @@
 module LineTypeTests exposing (..)
 
 import Expect exposing (Expectation)
-import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
 import BlockType exposing(..)
-import Parser.Advanced exposing(run)
 import Markdown.Option exposing(..)
 
 

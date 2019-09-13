@@ -3,7 +3,6 @@ class ColoredText extends HTMLElement {
     constructor () {
         super()
         console.log("COLORED:innerHTML: " + this.innerHTML)
-        const color = this.getAttribute('color')
         const shadowDOM = this.attachShadow({ mode: 'open' })
         const text = document.createElement('p')
         text.innerHTML = this.innerHTML
