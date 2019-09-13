@@ -5,6 +5,12 @@ import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
 import BlockType exposing(..)
 import Parser.Advanced exposing(run)
+import Markdown.Option exposing(..)
+
+
+parseLine : Line -> Maybe BlockType
+parseLine line =
+     BlockType.get ExtendedMath line |> Tuple.second 
 
 suite : Test
 suite =
@@ -19,46 +25,46 @@ lineTypeTests =
     describe "BlockType.parse"
         [ test "code block" <|
                 \_ ->
-                 "```foo" |> run parse |>  Expect.equal (Ok (BalancedBlock DisplayCode))
+                 "```foo" |> parseLine |>  Expect.equal (Just (BalancedBlock DisplayCode))
 
           , test "verbatim block" <|
                 \_ ->
-                 "````foo" |> run parse |>  Expect.equal (Ok (BalancedBlock Verbatim))
+                 "````foo" |> parseLine |>  Expect.equal (Just (BalancedBlock Verbatim))
 
           , test "display math block" <|
                   \_ ->
-                       "$$\n" |> run parse |>  Expect.equal (Ok (BalancedBlock DisplayMath))
+                       "$$\n" |> parseLine |>  Expect.equal (Just (BalancedBlock DisplayMath))
 
          , test "image block" <|
                   \_ ->
-                       "![yada]" |> run parse |>  Expect.equal (Ok (MarkdownBlock Image))
+                       "![yada]" |> parseLine |>  Expect.equal (Just (MarkdownBlock Image))
 
         , test "unordered list item" <|
                   \_ ->
-                       "- One" |> run parse |>  Expect.equal (Ok (MarkdownBlock UListItem))
+                       "- One" |> parseLine |>  Expect.equal (Just (MarkdownBlock UListItem))
 
         , test "ordered list item" <|
                           \_ ->
-                               "2. foo" |> run parse |>  Expect.equal (Ok (MarkdownBlock OListItem))
+                               "2. foo" |> parseLine |>  Expect.equal (Just (MarkdownBlock (OListItem 0)))
 
         , test "quotation" <|
                           \_ ->
-                               "> foo" |> run parse |>  Expect.equal (Ok (MarkdownBlock Quotation))
+                               "> foo" |> parseLine |>  Expect.equal (Just (MarkdownBlock Quotation))
 
         , test "poetry" <|
-                          \_ -> ">> Twas the night ..." |> run parse |>  Expect.equal (Ok (MarkdownBlock Poetry))
+                          \_ -> ">> Twas the night ..." |> parseLine |>  Expect.equal (Just (MarkdownBlock Poetry))
 
         , test "Heading level 1" <|
                           \_ ->
-                               "# Introduction" |> run parse |>  Expect.equal (Ok (MarkdownBlock (Heading 1)))
+                               "# Introduction" |> parseLine |>  Expect.equal (Just (MarkdownBlock (Heading 1)))
 
        , test "Heading level 2" <|
                           \_ ->
-                               "## Insects" |> run parse |>  Expect.equal (Ok (MarkdownBlock (Heading 2)))
+                               "## Insects" |> parseLine |>  Expect.equal (Just (MarkdownBlock (Heading 2)))
 
       , test "Thematic break" <|
                           \_ ->
-                               "___" |> run parse |>  Expect.equal (Ok (MarkdownBlock HorizontalRule))
+                               "___" |> parseLine |>  Expect.equal (Just (MarkdownBlock HorizontalRule))
 
 
         ]

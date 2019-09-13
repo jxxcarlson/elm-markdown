@@ -1,5 +1,5 @@
 module Parse exposing
-    ( toMDBlockTree, BlockContent(..), MDBlock(..) )
+    ( toMDBlockTree, BlockContent(..), MDBlock(..), stringOfMDBlockTree )
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
@@ -8,7 +8,7 @@ to a rendering function.  The AST is a rose tree
 of `MBlock` -- short for "Markdown Blocks."
 
 
-@docs toMDBlockTree,  MDBlock, BlockContent
+@docs toMDBlockTree,  MDBlock, BlockContent, stringOfMDBlockTree
 
 -}
 
@@ -796,16 +796,19 @@ indent k str =
         |> String.join "\n"
 
 
-stringOfMMBlockTree : Tree MDBlock -> String
-stringOfMMBlockTree tree =
+{-| A string representation of an MDBlockTree.  Useful
+for verifying the validity of the AST.
+-}
+stringOfMDBlockTree : Tree MDBlock -> String
+stringOfMDBlockTree tree =
     tree
         |> Tree.flatten
-        |> List.map stringOfMMBlock
+        |> List.map stringOfMDBlock
         |> String.join "\n"
 
 
-stringOfMMBlock : MDBlock -> String
-stringOfMMBlock (MDBlock bt lev_ content_) =
+stringOfMDBlock : MDBlock -> String
+stringOfMDBlock (MDBlock bt lev_ content_) =
     String.repeat (2 * lev_) " "
         ++ BlockType.stringOfBlockType bt
         ++ " ("
