@@ -1,39 +1,14 @@
 module Parse exposing
     ( toMBlockTree, BlockContent(..), MBlock(..) )
 
-{-| A markdown document is parsed into a tree
-of Blocks using
+{-| The purpose of this module is to parse a Document,
+that is, a string, into an abstract syntax tree (AST)
+which can then be further transformed or passed on
+to a rendering function.  The AST is a rose tree
+of `MBlock` -- short for "Markdown Blocks."
 
-    parseToBlockTree : String -> Tree Parse
 
-This function applies
-
-    parse : String -> List Parse
-
-and then the partially applied function
-
-    HTree.fromList rootBlock blockLevel :
-       List Parse -> Tree Parse
-
-This last step is possible because the elements of `List Parse`
-are annotated by their level. The `parse` function operated
-by running a finite-state machine. This machine has type
-
-    type FSM
-        = FSM State (List Parse)
-
-where the three possible states are defined by
-
-    type State
-        = Start
-        | InBlock Parse
-        | Error
-
-If the FSM consumes all its input and no error
-is encountered, then the `(List Parse)` component of the FSM contains
-the result of parsing the input string into blocks.
-
-@docs toMBlockTree, BlockContent, MBlock)
+@docs toMBlockTree,  MBlock, BlockContent
 
 -}
 
@@ -64,23 +39,21 @@ type Block
     = Block BlockType Level Content
 
 
-{-| An MMBloc differs from the a BLock
-in that the Content, which is a String,
-has been parsed into an MMInline value
+{-| An MBlock differs from the a Block
+in that the Content, which is a
+type alias for String,
+has been parsed into a BlockContent value
 by applying
 
     MMInline.parse : Option -> String -> MMInline
 
-Throughout an Option value determines the
-flavor of Markdown parsed: Standard,
-Extended, or ExtendedMath.
 
 -}
 type MBlock
-    = MMBlock BlockType Level BlockContent
+    = MBlock BlockType Level BlockContent
 
 
-{-| The type of parsed MMarkdown
+{-| The type of a parsed Block
 -}
 type BlockContent
     = M MMInline
@@ -211,19 +184,19 @@ mapperExtendedMath option_ (Block bt level_ content_) =
         MarkdownBlock mt ->
             case mt of
                 Poetry ->
-                    MMBlock (MarkdownBlock mt) level_ (M (Stanza content_))
+                    MBlock (MarkdownBlock mt) level_ (M (Stanza content_))
 
                 _ ->
-                    MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+                    MBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+            MBlock (BalancedBlock DisplayCode) level_ (T content_)
 
         BalancedBlock Verbatim ->
-            MMBlock (BalancedBlock Verbatim) level_ (T content_)
+            MBlock (BalancedBlock Verbatim) level_ (T content_)
 
         BalancedBlock DisplayMath ->
-            MMBlock (BalancedBlock DisplayMath) level_ (T content_)
+            MBlock (BalancedBlock DisplayMath) level_ (T content_)
 
 
 mapperExtended : Option -> Block -> MBlock
@@ -232,32 +205,32 @@ mapperExtended option_ (Block bt level_ content_) =
         MarkdownBlock mt ->
             case mt of
                 Poetry ->
-                    MMBlock (MarkdownBlock mt) level_ (M (Stanza content_))
+                    MBlock (MarkdownBlock mt) level_ (M (Stanza content_))
 
                 _ ->
-                    MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+                    MBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+            MBlock (BalancedBlock DisplayCode) level_ (T content_)
 
         BalancedBlock Verbatim ->
-            MMBlock (BalancedBlock Verbatim) level_ (T content_)
+            MBlock (BalancedBlock Verbatim) level_ (T content_)
 
         _ ->
-            MMBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
+            MBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
 
 
 mapperStandard : Option -> Block -> MBlock
 mapperStandard option_ (Block bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
-            MMBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
+            MBlock (MarkdownBlock mt) level_ (M (MMInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MMBlock (BalancedBlock DisplayCode) level_ (T content_)
+            MBlock (BalancedBlock DisplayCode) level_ (T content_)
 
         _ ->
-            MMBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
+            MBlock (MarkdownBlock Plain) level_ (M (MMInline.parse option_ content_))
 
 
 
@@ -826,7 +799,7 @@ stringOfMMBlockTree tree =
 
 
 stringOfMMBlock : MBlock -> String
-stringOfMMBlock (MMBlock bt lev_ content_) =
+stringOfMMBlock (MBlock bt lev_ content_) =
     String.repeat (2 * lev_) " "
         ++ BlockType.stringOfBlockType bt
         ++ " ("

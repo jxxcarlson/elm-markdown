@@ -34,11 +34,11 @@ mmBlockTreeToHtml tree =
 
     else
         case Tree.label tree of
-            MMBlock (MarkdownBlock TableRow) _ _ ->
+            MBlock (MarkdownBlock TableRow) _ _ ->
                 Html.tr [ HA.class "mm-table-row" ]
                     (List.map mmBlockTreeToHtml (Tree.children tree))
 
-            MMBlock (MarkdownBlock Table) _ _ ->
+            MBlock (MarkdownBlock Table) _ _ ->
                 Html.table [ HA.class "mm-table" ]
                     (List.map mmBlockTreeToHtml (Tree.children tree))
 
@@ -52,37 +52,37 @@ mmBlockTreeToHtml tree =
 renderBlock : MBlock -> Html msg
 renderBlock block =
     case block of
-        MMBlock (MarkdownBlock Root) _ _ ->
+        MBlock (MarkdownBlock Root) _ _ ->
             Html.div [] []
 
-        MMBlock (MarkdownBlock Plain) level blockContent ->
+        MBlock (MarkdownBlock Plain) level blockContent ->
             renderBlockContent blockContent
 
-        MMBlock (MarkdownBlock Blank) level blockContent ->
+        MBlock (MarkdownBlock Blank) level blockContent ->
             renderBlockContent blockContent
 
-        MMBlock (MarkdownBlock (Heading k)) level blockContent ->
+        MBlock (MarkdownBlock (Heading k)) level blockContent ->
             renderHeading k blockContent
 
-        MMBlock (MarkdownBlock Quotation) level blockContent ->
+        MBlock (MarkdownBlock Quotation) level blockContent ->
             renderQuotation blockContent
 
-        MMBlock (MarkdownBlock Poetry) level blockContent ->
+        MBlock (MarkdownBlock Poetry) level blockContent ->
             renderPoetry blockContent
 
-        MMBlock (MarkdownBlock UListItem) level blockContent ->
+        MBlock (MarkdownBlock UListItem) level blockContent ->
             renderUListItem level blockContent
 
-        MMBlock (MarkdownBlock (OListItem index)) level blockContent ->
+        MBlock (MarkdownBlock (OListItem index)) level blockContent ->
             renderOListItem index level blockContent
 
-        MMBlock (MarkdownBlock HorizontalRule) level blockContent ->
+        MBlock (MarkdownBlock HorizontalRule) level blockContent ->
             Html.hr [ HA.class "mm-thematic-break" ] []
 
-        MMBlock (MarkdownBlock BlockType.Image) level blockContent ->
+        MBlock (MarkdownBlock BlockType.Image) level blockContent ->
             renderBlockContent blockContent
 
-        MMBlock (BalancedBlock DisplayMath) level blockContent ->
+        MBlock (BalancedBlock DisplayMath) level blockContent ->
             case blockContent of
                 T str ->
                     displayMathText str
@@ -90,7 +90,7 @@ renderBlock block =
                 _ ->
                     displayMathText ""
 
-        MMBlock (BalancedBlock Verbatim) level blockContent ->
+        MBlock (BalancedBlock Verbatim) level blockContent ->
             case blockContent of
                 T str ->
                     Html.pre [] [ Html.text str ]
@@ -98,7 +98,7 @@ renderBlock block =
                 _ ->
                     displayMathText ""
 
-        MMBlock (BalancedBlock DisplayCode) level blockContent ->
+        MBlock (BalancedBlock DisplayCode) level blockContent ->
             case blockContent of
                 T str ->
                     Html.pre [] [ Html.code [] [ Html.text str ] ]
@@ -106,13 +106,13 @@ renderBlock block =
                 _ ->
                     displayMathText ""
 
-        MMBlock (MarkdownBlock TableCell) level blockContent ->
+        MBlock (MarkdownBlock TableCell) level blockContent ->
             Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent blockContent ]
 
-        MMBlock (MarkdownBlock TableRow) level blockContent ->
+        MBlock (MarkdownBlock TableRow) level blockContent ->
             Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent blockContent ]
 
-        MMBlock (MarkdownBlock Table) level blockContent ->
+        MBlock (MarkdownBlock Table) level blockContent ->
             Html.table [ HA.class "mm-table" ] [ renderBlockContent blockContent ]
 
 
