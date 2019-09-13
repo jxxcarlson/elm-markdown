@@ -197,6 +197,9 @@ parseLine option str =
         |> resolveInlineResult
 
 
+{-| This is the dispatcher for the inline element parsers
+for the different flavors of Markdown.
+-}
 inline : Option -> Parser MDInline
 inline option =
     case option of
