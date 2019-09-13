@@ -12,7 +12,7 @@ import Tree exposing(Tree)
 getExample :  List SmallTestDatum -> Int -> SmallTestDatum
 getExample  testList index =
    testList
-      |> List.drop (index - 1)
+      |> List.drop index
       |> List.head
       |> Maybe.withDefault defaultSmallTestDatum
 
@@ -20,6 +20,9 @@ exampleText :  List SmallTestDatum -> Int -> String
 exampleText  testList index =
    getExample  testList index |> .markdown
 
+exampleCM :  List SmallTestDatum -> Int -> String
+exampleCM  testList index =
+   getExample  testList index |> .html
 
 exampleAST : List SmallTestDatum -> Int -> Tree Parse.MDBlock
 exampleAST testList index =

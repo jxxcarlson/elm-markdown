@@ -28,15 +28,35 @@ basic = [
     {
       markdown = "",
       html = "",
-      example = 1,
+      example = 0,
       section = "Empty"
       }
 
+   , {
+        markdown = "plain text",
+        html = "",
+        example = 1,
+        section = "Text"
+      }
+
+   , {
+        markdown = "$a^2 + b^2 + c^2$",
+        html = "",
+        example = 2,
+        section = "Inline math"
+      }
+
+  , {
+        markdown = "$$a^2 + b^2 + c^2$$",
+        html = "",
+        example = 3,
+        section = "Inline math"
+      }
 
   , {
      markdown = "# foo\n",
      html = "<h3>foo</h3>\n",
-     example = 2,
+     example = 4,
      section = "ATX headings"
      }
   ]
