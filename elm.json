@@ -6,7 +6,8 @@
     "version": "2.0.0",
     "exposed-modules": [
         "Markdown.Elm",
-        "Markdown.Option"
+        "Markdown.Option",
+        "Block"
     ],
     "elm-version": "0.19.0 <= v < 0.20.0",
     "dependencies": {

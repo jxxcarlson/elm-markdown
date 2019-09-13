@@ -1,6 +1,6 @@
 module Block exposing
-    ( BlockContent(..), MMBlock(..)
-    , parseToMMBlockTree, runFSM
+    ( parseToMMBlockTree, BlockContent(..)
+    , MMBlock(..)
     )
 
 {-| A markdown document is parsed into a tree
@@ -35,7 +35,7 @@ If the FSM consumes all its input and no error
 is encountered, then the `(List Block)` component of the FSM contains
 the result of parsing the input string into blocks.
 
-@docs BlockContent, MMBlock, parseToMMBlockTree)
+@docs parseToMMBlockTree, BlockContent, MMBlock)
 
 -}
 
@@ -180,6 +180,13 @@ changeLevel k (Block bt_ level_ content_) =
     Block bt_ (level_ + k) content_
 
 
+{-| Parse a string using a Markdown flavor option, returning the AST.
+Example:
+
+    parseToMMBlockTree Extended "This **is** a test."
+    --> Tree (MMBlock (MarkdownBlock Root) 0 (M (Paragraph [Line [OrdinaryText "DOCUMENT"]]))) [Tree (MMBlock (MarkdownBlock Plain) 1 (M (Paragraph [Line [OrdinaryText ("This "),BoldText ("is "),OrdinaryText ("a test.")],Line []]))) []]
+
+-}
 parseToMMBlockTree : Option -> Document -> Tree MMBlock
 parseToMMBlockTree option document =
     document
