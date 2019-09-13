@@ -283,7 +283,6 @@ nextState option line ((FSM state blocks register) as fsm_) =
         fsm =
             handleRegister fsm_
 
-        _ = Debug.log "Line" line
     in
     case stateOfFSM fsm of
         Start ->
@@ -357,7 +356,6 @@ nextStateStart option line ((FSM state blocks register) as fsm) =
                 newLine =
                     removePrefix blockType line
 
-                _ = Debug.log "nextStateStart, line" line
             in
             if
                 newBlockType
