@@ -204,7 +204,7 @@ headingBlock =
 
 
 
--- tableBlock : Parser BlockType
+-- tableBlock : Block BlockType
 -- tableBlock =
 --     (succeed identity
 --         |. spaces
