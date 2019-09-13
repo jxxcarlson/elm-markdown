@@ -35,7 +35,8 @@ toHtml option str =
 mmBlockTreeToHtml : Tree MDBlock -> Html msg
 mmBlockTreeToHtml tree =
     if Tree.children tree == [] then
-        Html.span [ HA.class "no-children" ] [ renderBlock (Tree.label tree) ]
+        -- Html.span [ HA.class "no-children" ] [ renderBlock (Tree.label tree) ]
+        renderBlock (Tree.label tree)
 
     else
         case Tree.label tree of
