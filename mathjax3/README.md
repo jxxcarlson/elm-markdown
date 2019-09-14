@@ -14,9 +14,12 @@
 
 - [Issue re custom element](https://github.com/mathjax/MathJax/issues/2162#issuecomment-506962519)
 
+- [My custom element issue](https://github.com/mathjax/MathJax/issues/2195
+)
 - [Mathjax 3 demos (repo)](https://github.com/mathjax/MathJax-demos-web)
 
 - [Medium article on custom elements](https://medium.com/recraftrelic/what-are-html-custom-elements-c6ffea9c4244)
+
 
 
 ## Markdown
