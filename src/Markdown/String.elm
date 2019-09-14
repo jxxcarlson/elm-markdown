@@ -305,24 +305,6 @@ renderStanza arg =
     Html.div [ HA.class "mm-poetry" ] (List.map poetryLine lines)
 
 
-joinLine1 : List MDInline -> List (Html msg)
-joinLine1 items =
-    let
-        folder : MDInline -> List (Html msg) -> List (Html msg)
-        folder item acc =
-            case item of
-                OrdinaryText str ->
-                    if isPunctuation (String.left 1 str) then
-                        renderToHtmlMsg item :: acc
-
-                    else
-                        Html.span [ style "margin-left" "5px" ] [ renderToHtmlMsg item ] :: acc
-
-                _ ->
-                    Html.span [ style "margin-left" "5px" ] [ renderToHtmlMsg item ] :: acc
-    in
-    List.foldl folder [] items |> List.reverse
-
 joinLine : List MDInline -> List (Html msg)
 joinLine items =
     let

@@ -22,7 +22,6 @@ import Tree exposing (Tree)
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Option -> String -> Html msg
 toHtml option str =
     Parse.toMDBlockTree option str
       |> Tree.children
@@ -305,23 +304,46 @@ renderStanza arg =
     Html.div [ HA.class "mm-poetry" ] (List.map poetryLine lines)
 
 
+
 joinLine : List MDInline -> List (Html msg)
 joinLine items =
     let
-        folder : MDInline -> List (Html msg) -> List (Html msg)
-        folder item acc =
+        folder : MDInline -> (List String, List (Html msg)) -> (List String, List (Html msg))
+        folder item (accString, accElement) =
             case item of
                 OrdinaryText str ->
-                    if isPunctuation (String.left 1 str) then
-                        renderToHtmlMsg item :: acc
-
-                    else
-                        Html.span [ style "margin-left" "5px" ] [ renderToHtmlMsg item ] :: acc
+                  let
+                      _ = Debug.log "OrdinaryText" str
+                  in
+                   (str::accString, accElement)
 
                 _ ->
-                    Html.span [ style "margin-left" "5px" ] [ renderToHtmlMsg item ] :: acc
+                  let
+                     _ = Debug.log "Element" item
+                  in
+                    if accString /= [] then
+                       let
+                          content = String.join "" accString
+                          span = Html.span [] [Html.text content]
+                       in
+                        ([], (renderToHtmlMsg item) :: span :: accElement)
+                     else
+                        ([], (renderToHtmlMsg item) :: accElement)
+
+        flush (accString, accElement) =
+            if accString /= [] then
+               let
+                 content = String.join "" accString
+                 span = Html.span [] [Html.text content]
+               in
+                 span :: accElement
+               else
+                 accElement
+
     in
-    List.foldl folder [] items |> List.reverse
+    List.foldl folder ([], []) items
+      |> flush
+      |> List.reverse
 
 
 isPunctuation : String -> Bool
@@ -431,4 +453,3 @@ romanNumeral k =
             ]
     in
     List.drop (k - 1) alpha |> List.head |> Maybe.withDefault "zz"
-

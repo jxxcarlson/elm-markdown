@@ -135,7 +135,7 @@ are separated by blank lines.
 
 ### Problem Set 19
 
-4. Show that $u(x,t) = f(x - ct)$ is a solution to the equation $\\partial u(x,t)/\\partial x + c^{-1} \\partial u(x,t)/\\partial = 0$.
+4. Show that $u(x,t) = f(x - ct)$ is a solution to the equation $\\partial u(x,t)/\\partial x + c^{-1} \\partial u(x,t)/\\partial t = 0$.
 
 3. State the wave equation and show that $u(x,t)$ as above is a solution to it.
 
