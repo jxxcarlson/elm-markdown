@@ -4,13 +4,15 @@ module Strings exposing (initialText, notes)
 initialText =
     """# A Pure Elm Markdown Parser
 
+## Introduction
+
 $$
 \\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
 $$
 
 The Markdown used here offers three options: *Standard*,
-*Extended* and *Extended-Math*. The Extended option offers strike-through
-text, verbatim blocks, poetry blocks, and tables.  The Extended-Math
+*Extended* and *ExtendedMath*. The Extended option offers strike-through
+text, verbatim blocks, poetry blocks, and tables.  The ExtendedMath
 option is, in addition, able to render
 formulas written in TeX/LaTeX.  Note that there is an automatically generated
 active table of contents.
