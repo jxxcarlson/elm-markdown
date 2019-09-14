@@ -1,5 +1,5 @@
 module Parse exposing
-    ( toMDBlockTree, BlockContent(..), MDBlock(..), stringOfMDBlockTree )
+    ( toMDBlockTree, BlockContent(..), MDBlock(..), stringOfMDBlockTree, isHeading )
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
@@ -39,6 +39,10 @@ type Block
     = Block BlockType Level Content
 
 
+typeOfBlock : Block -> BlockType
+typeOfBlock (Block bt _ _) =
+    bt
+
 {-| An MBlock differs from the a Block
 in that the Content, which is a
 type alias for String,
@@ -47,11 +51,20 @@ by applying
 
     MDInline.parse : Option -> String -> MDInline
 
-
 -}
 type MDBlock
     = MDBlock BlockType Level BlockContent
 
+
+typeOfMDBlock : MDBlock -> BlockType
+typeOfMDBlock (MDBlock bt _ _) =
+    bt
+
+isHeading : MDBlock -> Bool
+isHeading block =
+    case typeOfMDBlock block of
+        MarkdownBlock (Heading _) -> True
+        _ -> False
 
 {-| The type of a parsed Block
 -}
@@ -375,7 +388,7 @@ newBlockTypeIsDifferent : BlockType -> State -> Bool
 newBlockTypeIsDifferent blockType state =
     case state of
         InBlock currentBlock ->
-            type_ currentBlock /= blockType
+            typeOfBlock currentBlock /= blockType
 
         _ ->
             False
@@ -684,11 +697,6 @@ blockLevel (Block _ k _) =
     k
 
 
-type_ : Block -> BlockType
-type_ (Block bt _ _) =
-    bt
-
-
 typeOfState : State -> Maybe BlockType
 typeOfState s =
     case s of
@@ -696,7 +704,7 @@ typeOfState s =
             Nothing
 
         InBlock b ->
-            Just (type_ b)
+            Just (typeOfBlock b)
 
         Error ->
             Nothing

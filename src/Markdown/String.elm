@@ -53,6 +53,12 @@ mmBlockTreeToHtml tree =
                     ]
 
 
+tableOfContentsAsBlocks : Tree MDBlock -> List MDBlock
+tableOfContentsAsBlocks blockTree =
+    blockTree
+      |> Tree.flatten
+      |> List.filter Parse.isHeading
+
 renderBlock : MDBlock -> Html msg
 renderBlock block =
     case block of
