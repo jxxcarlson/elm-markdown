@@ -325,10 +325,10 @@ image =
 link : Parser MDInline
 link =
     (succeed PrefixedString
-        |. symbol (Token "[" (Expecting "expecting '[' to begin link"))
+        |. symbol (Token "[" (Expecting "expecting '[' to begin label"))
         |= parseWhile (\c -> c /= ']')
-        |. symbol (Token "]" (Expecting "expecting ']' to end first part of link"))
-        |= oneOf [ linkLabel, terminateBracket ]
+        |. symbol (Token "]" (Expecting "expecting ']' to end first part of label"))
+        |= oneOf [ linkUrl, terminateBracket ]
         |. spaces
     )
         |> map (\ps -> linkOrBracket ps)
@@ -344,12 +344,12 @@ linkOrBracket ps =
             Link ps.text ps.prefix
 
 
-linkLabel : Parser String
-linkLabel =
+linkUrl : Parser String
+linkUrl =
     succeed identity
-        |. symbol (Token "(" (Expecting "expecting '(' to begin link label"))
+        |. symbol (Token "(" (Expecting "expecting '(' to begin link url"))
         |= parseWhile (\c -> c /= ')')
-        |. symbol (Token ")" (Expecting "expecting ')' to end link label"))
+        |. symbol (Token ")" (Expecting "expecting ')' to end link url"))
         |. spaces
 
 

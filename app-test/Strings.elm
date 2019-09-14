@@ -2,7 +2,7 @@ module Strings exposing (initialText, notes)
 
 
 initialText =
-    """# About this Markdown
+    """# A Pure Elm Markdown Parser
 
 $$
 \\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
@@ -10,9 +10,14 @@ $$
 
 The Markdown used here offers three options: *Standard*,
 *Extended* and *Extended-Math*. The Extended option offers strike-through
- text, verbatim blocks, poetry blocks, and tables.  The Extended-Math
- option is, in addition, able to  render
-formulas written in TeX/LaTeX.  It is suitable for
+text, verbatim blocks, poetry blocks, and tables.  The Extended-Math
+option is, in addition, able to render
+formulas written in TeX/LaTeX.  Note that there is an automatically generated
+table of contents.
+
+
+The [library](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)
+ with which this demo app is built is suitable for
 light-weight writing tasks that require
 mathematical notation — problem sets, short class notes, etc.
 
