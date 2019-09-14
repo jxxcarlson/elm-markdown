@@ -13,7 +13,7 @@ The Markdown used here offers three options: *Standard*,
 text, verbatim blocks, poetry blocks, and tables.  The Extended-Math
 option is, in addition, able to render
 formulas written in TeX/LaTeX.  Note that there is an automatically generated
-table of contents.
+active table of contents.
 
 
 The [library](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)
@@ -44,11 +44,11 @@ Link: [New York Times](http://nytimes.com)
 Text styles: **bold** *italic* ~~strike it out~~
 
 
-## 1 Inline Math
+## Inline Math
 
 This is a test: $a^2 + b^2 = c^2$.
 
-## 2 Display Math
+## Display Math
 
 So is this:
 
@@ -57,7 +57,7 @@ $$
 $$
 
 
-## 3. Code
+## Code
 
 He said that `a := 0` is an initialization statement.
 
@@ -70,7 +70,7 @@ for n in range(1..100):
 sum
 ```
 
-## 4. Verbatim and Tables (Extensions)
+## Verbatim and Tables (Extensions)
 
 A verbatim block begins and ends with four tick marks.
 It is just like a code block, except that there is no
@@ -102,7 +102,7 @@ But better is to use Markdown tables:
 | Neon      | Ne     | 10 | 20.180  |
 
 
-## 5. Lists
+## Lists
 
 Indent by four spaces for each level.  List items
 are separated by blank lines.
@@ -123,7 +123,7 @@ are separated by blank lines.
 
     - Water *(Ok to drink)*
 
-## 6. Numbered lists
+## Numbered lists
 
 ### Problem Set 18
 
@@ -150,7 +150,7 @@ are separated by blank lines.
 
 
 
-## 7. Quotations
+## Quotations
 
 
 Quotations are offset:
@@ -163,7 +163,7 @@ Quotations are offset:
 
 — Abraham Lincoln, *Gettysbug Address*
 
-## 8. Poetry (Extension)
+## Poetry (Extension)
 
 Poetry blocks, an extension of normal Markdown,
  begin with ">>"; line endings are respected.

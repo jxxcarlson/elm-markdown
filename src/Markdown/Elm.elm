@@ -103,7 +103,7 @@ renderHeadingForTOC : MDBlock -> Html msg
 renderHeadingForTOC heading =
     case heading of
         MDBlock (MarkdownBlock (Heading k)) level blockContent ->
-                    renderHeading k blockContent
+                    renderTOCHeading k blockContent
         _ ->  Html.span [] []
 
 renderBlock : MDBlock -> Html msg
@@ -262,21 +262,45 @@ renderOListItem index k blockContent =
 
 renderHeading : Int -> BlockContent -> Html msg
 renderHeading k blockContent =
+  let
+      name = nameFromBlockContent blockContent
+  in
     case k of
         1 ->
-            Html.h1 [] [ renderBlockContent blockContent ]
+           Html.h1 [HA.id name] [ renderBlockContent blockContent ]
 
         2 ->
-            Html.h2 [] [ renderBlockContent blockContent ]
+           Html.h2 [HA.id name] [ renderBlockContent blockContent ]
 
         3 ->
-            Html.h3 [] [ renderBlockContent blockContent ]
+            Html.h3 [HA.id name] [ renderBlockContent blockContent ]
 
         4 ->
-            Html.h4 [] [ renderBlockContent blockContent ]
+            Html.h4 [HA.id name] [ renderBlockContent blockContent ]
 
         _ ->
-            Html.h5 [] [ renderBlockContent blockContent ]
+            Html.h5 [HA.id name] [ renderBlockContent blockContent ]
+
+renderTOCHeading : Int -> BlockContent -> Html msg
+renderTOCHeading k blockContent =
+  let
+      name = "#" ++ (nameFromBlockContent blockContent)
+  in
+    case k of
+        1 ->
+           Html.h1 [HA.style "font-size" "13pt"] [ renderBlockContent blockContent ]
+
+        2 ->
+           Html.a [HA.href name, HA.class "toc-level-0", HA.style "display" "block"] [ renderBlockContent blockContent ]
+
+        3 ->
+            Html.a [HA.href name, HA.class "toc-level-1", HA.style "display" "block"] [ renderBlockContent blockContent ]
+
+        4 ->
+            Html.a [HA.href name, HA.class "toc-level-2", HA.style "display" "block"] [ renderBlockContent blockContent ]
+
+        _ ->
+            Html.a [HA.href name, HA.class "toc-level-3", HA.style "display" "block"] [ renderBlockContent blockContent ]
 
 
 renderQuotation : BlockContent -> Html msg
@@ -301,6 +325,12 @@ renderBlockContent blockContent =
 
         T str ->
             Html.div [] [ Html.text str ]
+
+nameFromBlockContent : BlockContent -> String
+nameFromBlockContent blockContent =
+    case blockContent of
+        M (Paragraph [Line [OrdinaryText (str)]]) -> String.trim str
+        _ -> ""
 
 
 renderToHtmlMsg : MDInline -> Html msg
@@ -328,7 +358,7 @@ renderToHtmlMsg mmInline =
             Html.span [HA.class "bracketed"] [ Html.text <| "[" ++ str ++ "]" ]
 
         Link url label ->
-            Html.a [ HA.href url ] [ Html.text label ]
+            Html.a [ HA.href url ] [ Html.text (label ++ " ")]
 
         MDInline.Image label url ->
             Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
