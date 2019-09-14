@@ -48,7 +48,7 @@ type MDInline
     | BracketedText String
     | Link String String
     | Image String String
-    | TextLine (List MDInline)
+    | Line (List MDInline)
     | Paragraph (List MDInline)
     | Stanza String
     | Error (List MDInline)
@@ -85,7 +85,7 @@ string mmInline =
         Image a b ->
             "Image [" ++ a ++ "](" ++ b ++ ")"
 
-        TextLine arg ->
+        Line arg ->
             "Line [" ++ (List.map string arg |> String.join " ") ++ "]"
 
         Paragraph arg ->
@@ -128,7 +128,7 @@ render mmInline =
         Image a b ->
             "Image [" ++ a ++ "](" ++ b ++ ")"
 
-        TextLine arg ->
+        Line arg ->
             List.map render arg |> String.join " "
 
         Paragraph arg ->
@@ -454,7 +454,7 @@ resolveInlineResult : Result (List (DeadEnd Context Problem)) (List MDInline) ->
 resolveInlineResult result =
     case result of
         Ok res_ ->
-            res_ |> TextLine
+            res_ |> Line
 
         Err list ->
             decodeInlineError list
@@ -492,11 +492,11 @@ displayDeadEnd deadend =
 joinMMInlineLists : MDInline -> MDInline -> MDInline
 joinMMInlineLists a b =
     case ( a, b ) of
-        ( TextLine aList, TextLine bList ) ->
-            TextLine (aList ++ bList)
+        ( Line aList, Line bList ) ->
+            Line (aList ++ bList)
 
         ( _, _ ) ->
-            TextLine []
+            Line []
 
 
 many : Parser a -> Parser (List a)
