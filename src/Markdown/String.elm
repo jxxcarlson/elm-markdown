@@ -59,6 +59,25 @@ tableOfContentsAsBlocks blockTree =
       |> Tree.flatten
       |> List.filter Parse.isHeading
 
+tableOfContentsAsHtml : Tree MDBlock -> Html msg
+tableOfContentsAsHtml blockTree =
+    blockTree
+      |> tableOfContentsAsBlocks
+      |> renderTableOfContents
+
+renderTableOfContents  : List MDBlock -> Html msg
+renderTableOfContents blockList =
+     blockList
+       |> List.map renderHeadingForTOC
+       |> (\x -> Html.div [] x)
+
+renderHeadingForTOC : MDBlock -> Html msg
+renderHeadingForTOC heading =
+    case heading of
+        MDBlock (MarkdownBlock (Heading k)) level blockContent ->
+                    renderHeading k blockContent
+        _ ->  Html.span [] []
+
 renderBlock : MDBlock -> Html msg
 renderBlock block =
     case block of

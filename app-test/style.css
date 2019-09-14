@@ -3,6 +3,12 @@
 .mm-paragraph {
 	white-space: normal;
 }
+
+#toc h1 p  { font-size : 10pt; line-height: 10pt;}
+#toc h2 p  { margin-left: 1em; font-size : 10pt; line-height: 10pt; }
+#toc h3 p  {  margin-left: 2em; font-size : 10pt; line-height: 10pt; }
+#toc h4 p  {  margin-left: 3em; font-size : 10pt; line-height: 10pt; }
+
 .mm-code {font-family: "Courier New"
   , Courier, monospace; padding: 8px; background-color: #f5f5f5; font-size: 11pt;
 }
