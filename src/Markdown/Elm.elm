@@ -31,7 +31,8 @@ toHtml option str =
       toc : Html msg
       toc = tableOfContentsAsHtml ast
 
-      html = ast |> Tree.children |> List.map mmBlockTreeToHtml
+      bodyAST = ast |> Tree.children
+      html = bodyAST |> List.map mmBlockTreeToHtml
       title = List.head html |> Maybe.withDefault (Html.div [] [])
       body = List.drop 1 html
 
@@ -40,7 +41,11 @@ toHtml option str =
 
 
   in
-     Html.div [] (title::separator::toc::separator::spacing::body)
+    case Maybe.map (Parse.isHeading << Tree.label) (List.head bodyAST) of
+        Just True ->
+           Html.div [] (title::separator::toc::separator::spacing::body)
+        _ ->
+           Html.div [] (separator::toc::separator::spacing::title::body)
 
 
 mmBlockTreeToHtml : Tree MDBlock -> Html msg
