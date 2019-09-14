@@ -14,4 +14,4 @@ suite =
 
 basic =
     describe "Basic HTML test"
-        (List.map TH.myHtmlTest HtmlTestData.basic)
+        (List.map TH.myHtmlTest HtmlTestData.empty)

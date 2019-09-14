@@ -22,6 +22,17 @@ commonMark = [
   ]
 
 
+empty : List SmallTestDatum
+empty = [
+
+           {
+             markdown = "",
+             html = "<div></div>",
+             example = 0,
+             section = "Empty"
+             }
+       ]
+
 basic : List SmallTestDatum
 basic = [
 

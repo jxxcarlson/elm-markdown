@@ -312,15 +312,9 @@ joinLine items =
         folder item (accString, accElement) =
             case item of
                 OrdinaryText str ->
-                  let
-                      _ = Debug.log "OrdinaryText" str
-                  in
                    (str::accString, accElement)
 
                 _ ->
-                  let
-                     _ = Debug.log "Element" item
-                  in
                     if accString /= [] then
                        let
                           content = String.join "" accString
