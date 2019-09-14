@@ -23,8 +23,6 @@ import Tree exposing (Tree)
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
--- åtoHtml : Option -> String -> Html msg
-
 toHtml option str =
     Parse.toMDBlockTree option str
       |> Tree.children
@@ -282,7 +280,7 @@ renderToHtmlMsg mmInline =
         MDInline.Image label url ->
             Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
 
-        Line arg ->
+        TextLine arg ->
             Html.span [] (joinLine arg)
 
         Paragraph arg ->
@@ -307,8 +305,8 @@ renderStanza arg =
     Html.div [ HA.class "mm-poetry" ] (List.map poetryLine lines)
 
 
-joinLine : List MDInline -> List (Html msg)
-joinLine items =
+joinLine1 : List MDInline -> List (Html msg)
+joinLine1 items =
     let
         folder : MDInline -> List (Html msg) -> List (Html msg)
         folder item acc =
@@ -324,6 +322,46 @@ joinLine items =
                     Html.span [ style "margin-left" "5px" ] [ renderToHtmlMsg item ] :: acc
     in
     List.foldl folder [] items |> List.reverse
+
+joinLine : List MDInline -> List (Html msg)
+joinLine items =
+    let
+        folder : MDInline -> (List String, List (Html msg)) -> (List String, List (Html msg))
+        folder item (accString, accElement) =
+            case item of
+                OrdinaryText str ->
+                  let
+                      _ = Debug.log "OrdinaryText" str
+                  in
+                   (str::accString, accElement)
+
+                _ ->
+                  let
+                     _ = Debug.log "Element" item
+                  in
+                    if accString /= [] then
+                       let
+                          content = String.join "" accString
+                          span = Html.span [] [Html.text content]
+                       in
+                        ([], (renderToHtmlMsg item) :: span :: accElement)
+                     else
+                        ([], (renderToHtmlMsg item) :: accElement)
+
+        flush (accString, accElement) =
+            if accString /= [] then
+               let
+                 content = String.join "" accString
+                 span = Html.span [] [Html.text content]
+               in
+                 span :: accElement
+               else
+                 accElement
+
+    in
+    List.foldl folder ([], []) items
+      |> flush
+      |> List.reverse
 
 
 isPunctuation : String -> Bool

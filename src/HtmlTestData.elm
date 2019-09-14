@@ -40,7 +40,7 @@ basic = [
       }
 
   , {
-        markdown = "This **is** a test",
+        markdown = "This **is** a **test** they **say**",
         html = "",
         example = 2,
         section = "Text+inline"
@@ -69,9 +69,16 @@ basic = [
       }
 
   , {
+        markdown = ">> One\nTwo\nThree",
+        html = "",
+        example =6,
+        section = "Inline math"
+      }
+
+  , {
      markdown = "# foo\n",
      html = "<h3>foo</h3>\n",
-     example = 6,
+     example = 7,
      section = "ATX headings"
      }
   ]

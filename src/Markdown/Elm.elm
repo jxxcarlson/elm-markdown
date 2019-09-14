@@ -280,7 +280,7 @@ renderToHtmlMsg mmInline =
         MDInline.Image label url ->
             Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
 
-        Line arg ->
+        TextLine arg ->
             Html.span [] (joinLine arg)
 
         Paragraph arg ->
