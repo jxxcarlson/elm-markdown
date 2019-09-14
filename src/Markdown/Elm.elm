@@ -15,6 +15,7 @@ import Json.Encode
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
 import Tree exposing (Tree)
+import ParseTools
 
 
 {-| Render output of the parser to Html, e.g.,
@@ -41,7 +42,7 @@ toHtml option str =
 
 
   in
-    case Maybe.map (Parse.isHeading << Tree.label) (List.head bodyAST) of
+    case Maybe.map (ParseTools.isHeading << Tree.label) (List.head bodyAST) of
         Just True ->
            Html.div [] (title::separator::toc::separator::spacing::body)
         _ ->
@@ -74,7 +75,7 @@ tableOfContentsAsBlocks : Tree MDBlock -> List MDBlock
 tableOfContentsAsBlocks blockTree =
     blockTree
       |> Tree.flatten
-      |> List.filter Parse.isHeading
+      |> List.filter ParseTools.isHeading
 
 tableOfContentsAsHtml : Tree MDBlock -> Html msg
 tableOfContentsAsHtml blockTree =

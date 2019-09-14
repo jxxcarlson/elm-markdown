@@ -1,5 +1,5 @@
 module Parse exposing
-    ( toMDBlockTree, BlockContent(..), MDBlock(..), stringOfMDBlockTree, isHeading )
+    ( toMDBlockTree, BlockContent(..), MDBlock(..), stringOfMDBlockTree)
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
@@ -56,15 +56,6 @@ type MDBlock
     = MDBlock BlockType Level BlockContent
 
 
-typeOfMDBlock : MDBlock -> BlockType
-typeOfMDBlock (MDBlock bt _ _) =
-    bt
-
-isHeading : MDBlock -> Bool
-isHeading block =
-    case typeOfMDBlock block of
-        MarkdownBlock (Heading _) -> True
-        _ -> False
 
 {-| The type of a parsed Block
 -}
