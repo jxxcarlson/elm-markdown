@@ -399,7 +399,6 @@ italicText =
     )
         |> getChompedString
         |> map (String.replace "*" "")
-        |> map String.trim
         |> map ItalicText
 
 

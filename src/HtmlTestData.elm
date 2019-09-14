@@ -50,6 +50,20 @@ working = [
         section = "Text"
       }
 
+
+   , {
+        markdown = "Text styles: **bold** *italic* ~~strike it out~~",
+        html = "",
+        example = 2,
+        section = "Text"
+      }
+
+    , {
+         markdown = "Text styles: **bold** **bold2** ~~strike it out~~",
+         html = "",
+         example = 3,
+         section = "Text"
+       }
   ]
 
 basic : List SmallTestDatum
