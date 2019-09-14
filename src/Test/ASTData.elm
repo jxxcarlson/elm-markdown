@@ -1,4 +1,4 @@
-module ASTTestData exposing (..)
+module Test.ASTData exposing (..)
 
 emptyDoc = ""
 emptyDocAST = "Root (0) Paragraph [  Line [Text [DOCUMENT]]]"

@@ -1,4 +1,4 @@
-module TestTypes exposing (..)
+module Test.Types exposing (..)
 
 
 type alias TestDatum = {

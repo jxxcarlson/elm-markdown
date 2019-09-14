@@ -1,8 +1,8 @@
-module TestHelpers exposing (..)
+module Test.Helpers exposing (..)
 
 import Expect exposing (Expectation)
 import Test exposing (..)
-import TestTypes exposing(..)
+import Test.Types exposing(..)
 import Markdown.Option exposing(..)
 import Markdown.String
 import Html.String exposing(..)

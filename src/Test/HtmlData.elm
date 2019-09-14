@@ -1,11 +1,6 @@
-module HtmlTestData exposing (..)
+module Test.HtmlData exposing (..)
 
-import Parse
-import Markdown.Option exposing(..)
-import Tree exposing (Tree)
-import TestHelpers
-
-import TestTypes exposing(..)
+import Test.Types exposing(..)
 
 commonMark : List TestDatum
 commonMark = [
