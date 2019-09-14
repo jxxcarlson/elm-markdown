@@ -34,7 +34,6 @@ toHtml option str =
 mmBlockTreeToHtml : Tree MDBlock -> Html msg
 mmBlockTreeToHtml tree =
     if Tree.children tree == [] then
-        -- Html.span [ HA.class "no-children" ] [ renderBlock (Tree.label tree) ]
         renderBlock (Tree.label tree)
 
     else
@@ -255,7 +254,7 @@ renderToHtmlMsg : MDInline -> Html msg
 renderToHtmlMsg mmInline =
     case mmInline of
         OrdinaryText str ->
-            Html.span [] [ Html.text str ]
+            Html.span [HA.class "ordinary"] [ Html.text str ]
 
         ItalicText str ->
             Html.em [] [ Html.text str ]
@@ -273,7 +272,7 @@ renderToHtmlMsg mmInline =
             strikethrough str
 
         BracketedText str ->
-            Html.span [] [ Html.text <| "[" ++ str ++ "]" ]
+            Html.span [HA.class "bracketed"] [ Html.text <| "[" ++ str ++ "]" ]
 
         Link url label ->
             Html.a [ HA.href url ] [ Html.text label ]
@@ -282,7 +281,13 @@ renderToHtmlMsg mmInline =
             Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
 
         Line arg ->
-            Html.span [] (joinLine arg)
+            let
+                joined = joinLine arg
+             in
+              if List.length joined == 1 then
+                List.head joined |> Maybe.withDefault (Html.span [] [Html.text ""])
+              else
+                 Html.span [HA.class "line"] joined
 
         Paragraph arg ->
             Html.p [ HA.class "mm-paragraph" ] (List.map renderToHtmlMsg arg)
@@ -319,12 +324,13 @@ joinLine items =
                     if accString /= [] then
                        let
                           content = String.join "" accString
-                          span = Html.span [] [Html.text content]
+                          span = Html.span [HA.class "innerJoin"] [Html.text content]
                        in
                         ([], (renderToHtmlMsg item) :: span :: accElement)
                      else
                         ([], (renderToHtmlMsg item) :: accElement)
 
+        flush : (List String, List (Html msg)) -> List (Html msg)
         flush (accString, accElement) =
             if accString /= [] then
                let

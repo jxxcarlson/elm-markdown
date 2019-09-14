@@ -33,19 +33,38 @@ empty = [
              }
        ]
 
-basic : List SmallTestDatum
-basic = [
+working : List SmallTestDatum
+working = [
 
     {
       markdown = "",
-      html = "",
+      html = "<div></div>",
       example = 0,
       section = "Empty"
       }
 
    , {
         markdown = "plain text",
-        html = "",
+        html = "<div><p class=\"mm-paragraph\"><span>plain text </span></p></div>",
+        example = 1,
+        section = "Text"
+      }
+
+  ]
+
+basic : List SmallTestDatum
+basic = [
+
+    {
+      markdown = "",
+      html = "<div></div>",
+      example = 0,
+      section = "Empty"
+      }
+
+   , {
+        markdown = "plain text",
+        html ="<div><p class=\"mm-paragraph\"><span>plain text </span> </p></div>",
         example = 1,
         section = "Text"
       }
