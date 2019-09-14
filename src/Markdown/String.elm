@@ -25,10 +25,17 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
-    Parse.toMDBlockTree option str
+  let
+      ast : Tree MDBlock
+      ast = Parse.toMDBlockTree option str
+
+      toc : Html msg
+      toc = tableOfContentsAsHtml ast
+  in
+     ast
       |> Tree.children
       |> List.map mmBlockTreeToHtml
-      |> (\x -> Html.div [] x)
+      |> (\x -> Html.div [] (toc ::x))
 
 
 mmBlockTreeToHtml : Tree MDBlock -> Html msg
@@ -67,10 +74,21 @@ tableOfContentsAsHtml blockTree =
 
 renderTableOfContents  : List MDBlock -> Html msg
 renderTableOfContents blockList =
+   let
+       contentHeading = MDBlock (MarkdownBlock (Heading 1)) 1 (M (Paragraph [Line [OrdinaryText ("Contents")]]))
+   in
      blockList
+       |> List.drop 1
+       |> (\x -> contentHeading :: x)
        |> List.map renderHeadingForTOC
-       |> (\x -> Html.div [] x)
+       |> (\x -> Html.div tocStyle x)
 
+
+tocStyle = [HA.style "font-size" "x-small"
+  , HA.style "margin-left" "15px"
+  , HA.style "color" "#555"
+  , HA.id "toc"
+ ]
 renderHeadingForTOC : MDBlock -> Html msg
 renderHeadingForTOC heading =
     case heading of

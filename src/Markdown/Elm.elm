@@ -25,7 +25,10 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 toHtml : Option -> String -> Html msg
 toHtml option str =
   let
+      ast : Tree MDBlock
       ast = Parse.toMDBlockTree option str
+
+      toc : Html msg
       toc = tableOfContentsAsHtml ast
   in
      ast
