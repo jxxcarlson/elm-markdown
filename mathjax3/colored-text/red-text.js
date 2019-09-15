@@ -1,5 +1,4 @@
-
-class ColoredText extends HTMLElement {
+class RedText extends HTMLElement {
 
     constructor() {
         super();
@@ -7,9 +6,6 @@ class ColoredText extends HTMLElement {
       }
 
     connectedCallback () {
-        const color = this.getAttribute('color')
-
-        console.log("COLORED:innerHTML: " + this.innerHTML)
         const shadowDOM = this.attachShadow({ mode: 'open' })
 
         const text = document.createElement('p')
@@ -17,12 +13,11 @@ class ColoredText extends HTMLElement {
         this.innerHTML = ''
 
         const style = document.createElement('style')
-        style.innerHTML = `p { color: ${color} }`
+        style.innerHTML = `p { color: red }`
 
         shadowDOM.appendChild(style)
         shadowDOM.appendChild(text)
     }
 }
-customElements.define('colored-text', ColoredText)
-
+customElements.define('red-text', RedText)
 
