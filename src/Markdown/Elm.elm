@@ -87,7 +87,7 @@ toHtmlWithExternaTOC option str =
   in
     { title = Html.div [] [title]
     , toc = Html.div [] [toc]
-    , document = Html.div [] html
+    , document = Html.div [] body
     }
 
 mmBlockTreeToHtml : Tree MDBlock -> Html msg
