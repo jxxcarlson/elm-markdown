@@ -170,7 +170,7 @@ renderedSource model =
     in
     Keyed.node "div"
         renderedSourceStyle
-        [ ( token, Markdown.Elm.toHtml model.option model.sourceText ) ]
+        [ ( token, Markdown.Elm.toHtmlWithTOC model.option model.sourceText ) ]
 
 
 

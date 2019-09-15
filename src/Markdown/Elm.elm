@@ -1,9 +1,9 @@
-module Markdown.Elm exposing (toHtml)
+module Markdown.Elm exposing (toHtml, toHtmlWithTOC, toHtmlWithExternaTOC)
 
 {-| Render Markdown text to Html using one of the
 options defined in the `Option` module.
 
-@docs toHtml
+@docs toHtml, toHtmlWithTOC, toHtmlWithExternaTOC
 
 -}
 
@@ -18,13 +18,26 @@ import Tree exposing (Tree)
 import ParseTools
 
 
-{-| Render output of the parser to Html, e.g.,
+
+{-| Parse the input and render it to Html, e.g.,
 
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
+    str
+      |> Parse.toMDBlockTree option
+      |> Tree.children
+      |> List.map mmBlockTreeToHtml
+      |> (\x -> Html.div [] x)
+
+
+{-| Like "toHtml", but constructs a table of contents.
+
+-}
+toHtmlWithTOC : Option -> String -> Html msg
+toHtmlWithTOC option str =
   let
       ast : Tree MDBlock
       ast = Parse.toMDBlockTree option str
@@ -48,6 +61,34 @@ toHtml option str =
         _ ->
            Html.div [] (separator::toc::separator::spacing::title::body)
 
+{-| Like "toHtmlWithTOC", but constructs returns a record,
+one field of which is the rendered document,
+anther of which is the rendered table of contents.
+
+-}
+toHtmlWithExternaTOC : Option -> String -> {title: Html msg, toc: Html msg, document: Html msg}
+toHtmlWithExternaTOC option str =
+  let
+      ast : Tree MDBlock
+      ast = Parse.toMDBlockTree option str
+
+      toc : Html msg
+      toc = tableOfContentsAsHtml ast
+
+      bodyAST = ast |> Tree.children
+      html = bodyAST |> List.map mmBlockTreeToHtml
+      title = List.head html |> Maybe.withDefault (Html.div [] [])
+      body = List.drop 1 html
+
+      separator = Html.hr [HA.style "padding-bottom" "2px", HA.style "background-color" "#aaa", HA.style "border-width" "0"] []
+      spacing =  Html.div [HA.style "padding-bottom" "40px"] []
+
+
+  in
+    { title = Html.div [] [title]
+    , toc = Html.div [] [toc]
+    , document = Html.div [] html
+    }
 
 mmBlockTreeToHtml : Tree MDBlock -> Html msg
 mmBlockTreeToHtml tree =
