@@ -33,7 +33,7 @@ toHtml option str =
       |> (\x -> Html.div [] x)
 
 
-{-| Like "toHtml", but constructs a table of contents.
+{-| Like `toHtml`, but constructs a table of contents.
 
 -}
 toHtmlWithTOC : Option -> String -> Html msg
@@ -61,7 +61,7 @@ toHtmlWithTOC option str =
         _ ->
            Html.div [] (separator::toc::separator::spacing::title::body)
 
-{-| Like "toHtmlWithTOC", but constructs returns a record,
+{-| Like `toHtmlWithTOC`, but constructs returns a record,
 one field of which is the rendered document,
 anther of which is the rendered table of contents.
 
