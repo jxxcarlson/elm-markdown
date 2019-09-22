@@ -1,5 +1,5 @@
 
-module MDInline exposing (MDInline(..), Problem(..), ordinaryTextExtended, ordinaryTextExtendedMath, ordinaryTextStandard, parse, string)
+module MDInline exposing (MDInline(..),   parse, string)
 
 {-| Module MDInline provides one type and two functions. The
 type is MDInline, which is the type of inline Markdown elements
