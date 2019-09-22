@@ -1,6 +1,6 @@
 # Construction Notes
 
-## 1. The Parser 
+## 1. The Parser
 
 The parser, using the strategy outlined in XXX, operates in two phases.  First, it scans the text, discovering its block structure, building up a tree of blocks as it goes.  Second, it maps a parser for inline elements over the resulting tree.  The result is the abstract syntax tree for the Markdown renderer.
 
@@ -17,7 +17,7 @@ A Block is defined as follows, where `BlockType` is explained in the next sectio
 
     type alias Content =
         String
-        
+
 
 To parse a document (aka `String`) to a tree of blocks,
 one uses the function `parseToBlockTree`:
@@ -47,7 +47,7 @@ In the pipeline which defines `toBlockTree`, `runFSM` runs a finite-state machin
 #### 1.1.1 BlockType
 
 The `BlockType` type captures the top-level character
-of blocks of Markdown text.  That type is split into two parts, 
+of blocks of Markdown text.  That type is split into two parts,
 `BalancedBlock BalancedType` and `MarkdownBlock MarkdownType`.  The first is used to capture structures that have a beginning and and ending tag, e.g.
 
 ```
@@ -92,10 +92,10 @@ type MarkdownType
 
 A Markdown document is transformed into a tree
 of Blocks using the code below, the key element of which
-is `runFSM option`, which runs the lines of the input string through a finite-state machine. Processing the lines one at a time, the machine builds up a `List Block` value. The `flush` function extracts the `List Block` value from the machine. Every block has a *level* — an integer — which corresponds to the amount by which the text is indented. Applicaiton of `changeLevel 1` increments the level of all blocks except the root block.  Thus root block survives as the only block of level zero. The last function in the pipeline converts the list of blocks into a rose tree of blocks which has the property that the depth of a block in the tree is the same as its level. 
+is `runFSM option`, which runs the lines of the input string through a finite-state machine. Processing the lines one at a time, the machine builds up a `List Block` value. The `flush` function extracts the `List Block` value from the machine. Every block has a *level* — an integer — which corresponds to the amount by which the text is indented. Applicaiton of `changeLevel 1` increments the level of all blocks except the root block.  Thus root block survives as the only block of level zero. The last function in the pipeline converts the list of blocks into a rose tree of blocks which has the property that the depth of a block in the tree is the same as its level.
 
     -- module Parse:
-    
+
     toBlockTree : Option -> String -> Tree Block
     toBlockTree option str =
       str
@@ -104,7 +104,7 @@ is `runFSM option`, which runs the lines of the input string through a finite-st
         |> List.map (changeLevel 1)
         |> HTree.fromList rootBlock blockLevel
 
-The first argument determines which flavor of Markdown will be parsed. The second argument is the string representing the document.  The function value has type `Tree Block`, where `Tree` is a rose tree, imported from [zwilias/elm-rosetree](https://package.elm-lang.org/packages/zwilias/elm-rosetree/latest/).  
+The first argument determines which flavor of Markdown will be parsed. The second argument is the string representing the document.  The function value has type `Tree Block`, where `Tree` is a rose tree, imported from [zwilias/elm-rosetree](https://package.elm-lang.org/packages/zwilias/elm-rosetree/latest/).
 
 
 ### 1.1.3 Operation of the Finite State Machine
@@ -143,9 +143,9 @@ runFSM option str =
 
 where `Document` is a type alias for `String`.
 
-### 1.1.4 The nextState function 
+### 1.1.4 The nextState function
 
-The `nextState` 
+The `nextState`
 function examines the input line to see whether it begins a new block.  This would happen, for example, if the leading non-blank character, in which case this is the first line of a quotation block.
 
 ```
@@ -167,9 +167,9 @@ nextState option str ((FSM state blocks register) as fsm) =
 
 ```
 
-### 1.1.5 The Register 
+### 1.1.5 The Register
 
-The `Register` is a record which accumulates information needed 
+The `Register` is a record which accumulates information needed
 automatically number lists and to parse tables.  To parse tables one uses the `blockStack` and level fields.  As a table is parsed, its blocks are pushed onto the `blockStack` with an appropriate shift of level.  When the end of the table is encountered, the table blocks are popped from the stack and added to the `(List Block)` component of the FSM.
 
 ```
@@ -181,19 +181,19 @@ type alias Register =
     , level : Int
     , blockStack : List Block
     }
-``` 
+```
 
 ### 1.1.6 Hierarchical lists
 
-Suppose given a value of type `List a`.  That list is *hierarchical* if there is a function `level: a -> Int` which assigns a non-negative integer to values of type `a`.  It is *well-formed* if 
+Suppose given a value of type `List a`.  That list is *hierarchical* if there is a function `level: a -> Int` which assigns a non-negative integer to values of type `a`.  It is *well-formed* if
 
 - the first element of the list is the unique element of level zero
-- if `x` and `y` are successive elements of the list, then either 
+- if `x` and `y` are successive elements of the list, then either
     - `level y = level x + 1`
     - `level y <= level x`
 
 An example of a well-formed hierarchical list is given by an *outline*, where the level of an entry is the number of leading spaces divided by three (integer division).  Consider the outline:
- 
+
 ```
 Groceries
    Eggs
@@ -220,7 +220,7 @@ With the level function `Tuple.first`, this list is hierarchical.
 
 ### 1.1.7 Rose trees from hierarchical lists
 
-A rose tree is a tree where the nodes carry a label of type `a` and where a node may have an arbitrary number of children. 
+A rose tree is a tree where the nodes carry a label of type `a` and where a node may have an arbitrary number of children.
 From a hierarchical list plus a choice of root node, one can form a rose tree.  For example, if one chooses the root node to have label "Errands", then one forms the tree.
 
 ```
@@ -251,11 +251,11 @@ blockLevel (Block _ k _) =
     k
 ```
 
-### 1.2 Parsing inline elements 
+### 1.2 Parsing inline elements
 
 
-Under construction.  But the main idea is contained in the 
-last line of the code below.  
+Under construction.  But the main idea is contained in the
+last line of the code below.
 
 
 ```
@@ -279,7 +279,7 @@ type BlockContent
     | T String
 ```
 
-Notice that a `Block` and an `MDBlock` differ only in the last component: `Content` becomes `BlockContent`.  The `MDInline` type is 
+Notice that a `Block` and an `MDBlock` differ only in the last component: `Content` becomes `BlockContent`.  The `MDInline` type is
 
 ```
 type MDInline

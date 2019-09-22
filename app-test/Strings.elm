@@ -2,6 +2,23 @@ module Strings exposing (initialText, notes)
 
 
 initialText =
+    """## Example
+
+**Pythagoras** said: $a^2 + b^2 = c^2$.
+
+
+An integral formula:
+
+$$
+\\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
+$$
+
+You should see two formulas above.
+
+"""
+
+
+initialTextOLD =
     """# A Pure Elm Markdown Parser
 
 ## Introduction
@@ -90,7 +107,7 @@ Verbatim text has many uses:
 ````
 
 But better is to use Markdown tables:
-  
+
 |  Element  | Symbol |  Z | A |
 | Hydrogen  | H      |  1 | 1.008   |
 | Helium    | He     |  2 |  4.0026 |
