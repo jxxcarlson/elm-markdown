@@ -15,5 +15,8 @@ class MathText extends HTMLElement {
   }
 }
 
+// Davide's code:
+window.addEventListener('DOMContentLoaded', () => customElements.define('custom-element', CustomElement), true);
 
-customElements.define('math-text', MathText)
+// Simpler version:
+// customElements.define('math-text', MathText)
