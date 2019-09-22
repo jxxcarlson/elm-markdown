@@ -1,5 +1,3 @@
-
-
 MathJax = {
   tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
   options: {
