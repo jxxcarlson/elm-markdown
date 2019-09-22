@@ -1,0 +1,170 @@
+I've had a chance to look into this, and before I present any code, I do want to ask one question, which is what is the purpose for the custom elements, and in particular, is there a particular reason for using the ShadowDOM? I ask because MathJax will render the content of the <custom-element> tags just fine when they are in the main document, so there is no need to do anything special to make that happen.
+
+The only reason I can see for using the ShadowDOM would be if you are planning to change the contents of the main window frequently, in which case you need to tell MathJax to drop the math items that it has saved for the mathematics that you have removed from the page (it is easiest to clear the math list entirely), otherwise you will build up math items for expressions that are not longer in the page, wasting memory. If you use the ShadowDOM, it would have its own math list, and if the custom element is removed, that should allow that list to be freed and the memory reclaimed. But I'm not sure the overhead of the ShadowDOM is worth it.
+
+If you could say what your purpose is in using a custom element with a ShadowDOM is, then I might be able to give better advice.
+
+If you really want to use ShadowDOM, then here is code that does it:
+
+custom-element.js:
+
+class CustomElement extends HTMLElement {
+  connectedCallback() {
+    this.attachShadow({mode: "open"});
+    this.shadowRoot.innerHTML =
+      '<mjx-doc><mjx-head></mjx-head><mjx-body>' + this.innerHTML + '</mjx-body></mjx-doc>';
+    MathJax.typesetShadow(this.shadowRoot);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => customElements.define('custom-element', CustomElement), true);
+
+Here, we use only the connectedCallback(), since we are using the original content, not creating new content. The custom element isn't registered until the DOMContentLoaded event so that the contents of the custom elements will have been parsed and is available for use in the callback. The callback attaches the ShadowDOM, and sets the contents from the contents of the original DOM, wrapped in some extra elements to mimic the html, head, and body elements of a standard document, since these are not present in the ShadowDOM, and MathJax expects these (it would be possible to do without these, if necessary).
+
+custom-element-config.js
+
+MathJax = {
+  tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+  options: {
+    skipHtmlTags: {'[+]': ['custom-element']}
+  },
+  startup: {
+    ready: () => {
+      //
+      //  Get some MathJax objects from the MathJax global
+      //
+      //  (Ideally, you would turn this into a custom component, and
+      //  then these could be handled by normal imports, but this is
+      //  just an example and so we use an expedient method of
+      //  accessing these for now.)
+      //
+      const mathjax = MathJax._.mathjax.mathjax;
+      const HTMLAdaptor = MathJax._.adaptors.HTMLAdaptor.HTMLAdaptor;
+      const HTMLHandler = MathJax._.handlers.html.HTMLHandler.HTMLHandler;
+      const AbstractHandler = MathJax._.core.Handler.AbstractHandler.prototype;
+      const startup = MathJax.startup;
+
+      //
+      //  Extend HTMLAdaptor to handle shadowDOM as the document
+      //
+      class ShadowAdaptor extends HTMLAdaptor {
+        create(kind, ns) {
+          const document = (this.document.createElement ? this.document : this.window.document);
+          return (ns ?
+                  document.createElementNS(ns, kind) :
+                  document.createElement(kind));
+        }
+        text(text) {
+          const document = (this.document.createTextNode ? this.document : this.window.document);
+          return document.createTextNode(text);
+        }
+        head(doc) {
+          return doc.head || (doc.firstChild || {}).firstChild || doc;
+        }
+        body(doc) {
+          return doc.body || (doc.firstChild || {}).lastChild || doc;
+        }
+        root(doc) {
+          return doc.documentElement || doc.firstChild || doc;
+        }
+      }
+
+      //
+      //  Extend HTMLHandler to handle shadowDOM as document
+      //
+      class ShadowHandler extends HTMLHandler {
+        create(document, options) {
+          const adaptor = this.adaptor;
+          if (typeof(document) === 'string') {
+            document = adaptor.parse(document, 'text/html');
+          } else if ((document instanceof adaptor.window.HTMLElement ||
+                      document instanceof adaptor.window.DocumentFragment) &&
+                     !(document instanceof window.ShadowRoot)) {
+            let child = document;
+            document = adaptor.parse('', 'text/html');
+            adaptor.append(adaptor.body(document), child);
+          }
+          //
+          //  We can't use super.create() here, since that doesn't
+          //    handle shadowDOM correctly, so call HTMLHandler's parent class
+          //    directly instead.
+          //
+          return AbstractHandler.create.call(this, document, options);
+        }
+      }
+
+      //
+      //  Register the new handler and adaptor
+      //
+      startup.registerConstructor('HTMLHandler', ShadowHandler);
+      startup.registerConstructor('browserAdaptor', () => new ShadowAdaptor(window));
+
+      //
+      //  A service function that creates a new MathDocument from the
+      //  shadow root with the configured input and output jax, and then
+      //  renders the document.  The MathDocument is returned in case
+      //  you need to rerender the shadowRoot later.
+      //
+      MathJax.typesetShadow = function (root) {
+        const InputJax = startup.getInputJax();
+        const OutputJax = startup.getOutputJax();
+        const html = mathjax.document(root, {InputJax, OutputJax});
+        html.render();
+        return html;
+      }
+
+      //
+      //  Now do the usual startup now that the extensions are in place
+      //
+      MathJax.startup.defaultReady();
+    }
+  }
+};
+This sets up the DOM adaptor to handle the ShadowDOM. The custom-element tag is added to the skipHtmlTags array so that their contents will not be typeset on the initial MathJax typeset pass. The adaptor is slightly different from the original one in order to locate the proper elements for the head, body, and document root elements that are inserted when the ShadowDOM is created.
+
+index.html
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <script src="custom-element-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <script src="custom-element.js"></script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        width: 400px;
+        margin: 40px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Custom Element TeX test</h1>
+
+    <p>
+      Custom element test:
+      <custom-element>
+          $a^2 + b^2 = c^2$
+      </custom-element>
+    </p>
+
+    <p>
+      Another test:
+      <custom-element>
+      \[
+        \int_{-\infty}^\infty e^{-x^2} dx = \pi
+      \]
+      </custom-element>
+    </p>
+
+  </body>
+</html>
+Note that the custom-element.js file can be loaded in the document head because of the use of the event handler to declare the custom element.
+
+—
+You are receiving this because you authored the thread.
+Reply to this email directly, view it on GitHub, or mute the thread.

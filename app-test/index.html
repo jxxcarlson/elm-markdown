@@ -5,13 +5,12 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
 
-		<title>Math + MarkDown (Experimenal)</title>
+		<script src="custom-element-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+		<script src="math-text.js"></script>
 
-    <!-- Syntax highlighting -->
-		<link rel="stylesheet"
-			 href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+
+		<title>Math + MarkDown (Experimental)</title>
 
     <!-- Style -->
 		<link rel="stylesheet" href="style.css">
@@ -19,33 +18,11 @@
     <!-- Load app -->
     <script src="Main.js" charset="utf-8"></script>
 
-    <!-- Set up MathJax -->
-	<script type="text/x-mathjax-config">
-	   // Same as kokoc3
-		MathJax.Hub.Config(
-			{ tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
-				processEscapes: true,
-				messageStyle: "none",
-				processSectionDelay: 0,
-				processUpdateTime: 0,
-				"fast-preview": {disabled: true},
-				TeX: { equationNumbers: {autoNumber: "AMS"},
-					   noErrors: {disabled: true},
-					   extensions: ["mhchem.js"]
-					  }
-			}
-		);
-	</script>
-	<script src="math-text.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-
 	</head>
 
 	<body>
 
-
 	<div id="main"></div>
-
 
  	<script>
 
@@ -53,7 +30,6 @@
 		var app = Elm.Main.init({node: root, flags:  { width:  1200, height: 900 }});
 
 	 </script>
-
 
 	</body>
 </html>

@@ -1,6 +1,5 @@
 module Main exposing (main)
 
-import Parse
 import Browser
 import Html exposing (..)
 import Html.Attributes as HA exposing (style)
@@ -8,6 +7,7 @@ import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
 import Markdown.Elm
 import Markdown.Option exposing (Option(..))
+import Parse
 import Random
 import Strings
 import Style exposing (..)
@@ -170,7 +170,7 @@ renderedSource model =
     in
     Keyed.node "div"
         renderedSourceStyle
-        [ ( token, Markdown.Elm.toHtmlWithTOC model.option model.sourceText ) ]
+        [ ( token, Markdown.Elm.toHtml model.option model.sourceText ) ]
 
 
 
