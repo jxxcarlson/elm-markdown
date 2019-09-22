@@ -9,6 +9,7 @@ module BlockType exposing
     , isMarkDown
     , isOListItem
     , level
+    , parse
     , prefixOfBlockType
     , stringOfBlockType
     )
