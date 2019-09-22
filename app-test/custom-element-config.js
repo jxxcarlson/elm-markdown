@@ -1,7 +1,7 @@
 MathJax = {
   tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
   options: {
-    skipHtmlTags: {'[+]': ['math-text']}
+    skipHtmlTags: {'[+]': ['custom-element']}
   },
   startup: {
     ready: () => {

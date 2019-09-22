@@ -1,22 +1,20 @@
 class MathText extends HTMLElement {
 
-//  constructor() {
-//          super();
-//
-//        }
-
+   // The paragraph below detects the
+   // argument to the custom element
+   // and is necessary for innerHTML
+   // to receive the argument.
+   set content(value) {
+  		this.innerHTML = value
+  	}
 
   connectedCallback() {
     this.attachShadow({mode: "open"});
-    console.log('INNER HTML: ' + this.innerHTML)
     this.shadowRoot.innerHTML =
       '<mjx-doc><mjx-head></mjx-head><mjx-body>' + this.innerHTML + '</mjx-body></mjx-doc>';
     MathJax.typesetShadow(this.shadowRoot);
   }
 }
 
-// Davide's code:
-window.addEventListener('DOMContentLoaded', () => customElements.define('custom-element', CustomElement), true);
+customElements.define('math-text', MathText)
 
-// Simpler version:
-// customElements.define('math-text', MathText)
