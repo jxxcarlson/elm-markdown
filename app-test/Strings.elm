@@ -27,16 +27,16 @@ This project grew out of the need to have a pure Elm Markdown
 parser-renderer that could also handle mathematical
 text.  Mathematical text is rendered by
 MathJax 3, which has very large performance advantages
-compared to the its predecessors.
+compared to its predecessors.
 
 $$
 \\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
 $$
 
 The Markdown used here offers three options: *Standard*,
-*Extended* and *ExtendedMath*. The Extended option offers strike-through
-text, verbatim blocks, poetry blocks, and tables.  The ExtendedMath
-option is, in addition, able to render
+*Extended* and *ExtendedMath*. The Extended option provides for strike-through
+text, verbatim blocks, poetry blocks, and tables.  ExtendedMath
+handles
 formulas written in TeX/LaTeX.  Note that there is an automatically generated
 active table of contents. It can be placed inside the document
 at the top, to one side, as it is here, or it can be absent.
