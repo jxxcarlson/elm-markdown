@@ -1,4 +1,4 @@
-module Style exposing (buttonStyle, buttonStyleSelected, colorBlue, colorDarkRed, colorDark, colorLight, editorTextStyle, labelStyle, macroPanelStyle, outerStyle, renderedSourceStyle, textStyle)
+module Style exposing (buttonStyle, buttonStyleSelected, colorBlue, colorDarkRed, colorDark, colorLight, editorTextStyle, tocStyle, labelStyle, macroPanelStyle, outerStyle, renderedSourceStyle, textStyle)
 
 -- import Html exposing (..)
 
@@ -70,13 +70,13 @@ outerStyle =
     [ style "margin-top" "20px"
     , style "background-color" "#e1e6e8"
     , style "padding" "20px"
-    , style "width" "1430px"
-    , style "height" "710px"
+    , style "width" "1300px"
+    , style "height" "670px"
     ]
 
 
 editorTextStyle =
-    textStyle "400px" "450px" "#fff"
+    textStyle "400px" "500px" "#fff"
 
 
 macroPanelStyle =
@@ -84,7 +84,10 @@ macroPanelStyle =
 
 
 renderedSourceStyle =
-    textStyle "500px" "450px" "#fff"
+    textStyle "400px" "500px" "#fff"
+
+tocStyle =
+    textStyle "200px" "500px" "#fff" ++ [style "float" "left"]
 
 
 textStyle width height color =

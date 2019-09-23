@@ -1,7 +1,7 @@
 module Strings exposing (initialText, notes)
 
 
-initialText =
+testText =
     """## Example
 
 **Pythagoras** said: $a^2 + b^2 = c^2$.
@@ -18,10 +18,16 @@ You should see two formulas above.
 """
 
 
-initialTextOLD =
+initialText =
     """# A Pure Elm Markdown Parser
 
 ## Introduction
+
+This project grew out of the need to have a pure Elm Markdown
+parser-renderer that could also handle mathematical
+text.  Mathematical text is rendered by
+MathJax 3, which has very large performance advantages
+compared to the its predecessors.
 
 $$
 \\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
@@ -32,7 +38,8 @@ The Markdown used here offers three options: *Standard*,
 text, verbatim blocks, poetry blocks, and tables.  The ExtendedMath
 option is, in addition, able to render
 formulas written in TeX/LaTeX.  Note that there is an automatically generated
-active table of contents.
+active table of contents. It can be placed inside the document
+at the top, to one side, as it is here, or it can be absent.
 
 
 The [library](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)
