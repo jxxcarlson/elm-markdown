@@ -2,6 +2,7 @@ grammar.md
 elm-stuff/
 .idea/
 app-test/Main.js
+app-test/Main.min.js
 app-test/package-lock.json
 src/MDExample.elm
 mathjax3/browser.application-demo/Main.js

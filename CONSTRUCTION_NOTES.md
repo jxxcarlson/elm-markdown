@@ -297,3 +297,19 @@ type MDInline
     | Stanza String
     | Error (List MDInline)
 ```
+
+
+## Notes on Folkert's optimization
+
+folkertdev 12:11 PM
+Nice. The main idea behind the changes is that written out operations (e.g. 1 + 2 + 3) is much faster than the equivalent operation on lists (List.sum [1,2,3]). In tight loops that really matters.
+
+One more thing I found: here https://github.com/jxxcarlson/elm-markdown/blob/e9b88b74f8a1de58f55824007380c4ede7835bcb/src/Parse.elm#L574 the p is often the empty string. It never matches, but the whole file is still searched for a match. A simple if p == "" then line_ else String.replace p "" line_ gives a good improvement too.
+
+The benchmark is really simple, just run the parsing of a paragraph in a loop. I then use the chrome devtools to see where time is spent. elm-benchmark is not actually that effective for this kind of thing at the moment.
+
+Then I also looked at the CommonMark spec a bit: inline markdown is unpleasant to parse... Mainly the left/right flanking and precedence of links/code spans before bold/italic. I don't currently see a nice way to use elm-parser here. Did you look into this?
+jxxcarlson:house_with_garden: 12:44 PM
+
+Good point re p — I’ll get to that. One little (related) thing I did was to strip leading space of lines,  then parse to figure out what kind of line it is, e.g., beginning of a list item of a certain level.  That could also be done by plain old parsing, but then there are a huge number of common prefixes, which means a lot of backtracking, which means more backtracking and tricky dependence on order.  At least so it seemed to me.
+Re CommonMark and inline.  Unpleasant indeed. Very irregular, sometimes to the point of pointlessness in my opinion.  I may just do a “best effort”, try to formulate with some precision what it means, and call it “Rational Markdown.”  Of course, to do that is to paint a target on one’s back.  Haha!
