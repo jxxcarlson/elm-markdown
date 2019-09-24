@@ -85,6 +85,10 @@
 
 p.mm-table-row {
 	display: inline-block;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
 }
 
 .mm-table-cell {
