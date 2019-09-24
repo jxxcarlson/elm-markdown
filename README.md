@@ -7,13 +7,13 @@ to provide a pure Elm implementation of Markdown
 which offers a small set of extensions, along with options:
 
 - Standard: the usual thing
-- Extended: strike-though text, Poetry and Verbatim blocks
-- ExtendedMath: like extended, but math formulas written in
-TeX/LaTeX are rendered, e.g.,
+- Extended: strike-though text, tables, and Poetry and Verbatim blocks
+- ExtendedMath: like Extended, but math formulas written in
+TeX/LaTeX, eg.,
 ```
 This **is** a test: $a^2 + b^2 = c^2$.
 ```
-is properly rendered.
+are properly rendered.
 
 
 See [markdown.minilatex.app](https://markdown.minilatex.app)
@@ -60,53 +60,39 @@ double-click on `index.html`.
 The style used by the library is entirely determined by the
 definitions of the CSS classes that you refer to in your
 `index.html`.  The ones used for the demo app are found
-in`./app-test/style.css`.  See the code in `./app-test/index.html`.
+in`./app-test/assets/style.css`. 
 You can easily reconfigure the CSS to satsify your
 own esthetics.
 
 ## MathJax
 
-To render TeX/LaTeX, use the `ExtendedMath` option.  In addition,
+TeX/LaTeX math text is rendered using \href{https://mathjax.org}{MathJax}.
+For this you must use the `ExtendedMath` option.  In addition,
 you must have the files
 
 ```
-math-text.js
+assets/math-text.js
+assets/custom-element.config.js
 ```
 
 in the same directory as `index.html`, and `index.html` must
-contain the three lines below at the end of the `<head>` section:
+contain the three lines below at the top of the `<head>` section, just
+under `<meta charset="utf-8" />`, for example.`
 
 ```
-<!-- Set up MathJax -->
-<script type="text/x-mathjax-config">
-   // Same as kokoc3
-    MathJax.Hub.Config(
-        { tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]},
-            processEscapes: true,
-            messageStyle: "none",
-            processSectionDelay: 0,
-            processUpdateTime: 0,
-            "fast-preview": {disabled: true},
-            TeX: { equationNumbers: {autoNumber: "AMS"},
-                   noErrors: {disabled: true},
-                   extensions: ["mhchem.js"]
-                  }
-        }
-    );
-</script>
-<script src="math-text.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<!-- Load MathJax code -->
+<script src="assets/custom-element-config.js"></script>
+<script src="assets/math-text.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 ```
 
-The MathJax setup will be substantially simplified once we
-make the transition to MathJax 3.0, which will in addition perform 
-much faster.
+The demo app is now using MathJax 3.0.
 
 ## Markdown extensions
 
 I am trying to be conservative about extensions to
 Markdown.  However, there are two that I thought
-important enough to add: poetry blocks and verbatim text.
+important enough to add: tables, poetry blocks and verbatim text.
 Poetry blocks are
 are like quotation blocks, except that they begin
 with ">>" instead of ">".  Line endings are respected
