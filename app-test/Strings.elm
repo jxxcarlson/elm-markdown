@@ -29,7 +29,6 @@ initialText =
  text.  Mathematical text is rendered by
  MathJax 3, which has very large performance advantages
  compared to its predecessors.
-
  The Markdown used here offers three options: *Standard*,
  *Extended* and *ExtendedMath*. The Extended option provides for strike-through
  text, verbatim blocks, poetry blocks, and tables.  ExtendedMath
