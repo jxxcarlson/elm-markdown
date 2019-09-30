@@ -19,6 +19,12 @@
 .mm-image {width : 100%; }
 .mm-image-left {float: left; width: 40%; margin-right: 12px;}
 .mm-image-right {float: right; width: 40%; margin-left: 4px;}
+.mm-image-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+}
 
 .mm-h1 {font-size: 18pt}
 .mm-h2 {font-size: 16pt}
