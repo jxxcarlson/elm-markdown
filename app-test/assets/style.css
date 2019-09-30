@@ -15,7 +15,11 @@
 .mm-inline-code {font-family: "Courier New"
   , Courier, monospace; padding-left: 5px; padding-right: 5px;background-color: #f5f5f5; font-size: 11pt;
 }
-.mm-image {width: 100%}
+
+.mm-image {width : 100%; }
+.mm-image-left {float: left; width: 40%; margin-right: 12px;}
+.mm-image-right {float: right; width: 40%; margin-left: 4px;}
+
 .mm-h1 {font-size: 18pt}
 .mm-h2 {font-size: 16pt}
 .mm-h3 {font-size: 12pt}

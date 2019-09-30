@@ -402,8 +402,17 @@ renderToHtmlMsg mmInline =
         Link url label ->
             Html.a [ HA.href url ] [ Html.text (label ++ " ")]
 
-        MDInline.Image label url ->
-            Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
+        MDInline.Image label_ url ->
+          let
+            labelParts = List.take 2 (String.split "::" label_)
+            (label, class) = case (List.head labelParts, List.head (List.drop 1 labelParts)) of
+                (Just label__, Just class__) ->
+                   (label__, "mm-image-" ++ class__)
+                (Just label__, Nothing) -> (label__, "mm-image")
+                (_,_) -> ("image", "mm-image")
+
+          in
+            Html.img [ HA.src url, HA.class class] [ Html.text label ]
 
         Line arg ->
             let

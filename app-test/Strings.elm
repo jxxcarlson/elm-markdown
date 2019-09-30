@@ -21,23 +21,26 @@ You should see two formulas above.
 initialText =
     """# A Pure Elm Markdown Parser
 
+
 ## Introduction
 
-This project grew out of the need to have a pure Elm Markdown
-parser-renderer that could also handle mathematical
-text.  Mathematical text is rendered by
-MathJax 3, which has very large performance advantages
-compared to its predecessors.
+![Hummingbird::left](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)   This project grew out of the need to have a pure Elm Markdown
+ parser-renderer that could also handle mathematical
+ text.  Mathematical text is rendered by
+ MathJax 3, which has very large performance advantages
+ compared to its predecessors.
+
+ The Markdown used here offers three options: *Standard*,
+ *Extended* and *ExtendedMath*. The Extended option provides for strike-through
+ text, verbatim blocks, poetry blocks, and tables.  ExtendedMath
+ handles
+ formulas written in TeX/LaTeX:
 
 $$
 \\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
 $$
 
-The Markdown used here offers three options: *Standard*,
-*Extended* and *ExtendedMath*. The Extended option provides for strike-through
-text, verbatim blocks, poetry blocks, and tables.  ExtendedMath
-handles
-formulas written in TeX/LaTeX.  Note that there is an automatically generated
+Note also that there is an automatically generated
 active table of contents. It can be placed inside the document
 at the top, to one side, as it is here, or it can be absent.
 
@@ -61,8 +64,7 @@ It uses MathJax.js to render math formulas.
 
 Below we illustrate some typical Markdown elements: images, links, headings, etc.
 
-![Hummingbird](https://www.allaboutbirds.org/guide/noindex/photo/60395551-1280px.jpg)
-
+![Hummingbird](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)
 Hummingbird (Meditation)
 
 Link: [New York Times](http://nytimes.com)
