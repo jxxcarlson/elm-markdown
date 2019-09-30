@@ -64,6 +64,14 @@ in`./app-test/assets/style.css`.
 You can easily reconfigure the CSS to satsify your
 own esthetics.
 
+## Images
+
+The usual `![My favorite image](imageUrl)` does the usual thing, with the image 
+scaled to 100% width. You can 
+also say `![My favorite image::left](imageUrl)` or 
+`![My favorite image::right](imageUrl)` to float the image left or right at 
+40% width. The widths are defined in `style.css`.
+
 ## MathJax
 
 TeX/LaTeX math text is rendered using \href{https://mathjax.org}{MathJax}.
