@@ -1,5 +1,6 @@
 module XParse exposing
-    ( toMDBlockTree, BlockContent(..), MDBlock(..), stringOfMDBlockTree)
+    ( toMDBlockTree, BlockContent(..), equal,
+       MDBlock(..), stringOfMDBlockTree)
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
@@ -57,6 +58,19 @@ type MDBlock
     = MDBlock Id BlockType Level BlockContent
 
 
+{-|
+Check for equality of
+
+    - blockType
+    - level
+    - content
+
+ ignoring the id.
+
+-}
+equal : MDBlock -> MDBlock -> Bool
+equal (MDBlock _ bt1 l1 c1) (MDBlock _ bt2 l2 c2) =
+    bt1 == bt2 && l1 == l2 && c1 == c2
 
 {-| The type of a parsed Block
 -}
@@ -169,12 +183,16 @@ Example:
     --> Tree (MDBlock (MarkdownBlock Root) 0 (M (Paragraph [Line [OrdinaryText "DOCUMENT"]]))) [Tree (MDBlock (MarkdownBlock Plain) 1 (M (Paragraph [Line [OrdinaryText ("This "),BoldText ("is "),OrdinaryText ("a test.")],Line []]))) []]
 
 -}
-toMDBlockTree : Option -> Document -> Tree MDBlock
-toMDBlockTree option document =
+toMDBlockTree : Int -> Option -> Document -> Tree MDBlock
+toMDBlockTree version option document =
     document
         |> toBlockTree option
         |> Tree.map (selectMapper option)
+        |> Tree.indexedMap (\idx block -> setBlockIndex version idx block)
 
+setBlockIndex : Int -> Int -> MDBlock -> MDBlock
+setBlockIndex version idx (MDBlock id bt lev blockContent) =
+       MDBlock (idx,version) bt lev blockContent
 
 selectMapper : Option -> (Block -> MDBlock)
 selectMapper option ((Block id bt level_ content_) as block) =
@@ -287,38 +305,19 @@ nextState : Option -> Line -> FSM -> FSM
 nextState option line ((FSM state blocks register) as fsm_) =
     let
         fsm =
-            handleRegister fsm_ |> incrementRegisterIdOfFSM
+            handleRegister fsm_
 
     in
     case stateOfFSM fsm of
         Start ->
-            let
-                _ = Debug.log "Start" register.id
-            in
             nextStateStart option line fsm
 
         InBlock _ ->
-            let
-                _ = Debug.log "InBlock" register.id
-            in
             nextStateInBlock option line fsm
 
         Error ->
             fsm
 
-incrementRegisterIdOfFSM : FSM -> FSM
-incrementRegisterIdOfFSM (FSM state blockList register) =
-   let
-       (a,b) = register.id
-   in
-     FSM state blockList ({ register | id = (a + 1, b)})
-
-incrementRegister : Register -> Register
-incrementRegister register =
-    let
-        (a,b) = register.id
-    in
-      {register | id = (a+1,b) }
 
 handleRegister : FSM -> FSM
 handleRegister ((FSM state blocks register) as fsm) =
@@ -335,15 +334,13 @@ handleRegister ((FSM state blocks register) as fsm) =
 
                 _ ->
                     let
-                        (a,b) = register.id
-
                         tableBlock : Block
                         tableBlock =
-                            Block (a,b) (MarkdownBlock Table) 0 "tableRoot"
+                            Block (-1,-1) (MarkdownBlock Table) 0 "tableRoot"
 
                         rowBlock : Block
                         rowBlock =
-                            Block (a+1,b) (MarkdownBlock TableRow) 1 "row"
+                            Block (-1,-1) (MarkdownBlock TableRow) 1 "row"
 
                         tableData : List Block
                         tableData =
@@ -356,7 +353,7 @@ handleRegister ((FSM state blocks register) as fsm) =
                             -- NOTE: the below is a very bad solution!!
                             List.filter (\(Block _ _ _ content) -> content /= "deleteMe") blocks
                     in
-                    FSM Start (tableData ++ newBlocks) { register | id = (a+2, b), blockStack = [] }
+                    FSM Start (tableData ++ newBlocks) { register | blockStack = [] }
 
 
 editBlock : Block -> Block
@@ -377,7 +374,6 @@ nextStateStart option line ((FSM state blocks register) as fsm) =
         -- add line
         ( level, Just blockType ) ->
             let
-                (a,b) = register.id
 
                 ( newBlockType, newRegister ) =
                     updateRegisterAndBlockType blockType level register
@@ -394,7 +390,7 @@ nextStateStart option line ((FSM state blocks register) as fsm) =
                 handleTableStart blockType level line state blocks register
 
             else if lineIsNotBlank line then
-                FSM (InBlock (Block  (a, b) newBlockType level newLine)) blocks {newRegister | id = (a+1,b)}
+                FSM (InBlock (Block  (-1,-1) newBlockType level newLine)) blocks newRegister
 
             else
               fsm
@@ -489,14 +485,13 @@ handleTableStart blockTypeOfLine level line state blocks register =
 
         InBlock currentBlock ->
             let
-                (a,b) = register.id
                 tableBlock : Block
                 tableBlock =
-                    Block (a, b) (MarkdownBlock Table) level "tableRoot"
+                    Block (-1,-1) (MarkdownBlock Table) level "tableRoot"
 
                 rowBlock : Block
                 rowBlock =
-                    Block (a + 1, b) blockTypeOfLine (level + 1) "row"
+                    Block (-1,-1) blockTypeOfLine (level + 1) "row"
 
                 childrenOfNewBlock =
                     parseTableRow (level + 2) line
@@ -508,7 +503,7 @@ handleTableStart blockTypeOfLine level line state blocks register =
             -- FSM (InBlock tableBlock) ((rowBlock :: childrenOfNewBlock) ++ currentBlock :: blocks) { register | level = register.level + 1 }
             FSM (InBlock rowBlock)
                 blocks
-                { register | id = (a + 2, b), level = register.level + 0, blockStack = newRow }
+                { register |  level = register.level + 0, blockStack = newRow }
 
 
 handleInnerTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
@@ -522,23 +517,22 @@ handleInnerTableRow blockTypeOfLine level line state blocks register =
 
         InBlock currentBlock ->
             let
-                (a,b) = register.id
 
                 rowBlock : Block
                 rowBlock =
-                    Block (a,b) blockTypeOfLine (level + 1) "row"
+                    Block (-1,-1) blockTypeOfLine (level + 1) "row"
 
                 childrenOfNewBlock =
                     parseTableRow (level + 2) line
 
                 tableMarker : Block
                 tableMarker =
-                    Block (a+1, b) (MarkdownBlock TableRow) (level + 1) "deleteMe"
+                    Block (-1,-1) (MarkdownBlock TableRow) (level + 1) "deleteMe"
 
                 newRow =
                     childrenOfNewBlock ++ [ rowBlock ]
             in
-            FSM (InBlock tableMarker) blocks { register | id = (a+2, b), blockStack = register.blockStack ++ newRow }
+            FSM (InBlock tableMarker) blocks { register | blockStack = register.blockStack ++ newRow }
 
 
 processBalancedBlock : BlockType -> Line -> FSM -> FSM
