@@ -95,12 +95,6 @@ renderAstFor model text =
 renderSecond : Model -> Cmd Msg
 renderSecond model =
     renderAstFor model model.sourceText
---    let
---        newAst = Markdown.ElmWithId.parse model.counter ExtendedMath model.sourceText
---    in
---    Process.sleep 100
---        |> Task.andThen (\_ -> Process.sleep 1000 |> Task.andThen (\_ -> Task.succeed (newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC newAst)))
---        |> Task.perform GotSecondPart
 
 
 getFirstPart : String -> String
