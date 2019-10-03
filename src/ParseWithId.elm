@@ -7,10 +7,13 @@ module ParseWithId exposing
 that is, a string, into an abstract syntax tree (AST)
 which can then be further transformed or passed on
 to a rendering function.  The AST is a rose tree
-of `MBlock` -- short for "Markdown Blocks."
+of `MDBlockWithId` — short for "Markdown Blocks."
+
+See the documentation at the head of module `Markdown.ElmWithId` for
+the rationale for this module.
 
 
-@docs toMDBlockTree,  MDBlock, BlockContent, stringOfMDBlockTree
+@docs toMDBlockTree, MDBlock, MDBlockWithId, BlockContent, equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
 
 -}
 
@@ -46,26 +49,43 @@ typeOfBlock : Block -> BlockType
 typeOfBlock (Block _ bt _ _ ) =
     bt
 
-{-| An MBlock differs from the a Block
-in that the Content, which is a
-type alias for String,
-has been parsed into a BlockContent value
-by applying
+{-| An MBlockWithId is like na MDBlock,
+except that it has an
 
-    MDInline.parse : Option -> String -> MDInline
+    Id : (Int, Int)
+
+which should be thought of as
+
+    (version, id)
+
+where the id is unique to each block.
 
 -}
 type MDBlockWithId
     = MDBlockWithId Id BlockType Level BlockContent
 
 
+{-| An MDBlock (Markdown block) carries
+
+    - the type of the block
+    - its level
+    - its unparsed content
+
+-}
 type MDBlock
     = MDBlock BlockType Level BlockContent
 
+{-| Project an MDBlockWithId to an MDBlock
+ by omitting its id
+ -}
 project : MDBlockWithId -> MDBlock
 project (MDBlockWithId _ bt lev content) =
     (MDBlock bt lev content)
 
+
+{-| Return a string representing the content of a block
+if it is of type `T`. Otherwise, return the empty string.
+-}
 projectedStringOfBlockContent : BlockContent -> String
 projectedStringOfBlockContent blockContent =
     case blockContent of
@@ -75,7 +95,8 @@ projectedStringOfBlockContent blockContent =
         T str ->
             str
 
-
+{-| Return the id of a block
+-}
 idOfBlock : MDBlockWithId -> Id
 idOfBlock (MDBlockWithId id _ _ _) = id
 
@@ -274,9 +295,19 @@ changeLevel k (Block id_ bt_ level_ content_) =
 {-| Parse a string using a Markdown flavor option, returning the AST.
 Example:
 
-    parseToMDBlockTree Extended "This **is** a test."
-    --> Tree (MDBlock (MarkdownBlock Root) 0 (M (Paragraph [Line [OrdinaryText "DOCUMENT"]]))) [Tree (MDBlock (MarkdownBlock Plain) 1 (M (Paragraph [Line [OrdinaryText ("This "),BoldText ("is "),OrdinaryText ("a test.")],Line []]))) []]
-
+    ParseWithId.toMDBlockTree 1 Extended "This **is** a test."
+    --> Tree (MDBlockWithId (0,1)
+    -->    (MarkdownBlock Root) 0 (M (Paragraph [
+    -->       Line [OrdinaryText "DOCUMENT"]]))) [
+    -->          Tree (MDBlockWithId (1,1)
+    -->            (MarkdownBlock Plain) 1 (M (Paragraph [
+    -->                Line [  OrdinaryText ("This ")
+    -->              , BoldText ("is ")
+    -->              , OrdinaryText ("a test.")]
+    -->              , Line []
+    -->            ])))
+    -->      []]
+    --> : Tree.Tree ParseWithId.MDBlockWithId
 -}
 toMDBlockTree : Int -> Option -> Document -> Tree MDBlockWithId
 toMDBlockTree version option document =
@@ -906,7 +937,8 @@ stringOfBlockTree tree =
         |> List.map stringOfBlock
         |> String.join "\n"
 
-
+{-| Return a string value of and Id
+-}
 stringOfId : Id -> String
 stringOfId id =
     "[" ++ (String.fromInt <| Tuple.first id) ++ ", " ++ (String.fromInt <| Tuple.second id) ++ "]"

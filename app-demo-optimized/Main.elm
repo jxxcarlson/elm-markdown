@@ -14,7 +14,29 @@ import Tree exposing(Tree)
 import ParseWithId
 import Diff
 
+{-|  This version of the demo app has some optimizations
+that make the editing process smoother for long documents,
+containing a lot of mathematics.
 
+The idea is to to parse the document text when the
+document is first opened.  The resulting parse
+tree (AST: abstract syntax tree) is stored as
+`model.lastAst`.  Each block in the AST carries
+a label `(version, id): (Int, Int)`, where
+the `id` is unique to each block.
+Each time the text changes, a new AST is computed a
+with an incremented version number.  The
+the function function `Diff.mergeWith equals` is applied
+to compute the updated AST.  The effect of this operation
+is that the id's of the nodes that have not changed
+are themselves unchanged.  In this way, MathJax will
+not re-render mathematical text that is unchanged.
+
+To see where these optimizations are applied,
+look for the places where functions in the modules
+`ParseWithId` and `Markdown.ElmWithId` are called.
+
+-}
 main : Program Flags Model Msg
 main =
     Browser.element
