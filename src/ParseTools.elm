@@ -13,3 +13,4 @@ isHeading block =
     case typeOfMDBlock block of
         MarkdownBlock (Heading _) -> True
         _ -> False
+

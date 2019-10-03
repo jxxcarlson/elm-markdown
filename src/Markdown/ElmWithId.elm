@@ -1,4 +1,4 @@
-module Markdown.ElmWithId exposing (parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC)
+module Markdown.ElmWithId exposing (parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, numberOfMathElements)
 
 {-| Use this module if you need to edit math + markdown *and*
 require optimizations for speed and a smooth editing experience.
@@ -36,7 +36,7 @@ where functions in the modules
 `ParseWithId` and `Markdown.ElmWithId` are called.
 
 
-@docs parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC
+@docs parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, numberOfMathElements
 
 -}
 
@@ -70,6 +70,12 @@ isHeadingWithId : MDBlockWithId -> Bool
 isHeadingWithId block =
     case typeOfMDBlockWithId block of
         MarkdownBlock (Heading _) -> True
+        _ -> False
+
+isMathWithId : MDBlockWithId -> Bool
+isMathWithId block =
+    case typeOfMDBlockWithId block of
+        BalancedBlock DisplayMath -> True
         _ -> False
 
 {-| Parse the input and render it to Html, e.g.,
@@ -229,6 +235,16 @@ tableOfContentsAsBlocks blockTree =
     blockTree
       |> Tree.flatten
       |> List.filter isHeading
+
+{-| Count the number of display math element blocks in the parse tree
+
+-}
+numberOfMathElements : Tree MDBlockWithId -> Int
+numberOfMathElements blockTree =
+    blockTree
+        |> Tree.flatten
+        |> List.filter isMathWithId
+        |> List.length
 
 tableOfContentsAsHtml : Tree MDBlock -> Html msg
 tableOfContentsAsHtml blockTree =

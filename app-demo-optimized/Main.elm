@@ -51,16 +51,18 @@ main =
 -- MODEL
 
 type alias Model =
-    { sourceText : String
-    , firstPart : String
-    , secondPart : Maybe String
-    , counter : Int
+    {
+      counter : Int
     , seed : Int
     , option : Option
+    , sourceText : String
     , lastAst : Tree ParseWithId.MDBlockWithId
     , renderedText : RenderedText Msg
     , message : String
     }
+
+emptyAst =  Markdown.ElmWithId.parse -1 ExtendedMath ""
+emptyRenderedText =  Markdown.ElmWithId.renderHtmlWithExternaTOC emptyAst
 
 -- MSG
 
@@ -72,32 +74,40 @@ type Msg
     | NewSeed Int
     | LoadExample1
     | LoadExample2
-    | RefreshText
     | SelectStandard
     | SelectExtended
     | SelectExtendedMath
     | GotSecondPart (Tree ParseWithId.MDBlockWithId, RenderedText Msg)
 
-
 type alias Flags =
     {}
+
+renderAstFor : Model -> String -> Cmd Msg
+renderAstFor model text =
+    let
+            newAst = Markdown.ElmWithId.parse model.counter ExtendedMath text
+    in
+        Process.sleep 10
+            |> Task.andThen (\_ -> Process.sleep 100 |> Task.andThen (\_ -> Task.succeed (newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC newAst)))
+            |> Task.perform GotSecondPart
 
 
 renderSecond : Model -> Cmd Msg
 renderSecond model =
-    let
-        newAst = Markdown.ElmWithId.parse model.counter ExtendedMath model.sourceText
-    in
-    Process.sleep 100
-        |> Task.andThen (\_ -> Process.sleep 1000 |> Task.andThen (\_ -> Task.succeed (newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC newAst)))
-        |> Task.perform GotSecondPart
+    renderAstFor model model.sourceText
+--    let
+--        newAst = Markdown.ElmWithId.parse model.counter ExtendedMath model.sourceText
+--    in
+--    Process.sleep 100
+--        |> Task.andThen (\_ -> Process.sleep 1000 |> Task.andThen (\_ -> Task.succeed (newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC newAst)))
+--        |> Task.perform GotSecondPart
 
 
 getFirstPart : String -> String
 getFirstPart str =
         String.left 1500 str
 
-initialText = Strings.text1 -- Strings.text2 ++ "\n\n" ++  Strings.text1 ++ "\n\n" ++  Strings.text2 ++ "\n\n"
+initialText = Strings.text1
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
@@ -108,17 +118,21 @@ doInit : ( Model, Cmd Msg )
 doInit =
     let
         lastAst = Markdown.ElmWithId.parse 0 ExtendedMath initialText
-        firstAst =  Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart initialText)
+        nMath = Markdown.ElmWithId.numberOfMathElements lastAst
+        firstAst = if nMath > 10 then
+                      Markdown.ElmWithId.parse 1 ExtendedMath (getFirstPart initialText)
+                   else
+                      lastAst
+
         model =
-            { sourceText = Strings.text1
-            , firstPart = String.left 400 initialText
-            , secondPart = Nothing
-            , counter = 1
+            {
+              counter = 2
             , seed = 0
             , option = ExtendedMath
+            , sourceText = initialText
             , lastAst = lastAst
             , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
-            , message = "Starting up"
+            , message = "Starting up, number of math elements = " ++ String.fromInt nMath
             }
     in
     ( model, renderSecond model )
@@ -137,8 +151,9 @@ update msg model =
               newAst = Diff.mergeWith ParseWithId.equal model.lastAst newAst_
             in
             ( { model
-                | sourceText = str
-                , counter = model.counter + 1
+                |
+                  counter = model.counter + 1
+                , sourceText = str
                 , lastAst = newAst
                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC newAst
 
@@ -154,11 +169,14 @@ update msg model =
 
         Clear ->
             ( { model
-                | sourceText = ""
-                , counter = model.counter + 1
+                |
+                  counter = model.counter + 1
+                , sourceText = ""
+                , lastAst = emptyAst
+                , renderedText = emptyRenderedText
                 , message = "Cleared"
               }
-            , Cmd.none
+            , renderAstFor model ""
             )
 
         Restart ->
@@ -192,12 +210,6 @@ update msg model =
             in
             ( newModel , renderSecond newModel)
 
-        RefreshText ->
-            ( { model
-                | counter = model.counter + 1
-              }
-            , Cmd.none
-            )
 
         SelectStandard ->
             ( { model
