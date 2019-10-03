@@ -48,6 +48,7 @@ main =
         , subscriptions = subscriptions
         }
 
+-- MODEL
 
 type alias Model =
     { sourceText : String
@@ -96,14 +97,14 @@ type alias Flags =
 
 renderSecond : Model -> Cmd Msg
 renderSecond model =
-    Process.sleep 10
-        |> Task.andThen (\_ -> Process.sleep 2000 |> Task.andThen (\_ -> Task.succeed (Markdown.ElmWithId.renderHtmlWithExternaTOC model.lastAst)))
+    Process.sleep 100
+        |> Task.andThen (\_ -> Process.sleep 1000 |> Task.andThen (\_ -> Task.succeed (Markdown.ElmWithId.renderHtmlWithExternaTOC <| Markdown.ElmWithId.parse model.counter ExtendedMath model.sourceText)))
         |> Task.perform GotSecondPart
 
 
 getFirstPart : String -> String
 getFirstPart str =
-    String.left 300 str
+    String.left 1000 str
 
 initialText = Strings.text1 -- Strings.text2 ++ "\n\n" ++  Strings.text1 ++ "\n\n" ++  Strings.text2 ++ "\n\n"
 
@@ -248,7 +249,7 @@ display : Model -> Html Msg
 display model =
   let
      rt : RenderedText Msg
-     rt = Markdown.ElmWithId.renderHtmlWithExternaTOC model.lastAst
+     rt = model.renderedText
   in
     div []
         [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
