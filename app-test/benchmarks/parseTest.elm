@@ -17,7 +17,7 @@ suite : Benchmark
 suite =
     describe "Diff"
 
-        [   benchmark "parse with out id" <|
+        [   benchmark "parse without id" <|
               \_ -> Parse.toMDBlockTree ExtendedMath  text1
 
          ,  benchmark "parse with id" <|
