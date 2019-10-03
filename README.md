@@ -139,3 +139,9 @@ issue on the [Github repository](https://github.com/jxxcarlson/elm-markdown)
 regarding bugs or anything else. I will steer
 this library towards the Commonmark spec to the greatest
 extent possible by the method of successive approximations
+
+
+## Thanks
+
+Thanks to Folkert deVries for a number of significant optimizations to
+the parser. 
