@@ -11,6 +11,7 @@ import Parse
 import Random
 import Strings
 import Style exposing (..)
+import Browser.Dom
 
 
 main : Program Flags Model Msg
