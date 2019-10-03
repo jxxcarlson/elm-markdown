@@ -165,7 +165,7 @@ mmBlockTreeToHtml tree =
       let
         (MDBlockWithId id bt lev content) = Tree.label tree
       in
-      Keyed.node "div" []
+      Keyed.node "span" []
         [(stringOfId id, renderBlock (MDBlock bt lev content))]
 
     else
@@ -187,10 +187,10 @@ mmBlockTreeToHtml tree =
                Keyed.node "div" [HA.id (stringOfId id)] [(stringOfId id, displayMathText (projectedStringOfBlockContent content))]
 
             MDBlockWithId id (BalancedBlock Verbatim) _ _ ->
-                Html.div [HA.id (stringOfId id)] []
+                Html.pre [HA.id (stringOfId id)] [Html.text  "OUF: Verbatim!"]
 
             MDBlockWithId id (BalancedBlock DisplayCode) _ _ ->
-               Html.div [HA.id (stringOfId id)] []
+               Html.div [HA.id (stringOfId id)] [Html.text  "OUF: Code!"]
 
 
 

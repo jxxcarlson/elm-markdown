@@ -78,6 +78,23 @@ projectedStringOfBlockContent blockContent =
 
 idOfBlock : MDBlockWithId -> Id
 idOfBlock (MDBlockWithId id _ _ _) = id
+
+
+{-|
+Check for equality of
+
+    - blockType
+    - level
+    - content
+
+ ignoring the id.
+
+-}
+slowerEqual : MDBlockWithId -> MDBlockWithId -> Bool
+slowerEqual (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
+    bt1 == bt2 && l1 == l2 && c1 == c2
+
+
 {-|
 Check for equality of
 
@@ -90,7 +107,65 @@ Check for equality of
 -}
 equal : MDBlockWithId -> MDBlockWithId -> Bool
 equal (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
-    bt1 == bt2 && l1 == l2 && c1 == c2
+    if (l1 - l2) == 0 then
+        -- && bt1 == bt2 && c1 == c2
+        case bt1 of
+            BalancedBlock balanced1 ->
+                case bt2 of
+                    BalancedBlock balanced2 ->
+                        if balanced1 == balanced2 then
+                            case c1 of
+                                T a ->
+                                    case c2 of
+                                        T b ->
+                                            a == b
+
+                                        _ ->
+                                            False
+
+                                M a ->
+                                    case c2 of
+                                        M b ->
+                                            a == b
+
+                                        _ ->
+                                            False
+
+                        else
+                            False
+
+                    MarkdownBlock _ ->
+                        False
+
+            MarkdownBlock markdown1 ->
+                case bt2 of
+                    MarkdownBlock markdown2 ->
+                        if markdown1 == markdown2 then
+                            case c1 of
+                                T a ->
+                                    case c2 of
+                                        T b ->
+                                            a == b
+
+                                        _ ->
+                                            False
+
+                                M a ->
+                                    case c2 of
+                                        M b ->
+                                            a == b
+
+                                        _ ->
+                                            False
+
+                        else
+                            False
+
+                    BalancedBlock _ ->
+                        False
+
+    else
+        False
 
 {-| The type of a parsed Block
 -}

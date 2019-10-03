@@ -17,10 +17,12 @@ are properly rendered.
 
 
 See [markdown.minilatex.app](https://markdown.minilatex.app)
-for a demo of the latest implementation, or see the code in
-this repo, `./app-test/`
-
-
+for a demo of the latest implementation.  There are two versions
+of the demo, one in  `./app-demo/`, the other in `app-demo-optimized`.
+The former works well for Markdown documents with no math text or not
+too much math text.  The latter has some optimizations for math-heavy 
+documents, but is slightly more complex to implement.  This is explained
+in the comments to the code.
 
 ## Example
 

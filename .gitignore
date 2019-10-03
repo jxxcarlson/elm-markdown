@@ -1,12 +1,12 @@
 grammar.md
 elm-stuff/
 .idea/
-app-test/Main.js
-app-test/Main.min.js
-app-test/package-lock.json
+app-demo-optimized/Main.js
+app-demo-optimized/Main.min.js
+app-demo-optimized/package-lock.json
 src/MDExample.elm
 mathjax3/browser.application-demo/Main.js
 mathjax3/browser.application-demo/elm-stuff
 mathjax3/browser.elemment-demo/Main.js
 mathjax3/browser.element-demo/elm-stuff
-app-test/bench.html
+app-demo-optimized/bench.html
