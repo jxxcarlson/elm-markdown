@@ -1,6 +1,9 @@
 grammar.md
 elm-stuff/
 .idea/
+app-demo/Main.js
+app-demo/Main.min.js
+app-demo/package-lock.json
 app-demo-optimized/Main.js
 app-demo-optimized/Main.min.js
 app-demo-optimized/package-lock.json
