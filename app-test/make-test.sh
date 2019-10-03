@@ -1,1 +1,1 @@
-elm make benchmarks/parseTest.elm --output=bench.html
+elm make --optimize benchmarks/parseTest.elm --output=bench.html

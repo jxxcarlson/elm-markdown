@@ -18,10 +18,10 @@ suite =
     describe "Diff"
 
         [   benchmark "parse without id" <|
-              \_ -> Parse.toMDBlockTree ExtendedMath  text1
+              \_ -> Parse.toMDBlockTree ExtendedMath  (text2 ++ "\n\n" ++ text2)
 
          ,  benchmark "parse with id" <|
-                       \_ -> ParseWithId.toMDBlockTree 1 ExtendedMath  text1
+                       \_ -> ParseWithId.toMDBlockTree 1 ExtendedMath  (text2 ++ "\n\n" ++ text2)
 
 
     ]

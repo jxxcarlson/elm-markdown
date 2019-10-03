@@ -6,6 +6,7 @@
     "version": "2.2.4",
     "exposed-modules": [
         "Markdown.Elm",
+        "Markdown.ElmWithId",
         "Markdown.Option",
         "Parse",
         "MDInline"

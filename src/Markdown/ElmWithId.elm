@@ -1,9 +1,12 @@
 module Markdown.ElmWithId exposing (parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC)
 
-{-| Render Markdown text to Html using one of the
-options defined in the `Option` module.
+{-| Use this module if you need to edit math + markdown *and*
+require optimizations for speed.  The
+function `parse` yields an AST.  The functions `renderHtml`,
+`renderHtmlWithTOC`, and `renderHtmlWithExternaTOC` render the
+AST in various forms, as described below.
 
-@docs toHtml, toHtmlWithTOC, toHtmlWithExternaTOC
+@docs parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC
 
 -}
 
@@ -50,10 +53,19 @@ toHtml version option str =
       |> parse version option
       |> renderHtml
 
+{-| Given a version number, an option defining
+a flavor of Markdown, and a text string,
+return a parse tree.
+
+-}
 parse : Int -> Option -> String -> Tree MDBlockWithId
 parse version option str =
    ParseWithId.toMDBlockTree version option str
 
+
+{-| Render a parse tree to Html.
+
+-}
 renderHtml :  Tree MDBlockWithId -> Html msg
 renderHtml blockTreeWithId =
     blockTreeWithId
@@ -61,9 +73,7 @@ renderHtml blockTreeWithId =
          |> List.map mmBlockTreeToHtml
          |> (\x -> Html.div [] x)
 
-{-| Like `toHtml`, but constructs a table of contents.
 
--}
 toHtmlWithTOC : Int -> Option -> String -> Html msg
 toHtmlWithTOC version option str =
   let
@@ -93,6 +103,10 @@ toHtmlWithTOC version option str =
         _ ->
            Html.div [] (separator::toc::separator::spacing::title::body)
 
+
+{-| Like `renderHtml`, but constructs a table of contents.
+
+-}
 renderHtmlWithTOC : Tree MDBlockWithId -> Html msg
 renderHtmlWithTOC ast =
   let
@@ -119,9 +133,9 @@ renderHtmlWithTOC ast =
         _ ->
            Html.div [] (separator::toc::separator::spacing::title::body)
 
-{-| Like `toHtmlWithTOC`, but constructs returns a record,
-one field of which is the rendered document,
-anther of which is the rendered table of contents.
+{-| Like `renderHtmlWithTOC`, but transforms a parser three  into a record,
+with fields for the document title, the table of contents, and the body
+of the document.
 
 -}
 renderHtmlWithExternaTOC : Tree MDBlockWithId -> {title: Html msg, toc: Html msg, document: Html msg}
