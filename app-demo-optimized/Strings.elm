@@ -1,4 +1,4 @@
-module Strings exposing (initialText, notes)
+module Strings exposing (text1, text2, notes)
 
 
 testText =
@@ -17,9 +17,8 @@ You should see two formulas above.
 
 """
 
-initialText = initialText2
 
-initialText1 =
+text1 =
     """# A Pure Elm Markdown Parser
 
 
@@ -233,7 +232,7 @@ Then open `index.html` to run the app.
 
 """
 
-initialText2 =
+text2 =
     """
 # Propagation and Evolution
 
@@ -420,6 +419,10 @@ plt.title('Free particle propagator, t=4');
 ````
 
 """
+
+
+
+
 notes =
     """
 # Notes

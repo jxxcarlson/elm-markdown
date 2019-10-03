@@ -67,10 +67,12 @@ type alias Model =
 
 type Msg
     = Clear
+    | Restart
     | GetContent String
     | GenerateSeed
     | NewSeed Int
-    | RestoreText
+    | LoadExample1
+    | LoadExample2
     | RefreshText
     | SelectStandard
     | SelectExtended
@@ -101,27 +103,33 @@ renderSecond model =
 
 getFirstPart : String -> String
 getFirstPart str =
-    String.left 500 str
+    String.left 300 str
+
+initialText = Strings.text1 -- Strings.text2 ++ "\n\n" ++  Strings.text1 ++ "\n\n" ++  Strings.text2 ++ "\n\n"
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
+    doInit
+
+
+doInit : ( Model, Cmd Msg )
+doInit =
     let
         model =
-            { sourceText = Strings.initialText
-            , firstPart = String.left 400 Strings.initialText
+            { sourceText = Strings.text1
+            , firstPart = String.left 400 initialText
             , secondPart = Nothing
             , counter = 1
             , seed = 0
             , option = ExtendedMath
-            , firstAst =  Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart Strings.initialText)
-            , lastAst = Markdown.ElmWithId.parse 0 ExtendedMath Strings.initialText
-            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart Strings.initialText)
+            , firstAst =  Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart initialText)
+            , lastAst = Markdown.ElmWithId.parse 0 ExtendedMath initialText
+            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart initialText)
             , docLoaded = False
             , message = "Starting up"
             }
     in
     ( model, renderSecond model )
-
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
@@ -155,17 +163,41 @@ update msg model =
             ( { model
                 | sourceText = ""
                 , counter = model.counter + 1
+                , message = "Cleared"
               }
             , Cmd.none
             )
 
-        RestoreText ->
-            ( { model
-                | counter = model.counter + 1
-                , sourceText = Strings.initialText
-              }
-            , Cmd.none
-            )
+        Restart ->
+            doInit
+
+        LoadExample1 ->
+            let
+                firstAst =  Markdown.ElmWithId.parse model.counter ExtendedMath (getFirstPart Strings.text1)
+                newModel = { model
+                               | counter = model.counter + 1
+                                 , message = "Loading example 1"
+                                 , sourceText = Strings.text1
+                                 , firstAst =  firstAst
+                                 , lastAst = Markdown.ElmWithId.parse model.counter ExtendedMath Strings.text1
+                                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
+                               }
+            in
+            ( newModel , renderSecond newModel)
+
+        LoadExample2 ->
+            let
+                firstAst =  Markdown.ElmWithId.parse model.counter ExtendedMath (getFirstPart Strings.text2)
+                newModel = { model
+                               | counter = model.counter + 1
+                                 , message = "Loading example 2"
+                                 , sourceText = Strings.text2
+                                 , firstAst =  firstAst
+                                 , lastAst = Markdown.ElmWithId.parse model.counter ExtendedMath Strings.text2
+                                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
+                               }
+            in
+            ( newModel , renderSecond newModel)
 
         RefreshText ->
             ( { model
@@ -223,7 +255,7 @@ display model =
         , p [style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt"] [text "Now using MathJax 3"]
         , editor model
         , renderedSource rt model
-        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80, span [style "margin-left" "30px", style "margin-right" "10px" ] [text "Markdown flavor: "], standardMarkdownButton model 100, extendedMarkdownButton model 100, extendedMathMarkdownButton model 140  ]
+        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60,restartButton 70,  example1Button 80, example2Button 80, span [style "margin-left" "30px", style "margin-right" "10px" ] [text "Markdown flavor: "], standardMarkdownButton model 100, extendedMarkdownButton model 100, extendedMathMarkdownButton model 140  ]
         , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "minilatex.io" ]
         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "package.elm-lang.org" ]
         , p [] [text model.message]
@@ -271,10 +303,15 @@ renderedSource1 rt model =
 clearButton width =
     button ([ onClick Clear ] ++ buttonStyle colorBlue width) [ text "Clear" ]
 
+restartButton width =
+    button ([ onClick Restart ] ++ buttonStyle colorBlue width) [ text "Restart" ]
 
-restoreTextButton width =
-    button ([ onClick RestoreText ] ++ buttonStyle colorBlue width) [ text "Restore" ]
 
+example1Button width =
+    button ([ onClick LoadExample1 ] ++ buttonStyle colorBlue width) [ text "Example 1" ]
+
+example2Button width =
+    button ([ onClick LoadExample2 ] ++ buttonStyle colorBlue width) [ text "Example 2" ]
 
 standardMarkdownButton model width =
     button ([ onClick SelectStandard ] ++ buttonStyleSelected (model.option == Standard) colorBlue colorDarkRed width) [ text "Standard" ]
