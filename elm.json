@@ -24,7 +24,7 @@
         "elm-explorations/test": "1.2.1 <= v < 2.0.0",
         "jxxcarlson/htree": "2.0.1 <= v < 3.0.0",
         "zwilias/elm-html-string": "2.0.2 <= v < 3.0.0",
-        "zwilias/elm-rosetree": "1.4.0 <= v < 2.0.0"
+        "zwilias/elm-rosetree": "1.5.0 <= v < 2.0.0"
     },
     "test-dependencies": {}
 }

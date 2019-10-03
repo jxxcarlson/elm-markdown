@@ -12,7 +12,9 @@ import Strings
 import Style exposing (..)
 import Tree exposing(Tree)
 import ParseWithId
-import Diff
+import Tree.Diff as Diff
+import Process
+import Task
 
 {-|  This version of the demo app has some optimizations
 that make the editing process smoother for long documents,
@@ -49,12 +51,19 @@ main =
 
 type alias Model =
     { sourceText : String
+    , firstPart : String
+    , secondPart : Maybe String
     , counter : Int
     , seed : Int
     , option : Option
+    , firstAst : Tree ParseWithId.MDBlockWithId
     , lastAst : Tree ParseWithId.MDBlockWithId
+    , renderedText : RenderedText Msg
+    , docLoaded : Bool
+    , message : String
     }
 
+-- MSG
 
 type Msg
     = Clear
@@ -66,24 +75,52 @@ type Msg
     | SelectStandard
     | SelectExtended
     | SelectExtendedMath
+    | GotSecondPart (RenderedText Msg)
 
 
 type alias Flags =
     {}
 
 
+--parseFirst : String -> String
+--parseFirst doc =
+--    String.left 12 doc
+--
+--parseSecond : String -> Cmd Msg
+--parseSecond doc =
+--    Process.sleep 10
+--        |> Task.andThen (\_ -> Process.sleep 2000 |> Task.andThen (\_ -> Task.succeed (String.dropLeft 12 doc)))
+--        |> Task.perform GotSecondPart
+
+renderSecond : Model -> Cmd Msg
+renderSecond model =
+    Process.sleep 10
+        |> Task.andThen (\_ -> Process.sleep 2000 |> Task.andThen (\_ -> Task.succeed (Markdown.ElmWithId.renderHtmlWithExternaTOC model.lastAst)))
+        |> Task.perform GotSecondPart
+
+
+getFirstPart : String -> String
+getFirstPart str =
+    String.left 500 str
+
 init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
         model =
             { sourceText = Strings.initialText
+            , firstPart = String.left 400 Strings.initialText
+            , secondPart = Nothing
             , counter = 1
             , seed = 0
             , option = ExtendedMath
-            , lastAst =  Markdown.ElmWithId.parse 0 ExtendedMath Strings.initialText
+            , firstAst =  Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart Strings.initialText)
+            , lastAst = Markdown.ElmWithId.parse 0 ExtendedMath Strings.initialText
+            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart Strings.initialText)
+            , docLoaded = False
+            , message = "Starting up"
             }
     in
-    ( model, Cmd.none )
+    ( model, renderSecond model )
 
 
 subscriptions : Model -> Sub Msg
@@ -158,7 +195,8 @@ update msg model =
             , Cmd.none
             )
 
-
+        GotSecondPart newRenderedText ->
+            ({model | renderedText = newRenderedText, message = "Got second part"}, Cmd.none)
 
 --
 -- VIEW FUNCTIONS
@@ -188,6 +226,7 @@ display model =
         , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80, span [style "margin-left" "30px", style "margin-right" "10px" ] [text "Markdown flavor: "], standardMarkdownButton model 100, extendedMarkdownButton model 100, extendedMathMarkdownButton model 140  ]
         , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "minilatex.io" ]
         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "package.elm-lang.org" ]
+        , p [] [text model.message]
         ]
 
 
