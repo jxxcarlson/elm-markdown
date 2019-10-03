@@ -83,16 +83,6 @@ type alias Flags =
     {}
 
 
---parseFirst : String -> String
---parseFirst doc =
---    String.left 12 doc
---
---parseSecond : String -> Cmd Msg
---parseSecond doc =
---    Process.sleep 10
---        |> Task.andThen (\_ -> Process.sleep 2000 |> Task.andThen (\_ -> Task.succeed (String.dropLeft 12 doc)))
---        |> Task.perform GotSecondPart
-
 renderSecond : Model -> Cmd Msg
 renderSecond model =
     let
@@ -105,7 +95,7 @@ renderSecond model =
 
 getFirstPart : String -> String
 getFirstPart str =
-    String.left 1000 str
+        String.left 1500 str
 
 initialText = Strings.text1 -- Strings.text2 ++ "\n\n" ++  Strings.text1 ++ "\n\n" ++  Strings.text2 ++ "\n\n"
 
