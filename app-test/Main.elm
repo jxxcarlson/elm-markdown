@@ -5,13 +5,14 @@ import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
-import Markdown.Elm
+import Markdown.ElmWithId
 import Markdown.Option exposing (Option(..))
-import Parse
 import Random
 import Strings
 import Style exposing (..)
-import Browser.Dom
+import Tree exposing(Tree)
+import ParseWithId exposing(MDBlockWithId, equal)
+import Diff
 
 
 main : Program Flags Model Msg
@@ -29,6 +30,7 @@ type alias Model =
     , counter : Int
     , seed : Int
     , option : Option
+    , lastAst : Tree MDBlockWithId
     }
 
 
@@ -53,9 +55,10 @@ init flags =
     let
         model =
             { sourceText = Strings.initialText
-            , counter = 0
+            , counter = 1
             , seed = 0
             , option = ExtendedMath
+            , lastAst =  Markdown.ElmWithId.parse 0 ExtendedMath Strings.initialText
             }
     in
     ( model, Cmd.none )
@@ -70,9 +73,15 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetContent str ->
+            let
+              newAst_ =  Markdown.ElmWithId.parse model.counter model.option str
+              newAst = Diff.mergeWith equal model.lastAst newAst_
+            in
             ( { model
                 | sourceText = str
                 , counter = model.counter + 1
+                , lastAst = newAst
+
               }
             , Cmd.none
             )
@@ -147,7 +156,7 @@ display : Model -> Html Msg
 display model =
   let
      rt : RenderedText Msg
-     rt = Markdown.Elm.toHtmlWithExternaTOC model.option model.sourceText
+     rt = Markdown.ElmWithId.renderHtmlWithExternaTOC model.lastAst
   in
     div []
         [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
@@ -176,10 +185,21 @@ renderedSource rt model =
             String.fromInt model.counter
     in
       div [] [
-        Keyed.node "div"  renderedSourceStyle [ (token ++ "-xx", h1 [style "font-size" "14px"] [ rt.title]), ( token, rt.document ) ]
+         div  renderedSourceStyle [ h1 [style "font-size" "14px"] [rt.title],  rt.document  ]
        , div tocStyle [rt.toc]
       ]
 
+
+renderedSource1 : RenderedText Msg -> Model -> Html Msg
+renderedSource1 rt model =
+    let
+        token =
+            String.fromInt model.counter
+    in
+      div [] [
+        Keyed.node "div"  renderedSourceStyle [ (token ++ "-xx", h1 [style "font-size" "14px"] [ rt.title]), ( token, rt.document ) ]
+       , div tocStyle [rt.toc]
+      ]
 
 
 

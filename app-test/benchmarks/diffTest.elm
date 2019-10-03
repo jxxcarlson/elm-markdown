@@ -1,9 +1,9 @@
 module DiffTest exposing(..) 
 
-import XParse
+import ParseWithId
 import Array
 import Benchmark exposing (..)
-import XParse exposing(..)
+import ParseWithId exposing(..)
 import Markdown.Option exposing(..)
 import Diff
 import Benchmark.Runner exposing (BenchmarkProgram, program)

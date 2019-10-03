@@ -836,6 +836,7 @@ stringOfBlockContent blockContent =
             str
 
 
+
 stringOfMMInline : MDInline -> String
 stringOfMMInline mmInline =
     MDInline.string mmInline

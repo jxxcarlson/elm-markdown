@@ -1,6 +1,7 @@
-module XParse exposing
-    ( toMDBlockTree, BlockContent(..), equal,
-       MDBlock(..), stringOfMDBlockTree)
+module ParseWithId exposing
+    ( toMDBlockTree, BlockContent(..)
+      , equal, MDBlockWithId(..), MDBlock(..), project,
+       stringOfMDBlockTree, stringOfId, idOfBlock, projectedStringOfBlockContent)
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
@@ -54,10 +55,29 @@ by applying
     MDInline.parse : Option -> String -> MDInline
 
 -}
+type MDBlockWithId
+    = MDBlockWithId Id BlockType Level BlockContent
+
+
 type MDBlock
-    = MDBlock Id BlockType Level BlockContent
+    = MDBlock BlockType Level BlockContent
+
+project : MDBlockWithId -> MDBlock
+project (MDBlockWithId _ bt lev content) =
+    (MDBlock bt lev content)
+
+projectedStringOfBlockContent : BlockContent -> String
+projectedStringOfBlockContent blockContent =
+    case blockContent of
+        M mmInline ->
+            ""
+
+        T str ->
+            str
 
 
+idOfBlock : MDBlockWithId -> Id
+idOfBlock (MDBlockWithId id _ _ _) = id
 {-|
 Check for equality of
 
@@ -68,8 +88,8 @@ Check for equality of
  ignoring the id.
 
 -}
-equal : MDBlock -> MDBlock -> Bool
-equal (MDBlock _ bt1 l1 c1) (MDBlock _ bt2 l2 c2) =
+equal : MDBlockWithId -> MDBlockWithId -> Bool
+equal (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
     bt1 == bt2 && l1 == l2 && c1 == c2
 
 {-| The type of a parsed Block
@@ -183,18 +203,18 @@ Example:
     --> Tree (MDBlock (MarkdownBlock Root) 0 (M (Paragraph [Line [OrdinaryText "DOCUMENT"]]))) [Tree (MDBlock (MarkdownBlock Plain) 1 (M (Paragraph [Line [OrdinaryText ("This "),BoldText ("is "),OrdinaryText ("a test.")],Line []]))) []]
 
 -}
-toMDBlockTree : Int -> Option -> Document -> Tree MDBlock
+toMDBlockTree : Int -> Option -> Document -> Tree MDBlockWithId
 toMDBlockTree version option document =
     document
         |> toBlockTree option
         |> Tree.map (selectMapper option)
         |> Tree.indexedMap (\idx block -> setBlockIndex version idx block)
 
-setBlockIndex : Int -> Int -> MDBlock -> MDBlock
-setBlockIndex version idx (MDBlock id bt lev blockContent) =
-       MDBlock (idx,version) bt lev blockContent
+setBlockIndex : Int -> Int -> MDBlockWithId -> MDBlockWithId
+setBlockIndex version idx (MDBlockWithId id bt lev blockContent) =
+       MDBlockWithId (idx,version) bt lev blockContent
 
-selectMapper : Option -> (Block -> MDBlock)
+selectMapper : Option -> (Block -> MDBlockWithId)
 selectMapper option ((Block id bt level_ content_) as block) =
     case option of
         Standard ->
@@ -207,59 +227,59 @@ selectMapper option ((Block id bt level_ content_) as block) =
             mapperExtendedMath option block
 
 
-mapperExtendedMath : Option -> Block -> MDBlock
+mapperExtendedMath : Option -> Block -> MDBlockWithId
 mapperExtendedMath option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
             case mt of
                 Poetry ->
-                    MDBlock id (MarkdownBlock mt) level_ (M (Stanza content_))
+                    MDBlockWithId id (MarkdownBlock mt) level_ (M (Stanza content_))
 
                 _ ->
-                    MDBlock id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
+                    MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MDBlock id (BalancedBlock DisplayCode) level_ (T content_)
+            MDBlockWithId id (BalancedBlock DisplayCode) level_ (T content_)
 
         BalancedBlock Verbatim ->
-            MDBlock id (BalancedBlock Verbatim) level_ (T content_)
+            MDBlockWithId id (BalancedBlock Verbatim) level_ (T content_)
 
         BalancedBlock DisplayMath ->
-            MDBlock id (BalancedBlock DisplayMath) level_ (T content_)
+            MDBlockWithId id (BalancedBlock DisplayMath) level_ (T content_)
 
 
-mapperExtended : Option -> Block -> MDBlock
+mapperExtended : Option -> Block -> MDBlockWithId
 mapperExtended option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
             case mt of
                 Poetry ->
-                    MDBlock id (MarkdownBlock mt) level_ (M (Stanza content_))
+                    MDBlockWithId id (MarkdownBlock mt) level_ (M (Stanza content_))
 
                 _ ->
-                    MDBlock id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
+                    MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MDBlock id (BalancedBlock DisplayCode) level_ (T content_)
+            MDBlockWithId id (BalancedBlock DisplayCode) level_ (T content_)
 
         BalancedBlock Verbatim ->
-            MDBlock id (BalancedBlock Verbatim) level_ (T content_)
+            MDBlockWithId id (BalancedBlock Verbatim) level_ (T content_)
 
         _ ->
-            MDBlock id (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
+            MDBlockWithId id (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
 
 
-mapperStandard : Option -> Block -> MDBlock
+mapperStandard : Option -> Block -> MDBlockWithId
 mapperStandard option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
-            MDBlock id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
+            MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MDBlock id (BalancedBlock DisplayCode) level_ (T content_)
+            MDBlockWithId id (BalancedBlock DisplayCode) level_ (T content_)
 
         _ ->
-            MDBlock id (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
+            MDBlockWithId id (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
 
 
 
@@ -816,6 +836,7 @@ stringOfId : Id -> String
 stringOfId id =
     "[" ++ (String.fromInt <| Tuple.first id) ++ ", " ++ (String.fromInt <| Tuple.second id) ++ "]"
 
+
 stringOfBlock : Block -> String
 stringOfBlock (Block id bt lev_ content_) =
     String.repeat (2 * lev_) " "
@@ -839,7 +860,7 @@ indent k str =
 {-| A string representation of an MDBlockTree.  Useful
 for verifying the validity of the AST.
 -}
-stringOfMDBlockTree : Tree MDBlock -> String
+stringOfMDBlockTree : Tree MDBlockWithId -> String
 stringOfMDBlockTree tree =
     tree
         |> Tree.flatten
@@ -847,8 +868,8 @@ stringOfMDBlockTree tree =
         |> String.join "\n"
 
 
-stringOfMDBlock : MDBlock -> String
-stringOfMDBlock (MDBlock id bt lev_ content_) =
+stringOfMDBlock : MDBlockWithId -> String
+stringOfMDBlock (MDBlockWithId id bt lev_ content_) =
     String.repeat (2 * lev_) " "
         ++ BlockType.stringOfBlockType bt
         ++ stringOfId id

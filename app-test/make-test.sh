@@ -1,1 +1,1 @@
-elm make benchmarks/diffTest2.elm --output=bench.html
+elm make benchmarks/parseTest.elm --output=bench.html
