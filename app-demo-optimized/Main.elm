@@ -57,10 +57,8 @@ type alias Model =
     , counter : Int
     , seed : Int
     , option : Option
-    , firstAst : Tree ParseWithId.MDBlockWithId
     , lastAst : Tree ParseWithId.MDBlockWithId
     , renderedText : RenderedText Msg
-    , docLoaded : Bool
     , message : String
     }
 
@@ -78,7 +76,7 @@ type Msg
     | SelectStandard
     | SelectExtended
     | SelectExtendedMath
-    | GotSecondPart (RenderedText Msg)
+    | GotSecondPart (Tree ParseWithId.MDBlockWithId, RenderedText Msg)
 
 
 type alias Flags =
@@ -97,8 +95,11 @@ type alias Flags =
 
 renderSecond : Model -> Cmd Msg
 renderSecond model =
+    let
+        newAst = Markdown.ElmWithId.parse model.counter ExtendedMath model.sourceText
+    in
     Process.sleep 100
-        |> Task.andThen (\_ -> Process.sleep 1000 |> Task.andThen (\_ -> Task.succeed (Markdown.ElmWithId.renderHtmlWithExternaTOC <| Markdown.ElmWithId.parse model.counter ExtendedMath model.sourceText)))
+        |> Task.andThen (\_ -> Process.sleep 1000 |> Task.andThen (\_ -> Task.succeed (newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC newAst)))
         |> Task.perform GotSecondPart
 
 
@@ -116,6 +117,8 @@ init flags =
 doInit : ( Model, Cmd Msg )
 doInit =
     let
+        lastAst = Markdown.ElmWithId.parse 0 ExtendedMath initialText
+        firstAst =  Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart initialText)
         model =
             { sourceText = Strings.text1
             , firstPart = String.left 400 initialText
@@ -123,10 +126,8 @@ doInit =
             , counter = 1
             , seed = 0
             , option = ExtendedMath
-            , firstAst =  Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart initialText)
-            , lastAst = Markdown.ElmWithId.parse 0 ExtendedMath initialText
-            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| Markdown.ElmWithId.parse -1 ExtendedMath (getFirstPart initialText)
-            , docLoaded = False
+            , lastAst = lastAst
+            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
             , message = "Starting up"
             }
     in
@@ -149,6 +150,7 @@ update msg model =
                 | sourceText = str
                 , counter = model.counter + 1
                 , lastAst = newAst
+                , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC newAst
 
               }
             , Cmd.none
@@ -179,7 +181,7 @@ update msg model =
                                | counter = model.counter + 1
                                  , message = "Loading example 1"
                                  , sourceText = Strings.text1
-                                 , firstAst =  firstAst
+                                 --, firstAst =  firstAst
                                  , lastAst = Markdown.ElmWithId.parse model.counter ExtendedMath Strings.text1
                                  , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
                                }
@@ -193,7 +195,7 @@ update msg model =
                                | counter = model.counter + 1
                                  , message = "Loading example 2"
                                  , sourceText = Strings.text2
-                                 , firstAst =  firstAst
+                                 -- , firstAst =  firstAst
                                  , lastAst = Markdown.ElmWithId.parse model.counter ExtendedMath Strings.text2
                                  , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
                                }
@@ -228,8 +230,8 @@ update msg model =
             , Cmd.none
             )
 
-        GotSecondPart newRenderedText ->
-            ({model | renderedText = newRenderedText, message = "Got second part"}, Cmd.none)
+        GotSecondPart (newAst, newRenderedText) ->
+            ({model | lastAst = newAst, renderedText = newRenderedText, counter = model.counter + 1, message = "Got second part"}, Cmd.none)
 
 --
 -- VIEW FUNCTIONS
