@@ -4,7 +4,6 @@ import Browser
 import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
-import Html.Keyed as Keyed
 import Markdown.ElmWithId
 import Markdown.Option exposing (Option(..))
 import Random
@@ -61,7 +60,10 @@ type alias Model =
     , message : String
     }
 
+emptyAst : Tree ParseWithId.MDBlockWithId
 emptyAst =  Markdown.ElmWithId.parse -1 ExtendedMath ""
+
+emptyRenderedText : RenderedText Msg
 emptyRenderedText =  Markdown.ElmWithId.renderHtmlWithExternaTOC emptyAst
 
 -- MSG
@@ -145,11 +147,12 @@ update msg model =
               newAst = Diff.mergeWith ParseWithId.equal model.lastAst newAst_
             in
             ( { model
-                |
-                  counter = model.counter + 1
-                , sourceText = str
+                |  sourceText = str
+
+                -- rendering
                 , lastAst = newAst
                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC newAst
+                , counter = model.counter + 1
 
               }
             , Cmd.none
@@ -236,27 +239,33 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div outerStyle
+    div Style.outerStyle
         [ display model
         ]
-
 
 type alias RenderedText msg = {title: Html msg, toc: Html msg, document: Html msg}
 
 display : Model -> Html Msg
 display model =
-  let
-     rt : RenderedText Msg
-     rt = model.renderedText
-  in
     div []
         [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
         , p [style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt"] [text "Now using MathJax 3"]
         , editor model
-        , renderedSource rt model
-        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60,restartButton 70,  example1Button 80, example2Button 80, span [style "margin-left" "30px", style "margin-right" "10px" ] [text "Markdown flavor: "], standardMarkdownButton model 100, extendedMarkdownButton model 100, extendedMathMarkdownButton model 140  ]
-        , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "minilatex.io" ]
-        , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "package.elm-lang.org" ]
+        , renderedSource model
+        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [
+                clearButton 60
+              , restartButton 70
+              , example1Button 80
+              , example2Button 80
+              , span [style "margin-left" "30px", style "margin-right" "10px" ] [text "Markdown flavor: "]
+              , standardMarkdownButton model 100
+              , extendedMarkdownButton model 100
+              , extendedMathMarkdownButton model 140
+             ]
+        , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
+            [ text "minilatex.io" ]
+        , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
+            [ text "package.elm-lang.org" ]
         , p [] [text model.message]
         ]
 
@@ -270,30 +279,15 @@ editor model =
     textarea (editorTextStyle ++ [ onInput GetContent, HA.value model.sourceText ]) []
 
 
-renderedSource : RenderedText Msg -> Model -> Html Msg
-renderedSource rt model =
-    let
-        token =
-            String.fromInt model.counter
-    in
+renderedSource : Model -> Html Msg
+renderedSource model =
       div [] [
-         div  renderedSourceStyle [ h1 [style "font-size" "14px"] [rt.title],  rt.document  ]
-       , div tocStyle [rt.toc]
+         div  renderedSourceStyle [ h1 [style "font-size" "14px"] [
+            model.renderedText.title],  model.renderedText.document
+           ]
+
+       , div tocStyle [model.renderedText.toc]
       ]
-
-
-renderedSource1 : RenderedText Msg -> Model -> Html Msg
-renderedSource1 rt model =
-    let
-        token =
-            String.fromInt model.counter
-    in
-      div [] [
-        Keyed.node "div"  renderedSourceStyle [ (token ++ "-xx", h1 [style "font-size" "14px"] [ rt.title]), ( token, rt.document ) ]
-       , div tocStyle [rt.toc]
-      ]
-
-
 
 
 -- BUTTONS --
