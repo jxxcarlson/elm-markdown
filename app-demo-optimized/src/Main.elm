@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import Browser
+import Browser.Dom as Dom
 import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
@@ -57,6 +58,7 @@ type alias Model =
     , seed : Int
     , option : Option
     , sourceText : String
+    , elementOfSelectedLine : Maybe Dom.Element
     , lastAst : Tree ParseWithId.MDBlockWithId
     , renderedText : RenderedText Msg
     , message : String
@@ -71,10 +73,12 @@ emptyRenderedText =  Markdown.ElmWithId.renderHtmlWithExternaTOC emptyAst
 -- MSG
 
 type Msg
-    = Clear
+    = NoOp
+    | Clear
     | Restart
     | GetContent String
     | ProcessLine String
+    | GotElementOfSelectedLine (Result Dom.Error Dom.Element)
     | GenerateSeed
     | NewSeed Int
     | LoadExample1
@@ -128,6 +132,7 @@ doInit =
               counter = 2
             , seed = 0
             , option = ExtendedMath
+            , elementOfSelectedLine = Nothing
             , sourceText = initialText
             , lastAst = lastAst
             , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
@@ -167,7 +172,27 @@ update msg model =
                  Just id_ -> id_ |>  ParseWithId.stringOfId
 
           in
-            ({ model | message = "Clicked on id: " ++ id}, Cmd.none)
+            ({ model | message = "Clicked on id: " ++ id}, getElementOfSelectedLine id)
+
+        GotElementOfSelectedLine result ->
+            case result of
+                Ok element ->
+                    let
+                      _ = Debug.log "ELEMENT" element
+                      oldViewport_ = element.viewport
+                      newViewport_ = { oldViewport_ | y = element.element.y - 200  }
+
+                      newViewport : Dom.Viewport
+                      newViewport =  { scene = element.scene, viewport = newViewport_}
+
+                      newElement : Dom.Element
+                      newElement =  { element = element.element, scene = element.scene, viewport = newViewport_}
+
+                    in
+                    ( { model | elementOfSelectedLine = Just element }, setViewPortOfSelectedLine newViewport )
+
+                Err _ ->
+                    ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
 
         GenerateSeed ->
             ( model, Random.generate NewSeed (Random.int 1 10000) )
@@ -175,6 +200,7 @@ update msg model =
         NewSeed newSeed ->
             ( { model | seed = newSeed }, Cmd.none )
 
+        NoOp -> (model, Cmd.none)
         Clear ->
             ( { model
                 |
@@ -248,6 +274,19 @@ update msg model =
 ---
 
 
+getElementOfSelectedLine : String -> Cmd Msg
+getElementOfSelectedLine id =
+    Task.attempt GotElementOfSelectedLine (Dom.getElement id)
+
+setViewPortOfSelectedLine : Dom.Viewport -> Cmd Msg
+setViewPortOfSelectedLine viewport =
+    let
+        y = Debug.log "HHH"
+            viewport.viewport.y
+    in
+    Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
+
+
 view : Model -> Html Msg
 view model =
     div Style.outerStyle
@@ -304,7 +343,7 @@ editor model =
 renderedSource : Model -> Html Msg
 renderedSource model =
       div [] [
-         div  Style.renderedSourceStyle [ h1 [style "font-size" "14px"] [
+         div  (Style.renderedSourceStyle ++ [HA.id "_rendered_text_"]) [ h1 [style "font-size" "14px"] [
             model.renderedText.title],  model.renderedText.document
            ]
 
