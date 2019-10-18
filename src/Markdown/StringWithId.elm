@@ -1,4 +1,4 @@
-module Markdown.String exposing (..)
+module Markdown.StringWithId exposing (parse, renderHtml, toHtml, toHtmlWithTOC, renderHtmlWithExternaTOC, numberOfMathElements)
 
 
 {-| Render Markdown text to Html using one of the
@@ -8,29 +8,149 @@ options defined in the `Option` module.
 
 -}
 
-import Parse exposing (BlockContent(..), MDBlock(..))
+import ParseWithId exposing (BlockContent(..), MDBlock(..), MDBlockWithId(..), stringOfId, project
+  , idOfBlock, projectedStringOfBlockContent, Id)
+
 import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
 import Html.String as Html exposing (Html)
 import Html.String.Attributes as HA exposing (style)
+import Html.String.Keyed as Keyed
 import Json.Encode
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
 import Tree exposing (Tree)
-import ParseTools exposing(..)
 
-{-| Render output of the parser to Html, e.g.,
+typeOfMDBlock : MDBlock -> BlockType
+typeOfMDBlock (MDBlock bt _ _) =
+    bt
+
+isHeading : MDBlock -> Bool
+isHeading block =
+    case typeOfMDBlock block of
+        MarkdownBlock (Heading _) -> True
+        _ -> False
+
+typeOfMDBlockWithId : MDBlockWithId -> BlockType
+typeOfMDBlockWithId (MDBlockWithId _ bt _ _) =
+    bt
+
+isHeadingWithId : MDBlockWithId -> Bool
+isHeadingWithId block =
+    case typeOfMDBlockWithId block of
+        MarkdownBlock (Heading _) -> True
+        _ -> False
+
+isMathWithId : MDBlockWithId -> Bool
+isMathWithId block =
+    case typeOfMDBlockWithId block of
+        BalancedBlock DisplayMath -> True
+        _ -> False
+
+
+id0 = (-1,-1)
+
+
+{-| Parse the input and render it to Html, e.g.,
 
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Option -> String -> Html msg
-toHtml option str =
+toHtml : Int -> Option -> String -> Html msg
+toHtml version option str =
+    str
+      |> parse version option
+      |> renderHtml
+
+{-| Given a version number, an option defining
+a flavor of Markdown, and a text string,
+return a parse tree.
+
+-}
+parse : Int -> Option -> String -> Tree MDBlockWithId
+parse version option str =
+   ParseWithId.toMDBlockTree version option str
+
+
+{-| Render a parse tree to Html.
+
+-}
+renderHtml :  Tree MDBlockWithId -> Html msg
+renderHtml blockTreeWithId =
+    blockTreeWithId
+         |> Tree.children
+         |> List.map mmBlockTreeToHtml
+         |> (\x -> Html.div [] x)
+
+
+toHtmlWithTOC : Int -> Option -> String -> Html msg
+toHtmlWithTOC version option str =
   let
-      ast : Tree MDBlock
-      ast = Parse.toMDBlockTree option str
+      ast : Tree MDBlockWithId
+      ast = ParseWithId.toMDBlockTree version option str
 
       toc : Html msg
-      toc = tableOfContentsAsHtml ast
+      toc = tableOfContentsAsHtml (Tree.map project ast)
+
+      bodyAST : List (Tree MDBlockWithId)
+      bodyAST = ast |> Tree.children
+
+      headOfBodyAST = List.head bodyAST |> Maybe.map (Tree.map project)
+
+      html = bodyAST |> List.map mmBlockTreeToHtml
+      title = List.head html |> Maybe.withDefault (Html.div [] [])
+      body = List.drop 1 html
+
+      separator = Html.hr [HA.style "padding-bottom" "2px", HA.style "background-color" "#aaa", HA.style "border-width" "0"] []
+      spacing =  Html.div [HA.style "padding-bottom" "40px"] []
+
+
+  in
+    case Maybe.map (isHeading << Tree.label) headOfBodyAST of
+        Just True ->
+           Html.div [] (title::separator::toc::separator::spacing::body)
+        _ ->
+           Html.div [] (separator::toc::separator::spacing::title::body)
+
+
+{-| Like `renderHtml`, but constructs a table of contents.
+
+-}
+renderHtmlWithTOC : Tree MDBlockWithId -> Html msg
+renderHtmlWithTOC ast =
+  let
+      toc : Html msg
+      toc = tableOfContentsAsHtml (Tree.map project ast)
+
+      bodyAST : List (Tree MDBlockWithId)
+      bodyAST = ast |> Tree.children
+
+      headOfBodyAST = List.head bodyAST |> Maybe.map (Tree.map project)
+
+      html = bodyAST |> List.map mmBlockTreeToHtml
+      title = List.head html |> Maybe.withDefault (Html.div [] [])
+      body = List.drop 1 html
+
+      separator = Html.hr [HA.style "padding-bottom" "2px", HA.style "background-color" "#aaa", HA.style "border-width" "0"] []
+      spacing =  Html.div [HA.style "padding-bottom" "40px"] []
+
+
+  in
+    case Maybe.map (isHeading << Tree.label) headOfBodyAST of
+        Just True ->
+           Html.div [] (title::separator::toc::separator::spacing::body)
+        _ ->
+           Html.div [] (separator::toc::separator::spacing::title::body)
+
+{-| Like `renderHtmlWithTOC`, but transforms a parser three  into a record,
+with fields for the document title, the table of contents, and the body
+of the document.
+
+-}
+renderHtmlWithExternaTOC : Tree MDBlockWithId -> {title: Html msg, toc: Html msg, document: Html msg}
+renderHtmlWithExternaTOC ast =
+  let
+      toc : Html msg
+      toc = tableOfContentsAsHtml (Tree.map project ast)
 
       bodyAST = ast |> Tree.children
       html = bodyAST |> List.map mmBlockTreeToHtml
@@ -42,40 +162,79 @@ toHtml option str =
 
 
   in
-    case Maybe.map (ParseTools.isHeading << Tree.label) (List.head bodyAST) of
-        Just True ->
-           Html.div [] (title::separator::toc::separator::spacing::body)
-        _ ->
-           Html.div [] (separator::toc::separator::spacing::title::body)
+    { title = Html.div [] [title]
+    , toc = Html.div [] [toc]
+    , document = Html.div [] body
+    }
 
-
-mmBlockTreeToHtml : Tree MDBlock -> Html msg
+mmBlockTreeToHtml : Tree MDBlockWithId -> Html msg
 mmBlockTreeToHtml tree =
     if Tree.children tree == [] then
-        renderBlock (Tree.label tree)
+      let
+        (MDBlockWithId id bt lev content) = Tree.label tree
+      in
+      case bt of
+          (BalancedBlock DisplayMath) ->
+              Keyed.node "spanXXX" []
+                [(stringOfId id, renderBlock id (MDBlock bt lev content))]
+          _ ->
+            Html.div [idAttr id] [renderBlock id (MDBlock bt lev content)]
 
     else
         case Tree.label tree of
-            MDBlock (MarkdownBlock TableRow) _ _ ->
-                Html.tr [ HA.class "mm-table-row" ]
-                    (List.map mmBlockTreeToHtml (Tree.children tree))
+--            MDBlockWithId _ (MarkdownBlock TableRow) _ _ ->
+--                Html.tr [ HA.class "mm-table-row" ]
+--                    (List.map mmBlockTreeToHtml (Tree.children tree))
+--
+--
+--            MDBlockWithId id (MarkdownBlock Table) _ _ ->
+--                Keyed.node "table" [ HA.class "mm-table", HA.id (stringOfId id) ]
+--                    [(stringOfId id, Html.div [] (List.map (mmBlockTreeToHtml) (Tree.children tree)))]
 
-            MDBlock (MarkdownBlock Table) _ _ ->
-                Html.table [ HA.class "mm-table" ]
-                    (List.map mmBlockTreeToHtml (Tree.children tree))
 
-            _ ->
-                Html.div []
-                    [ renderBlock (Tree.label tree)
-                    , Html.div [] (List.map mmBlockTreeToHtml (Tree.children tree))
-                    ]
+--            MDBlockWithId id (MarkdownBlock Plain) _ _ ->
+--                let
+--                  _ = Debug.log "MDBlockWithId" id
+--
+--                in
+--                     Html.div [HA.class "mm-plain", HA.id (stringOfId id)] (List.map (mmBlockTreeToHtml) (Tree.children tree))
+
+            MDBlockWithId id (MarkdownBlock _) _ _ ->
+--                Keyed.node "div" []
+--                   [(stringOfId id, Html.div [HA.id (stringOfId id)] [   renderBlock id (project (Tree.label tree))
+--                               , Html.div [idAttr id] (List.map (mmBlockTreeToHtml) (Tree.children tree))
+--                              ])]
+                   Html.div [HA.id (stringOfId id)] [
+                                renderBlock id (project (Tree.label tree))
+                               , Html.div [idAttr id] (List.map (mmBlockTreeToHtml) (Tree.children tree))
+                             ]
+
+            MDBlockWithId id (BalancedBlock DisplayMath) level content ->
+               Keyed.node "div" [HA.id (stringOfId id)] [(stringOfId id, displayMathText (projectedStringOfBlockContent content))]
+
+            MDBlockWithId id (BalancedBlock Verbatim) _ _ ->
+                Html.pre [HA.id (stringOfId id)] [Html.text  "OUF: Verbatim!"]
+
+            MDBlockWithId id (BalancedBlock DisplayCode) _ _ ->
+               Html.div [HA.id (stringOfId id)] [Html.text  "OUF: Code!"]
+
 
 
 tableOfContentsAsBlocks : Tree MDBlock -> List MDBlock
 tableOfContentsAsBlocks blockTree =
     blockTree
       |> Tree.flatten
-      |> List.filter ParseTools.isHeading
+      |> List.filter isHeading
+
+{-| Count the number of display math element blocks in the parse tree
+
+-}
+numberOfMathElements : Tree MDBlockWithId -> Int
+numberOfMathElements blockTree =
+    blockTree
+        |> Tree.flatten
+        |> List.filter isMathWithId
+        |> List.length
 
 tableOfContentsAsHtml : Tree MDBlock -> Html msg
 tableOfContentsAsHtml blockTree =
@@ -104,41 +263,49 @@ renderHeadingForTOC : MDBlock -> Html msg
 renderHeadingForTOC heading =
     case heading of
         MDBlock (MarkdownBlock (Heading k)) level blockContent ->
-                    renderTOCHeading k blockContent
+                    renderTOCHeading id0 k blockContent
         _ ->  Html.span [] []
 
-renderBlock : MDBlock -> Html msg
-renderBlock block =
+renderBlockWithId : MDBlockWithId -> Html msg
+renderBlockWithId (MDBlockWithId id bt lev content) =
+    Keyed.node "div" [] [(stringOfId id, renderBlock id (MDBlock bt lev content))]
+
+idAttr : Id -> Html.Attribute msg
+idAttr id =
+    HA.id (stringOfId id)
+
+renderBlock : Id -> MDBlock -> Html msg
+renderBlock id block =
     case block of
         MDBlock (MarkdownBlock Root) _ _ ->
-            Html.div [] []
+            Html.div [idAttr id ] []
 
         MDBlock (MarkdownBlock Plain) level blockContent ->
-            renderBlockContent blockContent
+            renderBlockContent id blockContent
 
         MDBlock (MarkdownBlock Blank) level blockContent ->
-            renderBlockContent blockContent
+            renderBlockContent id blockContent
 
         MDBlock (MarkdownBlock (Heading k)) level blockContent ->
-            renderHeading k blockContent
+            renderHeading id k blockContent
 
         MDBlock (MarkdownBlock Quotation) level blockContent ->
-            renderQuotation blockContent
+            renderQuotation id blockContent
 
         MDBlock (MarkdownBlock Poetry) level blockContent ->
-            renderPoetry blockContent
+            renderPoetry id blockContent
 
         MDBlock (MarkdownBlock UListItem) level blockContent ->
-            renderUListItem level blockContent
+            renderUListItem id level blockContent
 
         MDBlock (MarkdownBlock (OListItem index)) level blockContent ->
-            renderOListItem index level blockContent
+            renderOListItem id index level blockContent
 
         MDBlock (MarkdownBlock HorizontalRule) level blockContent ->
-            Html.hr [ HA.class "mm-thematic-break" ] []
+            Html.hr [ idAttr id , HA.class "mm-thematic-break" ] []
 
         MDBlock (MarkdownBlock BlockType.Image) level blockContent ->
-            renderBlockContent blockContent
+            renderBlockContent id blockContent
 
         MDBlock (BalancedBlock DisplayMath) level blockContent ->
             case blockContent of
@@ -151,7 +318,7 @@ renderBlock block =
         MDBlock (BalancedBlock Verbatim) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.pre [] [ Html.text str ]
+                    Html.pre [idAttr id ] [ Html.text str ]
 
                 _ ->
                     displayMathText ""
@@ -159,19 +326,19 @@ renderBlock block =
         MDBlock (BalancedBlock DisplayCode) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.pre [] [ Html.code [] [ Html.text str ] ]
+                    Html.pre [idAttr id ] [ Html.code [] [ Html.text str ] ]
 
                 _ ->
                     displayMathText ""
 
         MDBlock (MarkdownBlock TableCell) level blockContent ->
-            Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent blockContent ]
+            Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent id blockContent ]
 
         MDBlock (MarkdownBlock TableRow) level blockContent ->
-            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent blockContent ]
+            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent id blockContent ]
 
         MDBlock (MarkdownBlock Table) level blockContent ->
-            Html.table [ HA.class "mm-table" ] [ renderBlockContent blockContent ]
+            Html.table [  HA.class "mm-table" ] [ renderBlockContent id blockContent ]
 
 
 unWrapParagraph : MDInline -> List MDInline
@@ -184,8 +351,8 @@ unWrapParagraph mmInline =
             []
 
 
-renderUListItem : Int -> BlockContent -> Html msg
-renderUListItem k blockContent =
+renderUListItem : Id -> Int -> BlockContent -> Html msg
+renderUListItem id k blockContent =
     let
         margin =
             String.fromInt (18 * k)
@@ -210,9 +377,9 @@ renderUListItem k blockContent =
     in
     Html.li
         [ style "margin-left" margin
-        , HA.class "mm-olist-item"
+        , HA.class "mm-olist-item", idAttr id
         ]
-        [ renderBlockContent <| prependToParagraph (OrdinaryText label) blockContent ]
+        [ (renderBlockContent id) <| prependToParagraph (OrdinaryText label) blockContent ]
 
 
 prependToParagraph : MDInline -> BlockContent -> BlockContent
@@ -230,8 +397,8 @@ prependToParagraph head tail =
                     tail
 
 
-renderOListItem : Int -> Int -> BlockContent -> Html msg
-renderOListItem index k blockContent =
+renderOListItem : Id -> Int -> Int -> BlockContent -> Html msg
+renderOListItem id index k blockContent =
     let
         margin =
             String.fromInt (18 * k)
@@ -257,75 +424,76 @@ renderOListItem index k blockContent =
     Html.li
         [ style "margin-left" margin
         , HA.class "mm-olist-item"
+        , idAttr id
         ]
-        [ renderBlockContent (prependToParagraph (OrdinaryText label) blockContent) ]
+        [ renderBlockContent  id (prependToParagraph (OrdinaryText label) blockContent) ]
 
 
-renderHeading : Int -> BlockContent -> Html msg
-renderHeading k blockContent =
+renderHeading : Id -> Int -> BlockContent -> Html msg
+renderHeading id k blockContent =
   let
       name = nameFromBlockContent blockContent
   in
     case k of
         1 ->
-           Html.h1 [HA.id name] [ renderBlockContent blockContent ]
+           Html.h1 [HA.id name, idAttr id ] [ renderBlockContent id blockContent ]
 
         2 ->
-           Html.h2 [HA.id name] [ renderBlockContent blockContent ]
+           Html.h2 [HA.id name, idAttr id] [ renderBlockContent id blockContent ]
 
         3 ->
-            Html.h3 [HA.id name] [ renderBlockContent blockContent ]
+            Html.h3 [HA.id name, idAttr id] [ renderBlockContent id blockContent ]
 
         4 ->
-            Html.h4 [HA.id name] [ renderBlockContent blockContent ]
+            Html.h4 [HA.id name, idAttr id] [ renderBlockContent id blockContent ]
 
         _ ->
-            Html.h5 [HA.id name] [ renderBlockContent blockContent ]
+            Html.h5 [HA.id name, idAttr id] [ renderBlockContent id blockContent ]
 
-renderTOCHeading : Int -> BlockContent -> Html msg
-renderTOCHeading k blockContent =
+renderTOCHeading : Id -> Int -> BlockContent -> Html msg
+renderTOCHeading id k blockContent =
   let
       name = "#" ++ (nameFromBlockContent blockContent)
   in
     case k of
         1 ->
-           Html.h1 [HA.style "font-size" "13pt"] [ renderBlockContent blockContent ]
+           Html.h1 [idAttr id, HA.style "font-size" "13pt"] [ renderBlockContent id blockContent ]
 
         2 ->
-           Html.a [HA.href name, HA.class "toc-level-0", HA.style "display" "block"] [ renderBlockContent blockContent ]
+           Html.a [idAttr id,HA.href name, HA.class "toc-level-0", HA.style "display" "block"] [ renderBlockContent id blockContent ]
 
         3 ->
-            Html.a [HA.href name, HA.class "toc-level-1", HA.style "display" "block"] [ renderBlockContent blockContent ]
+            Html.a [idAttr id,HA.href name, HA.class "toc-level-1", HA.style "display" "block"] [ renderBlockContent id blockContent ]
 
         4 ->
-            Html.a [HA.href name, HA.class "toc-level-2", HA.style "display" "block"] [ renderBlockContent blockContent ]
+            Html.a [idAttr id,HA.href name, HA.class "toc-level-2", HA.style "display" "block"] [ renderBlockContent id blockContent ]
 
         _ ->
-            Html.a [HA.href name, HA.class "toc-level-3", HA.style "display" "block"] [ renderBlockContent blockContent ]
+            Html.a [idAttr id,HA.href name, HA.class "toc-level-3", HA.style "display" "block"] [ renderBlockContent id blockContent ]
 
 
-renderQuotation : BlockContent -> Html msg
-renderQuotation blockContent =
+renderQuotation : Id -> BlockContent -> Html msg
+renderQuotation id blockContent =
     Html.div
-        [ HA.class "mm-quotation" ]
-        [ renderBlockContent blockContent ]
+        [HA.class "mm-quotation" ]
+        [ renderBlockContent id blockContent ]
 
 
-renderPoetry : BlockContent -> Html msg
-renderPoetry blockContent =
+renderPoetry : Id -> BlockContent -> Html msg
+renderPoetry id blockContent =
     Html.div
         [ HA.class "mm-poetry" ]
-        [ renderBlockContent blockContent ]
+        [ renderBlockContent id blockContent ]
 
 
-renderBlockContent : BlockContent -> Html msg
-renderBlockContent blockContent =
+renderBlockContent : Id -> BlockContent -> Html msg
+renderBlockContent id blockContent =
     case blockContent of
         M mmInline ->
             renderToHtmlMsg mmInline
 
         T str ->
-            Html.div [] [ Html.text str ]
+            Html.div [idAttr id] [ Html.text str ]
 
 nameFromBlockContent : BlockContent -> String
 nameFromBlockContent blockContent =
@@ -361,8 +529,17 @@ renderToHtmlMsg mmInline =
         Link url label ->
             Html.a [ HA.href url ] [ Html.text (label ++ " ")]
 
-        MDInline.Image label url ->
-            Html.img [ HA.src url, HA.class "mm-image" ] [ Html.text label ]
+        MDInline.Image label_ url ->
+          let
+            labelParts = List.take 2 (String.split "::" label_)
+            (label, class) = case (List.head labelParts, List.head (List.drop 1 labelParts)) of
+                (Just label__, Just class__) ->
+                   (label__, "mm-image-" ++ class__)
+                (Just label__, Nothing) -> (label__, "mm-image")
+                (_,_) -> ("image", "mm-image")
+
+          in
+            Html.img [ HA.src url, HA.class class] [ Html.text label ]
 
         Line arg ->
             let

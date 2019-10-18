@@ -1,7 +1,7 @@
 module ParseWithId exposing
     ( toMDBlockTree, BlockContent(..)
       , equal, MDBlockWithId(..), MDBlock(..), project,
-       stringOfMDBlockTree, stringOfId, idOfBlock, projectedStringOfBlockContent)
+       stringOfMDBlockTree, stringOfId, idOfBlock, projectedStringOfBlockContent, Id)
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
