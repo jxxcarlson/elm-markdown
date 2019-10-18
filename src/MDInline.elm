@@ -1,5 +1,5 @@
 
-module MDInline exposing (MDInline(..),   parse, string)
+module MDInline exposing (MDInline(..),  stringContent,  parse, string)
 
 {-| Module MDInline provides one type and two functions. The
 type is MDInline, which is the type of inline Markdown elements
@@ -53,6 +53,38 @@ type MDInline
     | Paragraph (List MDInline)
     | Stanza String
     | Error (List MDInline)
+
+
+{-| String conten of MDInline value -}
+stringContent: MDInline -> String
+stringContent mmInline =
+    case mmInline of
+
+        OrdinaryText str -> str
+
+        ItalicText str -> str
+
+        BoldText str -> str
+
+        Code str -> str
+
+        InlineMath str ->  str
+
+        StrikeThroughText str ->  str
+
+        BracketedText str ->  str
+
+        Link a b -> b
+
+        Image a b -> a
+
+        Line arg -> List.map string arg |> String.join " "
+
+        Paragraph arg -> List.map string arg |> List.map indentLine |> String.join "\n"
+
+        Stanza arg -> arg
+
+        Error arg -> (List.map string arg |> String.join " ")
 
 
 {-| String representation of an MDInline value -}

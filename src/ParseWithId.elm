@@ -449,7 +449,6 @@ handleRegister : FSM -> FSM
 handleRegister ((FSM state blocks register) as fsm) =
     case List.head register.blockStack of
         Nothing ->
-            --xxx
             fsm
 
         Just block ->
@@ -625,7 +624,6 @@ handleTableStart blockTypeOfLine level line state blocks register =
                 newRow =
                     childrenOfNewBlock ++ [ rowBlock ]
             in
-            --xxx
             -- FSM (InBlock tableBlock) ((rowBlock :: childrenOfNewBlock) ++ currentBlock :: blocks) { register | level = register.level + 1 }
             FSM (InBlock rowBlock)
                 blocks
@@ -809,7 +807,6 @@ addLineToFSM line (FSM state_ blocks_ register) =
                     FSM (addLineToState line state_) blocks_ register
 
                 Just block ->
-                    --xxx
                     FSM (addLineToState line state_) (block :: blocks_) { register | blockStack = List.drop 1 register.blockStack }
 
 

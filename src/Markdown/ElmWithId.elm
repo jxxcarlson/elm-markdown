@@ -1,4 +1,5 @@
-module Markdown.ElmWithId exposing (parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, numberOfMathElements)
+module Markdown.ElmWithId exposing (parse, searchAST, renderHtml
+   , renderHtmlWithTOC, renderHtmlWithExternaTOC, numberOfMathElements)
 
 {-| Use this module if you need to edit math + markdown *and*
 require optimizations for speed and a smooth editing experience.
@@ -51,6 +52,7 @@ import Json.Encode
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
 import Tree exposing (Tree)
+import MDInline
 
 typeOfMDBlock : MDBlock -> BlockType
 typeOfMDBlock (MDBlock bt _ _) =
@@ -102,6 +104,20 @@ parse : Int -> Option -> String -> Tree MDBlockWithId
 parse version option str =
    ParseWithId.toMDBlockTree version option str
 
+searchAST : String -> Tree MDBlockWithId -> Maybe Id
+searchAST str ast =
+    ast
+     |> Tree.flatten
+     |> List.filter (\block -> String.contains str (stringContentFromBlock block ))
+     |> List.head
+     |> (Maybe.map ParseWithId.idOfBlock)
+
+--- XXX
+stringContentFromBlock : MDBlockWithId -> String
+stringContentFromBlock (MDBlockWithId _ _ _ c) =
+   case c of
+       T str -> str
+       M mdInline -> MDInline.stringContent mdInline
 
 {-| Render a parse tree to Html.
 
@@ -746,3 +762,4 @@ romanNumeral k =
             ]
     in
     List.drop (k - 1) alpha |> List.head |> Maybe.withDefault "zz"
+

@@ -7,13 +7,15 @@ import Html.Events exposing (onClick, onInput)
 import Markdown.ElmWithId
 import Markdown.Option exposing (Option(..))
 import Random
+import CustomElement.CodeEditor as Editor
+import Markdown.ElmWithId as ElmWithId
 import Strings
-import Style exposing (..)
 import Tree exposing(Tree)
 import ParseWithId
 import Tree.Diff as Diff
 import Process
 import Task
+import Style
 
 {-|  This version of the demo app has some optimizations
 that make the editing process smoother for long documents,
@@ -72,6 +74,7 @@ type Msg
     = Clear
     | Restart
     | GetContent String
+    | ProcessLine String
     | GenerateSeed
     | NewSeed Int
     | LoadExample1
@@ -157,6 +160,14 @@ update msg model =
               }
             , Cmd.none
             )
+        ProcessLine str ->
+          let
+             id = case ElmWithId.searchAST str model.lastAst of
+                 Nothing -> "??"
+                 Just id_ -> id_ |>  ParseWithId.stringOfId
+
+          in
+            ({ model | message = "Clicked on id: " ++ id}, Cmd.none)
 
         GenerateSeed ->
             ( model, Random.generate NewSeed (Random.int 1 10000) )
@@ -266,27 +277,38 @@ display model =
             [ text "minilatex.io" ]
         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
             [ text "package.elm-lang.org" ]
-        , p [] [text model.message]
+        , span [style "margin-left" "50px"] [text <|  model.message]
+
         ]
 
 
 label text_ =
-    p labelStyle [ text text_ ]
+    p Style.labelStyle [ text text_ ]
 
 
 editor : Model -> Html Msg
 editor model =
-    textarea (editorTextStyle ++ [ onInput GetContent, HA.value model.sourceText ]) []
+        Editor.codeEditor
+            [ Editor.editorValue (model.sourceText)
+            , Editor.onEditorChanged GetContent
+            , Editor.onGutterClicked ProcessLine
+            ]
+            []
+            |> (\x -> Html.div
+               (Style.editorTextStyle ++ [ HA.style "width" "400px", HA.style "height" "500px", HA.style "overflow" "scroll" ]) [ x ])
+
+
+--    textarea (editorTextStyle ++ [ onInput GetContent, HA.value model.sourceText ]) []
 
 
 renderedSource : Model -> Html Msg
 renderedSource model =
       div [] [
-         div  renderedSourceStyle [ h1 [style "font-size" "14px"] [
+         div  Style.renderedSourceStyle [ h1 [style "font-size" "14px"] [
             model.renderedText.title],  model.renderedText.document
            ]
 
-       , div tocStyle [model.renderedText.toc]
+       , div Style.tocStyle [model.renderedText.toc]
       ]
 
 
@@ -294,25 +316,25 @@ renderedSource model =
 
 
 clearButton width =
-    button ([ onClick Clear ] ++ buttonStyle colorBlue width) [ text "Clear" ]
+    button ([ onClick Clear ] ++ Style.buttonStyle Style.colorBlue width) [ text "Clear" ]
 
 restartButton width =
-    button ([ onClick Restart ] ++ buttonStyle colorBlue width) [ text "Restart" ]
+    button ([ onClick Restart ] ++ Style.buttonStyle Style.colorBlue width) [ text "Restart" ]
 
 
 example1Button width =
-    button ([ onClick LoadExample1 ] ++ buttonStyle colorBlue width) [ text "Example 1" ]
+    button ([ onClick LoadExample1 ] ++ Style.buttonStyle Style.colorBlue width) [ text "Example 1" ]
 
 example2Button width =
-    button ([ onClick LoadExample2 ] ++ buttonStyle colorBlue width) [ text "Example 2" ]
+    button ([ onClick LoadExample2 ] ++ Style.buttonStyle Style.colorBlue width) [ text "Example 2" ]
 
 standardMarkdownButton model width =
-    button ([ onClick SelectStandard ] ++ buttonStyleSelected (model.option == Standard) colorBlue colorDarkRed width) [ text "Standard" ]
+    button ([ onClick SelectStandard ] ++ Style.buttonStyleSelected (model.option == Standard) Style.colorBlue Style.colorDarkRed width) [ text "Standard" ]
 
 
 extendedMarkdownButton model width =
-    button ([ onClick SelectExtended ] ++ buttonStyleSelected (model.option == Extended) colorBlue colorDarkRed width) [ text "Extended" ]
+    button ([ onClick SelectExtended ] ++ Style.buttonStyleSelected (model.option == Extended) Style.colorBlue Style.colorDarkRed width) [ text "Extended" ]
 
 
 extendedMathMarkdownButton model width =
-    button ([ onClick SelectExtendedMath ] ++ buttonStyleSelected (model.option == ExtendedMath) colorBlue colorDarkRed width) [ text "Extended-Math" ]
+    button ([ onClick SelectExtendedMath ] ++ Style.buttonStyleSelected (model.option == ExtendedMath) Style.colorBlue Style.colorDarkRed width) [ text "Extended-Math" ]
