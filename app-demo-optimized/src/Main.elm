@@ -68,7 +68,7 @@ emptyAst : Tree ParseWithId.MDBlockWithId
 emptyAst =  Markdown.ElmWithId.parse -1 ExtendedMath ""
 
 emptyRenderedText : RenderedText Msg
-emptyRenderedText =  Markdown.ElmWithId.renderHtmlWithExternaTOC emptyAst
+emptyRenderedText =  Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" emptyAst
 
 -- MSG
 
@@ -97,7 +97,8 @@ renderAstFor model text =
             newAst = Markdown.ElmWithId.parse model.counter ExtendedMath text
     in
         Process.sleep 10
-            |> Task.andThen (\_ -> Process.sleep 100 |> Task.andThen (\_ -> Task.succeed (newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC newAst)))
+            |> Task.andThen (\_ -> Process.sleep 100
+            |> Task.andThen (\_ -> Task.succeed (newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst)))
             |> Task.perform GotSecondPart
 
 
@@ -135,7 +136,7 @@ doInit =
             , elementOfSelectedLine = Nothing
             , sourceText = initialText
             , lastAst = lastAst
-            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
+            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
             , message = "Starting up, number of math elements = " ++ String.fromInt nMath
             }
     in
@@ -159,7 +160,7 @@ update msg model =
 
                 -- rendering
                 , lastAst = newAst
-                , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC newAst
+                , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst
                 , counter = model.counter + 1
 
               }
@@ -178,15 +179,15 @@ update msg model =
             case result of
                 Ok element ->
                     let
-                      _ = Debug.log "ELEMENT" element
+                      _ = Debug.log "OLD ELEMENT" element
                       oldViewport_ = element.viewport
                       newViewport_ = { oldViewport_ | y = element.element.y - 200  }
 
                       newViewport : Dom.Viewport
                       newViewport =  { scene = element.scene, viewport = newViewport_}
 
-                      newElement : Dom.Element
-                      newElement =  { element = element.element, scene = element.scene, viewport = newViewport_}
+                      newElement :  Dom.Element
+                      newElement =  Debug.log "NEW ELEMENT" { element = element.element, scene = element.scene, viewport = newViewport_}
 
                     in
                     ( { model | elementOfSelectedLine = Just element }, setViewPortOfSelectedLine newViewport )
@@ -225,7 +226,7 @@ update msg model =
                                  , sourceText = Strings.text1
                                  --, firstAst =  firstAst
                                  , lastAst = Markdown.ElmWithId.parse model.counter ExtendedMath Strings.text1
-                                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
+                                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
                                }
             in
             ( newModel , renderSecond newModel)
@@ -239,7 +240,7 @@ update msg model =
                                  , sourceText = Strings.text2
                                  -- , firstAst =  firstAst
                                  , lastAst = Markdown.ElmWithId.parse model.counter ExtendedMath Strings.text2
-                                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC <| firstAst
+                                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
                                }
             in
             ( newModel , renderSecond newModel)
@@ -281,7 +282,7 @@ getElementOfSelectedLine id =
 setViewPortOfSelectedLine : Dom.Viewport -> Cmd Msg
 setViewPortOfSelectedLine viewport =
     let
-        y = Debug.log "HHH"
+        y = Debug.log "YYY"
             viewport.viewport.y
     in
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
