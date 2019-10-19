@@ -173,6 +173,9 @@ update msg model =
 
           in
             ({ model | message = "Clicked on id: " ++ id}, getElementOfSelectedLine id)
+            -- ({ model | message = "Clicked on id: " ++ id}, jumpToBottom id)
+
+
 
         GotElementOfSelectedLine result ->
             case result of
@@ -273,6 +276,16 @@ update msg model =
 -- VIEW FUNCTIONS
 ---
 
+
+
+--jumpToBottom : String -> Task.Task Dom.Error ()
+
+
+jumpToBottom : String -> Cmd Msg
+jumpToBottom id =
+  Dom.getViewportOf id
+    |> Task.andThen (\info -> Dom.setViewportOf id 0 info.scene.height)
+    |> Task.attempt (\_ -> NoOp)
 
 getElementOfSelectedLine : String -> Cmd Msg
 getElementOfSelectedLine id =
