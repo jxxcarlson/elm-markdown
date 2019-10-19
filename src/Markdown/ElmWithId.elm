@@ -130,14 +130,14 @@ renderHtml blockTreeWithId =
          |> (\x -> Html.div [] x)
 
 
-toHtmlWithTOC : Int -> Option -> String -> Html msg
-toHtmlWithTOC version option str =
+toHtmlWithTOC : Int -> Option -> String -> String -> Html msg
+toHtmlWithTOC version option heading str =
   let
       ast : Tree MDBlockWithId
       ast = ParseWithId.toMDBlockTree version option str
 
       toc : Html msg
-      toc = tableOfContentsAsHtml (Tree.map project ast)
+      toc = tableOfContentsAsHtml heading (Tree.map project ast)
 
       bodyAST : List (Tree MDBlockWithId)
       bodyAST = ast |> Tree.children
@@ -163,11 +163,11 @@ toHtmlWithTOC version option str =
 {-| Like `renderHtml`, but constructs a table of contents.
 
 -}
-renderHtmlWithTOC : Tree MDBlockWithId -> Html msg
-renderHtmlWithTOC ast =
+renderHtmlWithTOC : String -> Tree MDBlockWithId -> Html msg
+renderHtmlWithTOC heading ast =
   let
       toc : Html msg
-      toc = tableOfContentsAsHtml (Tree.map project ast)
+      toc = tableOfContentsAsHtml heading (Tree.map project ast)
 
       bodyAST : List (Tree MDBlockWithId)
       bodyAST = ast |> Tree.children
@@ -194,11 +194,11 @@ with fields for the document title, the table of contents, and the body
 of the document.
 
 -}
-renderHtmlWithExternaTOC : Tree MDBlockWithId -> {title: Html msg, toc: Html msg, document: Html msg}
-renderHtmlWithExternaTOC ast =
+renderHtmlWithExternaTOC : String -> Tree MDBlockWithId -> {title: Html msg, toc: Html msg, document: Html msg}
+renderHtmlWithExternaTOC heading ast =
   let
       toc : Html msg
-      toc = tableOfContentsAsHtml (Tree.map project ast)
+      toc = tableOfContentsAsHtml heading (Tree.map project ast)
 
       bodyAST = ast |> Tree.children
       html = bodyAST |> List.map mmBlockTreeToHtml
@@ -283,16 +283,16 @@ numberOfMathElements blockTree =
         |> List.filter isMathWithId
         |> List.length
 
-tableOfContentsAsHtml : Tree MDBlock -> Html msg
-tableOfContentsAsHtml blockTree =
+tableOfContentsAsHtml : String -> Tree MDBlock -> Html msg
+tableOfContentsAsHtml heading blockTree =
     blockTree
       |> tableOfContentsAsBlocks
-      |> renderTableOfContents
+      |> renderTableOfContents heading
 
-renderTableOfContents  : List MDBlock -> Html msg
-renderTableOfContents blockList =
+renderTableOfContents  : String -> List MDBlock -> Html msg
+renderTableOfContents heading blockList =
    let
-       contentHeading = MDBlock (MarkdownBlock (Heading 1)) 1 (M (Paragraph [Line [OrdinaryText ("Contents")]]))
+       contentHeading = MDBlock (MarkdownBlock (Heading 1)) 1 (M (Paragraph [Line [OrdinaryText (heading)]]))
    in
      blockList
        |> List.drop 1
