@@ -58,7 +58,6 @@ type alias Model =
     , seed : Int
     , option : Option
     , sourceText : String
-    , elementOfSelectedLine : Maybe Dom.Element
     , lastAst : Tree ParseWithId.MDBlockWithId
     , renderedText : RenderedText Msg
     , message : String
@@ -133,14 +132,13 @@ doInit =
               counter = 2
             , seed = 0
             , option = ExtendedMath
-            , elementOfSelectedLine = Nothing
             , sourceText = initialText
             , lastAst = lastAst
             , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
             , message = "Starting up, number of math elements = " ++ String.fromInt nMath
             }
     in
-    ( model, renderSecond model )
+    ( model, Cmd.batch[resetViewportOfEditor, resetViewportOfRenderedText, renderSecond model] )
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
@@ -168,12 +166,13 @@ update msg model =
             )
         ProcessLine str ->
           let
-             id = case ElmWithId.searchAST str model.lastAst of
+             id = (case ElmWithId.searchAST str model.lastAst of
                  Nothing -> "??"
-                 Just id_ -> id_ |>  ParseWithId.stringOfId
+                 Just id_ -> id_ |>  ParseWithId.stringOfId) |>  Debug.log "ID"
 
           in
-            ({ model | message = "Clicked on id: " ++ id}, getElementOfSelectedLine id)
+             ({ model | message = "Clicked on id: " ++ id}, getElementOfSelectedLine id)
+            -- ({ model | message = "Clicked on id: " ++ id}, setViewPortOfSelectedLine id)
             -- ({ model | message = "Clicked on id: " ++ id}, jumpToBottom id)
 
 
@@ -193,7 +192,7 @@ update msg model =
                       newElement =  Debug.log "NEW ELEMENT" { element = element.element, scene = element.scene, viewport = newViewport_}
 
                     in
-                    ( { model | elementOfSelectedLine = Just element }, setViewPortOfSelectedLine newViewport )
+                    ( model, setViewPortForSelectedLine newViewport )
 
                 Err _ ->
                     ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
@@ -205,6 +204,7 @@ update msg model =
             ( { model | seed = newSeed }, Cmd.none )
 
         NoOp -> (model, Cmd.none)
+
         Clear ->
             ( { model
                 |
@@ -214,7 +214,7 @@ update msg model =
                 , renderedText = emptyRenderedText
                 , message = "Cleared"
               }
-            , renderAstFor model ""
+            , Cmd.batch [resetViewportOfRenderedText, resetViewportOfEditor, renderAstFor model ""]
             )
 
         Restart ->
@@ -232,7 +232,7 @@ update msg model =
                                  , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
                                }
             in
-            ( newModel , renderSecond newModel)
+            ( newModel , Cmd.batch [resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel])
 
         LoadExample2 ->
             let
@@ -246,7 +246,7 @@ update msg model =
                                  , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
                                }
             in
-            ( newModel , renderSecond newModel)
+            ( newModel , Cmd.batch [resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel])
 
 
         SelectStandard ->
@@ -273,14 +273,15 @@ update msg model =
         GotSecondPart (newAst, newRenderedText) ->
             ({model | lastAst = newAst, renderedText = newRenderedText, counter = model.counter + 1, message = "Got second part"}, Cmd.none)
 
---
--- VIEW FUNCTIONS
----
+-- VIEWPORT
 
+resetViewportOfRenderedText : Cmd Msg
+resetViewportOfRenderedText =
+  Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 0)
 
-
---jumpToBottom : String -> Task.Task Dom.Error ()
-
+resetViewportOfEditor : Cmd Msg
+resetViewportOfEditor =
+  Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_editor_" 0 0)
 
 jumpToBottom : String -> Cmd Msg
 jumpToBottom id =
@@ -292,13 +293,22 @@ getElementOfSelectedLine : String -> Cmd Msg
 getElementOfSelectedLine id =
     Task.attempt GotElementOfSelectedLine (Dom.getElement id)
 
-setViewPortOfSelectedLine : Dom.Viewport -> Cmd Msg
-setViewPortOfSelectedLine viewport =
+setViewPortForSelectedLine : Dom.Viewport -> Cmd Msg
+setViewPortForSelectedLine viewport =
     let
         y = Debug.log "YYY"
             viewport.viewport.y
     in
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
+
+setViewPortOfSelectedLine : String -> Cmd Msg
+setViewPortOfSelectedLine id  =
+    Task.attempt (\_ -> NoOp) (Dom.setViewportOf id  0 100)
+
+
+--
+-- VIEW FUNCTIONS
+---
 
 
 view : Model -> Html Msg
@@ -345,10 +355,11 @@ editor model =
             [ Editor.editorValue (model.sourceText)
             , Editor.onEditorChanged GetContent
             , Editor.onGutterClicked ProcessLine
+
             ]
             []
             |> (\x -> Html.div
-               (Style.editorTextStyle ++ [ HA.style "width" "400px", HA.style "height" "500px", HA.style "overflow" "scroll" ]) [ x ])
+               (Style.editorTextStyle ++ [  HA.id "_editor_", HA.style "width" "400px", HA.style "height" "500px", HA.style "overflow" "scroll" ]) [ x ])
 
 
 --    textarea (editorTextStyle ++ [ onInput GetContent, HA.value model.sourceText ]) []
