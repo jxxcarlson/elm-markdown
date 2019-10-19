@@ -78,6 +78,7 @@ type Msg
     | GetContent String
     | ProcessLine String
     | GotElementOfSelectedLine (Result Dom.Error Dom.Element)
+    | GotElementOfRenderedText (Result Dom.Error Dom.Element)
     | GenerateSeed
     | NewSeed Int
     | LoadExample1
@@ -171,7 +172,12 @@ update msg model =
                  Just id_ -> id_ |>  ParseWithId.stringOfId) |>  Debug.log "ID"
 
           in
-             ({ model | message = "Clicked on id: " ++ id}, getElementOfSelectedLine id)
+             ({ model | message = "Clicked on id: " ++ id},
+               Cmd.batch [
+                 getElementOfSelectedLine id
+                 , getElementOfRenderedText
+                ]
+              )
             -- ({ model | message = "Clicked on id: " ++ id}, setViewPortOfSelectedLine id)
             -- ({ model | message = "Clicked on id: " ++ id}, jumpToBottom id)
 
@@ -180,22 +186,17 @@ update msg model =
         GotElementOfSelectedLine result ->
             case result of
                 Ok element ->
-                    let
-                      _ = Debug.log "OLD ELEMENT" element
-                      oldViewport_ = element.viewport
-                      newViewport_ = { oldViewport_ | y = element.element.y - 200  }
-
-                      newViewport : Dom.Viewport
-                      newViewport =  { scene = element.scene, viewport = newViewport_}
-
-                      newElement :  Dom.Element
-                      newElement =  Debug.log "NEW ELEMENT" { element = element.element, scene = element.scene, viewport = newViewport_}
-
-                    in
-                    ( model, setViewPortForSelectedLine newViewport )
+                    ( model, setViewPortForSelectedLine (computeNewViewport element) )
 
                 Err _ ->
                     ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
+
+        GotElementOfRenderedText result ->
+            let
+                _ = Debug.log "EL RT" result
+            in
+              (model, Cmd.none)
+
 
         GenerateSeed ->
             ( model, Random.generate NewSeed (Random.int 1 10000) )
@@ -275,6 +276,17 @@ update msg model =
 
 -- VIEWPORT
 
+computeNewViewport : Dom.Element -> Dom.Viewport
+computeNewViewport e =
+    let
+          _ = Debug.log "SELECTED EL" e
+          --_ = Debug.log "SELECTED EL, Y" e.element.y
+          oldViewport_ = e.viewport
+          newViewport_ = Debug.log "NEW VIEWPORT" { oldViewport_ | y = e.element.y - e.viewport.y - e.element.height - 200  }
+
+    in
+      { scene = e.scene, viewport = newViewport_}
+
 resetViewportOfRenderedText : Cmd Msg
 resetViewportOfRenderedText =
   Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 0)
@@ -293,10 +305,15 @@ getElementOfSelectedLine : String -> Cmd Msg
 getElementOfSelectedLine id =
     Task.attempt GotElementOfSelectedLine (Dom.getElement id)
 
+getElementOfRenderedText : Cmd Msg
+getElementOfRenderedText =
+    Task.attempt GotElementOfRenderedText (Dom.getElement "_rendered_text_")
+
+
 setViewPortForSelectedLine : Dom.Viewport -> Cmd Msg
 setViewPortForSelectedLine viewport =
     let
-        y = Debug.log "YYY"
+        y = Debug.log "VIEWPORT, Y"
             viewport.viewport.y
     in
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
