@@ -230,7 +230,7 @@ mmBlockTreeToHtml tree =
                   Keyed.node "spanXXX" []
                     [(stringOfId id, renderBlock id (MDBlock bt lev content))]
               _ ->
-                Html.div [] [renderBlock id (MDBlock bt lev content)]
+                Html.span [] [renderBlock id (MDBlock bt lev content)]
 
     else
         case Tree.label tree of
