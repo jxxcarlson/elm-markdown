@@ -1,4 +1,4 @@
-module Markdown.ElmWithId exposing (parse, searchAST, renderHtml
+module Markdown.ElmWithId exposing (parse, searchAST, removePrefix, renderHtml
    , renderHtmlWithTOC, renderHtmlWithExternaTOC, numberOfMathElements)
 
 {-| Use this module if you need to edit math + markdown *and*
@@ -53,6 +53,7 @@ import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
 import Tree exposing (Tree)
 import MDInline
+import Prefix
 
 typeOfMDBlock : MDBlock -> BlockType
 typeOfMDBlock (MDBlock bt _ _) =
@@ -108,7 +109,7 @@ searchAST : String -> Tree MDBlockWithId -> Maybe Id
 searchAST str ast =
     ast
      |> Tree.flatten
-     |> List.filter (\block -> String.contains str (stringContentFromBlock block ))
+     |> List.filter (\block -> String.contains (removePrefix str) (stringContentFromBlock block ))
      |> List.head
      |> (Maybe.map ParseWithId.idOfBlock)
 
@@ -117,8 +118,14 @@ stringContentFromBlock : MDBlockWithId -> String
 stringContentFromBlock (MDBlockWithId _ _ _ c) =
    case c of
        T str -> str
-       M mdInline -> MDInline.stringContent mdInline
+       M mdInline -> MDInline.stringContent mdInline |> removePrefix
 
+
+removePrefix : String -> String
+removePrefix str =
+      str
+        |> Prefix.replace (Prefix.get str)
+        |> String.trim
 {-| Render a parse tree to Html.
 
 -}
@@ -216,7 +223,7 @@ renderHtmlWithExternaTOC heading ast =
     }
 
 
-
+-- NOTE XXX
 mmBlockTreeToHtml : Tree MDBlockWithId -> Html msg
 mmBlockTreeToHtml tree =
     if Tree.children tree == [] then
@@ -228,7 +235,7 @@ mmBlockTreeToHtml tree =
                   Keyed.node "spanXXX" []
                     [(stringOfId id, renderBlock id (MDBlock bt lev content))]
               _ ->
-                Html.div [idAttr id] [renderBlock id (MDBlock bt lev content)]
+                Html.div [HA.id "XXX"] [renderBlock id (MDBlock bt lev content)]
 
     else
         case Tree.label tree of
@@ -375,13 +382,13 @@ renderBlock id block =
                     displayMathText ""
 
         MDBlock (MarkdownBlock TableCell) level blockContent ->
-            Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent id blockContent ]
+            Html.td [  HA.class "mm-table-cell" ] [ renderBlockContent id blockContent ]
 
         MDBlock (MarkdownBlock TableRow) level blockContent ->
-            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent id blockContent ]
+            Html.tr [  HA.class "mm-table-row" ] [ renderBlockContent id blockContent ]
 
         MDBlock (MarkdownBlock Table) level blockContent ->
-            Html.table [  HA.class "mm-table" ] [ renderBlockContent id blockContent ]
+            Html.table [   HA.class "mm-table" ] [ renderBlockContent id blockContent ]
 
 
 unWrapParagraph : MDInline -> List MDInline
@@ -500,19 +507,19 @@ renderTOCHeading id k blockContent =
   in
     case k of
         1 ->
-           Html.h1 [idAttr id, HA.style "font-size" "13pt"] [ renderBlockContent id blockContent ]
+           Html.h1 [HA.style "font-size" "13pt"] [ renderBlockContent id blockContent ]
 
         2 ->
-           Html.a [idAttr id,HA.href name, HA.class "toc-level-0", HA.style "display" "block"] [ renderBlockContent id blockContent ]
+           Html.a [HA.href name, HA.class "toc-level-0", HA.style "display" "block"] [ renderBlockContent id blockContent ]
 
         3 ->
-            Html.a [idAttr id,HA.href name, HA.class "toc-level-1", HA.style "display" "block"] [ renderBlockContent id blockContent ]
+            Html.a [HA.href name, HA.class "toc-level-1", HA.style "display" "block"] [ renderBlockContent id blockContent ]
 
         4 ->
-            Html.a [idAttr id,HA.href name, HA.class "toc-level-2", HA.style "display" "block"] [ renderBlockContent id blockContent ]
+            Html.a [HA.href name, HA.class "toc-level-2", HA.style "display" "block"] [ renderBlockContent id blockContent ]
 
         _ ->
-            Html.a [idAttr id,HA.href name, HA.class "toc-level-3", HA.style "display" "block"] [ renderBlockContent id blockContent ]
+            Html.a [HA.href name, HA.class "toc-level-3", HA.style "display" "block"] [ renderBlockContent id blockContent ]
 
 
 renderQuotation : Id -> BlockContent -> Html msg
@@ -533,7 +540,7 @@ renderBlockContent : Id -> BlockContent -> Html msg
 renderBlockContent id blockContent =
     case blockContent of
         M mmInline ->
-            renderToHtmlMsg mmInline
+            renderToHtmlMsg id mmInline
 
         T str ->
             Html.div [idAttr id] [ Html.text str ]
@@ -545,11 +552,11 @@ nameFromBlockContent blockContent =
         _ -> ""
 
 
-renderToHtmlMsg : MDInline -> Html msg
-renderToHtmlMsg mmInline =
+renderToHtmlMsg : Id -> MDInline -> Html msg
+renderToHtmlMsg id mmInline =
     case mmInline of
         OrdinaryText str ->
-            Html.span [HA.class "ordinary"] [ Html.text str ]
+            Html.span [idAttr id,  HA.class "ordinary"] [ Html.text str ]
 
         ItalicText str ->
             Html.em [] [ Html.text str ]
@@ -558,10 +565,10 @@ renderToHtmlMsg mmInline =
             Html.strong [] [ Html.text str ]
 
         Code str ->
-            Html.code [] [ Html.text str ]
+            Html.code [idAttr id] [ Html.text str ]
 
         InlineMath str ->
-            inlineMathText str
+            inlineMathText id str
 
         StrikeThroughText str ->
             strikethrough str
@@ -582,11 +589,11 @@ renderToHtmlMsg mmInline =
                 (_,_) -> ("image", "mm-image")
 
           in
-            Html.img [ HA.src url, HA.class class] [ Html.text label ]
+            Html.img [ idAttr id,  HA.src url, HA.class class] [ Html.text label ]
 
         Line arg ->
             let
-                joined = joinLine arg
+                joined = joinLine id arg
              in
               if List.length joined == 1 then
                 List.head joined |> Maybe.withDefault (Html.span [] [Html.text ""])
@@ -594,17 +601,17 @@ renderToHtmlMsg mmInline =
                  Html.span [HA.class "line"] joined
 
         Paragraph arg ->
-            Html.p [ HA.class "mm-paragraph" ] (List.map renderToHtmlMsg arg)
+            Html.p [ idAttr id,  HA.class "mm-paragraph" ] (List.map (renderToHtmlMsg id) arg)
 
         Stanza arg ->
-            renderStanza arg
+            renderStanza id arg
 
         Error arg ->
-            Html.p [] (List.map renderToHtmlMsg arg)
+            Html.p [] (List.map (renderToHtmlMsg id) arg)
 
 
-renderStanza : String -> Html msg
-renderStanza arg =
+renderStanza : Id -> String -> Html msg
+renderStanza id arg =
     let
         lines =
             String.split "\n" arg
@@ -612,11 +619,11 @@ renderStanza arg =
         poetryLine line =
             Html.div [] [ Html.text line ]
     in
-    Html.div [ HA.class "mm-poetry" ] (List.map poetryLine lines)
+    Html.div [ idAttr id, HA.class "mm-poetry" ] (List.map poetryLine lines)
 
 
-joinLine : List MDInline -> List (Html msg)
-joinLine items =
+joinLine : Id -> List MDInline -> List (Html msg)
+joinLine id items =
     let
         folder : MDInline -> (List String, List (Html msg)) -> (List String, List (Html msg))
         folder item (accString, accElement) =
@@ -630,9 +637,9 @@ joinLine items =
                           content = String.join "" accString
                           span = Html.span [HA.class "innerJoin"] [Html.text content]
                        in
-                        ([], (renderToHtmlMsg item) :: span :: accElement)
+                        ([], (renderToHtmlMsg id item) :: span :: accElement)
                      else
-                        ([], (renderToHtmlMsg item) :: accElement)
+                        ([], (renderToHtmlMsg id item) :: accElement)
 
         flush : (List String, List (Html msg)) -> List (Html msg)
         flush (accString, accElement) =
@@ -672,9 +679,9 @@ mathText content =
         []
 
 
-inlineMathText : String -> Html msg
-inlineMathText str =
-    mathText <| "$ " ++ String.trim str ++ " $ "
+inlineMathText : Id -> String -> Html msg
+inlineMathText id str =
+    Html.span  [idAttr id] [mathText <| "$ " ++ String.trim str ++ " $ "]
 
 
 displayMathText : String -> Html msg

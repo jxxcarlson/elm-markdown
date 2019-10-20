@@ -172,7 +172,7 @@ update msg model =
                  Just id_ -> id_ |>  ParseWithId.stringOfId)
 
           in
-             ({ model | message = "Clicked on id: " ++ id},
+             ({ model | message = "str = " ++ String.left 20 str ++ " -- Clicked on id: " ++ id},
                setViewportForElement id
               )
 
@@ -292,6 +292,8 @@ setViewPortForSelectedLine2 element viewport =
         y =  viewport.viewport.y + element.element.y - element.element.height - 100
     in
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
+
+
 
 --
 -- VIEW FUNCTIONS
