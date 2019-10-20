@@ -77,10 +77,6 @@ type Msg
     | Restart
     | GetContent String
     | ProcessLine String
-    | GotElementOfSelectedLine (Result Dom.Error Dom.Element)
-    | GotElementOfRenderedText (Result Dom.Error Dom.Element)
-    | GetViewportOfRenderedText
-    | GotViewportOfRenderedText (Result Dom.Error Dom.Viewport)
     | SetViewPortForElement (Result Dom.Error (Dom.Element, Dom.Viewport))
 
     | GenerateSeed
@@ -179,29 +175,7 @@ update msg model =
              ({ model | message = "Clicked on id: " ++ id},
                setViewportForElement id
               )
-            -- ({ model | message = "Clicked on id: " ++ id}, setViewPortOfSelectedLine id)
-            -- ({ model | message = "Clicked on id: " ++ id}, jumpToBottom id)
 
-
-
-        GotElementOfSelectedLine result ->
-            case result of
-                Ok element ->
-                    ( model, setViewPortForSelectedLine (computeNewViewport element) )
-
-                Err _ ->
-                    ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
-
-        GotElementOfRenderedText result ->
-
-              (model, Cmd.none)
-
-        GetViewportOfRenderedText ->
-            (model, getViewportOfRenderedText )
-
-        GotViewportOfRenderedText result ->
-
-                (model, Cmd.none)
 
         SetViewPortForElement result ->
             case result of
@@ -287,14 +261,6 @@ update msg model =
 
 -- VIEWPORT
 
-computeNewViewport : Dom.Element -> Dom.Viewport
-computeNewViewport e =
-    let
-          oldViewport_ = e.viewport
-          newViewport_ =  { oldViewport_ | y = e.element.y - e.viewport.y - e.element.height - 200  }
-
-    in
-      { scene = e.scene, viewport = newViewport_}
 
 resetViewportOfRenderedText : Cmd Msg
 resetViewportOfRenderedText =
@@ -304,36 +270,8 @@ resetViewportOfEditor : Cmd Msg
 resetViewportOfEditor =
   Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_editor_" 0 0)
 
-jumpToBottom : String -> Cmd Msg
-jumpToBottom id =
-  Dom.getViewportOf id
-    |> Task.andThen (\info -> Dom.setViewportOf id 0 info.scene.height)
-    |> Task.attempt (\_ -> NoOp)
-
-getElementOfSelectedLine : String -> Cmd Msg
-getElementOfSelectedLine id =
-    Task.attempt GotElementOfSelectedLine (Dom.getElement id)
-
-getElementOfRenderedText : Cmd Msg
-getElementOfRenderedText =
-    Task.attempt GotElementOfRenderedText (Dom.getElement "_rendered_text_")
 
 
-setViewPortForSelectedLine : Dom.Viewport -> Cmd Msg
-setViewPortForSelectedLine viewport =
-    let
-        y =
-            viewport.viewport.y
-    in
-    Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
-
-setViewPortOfSelectedLine : String -> Cmd Msg
-setViewPortOfSelectedLine id  =
-    Task.attempt (\_ -> NoOp) (Dom.setViewportOf id  0 100)
-
-getViewportOfRenderedText : Cmd Msg
-getViewportOfRenderedText =
-    Task.attempt GotViewportOfRenderedText (Dom.getViewportOf "_rendered_text_")
 
 -- NEW STUFF
 
@@ -384,7 +322,6 @@ display model =
               , standardMarkdownButton model 100
               , extendedMarkdownButton model 100
               , extendedMathMarkdownButton model 140
-              , getElementOfRenderedTextButton
              ]
         , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
             [ text "minilatex.io" ]
@@ -452,9 +389,4 @@ extendedMarkdownButton model width =
 
 extendedMathMarkdownButton model width =
     button ([ onClick SelectExtendedMath ] ++ Style.buttonStyleSelected (model.option == ExtendedMath) Style.colorBlue Style.colorDarkRed width) [ text "Extended-Math" ]
-
-getElementOfRenderedTextButton  =
-    button ([ onClick GetViewportOfRenderedText ] )
-      [ text "Get VP" ]
-
 
