@@ -312,7 +312,7 @@ display : Model -> Html Msg
 display model =
     div []
         [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
-        , p [style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt"] [text "Now using MathJax 3"]
+        , p [style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt"] [text "MathJax 3. Click in gutter to sync"]
         , editor model
         , renderedSource model
         , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [
