@@ -1,4 +1,4 @@
-module Markdown.ElmWithId exposing (parse, searchAST, removePrefix, renderHtml
+module Markdown.ElmWithId exposing (parse, searchAST, renderHtml
    , renderHtmlWithTOC, renderHtmlWithExternaTOC, numberOfMathElements)
 
 {-| Use this module if you need to edit math + markdown *and*
@@ -109,7 +109,7 @@ searchAST : String -> Tree MDBlockWithId -> Maybe Id
 searchAST str ast =
     ast
      |> Tree.flatten
-     |> List.filter (\block -> String.contains (removePrefix str) (stringContentFromBlock block ))
+     |> List.filter (\block -> String.contains (Prefix.truncate str) (stringContentFromBlock block ))
      |> List.head
      |> (Maybe.map ParseWithId.idOfBlock)
 
@@ -118,14 +118,9 @@ stringContentFromBlock : MDBlockWithId -> String
 stringContentFromBlock (MDBlockWithId _ _ _ c) =
    case c of
        T str -> str
-       M mdInline -> MDInline.stringContent mdInline |> removePrefix
+       M mdInline -> MDInline.stringContent mdInline |> Prefix.truncate
 
 
-removePrefix : String -> String
-removePrefix str =
-      str
-        |> Prefix.replace (Prefix.get str)
-        |> String.trim
 {-| Render a parse tree to Html.
 
 -}
@@ -235,7 +230,7 @@ mmBlockTreeToHtml tree =
                   Keyed.node "spanXXX" []
                     [(stringOfId id, renderBlock id (MDBlock bt lev content))]
               _ ->
-                Html.div [HA.id "XXX"] [renderBlock id (MDBlock bt lev content)]
+                Html.div [] [renderBlock id (MDBlock bt lev content)]
 
     else
         case Tree.label tree of
@@ -486,19 +481,19 @@ renderHeading id k blockContent =
   in
     case k of
         1 ->
-           Html.h1 [HA.id name, idAttr id ] [ renderBlockContent id blockContent ]
+           Html.h1 [HA.id name ] [ renderBlockContent id blockContent ]
 
         2 ->
-           Html.h2 [HA.id name, idAttr id] [ renderBlockContent id blockContent ]
+           Html.h2 [HA.id name] [ renderBlockContent id blockContent ]
 
         3 ->
-            Html.h3 [HA.id name, idAttr id] [ renderBlockContent id blockContent ]
+            Html.h3 [HA.id name] [ renderBlockContent id blockContent ]
 
         4 ->
-            Html.h4 [HA.id name, idAttr id] [ renderBlockContent id blockContent ]
+            Html.h4 [HA.id name] [ renderBlockContent id blockContent ]
 
         _ ->
-            Html.h5 [HA.id name, idAttr id] [ renderBlockContent id blockContent ]
+            Html.h5 [HA.id name] [ renderBlockContent id blockContent ]
 
 renderTOCHeading : Id -> Int -> BlockContent -> Html msg
 renderTOCHeading id k blockContent =
@@ -507,7 +502,7 @@ renderTOCHeading id k blockContent =
   in
     case k of
         1 ->
-           Html.h1 [HA.style "font-size" "13pt"] [ renderBlockContent id blockContent ]
+           Html.a [HA.href name, HA.style "font-size" "13pt"] [ renderBlockContent id blockContent ]
 
         2 ->
            Html.a [HA.href name, HA.class "toc-level-0", HA.style "display" "block"] [ renderBlockContent id blockContent ]
@@ -543,7 +538,7 @@ renderBlockContent id blockContent =
             renderToHtmlMsg id mmInline
 
         T str ->
-            Html.div [idAttr id] [ Html.text str ]
+            Html.span [idAttr id] [ Html.text str ]
 
 nameFromBlockContent : BlockContent -> String
 nameFromBlockContent blockContent =

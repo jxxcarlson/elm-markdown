@@ -83,10 +83,6 @@
 	 text-decoration: line-through;
 }
 
-.mm-table {
-
-}
-
 .mm-table-row {
 	 display: block;
 	 margin-left: 40px;
@@ -95,20 +91,17 @@
 
 p.mm-table-row {
 	display: inline-block;
-	margin-top: 0;
-	margin-bottom: 0;
-	padding-top: 0;
-	padding-bottom: 0;
 }
 
 .mm-table-cell {
     display: inline-block;
-		width: 80px;
+		width: 100px;
 }
 
 p.mm-table-cell {
 	display: inline-block;
 }
+
 
 .mm-verbatim {
 	font: 16px courier; background-color: #eee; padding: 8px;

@@ -1,4 +1,4 @@
-module Prefix exposing (get, replace)
+module Prefix exposing (get, drop, truncate)
 
 import Parser.Advanced exposing (..)
 import String.Extra
@@ -23,15 +23,34 @@ get str =
         Ok str_ -> str_
         Err _ -> ""
 
-replace : String -> String -> String
-replace prefix str =
+drop : String -> String -> String
+drop prefix str =
     String.dropLeft (String.length prefix) str
+
+truncate : String -> String
+truncate str_ =
+  let
+    str = String.trimLeft str_
+  in
+    drop (get str) str
+      |> getGoodPrefix
+      |> String.trimLeft
+
+
+
 
 parsePrefix : Parser String
 parsePrefix =
-    oneOf [heading, unorderedListItem]
+    oneOf [heading, unorderedListItem, oListPrefix]
 
 
+oListPrefix : Parser String
+oListPrefix =
+    (getChompedString <|
+        succeed identity
+            |= chompUntil (Token "." (Expecting "expecting '.' to begin OListItem block"))
+    )
+        |> map (\x -> x ++ ". ")
 
 headingBlock1 : Parser String
 headingBlock1 =
@@ -71,6 +90,17 @@ unorderedListItem =
         |. symbol (Token "-" (Expecting "Expecting '-' to begin item"))
     )
 
+parseGoodChars : Parser String
+parseGoodChars =
+    getChompedString <|
+      succeed identity
+         |= parseWhile (\c -> c /= '*' && c /= '$' && c /= '~' && c /= '!')
+
+getGoodPrefix : String -> String
+getGoodPrefix str =
+    case run parseGoodChars str of
+        Ok str_ -> str_
+        Err _ -> "xyx@xyx!!"
 
 
 parseWhile : (Char -> Bool) -> Parser String
