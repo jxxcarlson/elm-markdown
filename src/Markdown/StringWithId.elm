@@ -192,12 +192,6 @@ mmBlockTreeToHtml tree =
 --                    [(stringOfId id, Html.div [] (List.map (mmBlockTreeToHtml) (Tree.children tree)))]
 
 
---            MDBlockWithId id (MarkdownBlock Plain) _ _ ->
---                let
---                  _ = Debug.log "MDBlockWithId" id
---
---                in
---                     Html.div [HA.class "mm-plain", HA.id (stringOfId id)] (List.map (mmBlockTreeToHtml) (Tree.children tree))
 
             MDBlockWithId id (MarkdownBlock _) _ _ ->
 --                Keyed.node "div" []

@@ -15,7 +15,7 @@ import Tree exposing(Tree)
 import ParseWithId
 import Tree.Diff as Diff
 import Process
-import Task
+import Task exposing(Task)
 import Style
 
 {-|  This version of the demo app has some optimizations
@@ -79,6 +79,10 @@ type Msg
     | ProcessLine String
     | GotElementOfSelectedLine (Result Dom.Error Dom.Element)
     | GotElementOfRenderedText (Result Dom.Error Dom.Element)
+    | GetViewportOfRenderedText
+    | GotViewportOfRenderedText (Result Dom.Error Dom.Viewport)
+    | SetViewPortForElement (Result Dom.Error (Dom.Element, Dom.Viewport))
+
     | GenerateSeed
     | NewSeed Int
     | LoadExample1
@@ -169,14 +173,11 @@ update msg model =
           let
              id = (case ElmWithId.searchAST str model.lastAst of
                  Nothing -> "??"
-                 Just id_ -> id_ |>  ParseWithId.stringOfId) |>  Debug.log "ID"
+                 Just id_ -> id_ |>  ParseWithId.stringOfId)
 
           in
              ({ model | message = "Clicked on id: " ++ id},
-               Cmd.batch [
-                 getElementOfSelectedLine id
-                 , getElementOfRenderedText
-                ]
+               setViewportForElement id
               )
             -- ({ model | message = "Clicked on id: " ++ id}, setViewPortOfSelectedLine id)
             -- ({ model | message = "Clicked on id: " ++ id}, jumpToBottom id)
@@ -192,11 +193,21 @@ update msg model =
                     ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
 
         GotElementOfRenderedText result ->
-            let
-                _ = Debug.log "EL RT" result
-            in
+
               (model, Cmd.none)
 
+        GetViewportOfRenderedText ->
+            (model, getViewportOfRenderedText )
+
+        GotViewportOfRenderedText result ->
+
+                (model, Cmd.none)
+
+        SetViewPortForElement result ->
+            case result of
+                Ok (element, viewport) ->
+                      (model, setViewPortForSelectedLine2 element viewport)
+                Err _ -> ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
 
         GenerateSeed ->
             ( model, Random.generate NewSeed (Random.int 1 10000) )
@@ -279,10 +290,8 @@ update msg model =
 computeNewViewport : Dom.Element -> Dom.Viewport
 computeNewViewport e =
     let
-          _ = Debug.log "SELECTED EL" e
-          --_ = Debug.log "SELECTED EL, Y" e.element.y
           oldViewport_ = e.viewport
-          newViewport_ = Debug.log "NEW VIEWPORT" { oldViewport_ | y = e.element.y - e.viewport.y - e.element.height - 200  }
+          newViewport_ =  { oldViewport_ | y = e.element.y - e.viewport.y - e.element.height - 200  }
 
     in
       { scene = e.scene, viewport = newViewport_}
@@ -313,7 +322,7 @@ getElementOfRenderedText =
 setViewPortForSelectedLine : Dom.Viewport -> Cmd Msg
 setViewPortForSelectedLine viewport =
     let
-        y = Debug.log "VIEWPORT, Y"
+        y =
             viewport.viewport.y
     in
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
@@ -322,6 +331,29 @@ setViewPortOfSelectedLine : String -> Cmd Msg
 setViewPortOfSelectedLine id  =
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf id  0 100)
 
+getViewportOfRenderedText : Cmd Msg
+getViewportOfRenderedText =
+    Task.attempt GotViewportOfRenderedText (Dom.getViewportOf "_rendered_text_")
+
+-- NEW STUFF
+
+setViewportForElement : String -> Cmd Msg
+setViewportForElement id =
+    Dom.getViewportOf "_rendered_text_"
+      |> Task.andThen (\vp -> getElementWithViewPort vp id)
+      |> Task.attempt SetViewPortForElement
+
+getElementWithViewPort : Dom.Viewport -> String -> Task Dom.Error (Dom.Element, Dom.Viewport)
+getElementWithViewPort vp id =
+    Dom.getElement id
+      |> Task.map (\el -> (el, vp))
+
+setViewPortForSelectedLine2 : Dom.Element -> Dom.Viewport -> Cmd Msg
+setViewPortForSelectedLine2 element viewport =
+    let
+        y =  viewport.viewport.y + element.element.y - element.element.height - 100
+    in
+    Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
 
 --
 -- VIEW FUNCTIONS
@@ -352,6 +384,7 @@ display model =
               , standardMarkdownButton model 100
               , extendedMarkdownButton model 100
               , extendedMathMarkdownButton model 140
+              , getElementOfRenderedTextButton
              ]
         , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
             [ text "minilatex.io" ]
@@ -419,3 +452,9 @@ extendedMarkdownButton model width =
 
 extendedMathMarkdownButton model width =
     button ([ onClick SelectExtendedMath ] ++ Style.buttonStyleSelected (model.option == ExtendedMath) Style.colorBlue Style.colorDarkRed width) [ text "Extended-Math" ]
+
+getElementOfRenderedTextButton  =
+    button ([ onClick GetViewportOfRenderedText ] )
+      [ text "Get VP" ]
+
+
