@@ -1,7 +1,6 @@
-module Prefix exposing (get, drop, truncate)
+module Prefix exposing (drop, get, truncate)
 
 import Parser.Advanced exposing (..)
-import String.Extra
 
 
 type alias Parser a =
@@ -17,31 +16,36 @@ type Context
 type Problem
     = Expecting String
 
+
 get : String -> String
 get str =
-    case  run parsePrefix str of
-        Ok str_ -> str_
-        Err _ -> ""
+    case run parsePrefix str of
+        Ok str_ ->
+            str_
+
+        Err _ ->
+            ""
+
 
 drop : String -> String -> String
 drop prefix str =
     String.dropLeft (String.length prefix) str
 
+
 truncate : String -> String
 truncate str_ =
-  let
-    str = String.trimLeft str_
-  in
+    let
+        str =
+            String.trimLeft str_
+    in
     drop (get str) str
-      |> getGoodPrefix
-      |> String.trimLeft
-
-
+        |> getGoodPrefix
+        |> String.trimLeft
 
 
 parsePrefix : Parser String
 parsePrefix =
-    oneOf [heading, unorderedListItem, oListPrefix]
+    oneOf [ heading, unorderedListItem, oListPrefix ]
 
 
 oListPrefix : Parser String
@@ -52,58 +56,68 @@ oListPrefix =
     )
         |> map (\x -> x ++ ". ")
 
+
 headingBlock1 : Parser String
 headingBlock1 =
-  getChompedString <|
-    (succeed identity
-        |. spaces
-        |. symbol (Token "#" (Expecting "Expecting '#' to begin heading block"))
-        |= parseWhile (\c -> c == '#')
-    )
+    getChompedString <|
+        (succeed identity
+            |. spaces
+            |. symbol (Token "#" (Expecting "Expecting '#' to begin heading block"))
+            |= parseWhile (\c -> c == '#')
+        )
+
 
 headingBlock2 : Parser String
 headingBlock2 =
-  getChompedString <|
-    (succeed identity
-        |. spaces
-        |. symbol (Token "##" (Expecting "Expecting '##' to begin level 2 heading block"))
-        |= parseWhile (\c -> c == '#')
-    )
+    getChompedString <|
+        (succeed identity
+            |. spaces
+            |. symbol (Token "##" (Expecting "Expecting '##' to begin level 2 heading block"))
+            |= parseWhile (\c -> c == '#')
+        )
+
 
 headingBlock3 : Parser String
 headingBlock3 =
-  getChompedString <|
-    (succeed identity
-        |. spaces
-        |. symbol (Token "###" (Expecting "Expecting '###' to begin level 3 heading block"))
-        |= parseWhile (\c -> c == '#')
-    )
+    getChompedString <|
+        (succeed identity
+            |. spaces
+            |. symbol (Token "###" (Expecting "Expecting '###' to begin level 3 heading block"))
+            |= parseWhile (\c -> c == '#')
+        )
+
 
 heading : Parser String
-heading = oneOf [headingBlock1, headingBlock2, headingBlock3]
+heading =
+    oneOf [ headingBlock1, headingBlock2, headingBlock3 ]
+
 
 unorderedListItem : Parser String
 unorderedListItem =
-  getChompedString <|
-    (succeed identity
-        |. spaces
-        |. symbol (Token "-" (Expecting "Expecting '-' to begin item"))
-    )
+    getChompedString <|
+        (succeed identity
+            |. spaces
+            |. symbol (Token "-" (Expecting "Expecting '-' to begin item"))
+        )
+
 
 parseGoodChars : Parser String
 parseGoodChars =
     getChompedString <|
-      succeed identity
-         |= parseWhile (\c -> c /= '*' && c /= '$' && c /= '~' && c /= '!')
+        succeed identity
+            |= parseWhile (\c -> c /= '*' && c /= '$' && c /= '~' && c /= '!')
+
 
 getGoodPrefix : String -> String
 getGoodPrefix str =
     case run parseGoodChars str of
-        Ok str_ -> str_
-        Err _ -> "xyx@xyx!!"
+        Ok str_ ->
+            str_
+
+        Err _ ->
+            "xyx@xyx!!"
 
 
 parseWhile : (Char -> Bool) -> Parser String
 parseWhile accepting =
     chompWhile accepting |> getChompedString
-

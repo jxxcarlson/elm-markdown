@@ -33,7 +33,7 @@ customElements.define('code-editor', class extends HTMLElement {
 
   connectedCallback() {
     this._editor = CodeMirror(this, {
-      identUnit: 4,
+      identUnit: 3,
       mode: 'elm',
       lineNumbers: true,
       lineSeparator: null,

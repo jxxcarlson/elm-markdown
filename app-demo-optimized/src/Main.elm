@@ -180,7 +180,7 @@ update msg model =
         SetViewPortForElement result ->
             case result of
                 Ok (element, viewport) ->
-                      (model, setViewPortForSelectedLine2 element viewport)
+                      (model, setViewPortForSelectedLine element viewport)
                 Err _ -> ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
 
         GenerateSeed ->
@@ -286,13 +286,26 @@ getElementWithViewPort vp id =
     Dom.getElement id
       |> Task.map (\el -> (el, vp))
 
-setViewPortForSelectedLine2 : Dom.Element -> Dom.Viewport -> Cmd Msg
-setViewPortForSelectedLine2 element viewport =
+
+
+setViewPortForSelectedLine : Dom.Element -> Dom.Viewport -> Cmd Msg
+setViewPortForSelectedLine element viewport =
     let
-        y =  viewport.viewport.y + element.element.y - element.element.height - 100
+        _ = Debug.log "VP (3)" viewport
+        _ = Debug.log "EL (3)" element
+        y = Debug.log "Y VALUE" <|
+            viewport.viewport.y + element.element.y - element.element.height - 100
     in
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
 
+
+--setViewPortForSelectedLine : Dom.Element -> Dom.Viewport -> Cmd Msg
+--setViewPortForSelectedLine element viewport =
+--    let
+--        y =  viewport.viewport.y + element.element.y - element.element.height - 100
+--    in
+--    Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
+--
 
 
 --
