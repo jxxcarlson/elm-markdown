@@ -18,11 +18,22 @@ are properly rendered.
 
 See [markdown.minilatex.app](https://markdown.minilatex.app)
 for a demo of the latest implementation.  There are two versions
-of the demo, one in  `./app-demo/`, the other in `app-demo-optimized`.
+of the demo, one in  `./app-demo/`, the other in `app-demo-fancy`.
 The former works well for Markdown documents with no math text or not
-too much math text.  The latter has some optimizations for math-heavy 
-documents, but is slightly more complex to implement.  This is explained
-in the comments to the code.
+too much math text.  All you will need are the modules `Markdown.Elm` and 
+`Markdown.Option`, as described in the **Example** section below.
+
+
+The "fancy" demo has some optimizations for math-heavy 
+documents, but is slightly more complex to implement.  It also
+has a "real" editor with features that those implementing 
+fancier apps may want to use, e.g., sync between source and rendered text. 
+See the **Editor** section.
+
+**NOTE:** This package is still evolving relatively rapidly.  I regret
+publishing so many updates, but I am using it in several apps, and this
+is the only way I know how to encapsulate the complexity, work
+ with the CI build systems, and keep my sanity
 
 ## Example
 
@@ -51,11 +62,12 @@ type Option
 
 ## Demo app
 
-The [demo app](https://markdown.minilatex.app) resides in `./app-test` of the
+The [demo app](https://markdown.minilatex.app) resides in `./app-demo-fancy` 
+of the repo
 [Github repository](https://github.com/jxxcarlson/elm-markdown).
 To run
 it, go into that folder and say `sh make.sh`.  Then
-double-click on `index.html`.
+double-click on `index.html`.  The simpler app resides in `./app-demo`.
 
 ## Style
 
@@ -76,17 +88,10 @@ also say `![My favorite image::left](imageUrl)` or
 
 ## MathJax
 
-TeX/LaTeX math text is rendered using \href{https://mathjax.org}{MathJax}.
+TeX/LaTeX math text is rendered using [MathJax](https://mathjax.org).
 For this you must use the `ExtendedMath` option.  In addition,
-you must have the files
-
-```
-assets/math-text.js
-assets/custom-element.config.js
-```
-
-in the same directory as `index.html`, and `index.html` must
-contain the three lines below at the top of the `<head>` section, just
+you must have the lines below in `index.html` 
+ at the top of the `<head>` section, just
 under `<meta charset="utf-8" />`, for example.`
 
 ```
@@ -97,6 +102,36 @@ under `<meta charset="utf-8" />`, for example.`
 ```
 
 The demo app is now using MathJax 3.0.
+
+## Editor
+
+This section is relevant only to those wanting to implement a "fancy" editor
+that interacts with the rendered text in some way, e.g., as described below.
+
+Following Luke Westby's talk at Elm Europe 2018, I've implemented an editor
+using custom elements and Codemirror.js. In addition, there is a start on a system 
+for synchronizing the source text in the editor (Left) and the rendered text
+(Right).  If one clicks somewhere in the gutter of the editor, the 
+right-hand window scrolls to display the corresponding rendered text.  There
+are quite a few moving parts to this system. Codemirror detects the click
+finds the line number and returns the corresponding text as string, forwarding
+this info to Elm.  The function `ElmWithId.searchAST` finds the id of the
+corresponding element the AST, which is ultimately used by 
+`Browser.Dom.setViewportOf` to set the viewport of the rendered text window.
+
+The system is not foolproof, the main weak point being that `searchAST` does no
+always find its target  This is "Left-to-Right" sync.  We also want to implement
+Right-to-Left sync.
+
+All this editor stuff requires the following lines in `index.html`
+
+```
+  <!-- Text Editor -->
+  <link rel='stylesheet' href='lib/codemirror.css'>
+  <script type='text/javascript' src='lib/codemirror.js'></script>
+  <script type='text/javascript' src='assets/code-editor.js'></script>
+ ``` 
+
 
 ## Markdown extensions
 
@@ -132,6 +167,7 @@ where `Document` is a type alias for `String`.  This is also
 useful if you wish to transform the abstact syntax tree before 
 rendering it.
 
+
 ## Bugs and whatnot
 
 Please write me at jxxcarlson@gmail.com or post an
@@ -143,5 +179,4 @@ extent possible by the method of successive approximations
 
 ## Thanks
 
-Thanks to Folkert deVries for a number of significant optimizations to
-the parser. 
+Thanks to Bill St. Clair, Folkert deVries, and Luke Westby.

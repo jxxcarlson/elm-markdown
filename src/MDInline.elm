@@ -1,5 +1,4 @@
-
-module MDInline exposing (MDInline(..),  stringContent,  parse, string)
+module MDInline exposing (MDInline(..), parse, string, stringContent)
 
 {-| Module MDInline provides one type and two functions. The
 type is MDInline, which is the type of inline Markdown elements
@@ -16,7 +15,7 @@ module is mapped over the nodes of the tree to form a new tree.
 The MDInline.string function is used to give a string representation
 of the BlockMMTree values.
 
-@docs MDInline, parse, string
+@docs MDInline, parse, string, stringContent
 
 -}
 
@@ -38,7 +37,8 @@ type Problem
     = Expecting String
 
 
-{-| The type for inline Markdown elements -}
+{-| The type for inline Markdown elements
+-}
 type MDInline
     = OrdinaryText String
     | ItalicText String
@@ -55,39 +55,53 @@ type MDInline
     | Error (List MDInline)
 
 
-{-| String conten of MDInline value -}
-stringContent: MDInline -> String
+{-| String content of MDInline value. Used in ElmWithId.searchAST
+-}
+stringContent : MDInline -> String
 stringContent mmInline =
     case mmInline of
+        OrdinaryText str ->
+            str
 
-        OrdinaryText str -> str
+        ItalicText str ->
+            str
 
-        ItalicText str -> str
+        BoldText str ->
+            str
 
-        BoldText str -> str
+        Code str ->
+            str
 
-        Code str -> str
+        InlineMath str ->
+            str
 
-        InlineMath str ->  str
+        StrikeThroughText str ->
+            str
 
-        StrikeThroughText str ->  str
+        BracketedText str ->
+            str
 
-        BracketedText str ->  str
+        Link a b ->
+            b
 
-        Link a b -> b
+        Image a b ->
+            a
 
-        Image a b -> a
+        Line arg ->
+            List.map string arg |> String.join " "
 
-        Line arg -> List.map string arg |> String.join " "
+        Paragraph arg ->
+            List.map string arg |> List.map indentLine |> String.join "\n"
 
-        Paragraph arg -> List.map string arg |> List.map indentLine |> String.join "\n"
+        Stanza arg ->
+            arg
 
-        Stanza arg -> arg
+        Error arg ->
+            List.map string arg |> String.join " "
 
-        Error arg -> (List.map string arg |> String.join " ")
 
-
-{-| String representation of an MDInline value -}
+{-| String representation of an MDInline value
+-}
 string : MDInline -> String
 string mmInline =
     case mmInline of
@@ -183,7 +197,8 @@ type alias PrefixedString =
     { prefix : String, text : String }
 
 
-{-| MDInline parser -}
+{-| MDInline parser
+-}
 parse : Option -> String -> MDInline
 parse option str =
     str

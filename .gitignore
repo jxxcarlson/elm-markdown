@@ -4,12 +4,12 @@ elm-stuff/
 app-demo/Main.js
 app-demo/Main.min.js
 app-demo/package-lock.json
-app-demo-optimized/Main.js
-app-demo-optimized/Main.min.js
-app-demo-optimized/package-lock.json
+app-demo-fancy/Main.js
+app-demo-fancy/Main.min.js
+app-demo-fancy/package-lock.json
 src/MDExample.elm
 mathjax3/browser.application-demo/Main.js
 mathjax3/browser.application-demo/elm-stuff
 mathjax3/browser.elemment-demo/Main.js
 mathjax3/browser.element-demo/elm-stuff
-app-demo-optimized/bench.html
+app-demo-fancy/bench.html

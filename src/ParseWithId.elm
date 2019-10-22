@@ -1,19 +1,15 @@
-module ParseWithId exposing
-    ( toMDBlockTree, BlockContent(..)
-      , equal, MDBlockWithId(..), MDBlock(..), project,
-       stringOfMDBlockTree, stringOfId, idOfBlock, projectedStringOfBlockContent, Id)
+module ParseWithId exposing (toMDBlockTree, MDBlock(..), MDBlockWithId(..), BlockContent(..), equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree)
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
 which can then be further transformed or passed on
-to a rendering function.  The AST is a rose tree
+to a rendering function. The AST is a rose tree
 of `MDBlockWithId` — short for "Markdown Blocks."
 
 See the documentation at the head of module `Markdown.ElmWithId` for
 the rationale for this module.
 
-
-@docs toMDBlockTree, MDBlock, MDBlockWithId, BlockContent, equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+@docs toMDBlockTree, MDBlock, MDBlockWithId, BlockContent, equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
 
 -}
 
@@ -43,11 +39,22 @@ import Tree exposing (Tree)
 type Block
     = Block Id BlockType Level Content
 
-type alias Id = (Int, Int)
+
+{-| Used to generate Ids of Html elements and to
+implement differential rendering. The first
+Int is a version number, incremented after each
+edit. The second is a an integer representing
+position in a traversal of the tree of blocks
+obtained by parsing the text.
+-}
+type alias Id =
+    ( Int, Int )
+
 
 typeOfBlock : Block -> BlockType
-typeOfBlock (Block _ bt _ _ ) =
+typeOfBlock (Block _ bt _ _) =
     bt
+
 
 {-| An MBlockWithId is like na MDBlock,
 except that it has an
@@ -56,7 +63,7 @@ except that it has an
 
 which should be thought of as
 
-    (version, id)
+    ( version, id )
 
 where the id is unique to each block.
 
@@ -75,12 +82,13 @@ type MDBlockWithId
 type MDBlock
     = MDBlock BlockType Level BlockContent
 
+
 {-| Project an MDBlockWithId to an MDBlock
- by omitting its id
- -}
+by omitting its id
+-}
 project : MDBlockWithId -> MDBlock
 project (MDBlockWithId _ bt lev content) =
-    (MDBlock bt lev content)
+    MDBlock bt lev content
 
 
 {-| Return a string representing the content of a block
@@ -95,20 +103,21 @@ projectedStringOfBlockContent blockContent =
         T str ->
             str
 
+
 {-| Return the id of a block
 -}
 idOfBlock : MDBlockWithId -> Id
-idOfBlock (MDBlockWithId id _ _ _) = id
+idOfBlock (MDBlockWithId id _ _ _) =
+    id
 
 
-{-|
-Check for equality of
+{-| Check for equality of
 
     - blockType
     - level
     - content
 
- ignoring the id.
+ignoring the id.
 
 -}
 slowerEqual : MDBlockWithId -> MDBlockWithId -> Bool
@@ -116,14 +125,13 @@ slowerEqual (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
     bt1 == bt2 && l1 == l2 && c1 == c2
 
 
-{-|
-Check for equality of
+{-| Check for equality of
 
     - blockType
     - level
     - content
 
- ignoring the id.
+ignoring the id.
 
 -}
 equal : MDBlockWithId -> MDBlockWithId -> Bool
@@ -188,6 +196,7 @@ equal (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
     else
         False
 
+
 {-| The type of a parsed Block
 -}
 type BlockContent
@@ -245,7 +254,7 @@ type alias Register =
 
 emptyRegister : Register
 emptyRegister =
-    { id = (0,0)
+    { id = ( 0, 0 )
     , itemIndex1 = 0
     , itemIndex2 = 0
     , itemIndex3 = 0
@@ -284,7 +293,7 @@ parseTableRow level line =
         |> String.split "|"
         |> List.map String.trim
         |> List.filter (\s -> s /= "")
-        |> List.map (\s -> Block (-1,-1) (MarkdownBlock TableCell) level s)
+        |> List.map (\s -> Block ( -1, -1 ) (MarkdownBlock TableCell) level s)
 
 
 changeLevel : Int -> Block -> Block
@@ -308,6 +317,7 @@ Example:
     -->            ])))
     -->      []]
     --> : Tree.Tree ParseWithId.MDBlockWithId
+
 -}
 toMDBlockTree : Int -> Option -> Document -> Tree MDBlockWithId
 toMDBlockTree version option document =
@@ -316,9 +326,11 @@ toMDBlockTree version option document =
         |> Tree.map (selectMapper option)
         |> Tree.indexedMap (\idx block -> setBlockIndex version idx block)
 
+
 setBlockIndex : Int -> Int -> MDBlockWithId -> MDBlockWithId
 setBlockIndex version idx (MDBlockWithId id bt lev blockContent) =
-       MDBlockWithId (idx,version) bt lev blockContent
+    MDBlockWithId ( idx, version ) bt lev blockContent
+
 
 selectMapper : Option -> (Block -> MDBlockWithId)
 selectMapper option ((Block id bt level_ content_) as block) =
@@ -427,12 +439,12 @@ runFSM option lines =
 
 -- FINITE STATE MACHINE: NEXT STATE FUNCTION --
 
+
 nextState : Option -> Line -> FSM -> FSM
 nextState option line ((FSM state blocks register) as fsm_) =
     let
         fsm =
             handleRegister fsm_
-
     in
     case stateOfFSM fsm of
         Start ->
@@ -461,11 +473,11 @@ handleRegister ((FSM state blocks register) as fsm) =
                     let
                         tableBlock : Block
                         tableBlock =
-                            Block (-1,-1) (MarkdownBlock Table) 0 "tableRoot"
+                            Block ( -1, -1 ) (MarkdownBlock Table) 0 "tableRoot"
 
                         rowBlock : Block
                         rowBlock =
-                            Block (-1,-1) (MarkdownBlock TableRow) 1 "row"
+                            Block ( -1, -1 ) (MarkdownBlock TableRow) 1 "row"
 
                         tableData : List Block
                         tableData =
@@ -499,13 +511,11 @@ nextStateStart option line ((FSM state blocks register) as fsm) =
         -- add line
         ( level, Just blockType ) ->
             let
-
                 ( newBlockType, newRegister ) =
                     updateRegisterAndBlockType blockType level register
 
                 newLine =
                     removePrefix blockType line
-
             in
             if
                 newBlockType
@@ -515,14 +525,15 @@ nextStateStart option line ((FSM state blocks register) as fsm) =
                 handleTableStart blockType level line state blocks register
 
             else if lineIsNotBlank line then
-                FSM (InBlock (Block  (-1,-1) newBlockType level newLine)) blocks newRegister
+                FSM (InBlock (Block ( -1, -1 ) newBlockType level newLine)) blocks newRegister
 
             else
-              fsm
+                fsm
+
 
 currentIdOfFSM : FSM -> Id
-currentIdOfFSM (FSM _ _ register) = register.id
-
+currentIdOfFSM (FSM _ _ register) =
+    register.id
 
 
 newBlockTypeIsDifferent : BlockType -> State -> Bool
@@ -590,6 +601,7 @@ lineIsNotBlank : Line -> Bool
 lineIsNotBlank line =
     String.trim line /= ""
 
+
 handleTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
 handleTableRow blockTypeOfLine level line state blocks register =
     if newBlockTypeIsDifferent blockTypeOfLine state then
@@ -612,11 +624,11 @@ handleTableStart blockTypeOfLine level line state blocks register =
             let
                 tableBlock : Block
                 tableBlock =
-                    Block (-1,-1) (MarkdownBlock Table) level "tableRoot"
+                    Block ( -1, -1 ) (MarkdownBlock Table) level "tableRoot"
 
                 rowBlock : Block
                 rowBlock =
-                    Block (-1,-1) blockTypeOfLine (level + 1) "row"
+                    Block ( -1, -1 ) blockTypeOfLine (level + 1) "row"
 
                 childrenOfNewBlock =
                     parseTableRow (level + 2) line
@@ -627,7 +639,7 @@ handleTableStart blockTypeOfLine level line state blocks register =
             -- FSM (InBlock tableBlock) ((rowBlock :: childrenOfNewBlock) ++ currentBlock :: blocks) { register | level = register.level + 1 }
             FSM (InBlock rowBlock)
                 blocks
-                { register |  level = register.level + 0, blockStack = newRow }
+                { register | level = register.level + 0, blockStack = newRow }
 
 
 handleInnerTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
@@ -641,17 +653,16 @@ handleInnerTableRow blockTypeOfLine level line state blocks register =
 
         InBlock currentBlock ->
             let
-
                 rowBlock : Block
                 rowBlock =
-                    Block (-1,-1) blockTypeOfLine (level + 1) "row"
+                    Block ( -1, -1 ) blockTypeOfLine (level + 1) "row"
 
                 childrenOfNewBlock =
                     parseTableRow (level + 2) line
 
                 tableMarker : Block
                 tableMarker =
-                    Block (-1,-1) (MarkdownBlock TableRow) (level + 1) "deleteMe"
+                    Block ( -1, -1 ) (MarkdownBlock TableRow) (level + 1) "deleteMe"
 
                 newRow =
                     childrenOfNewBlock ++ [ rowBlock ]
@@ -679,7 +690,8 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
         case stateOfFSM fsm of
             InBlock block_ ->
                 FSM (InBlock (Block register.id blockType (BlockType.level line) line)) (block_ :: blocks_) register
-                -- YYY
+
+            -- YYY
             _ ->
                 fsm
 
@@ -851,7 +863,7 @@ typeOfState s =
 
 
 rootBlock =
-    Block (0,0) (MarkdownBlock Root) 0 "DOCUMENT"
+    Block ( 0, 0 ) (MarkdownBlock Root) 0 "DOCUMENT"
 
 
 flush : FSM -> List Block
@@ -934,6 +946,7 @@ stringOfBlockTree tree =
         |> List.map stringOfBlock
         |> String.join "\n"
 
+
 {-| Return a string value of and Id
 -}
 stringOfId : Id -> String
@@ -961,7 +974,7 @@ indent k str =
         |> String.join "\n"
 
 
-{-| A string representation of an MDBlockTree.  Useful
+{-| A string representation of an MDBlockTree. Useful
 for verifying the validity of the AST.
 -}
 stringOfMDBlockTree : Tree MDBlockWithId -> String

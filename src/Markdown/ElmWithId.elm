@@ -1,7 +1,4 @@
-module Markdown.ElmWithId exposing
-    ( parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, numberOfMathElements
-    , searchAST
-    )
+module Markdown.ElmWithId exposing (parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, searchAST, numberOfMathElements)
 
 {-| Use this module if you need to edit math + markdown _and_
 require optimizations for speed and a smooth editing experience.
@@ -39,7 +36,7 @@ look for the places in `app-demo-optimized/Main.elm`
 where functions in the modules
 `ParseWithId` and `Markdown.ElmWithId` are called.
 
-@docs parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, numberOfMathElements
+@docs parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, searchAST, numberOfMathElements
 
 -}
 
@@ -130,6 +127,10 @@ parse version option str =
     ParseWithId.toMDBlockTree version option str
 
 
+{-| Search the AST for nodes whose label contains the
+given string, returning the Id of the first node found,
+if any.
+-}
 searchAST : String -> Tree MDBlockWithId -> Maybe Id
 searchAST str ast =
     ast
