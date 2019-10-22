@@ -403,6 +403,11 @@ idAttr id =
     HA.id (stringOfId id)
 
 
+idAttrWithLabel : Id -> String -> Html.Attribute msg
+idAttrWithLabel id label =
+    HA.id (stringOfId id ++ label)
+
+
 renderBlock : Id -> MDBlock -> Html msg
 renderBlock id block =
     case block of
@@ -783,7 +788,7 @@ mathText content =
 
 inlineMathText : Id -> String -> Html msg
 inlineMathText id str =
-    Html.span [ idAttr id ] [ mathText <| "$ " ++ String.trim str ++ " $ " ]
+    Keyed.node "span" [ idAttrWithLabel id "m" ] [ ( stringOfId id ++ "m", mathText <| "$ " ++ String.trim str ++ " $ " ) ]
 
 
 displayMathText : String -> Html msg
