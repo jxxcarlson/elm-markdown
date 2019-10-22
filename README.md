@@ -74,14 +74,14 @@ double-click on `index.html`.  The simpler app resides in `./app-demo`.
 The style used by the library is entirely determined by the
 definitions of the CSS classes that you refer to in your
 `index.html`.  The ones used for the demo app are found
-in`./app-test/assets/style.css`. 
+in `./app-demo/assets/style.css` and `./app-demo-fancy/assets/style.css`
 You can easily reconfigure the CSS to satsify your
 own esthetics.
 
 ## Images
 
 The usual `![My favorite image](imageUrl)` does the usual thing, with the image 
-scaled to 100% width. You can 
+scaled to 100% of the width. You can 
 also say `![My favorite image::left](imageUrl)` or 
 `![My favorite image::right](imageUrl)` to float the image left or right at 
 40% width. The widths are defined in `style.css`.
@@ -106,20 +106,21 @@ The demo app is now using MathJax 3.0.
 ## Editor
 
 This section is relevant only to those wanting to implement a "fancy" editor
-that interacts with the rendered text in some way, e.g., as described below.
+that interacts with the rendered text in some way, e.g., sync of 
+ source and rendered text, as described below.
 
 Following Luke Westby's talk at Elm Europe 2018, I've implemented an editor
 using custom elements and Codemirror.js. In addition, there is a start on a system 
 for synchronizing the source text in the editor (Left) and the rendered text
 (Right).  If one clicks somewhere in the gutter of the editor, the 
 right-hand window scrolls to display the corresponding rendered text.  There
-are quite a few moving parts to this system. Codemirror detects the click
-finds the line number and returns the corresponding text as string, forwarding
+are quite a few moving parts to this system. Codemirror detects the click,
+finds the line number, and returns the corresponding text as string, forwarding
 this info to Elm.  The function `ElmWithId.searchAST` finds the id of the
-corresponding element the AST, which is ultimately used by 
+corresponding element the AST (parse tree), which is ultimately used by 
 `Browser.Dom.setViewportOf` to set the viewport of the rendered text window.
 
-The system is not foolproof, the main weak point being that `searchAST` does no
+The system is not yet foolproof, the main weak point being that `searchAST` does not
 always find its target  This is "Left-to-Right" sync.  We also want to implement
 Right-to-Left sync.
 
