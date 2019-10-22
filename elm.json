@@ -1,7 +1,7 @@
 {
     "type": "package",
     "name": "jxxcarlson/elm-markdown",
-    "summary": "Experimental markdown parser that also handles math!",
+    "summary": "Experimental markdown parser, handles math, has hooks for editor sync",
     "license": "BSD-3-Clause",
     "version": "2.4.0",
     "exposed-modules": [
@@ -27,5 +27,5 @@
         "zwilias/elm-html-string": "2.0.2 <= v < 3.0.0",
         "zwilias/elm-rosetree": "1.5.0 <= v < 2.0.0"
     },
-    "test-dependencies": {}
+         "test-dependencies": {}
 }

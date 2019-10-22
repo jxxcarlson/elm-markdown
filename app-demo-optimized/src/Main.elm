@@ -291,9 +291,8 @@ getElementWithViewPort vp id =
 setViewPortForSelectedLine : Dom.Element -> Dom.Viewport -> Cmd Msg
 setViewPortForSelectedLine element viewport =
     let
-        _ = Debug.log "VP (3)" viewport
-        _ = Debug.log "EL (3)" element
-        y = Debug.log "Y VALUE" <|
+
+        y =
             viewport.viewport.y + element.element.y - element.element.height - 100
     in
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
