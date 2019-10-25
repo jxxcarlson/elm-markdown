@@ -4,10 +4,11 @@
 
 The aim of this Markdown library is
 to provide a pure Elm implementation of Markdown
-which offers a small set of extensions, along with options:
+which offers a small set of optional extensions:
 
 - Standard: the usual thing
-- Extended: strike-though text, tables, and Poetry and Verbatim blocks
+- Extended: strike-though text, tables, and Poetry and Verbatim blocks, 
+better image handling
 - ExtendedMath: like Extended, but math formulas written in
 TeX/LaTeX, eg.,
 ```
@@ -16,42 +17,19 @@ This **is** a test: $a^2 + b^2 = c^2$.
 are properly rendered.
 
 
-See [markdown.minilatex.app](https://markdown.minilatex.app)
-for a demo of the latest implementation.  There are two versions
-of the demo, one in  `./app-demo/`, the other in `app-demo-fancy`.
-The former works well for Markdown documents with no math text or not
-too much math text.  All you will need are the modules `Markdown.Elm` and 
-`Markdown.Option`, as described in the **Example** section below.
+## How to use it
 
 
-The "fancy" demo has some optimizations for math-heavy 
-documents, but is slightly more complex to implement.  It also
-has a "real" editor with features that those implementing 
-fancier apps may want to use, e.g., sync between source and rendered text. 
-See the **Editor** section.
-
-**NOTE:** This package is still evolving relatively rapidly.  I regret
-publishing so many updates, but I am using it in several apps, and this
-is the only way I know how to encapsulate the complexity, work
- with the CI build systems, and keep my sanity
-
-## Example
-
-To convert text to Html, do something like this:
+For simple applications, use the `Madrkown.Elm` and `Markdown.Option` modules,
+as in these examples:
 
 ```
-Markdown.Elm.toHtml ExtendedMath "This **is** a test: $a^2 + b^2 = c^2$."
+Markdown.Elm.toHtml Extended "This **is** a test."
+
+Markdown.Elm.toHtml ExtendedMath "Use $a^2 + b^2 = c^2$."
 ```
 
-According to your needs, you can also use the
-`Standard` or `Extended` options.  Use this line
-to make options available:
-
-```
-import Markdown.Option exposing(Option(..))
-```
-
-where
+where in `Markdown.Option` one has
 
 ```
 type Option
@@ -60,14 +38,26 @@ type Option
     | ExtendedMath
 ```
 
-## Demo app
+For the `ExtendedMath` option, take a look at `./app-demo/index.html` in the 
+[source code](https://github.com/jxxcarlson/elm-markdown) to see what to do.
+You will need some Javascript, incuding MathJax 3.
 
-The [demo app](https://markdown.minilatex.app) resides in `./app-demo-fancy` 
-of the repo
-[Github repository](https://github.com/jxxcarlson/elm-markdown).
-To run
-it, go into that folder and say `sh make.sh`.  Then
-double-click on `index.html`.  The simpler app resides in `./app-demo`.
+## Demo
+
+There are two versions
+of the demo, a basic one in  `./app-demo/`, 
+another in `app-demo-fancy` which has more features and some optimizations
+that are useful for documents with a lot of mathematics.
+
+See [markdown.minilatex.app](https://markdown.minilatex.app)
+for a demo of the latest implementation the fancy demo.
+
+**NOTE:** This package is still evolving relatively rapidly.  I regret
+publishing so many updates, but I am using it in several apps, and this
+is the only way I know how to encapsulate the complexity, work
+ with the CI build systems, and keep my sanity
+
+
 
 ## Style
 
@@ -78,7 +68,20 @@ in `./app-demo/assets/style.css` and `./app-demo-fancy/assets/style.css`
 You can easily reconfigure the CSS to satsify your
 own esthetics.
 
-## Images
+
+## Markdown extensions
+
+I am trying to be conservative about extensions to
+Markdown.  However, there are two that I thought
+important enough to add: tables, poetry blocks and verbatim text.
+Poetry blocks are
+are like quotation blocks, except that they begin
+with ">>" instead of ">".  Line endings are respected
+in poetry blocks.  Verbatim blocks are like code blocks,
+except that they are set off by four backticks instead of
+three.  No syntax coloring is applied to verbatim blocks.
+
+### Images
 
 The usual `![My favorite image](imageUrl)` does the usual thing, with the image 
 scaled to 100% of the width. You can 
@@ -86,22 +89,23 @@ also say `![My favorite image::left](imageUrl)` or
 `![My favorite image::right](imageUrl)` to float the image left or right at 
 40% width. The widths are defined in `style.css`.
 
-## MathJax
 
-TeX/LaTeX math text is rendered using [MathJax](https://mathjax.org).
-For this you must use the `ExtendedMath` option.  In addition,
-you must have the lines below in `index.html` 
- at the top of the `<head>` section, just
-under `<meta charset="utf-8" />`, for example.`
+
+## Advanced Usage: AST
+
+If you 
+wish to write your own renderer, or do other fancy things,
+you will want to produce and manpulate the AST:
 
 ```
-<!-- Load MathJax code -->
-<script src="assets/custom-element-config.js"></script>
-<script src="assets/math-text.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+Parse.toMDBlockTree : Option -> Document -> Tree MDBlock
 ```
 
-The demo app is now using MathJax 3.0.
+where `Document` is a type alias for `String`.  This is also
+useful if you wish to transform the abstact syntax tree before 
+rendering it.
+
+
 
 ## Editor
 
@@ -134,41 +138,6 @@ All this editor stuff requires the following lines in `index.html`
  ``` 
 
 
-## Markdown extensions
-
-I am trying to be conservative about extensions to
-Markdown.  However, there are two that I thought
-important enough to add: tables, poetry blocks and verbatim text.
-Poetry blocks are
-are like quotation blocks, except that they begin
-with ">>" instead of ">".  Line endings are respected
-in poetry blocks.  Verbatim blocks are like code blocks,
-except that they are set off by four backticks instead of
-three.  No syntax coloring is applied to verbatim blocks.
-
-
-## AST
-
-The simplest way to render Markdown is to use a one of the built-in
-rendering functions, e.g., make the call
-
-```
-Markdown.Elm.toHtml Extended document
-```
- 
-However, if you 
-wish to write your own renderer, you can produce the abstract syntax
-tree of a document by running 
-
-```
-Parse.toMDBlockTree : Option -> Document -> Tree MDBlock
-```
-
-where `Document` is a type alias for `String`.  This is also
-useful if you wish to transform the abstact syntax tree before 
-rendering it.
-
-
 ## Bugs and whatnot
 
 Please write me at jxxcarlson@gmail.com or post an
@@ -180,4 +149,5 @@ extent possible by the method of successive approximations
 
 ## Thanks
 
-Thanks to Bill St. Clair, Folkert deVries, and Luke Westby.
+Thanks to Bill St. Clair, Folkert deVries, and Luke Westby.  A shout-out
+to Folkert for an optimiztion of the pure text rendering (10 x speedup).
