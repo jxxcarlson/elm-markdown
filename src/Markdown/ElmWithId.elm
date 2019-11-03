@@ -290,6 +290,7 @@ renderHtmlWithExternaTOC heading ast =
 mmBlockTreeToHtml : Tree MDBlockWithId -> Html msg
 mmBlockTreeToHtml tree =
     if Tree.children tree == [] then
+        -- Render leaf blocks
         let
             (MDBlockWithId id bt lev content) =
                 Tree.label tree
@@ -407,6 +408,9 @@ idAttrWithLabel : Id -> String -> Html.Attribute msg
 idAttrWithLabel id label =
     HA.id (stringOfId id ++ label)
 
+
+--type MDBlock
+--    = MDBlock BlockType Level BlockContent
 
 renderBlock : Id -> MDBlock -> Html msg
 renderBlock id block =
