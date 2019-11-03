@@ -3,7 +3,21 @@ module Test.ASTData exposing (..)
 emptyDoc = ""
 emptyDocAST = "Root (0) Paragraph [  Line [Text [DOCUMENT]]]"
 
+blockTree = """
+# Example
 
+Here are some notes on old philoophical probelm.
+
+> What is the nature of reality?
+
+   This is a test.
+   Ho ho ho!
+
+   So is this.
+
+Continuation
+
+"""
 
 inlineBasic = """
 This *is* a test.
