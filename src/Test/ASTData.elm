@@ -3,20 +3,41 @@ module Test.ASTData exposing (..)
 emptyDoc = ""
 emptyDocAST = "Root (0) Paragraph [  Line [Text [DOCUMENT]]]"
 
+
+m1 = """
+$$
+x^2 + y^2 = 1
+$$
+
+$$
+a^2 + b^2 = c^2
+$$
+"""
+
+m2 = """
+$$
+x^2 + y^2 = 1
+$$
+
+$$
+a^3 + b^3 = c^3
+$$
+"""
+
 blockTree = """
-# Example
+ # Philosophy notes
 
-Here are some notes on old philoophical probelm.
+*Monday*
 
-> What is the nature of reality?
+> **Nature of reality?**
 
-   This is a test.
-   Ho ho ho!
+   Why something rather than nothing.
 
-   So is this.
+   If nothing, no one to ask this question.
 
-Continuation
+   Tree in forest / fall
 
+Confusing.
 """
 
 inlineBasic = """

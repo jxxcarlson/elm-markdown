@@ -111,18 +111,18 @@ idOfBlock (MDBlockWithId id _ _ _) =
     id
 
 
-{-| Check for equality of
-
-    - blockType
-    - level
-    - content
-
-ignoring the id.
-
--}
-slowerEqual : MDBlockWithId -> MDBlockWithId -> Bool
-slowerEqual (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
-    bt1 == bt2 && l1 == l2 && c1 == c2
+--{-| Check for equality of
+--
+--    - blockType
+--    - level
+--    - content
+--
+--ignoring the id.
+--
+---}
+--slowerEqual : MDBlockWithId -> MDBlockWithId -> Bool
+--slowerEqual (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
+--    bt1 == bt2 && l1 == l2 && c1 == c2
 
 
 {-| Check for equality of
@@ -323,7 +323,7 @@ toMDBlockTree : Int -> Option -> Document -> Tree MDBlockWithId
 toMDBlockTree version option document =
     document
         |> toBlockTree option
-        |> Tree.map (selectMapper option)
+        |> Tree.map (selectParser option)
         |> Tree.indexedMap (\idx block -> setBlockIndex version idx block)
 
 
@@ -332,21 +332,21 @@ setBlockIndex version idx (MDBlockWithId id bt lev blockContent) =
     MDBlockWithId ( idx, version ) bt lev blockContent
 
 
-selectMapper : Option -> (Block -> MDBlockWithId)
-selectMapper option ((Block id bt level_ content_) as block) =
+selectParser : Option -> (Block -> MDBlockWithId)
+selectParser option ((Block id bt level_ content_) as block) =
     case option of
         Standard ->
-            mapperStandard option block
+            standardMDParser option block
 
         Extended ->
-            mapperExtended option block
+            extendedMDParser option block
 
         ExtendedMath ->
-            mapperExtendedMath option block
+            extendedMathMDParser option block
 
 
-mapperExtendedMath : Option -> Block -> MDBlockWithId
-mapperExtendedMath option_ (Block id bt level_ content_) =
+extendedMathMDParser : Option -> Block -> MDBlockWithId
+extendedMathMDParser option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
             case mt of
@@ -366,8 +366,8 @@ mapperExtendedMath option_ (Block id bt level_ content_) =
             MDBlockWithId id (BalancedBlock DisplayMath) level_ (T content_)
 
 
-mapperExtended : Option -> Block -> MDBlockWithId
-mapperExtended option_ (Block id bt level_ content_) =
+extendedMDParser : Option -> Block -> MDBlockWithId
+extendedMDParser option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
             case mt of
@@ -387,8 +387,8 @@ mapperExtended option_ (Block id bt level_ content_) =
             MDBlockWithId id (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
 
 
-mapperStandard : Option -> Block -> MDBlockWithId
-mapperStandard option_ (Block id bt level_ content_) =
+standardMDParser : Option -> Block -> MDBlockWithId
+standardMDParser option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
             MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
