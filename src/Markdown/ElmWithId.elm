@@ -45,6 +45,7 @@ import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
 import Html.Keyed as Keyed
 import Json.Encode
+import SyntaxHighlight exposing (useTheme, monokai, elm, toBlockHtml)
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
 import ParseWithId
@@ -464,8 +465,13 @@ renderBlock id block =
         MDBlock (BalancedBlock DisplayCode) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.pre [ idAttr id,  marginOfLevel level ] [ Html.code [] [ Html.text str ] ]
-
+                    Html.div []
+                        [ useTheme monokai
+                            , elm str
+                                |> Result.map (toBlockHtml (Just 1))
+                                |> Result.withDefault
+                                    (Html.pre [] [ Html.code [] [ Html.text str ]])
+                            ]
                 _ ->
                     displayMathText ""
 
