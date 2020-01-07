@@ -7,16 +7,15 @@ options defined in the `Option` module.
 
 -}
 
-import Parse exposing (BlockContent(..), MDBlock(..))
 import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
 import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
 import Json.Encode
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
-import Tree exposing (Tree)
+import Parse exposing (BlockContent(..), MDBlock(..))
 import ParseTools
-
+import Tree exposing (Tree)
 
 
 {-| Parse the input and render it to Html, e.g.,
@@ -27,68 +26,89 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 toHtml : Option -> String -> Html msg
 toHtml option str =
     str
-      |> Parse.toMDBlockTree option
-      |> Tree.children
-      |> List.map mmBlockTreeToHtml
-      |> (\x -> Html.div [] x)
+        |> Parse.toMDBlockTree option
+        |> Tree.children
+        |> List.map mmBlockTreeToHtml
+        |> (\x -> Html.div [] x)
 
 
 {-| Like `toHtml`, but constructs a table of contents.
-
 -}
 toHtmlWithTOC : Option -> String -> Html msg
 toHtmlWithTOC option str =
-  let
-      ast : Tree MDBlock
-      ast = Parse.toMDBlockTree option str
+    let
+        ast : Tree MDBlock
+        ast =
+            Parse.toMDBlockTree option str
 
-      toc : Html msg
-      toc = tableOfContentsAsHtml ast
+        toc : Html msg
+        toc =
+            tableOfContentsAsHtml ast
 
-      bodyAST = ast |> Tree.children
-      html = bodyAST |> List.map mmBlockTreeToHtml
-      title = List.head html |> Maybe.withDefault (Html.div [] [])
-      body = List.drop 1 html
+        bodyAST =
+            ast |> Tree.children
 
-      separator = Html.hr [HA.style "padding-bottom" "2px", HA.style "background-color" "#aaa", HA.style "border-width" "0"] []
-      spacing =  Html.div [HA.style "padding-bottom" "40px"] []
+        html =
+            bodyAST |> List.map mmBlockTreeToHtml
 
+        title =
+            List.head html |> Maybe.withDefault (Html.div [] [])
 
-  in
+        body =
+            List.drop 1 html
+
+        separator =
+            Html.hr [ HA.style "padding-bottom" "2px", HA.style "background-color" "#aaa", HA.style "border-width" "0" ] []
+
+        spacing =
+            Html.div [ HA.style "padding-bottom" "40px" ] []
+    in
     case Maybe.map (ParseTools.isHeading << Tree.label) (List.head bodyAST) of
         Just True ->
-           Html.div [] (title::separator::toc::separator::spacing::body)
+            Html.div [] (title :: separator :: toc :: separator :: spacing :: body)
+
         _ ->
-           Html.div [] (separator::toc::separator::spacing::title::body)
+            Html.div [] (separator :: toc :: separator :: spacing :: title :: body)
+
 
 {-| Like `toHtmlWithTOC`, but constructs returns a record,
 one field of which is the rendered document,
 anther of which is the rendered table of contents.
-
 -}
-toHtmlWithExternaTOC : Option -> String -> {title: Html msg, toc: Html msg, document: Html msg}
+toHtmlWithExternaTOC : Option -> String -> { title : Html msg, toc : Html msg, document : Html msg }
 toHtmlWithExternaTOC option str =
-  let
-      ast : Tree MDBlock
-      ast = Parse.toMDBlockTree option str
+    let
+        ast : Tree MDBlock
+        ast =
+            Parse.toMDBlockTree option str
 
-      toc : Html msg
-      toc = tableOfContentsAsHtml ast
+        toc : Html msg
+        toc =
+            tableOfContentsAsHtml ast
 
-      bodyAST = ast |> Tree.children
-      html = bodyAST |> List.map mmBlockTreeToHtml
-      title = List.head html |> Maybe.withDefault (Html.div [] [])
-      body = List.drop 1 html
+        bodyAST =
+            ast |> Tree.children
 
-      separator = Html.hr [HA.style "padding-bottom" "2px", HA.style "background-color" "#aaa", HA.style "border-width" "0"] []
-      spacing =  Html.div [HA.style "padding-bottom" "40px"] []
+        html =
+            bodyAST |> List.map mmBlockTreeToHtml
 
+        title =
+            List.head html |> Maybe.withDefault (Html.div [] [])
 
-  in
-    { title = Html.div [] [title]
-    , toc = Html.div [] [toc]
+        body =
+            List.drop 1 html
+
+        separator =
+            Html.hr [ HA.style "padding-bottom" "2px", HA.style "background-color" "#aaa", HA.style "border-width" "0" ] []
+
+        spacing =
+            Html.div [ HA.style "padding-bottom" "40px" ] []
+    in
+    { title = Html.div [] [ title ]
+    , toc = Html.div [] [ toc ]
     , document = Html.div [] body
     }
+
 
 mmBlockTreeToHtml : Tree MDBlock -> Html msg
 mmBlockTreeToHtml tree =
@@ -115,38 +135,47 @@ mmBlockTreeToHtml tree =
 tableOfContentsAsBlocks : Tree MDBlock -> List MDBlock
 tableOfContentsAsBlocks blockTree =
     blockTree
-      |> Tree.flatten
-      |> List.filter ParseTools.isHeading
+        |> Tree.flatten
+        |> List.filter ParseTools.isHeading
+
 
 tableOfContentsAsHtml : Tree MDBlock -> Html msg
 tableOfContentsAsHtml blockTree =
     blockTree
-      |> tableOfContentsAsBlocks
-      |> renderTableOfContents
+        |> tableOfContentsAsBlocks
+        |> renderTableOfContents
 
-renderTableOfContents  : List MDBlock -> Html msg
+
+renderTableOfContents : List MDBlock -> Html msg
 renderTableOfContents blockList =
-   let
-       contentHeading = MDBlock (MarkdownBlock (Heading 1)) 1 (M (Paragraph [Line [OrdinaryText ("Contents")]]))
-   in
-     blockList
-       |> List.drop 1
-       |> (\x -> contentHeading :: x)
-       |> List.map renderHeadingForTOC
-       |> (\x -> Html.div tocStyle x)
+    let
+        contentHeading =
+            MDBlock (MarkdownBlock (Heading 1)) 1 (M (Paragraph [ Line [ OrdinaryText "Contents" ] ]))
+    in
+    blockList
+        |> List.drop 1
+        |> (\x -> contentHeading :: x)
+        |> List.map renderHeadingForTOC
+        |> (\x -> Html.div tocStyle x)
 
 
-tocStyle = [HA.style "font-size" "x-small"
-  , HA.style "margin-left" "15px"
-  , HA.style "color" "#555"
-  , HA.id "toc"
- ]
+tocStyle =
+    [ HA.style "font-size" "x-small"
+    , HA.style "margin-left" "15px"
+    , HA.style "color" "#555"
+    , HA.id "toc"
+    ]
+
+
 renderHeadingForTOC : MDBlock -> Html msg
 renderHeadingForTOC heading =
     case heading of
         MDBlock (MarkdownBlock (Heading k)) level blockContent ->
-                    renderTOCHeading k blockContent
-        _ ->  Html.span [] []
+            renderTOCHeading k blockContent
+
+        _ ->
+            Html.span [] []
+
 
 renderBlock : MDBlock -> Html msg
 renderBlock block =
@@ -192,7 +221,7 @@ renderBlock block =
         MDBlock (BalancedBlock Verbatim) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.pre [] [ Html.text str ]
+                    Html.pre [ HA.class "mm-verbatim" ] [ Html.text str ]
 
                 _ ->
                     displayMathText ""
@@ -200,7 +229,7 @@ renderBlock block =
         MDBlock (BalancedBlock DisplayCode) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.pre [] [ Html.code [] [ Html.text str ] ]
+                    Html.pre [] [ Html.code [ HA.class "mm-code" ] [ Html.text str ] ]
 
                 _ ->
                     displayMathText ""
@@ -304,45 +333,48 @@ renderOListItem index k blockContent =
 
 renderHeading : Int -> BlockContent -> Html msg
 renderHeading k blockContent =
-  let
-      name = nameFromBlockContent blockContent
-  in
+    let
+        name =
+            nameFromBlockContent blockContent
+    in
     case k of
         1 ->
-           Html.h1 [HA.id name] [ renderBlockContent blockContent ]
+            Html.h1 [ HA.id name ] [ renderBlockContent blockContent ]
 
         2 ->
-           Html.h2 [HA.id name] [ renderBlockContent blockContent ]
+            Html.h2 [ HA.id name ] [ renderBlockContent blockContent ]
 
         3 ->
-            Html.h3 [HA.id name] [ renderBlockContent blockContent ]
+            Html.h3 [ HA.id name ] [ renderBlockContent blockContent ]
 
         4 ->
-            Html.h4 [HA.id name] [ renderBlockContent blockContent ]
+            Html.h4 [ HA.id name ] [ renderBlockContent blockContent ]
 
         _ ->
-            Html.h5 [HA.id name] [ renderBlockContent blockContent ]
+            Html.h5 [ HA.id name ] [ renderBlockContent blockContent ]
+
 
 renderTOCHeading : Int -> BlockContent -> Html msg
 renderTOCHeading k blockContent =
-  let
-      name = "#" ++ (nameFromBlockContent blockContent)
-  in
+    let
+        name =
+            "#" ++ nameFromBlockContent blockContent
+    in
     case k of
         1 ->
-           Html.h1 [HA.style "font-size" "13pt"] [ renderBlockContent blockContent ]
+            Html.h1 [ HA.style "font-size" "13pt" ] [ renderBlockContent blockContent ]
 
         2 ->
-           Html.a [HA.href name, HA.class "toc-level-0", HA.style "display" "block"] [ renderBlockContent blockContent ]
+            Html.a [ HA.href name, HA.class "toc-level-0", HA.style "display" "block" ] [ renderBlockContent blockContent ]
 
         3 ->
-            Html.a [HA.href name, HA.class "toc-level-1", HA.style "display" "block"] [ renderBlockContent blockContent ]
+            Html.a [ HA.href name, HA.class "toc-level-1", HA.style "display" "block" ] [ renderBlockContent blockContent ]
 
         4 ->
-            Html.a [HA.href name, HA.class "toc-level-2", HA.style "display" "block"] [ renderBlockContent blockContent ]
+            Html.a [ HA.href name, HA.class "toc-level-2", HA.style "display" "block" ] [ renderBlockContent blockContent ]
 
         _ ->
-            Html.a [HA.href name, HA.class "toc-level-3", HA.style "display" "block"] [ renderBlockContent blockContent ]
+            Html.a [ HA.href name, HA.class "toc-level-3", HA.style "display" "block" ] [ renderBlockContent blockContent ]
 
 
 renderQuotation : BlockContent -> Html msg
@@ -368,18 +400,22 @@ renderBlockContent blockContent =
         T str ->
             Html.div [] [ Html.text str ]
 
+
 nameFromBlockContent : BlockContent -> String
 nameFromBlockContent blockContent =
     case blockContent of
-        M (Paragraph [Line [OrdinaryText (str)]]) -> String.trim str
-        _ -> ""
+        M (Paragraph [ Line [ OrdinaryText str ] ]) ->
+            String.trim str
+
+        _ ->
+            ""
 
 
 renderToHtmlMsg : MDInline -> Html msg
 renderToHtmlMsg mmInline =
     case mmInline of
         OrdinaryText str ->
-            Html.span [HA.class "ordinary"] [ Html.text str ]
+            Html.span [ HA.class "ordinary" ] [ Html.text str ]
 
         ItalicText str ->
             Html.em [] [ Html.text str ]
@@ -397,31 +433,39 @@ renderToHtmlMsg mmInline =
             strikethrough str
 
         BracketedText str ->
-            Html.span [HA.class "bracketed"] [ Html.text <| "[" ++ str ++ "]" ]
+            Html.span [ HA.class "bracketed" ] [ Html.text <| "[" ++ str ++ "]" ]
 
         Link url label ->
-            Html.a [ HA.href url ] [ Html.text (label ++ " ")]
+            Html.a [ HA.href url ] [ Html.text (label ++ " ") ]
 
         MDInline.Image label_ url ->
-          let
-            labelParts = List.take 2 (String.split "::" label_)
-            (label, class) = case (List.head labelParts, List.head (List.drop 1 labelParts)) of
-                (Just label__, Just class__) ->
-                   (label__, "mm-image-" ++ class__)
-                (Just label__, Nothing) -> (label__, "mm-image")
-                (_,_) -> ("image", "mm-image")
+            let
+                labelParts =
+                    List.take 2 (String.split "::" label_)
 
-          in
-            Html.img [ HA.src url, HA.class class] [ Html.text label ]
+                ( label, class ) =
+                    case ( List.head labelParts, List.head (List.drop 1 labelParts) ) of
+                        ( Just label__, Just class__ ) ->
+                            ( label__, "mm-image-" ++ class__ )
+
+                        ( Just label__, Nothing ) ->
+                            ( label__, "mm-image" )
+
+                        ( _, _ ) ->
+                            ( "image", "mm-image" )
+            in
+            Html.img [ HA.src url, HA.class class ] [ Html.text label ]
 
         Line arg ->
             let
-                joined = joinLine arg
-             in
-              if List.length joined == 1 then
-                List.head joined |> Maybe.withDefault (Html.span [] [Html.text ""])
-              else
-                 Html.span [HA.class "line"] joined
+                joined =
+                    joinLine arg
+            in
+            if List.length joined == 1 then
+                List.head joined |> Maybe.withDefault (Html.span [] [ Html.text "" ])
+
+            else
+                Html.span [ HA.class "line" ] joined
 
         Paragraph arg ->
             Html.p [ HA.class "mm-paragraph" ] (List.map renderToHtmlMsg arg)
@@ -448,37 +492,44 @@ renderStanza arg =
 joinLine : List MDInline -> List (Html msg)
 joinLine items =
     let
-        folder : MDInline -> (List String, List (Html msg)) -> (List String, List (Html msg))
-        folder item (accString, accElement) =
+        folder : MDInline -> ( List String, List (Html msg) ) -> ( List String, List (Html msg) )
+        folder item ( accString, accElement ) =
             case item of
                 OrdinaryText str ->
-                   (str::accString, accElement)
+                    ( str :: accString, accElement )
 
                 _ ->
                     if accString /= [] then
-                       let
-                          content = String.join "" accString
-                          span = Html.span [HA.class "innerJoin"] [Html.text content]
-                       in
-                        ([], (renderToHtmlMsg item) :: span :: accElement)
-                     else
-                        ([], (renderToHtmlMsg item) :: accElement)
+                        let
+                            content =
+                                String.join "" accString
 
-        flush : (List String, List (Html msg)) -> List (Html msg)
-        flush (accString, accElement) =
+                            span =
+                                Html.span [ HA.class "innerJoin" ] [ Html.text content ]
+                        in
+                        ( [], renderToHtmlMsg item :: span :: accElement )
+
+                    else
+                        ( [], renderToHtmlMsg item :: accElement )
+
+        flush : ( List String, List (Html msg) ) -> List (Html msg)
+        flush ( accString, accElement ) =
             if accString /= [] then
-               let
-                 content = String.join "" accString
-                 span = Html.span [] [Html.text content]
-               in
-                 span :: accElement
-               else
-                 accElement
+                let
+                    content =
+                        String.join "" accString
 
+                    span =
+                        Html.span [] [ Html.text content ]
+                in
+                span :: accElement
+
+            else
+                accElement
     in
-    List.foldl folder ([], []) items
-      |> flush
-      |> List.reverse
+    List.foldl folder ( [], [] ) items
+        |> flush
+        |> List.reverse
 
 
 isPunctuation : String -> Bool

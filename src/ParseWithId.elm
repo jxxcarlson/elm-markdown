@@ -111,6 +111,7 @@ idOfBlock (MDBlockWithId id _ _ _) =
     id
 
 
+
 --{-| Check for equality of
 --
 --    - blockType

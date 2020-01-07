@@ -12,7 +12,7 @@ module BlockType exposing
     , parse
     , prefixOfBlockType
     , stringOfBlockType
-  )
+    )
 
 {-| The BlockType module provides a parser that
 inspects lines and determines the kind of block
@@ -206,11 +206,10 @@ headingBlock =
 
 parseHeadingPrefix : Parser String
 parseHeadingPrefix =
-  succeed identity
-          |. spaces
-          |. symbol (Token "#" (Expecting "Expecting '#' to begin heading block"))
-          |= parseWhile (\c -> c == '#')
-
+    succeed identity
+        |. spaces
+        |. symbol (Token "#" (Expecting "Expecting '#' to begin heading block"))
+        |= parseWhile (\c -> c == '#')
 
 
 codeBlock : Parser BlockType
@@ -276,7 +275,8 @@ prefixOfBlockType bt line =
 
 
 {-| Return prefix of line, e.g. ,'## ' for
-a level 2 heading -}
+a level 2 heading
+-}
 prefixOfMarkdownType : MarkdownType -> String -> String
 prefixOfMarkdownType mdt line =
     let

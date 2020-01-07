@@ -1,68 +1,75 @@
 module Test.Helpers exposing (..)
 
 import Expect exposing (Expectation)
-import Test exposing (..)
-import Test.Types exposing(..)
-import Markdown.Option exposing(..)
+import Html.String exposing (..)
+import Markdown.Option exposing (..)
 import Markdown.String
-import Html.String exposing(..)
 import Parse
-import Tree exposing(Tree)
+import Test exposing (..)
+import Test.Types exposing (..)
+import Tree exposing (Tree)
 
-getExample :  List SmallTestDatum -> Int -> SmallTestDatum
-getExample  testList index =
-   testList
-      |> List.drop index
-      |> List.head
-      |> Maybe.withDefault defaultSmallTestDatum
 
-exampleText :  List SmallTestDatum -> Int -> String
-exampleText  testList index =
-   getExample  testList index |> .markdown
+getExample : List SmallTestDatum -> Int -> SmallTestDatum
+getExample testList index =
+    testList
+        |> List.drop index
+        |> List.head
+        |> Maybe.withDefault defaultSmallTestDatum
 
-exampleCM :  List SmallTestDatum -> Int -> String
-exampleCM  testList index =
-   getExample  testList index |> .html
+
+exampleText : List SmallTestDatum -> Int -> String
+exampleText testList index =
+    getExample testList index |> .markdown
+
+
+exampleCM : List SmallTestDatum -> Int -> String
+exampleCM testList index =
+    getExample testList index |> .html
+
 
 exampleAST : List SmallTestDatum -> Int -> Tree Parse.MDBlock
 exampleAST testList index =
-    Parse.toMDBlockTree ExtendedMath (exampleText  testList index)
+    Parse.toMDBlockTree ExtendedMath (exampleText testList index)
+
 
 exampleHtml : List SmallTestDatum -> Int -> String
 exampleHtml testList index =
-    parseStringToString (exampleText  testList index)
+    parseStringToString (exampleText testList index)
+
+
 
 -- SHORTHAND --
-
-
-
 -- /SHORTHAND --
+
 
 parseStringToHtml : String -> Html msg
 parseStringToHtml str =
     Markdown.String.toHtml ExtendedMath str
 
+
 parseStringToString : String -> String
 parseStringToString str =
     str
-      |> parseStringToHtml
-      |> (Html.String.toString 0)
+        |> parseStringToHtml
+        |> Html.String.toString 0
 
 
 htmlTest : TestDatum -> Test
-htmlTest datum  =
+htmlTest datum =
     let
-        label = datum.section ++ String.fromInt datum.example
+        label =
+            datum.section ++ String.fromInt datum.example
     in
-     test label <|
-       \_ -> Expect.equal (parseStringToString datum.markdown) datum.html
+    test label <|
+        \_ -> Expect.equal (parseStringToString datum.markdown) datum.html
 
 
 myHtmlTest : SmallTestDatum -> Test
-myHtmlTest datum  =
+myHtmlTest datum =
     let
-        label = datum.section ++ String.fromInt datum.example
+        label =
+            datum.section ++ String.fromInt datum.example
     in
-     test label <|
-       \_ -> Expect.equal (parseStringToString datum.markdown) datum.html
-
+    test label <|
+        \_ -> Expect.equal (parseStringToString datum.markdown) datum.html

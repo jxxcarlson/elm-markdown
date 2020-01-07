@@ -1,14 +1,12 @@
-module Parse exposing
-    ( toMDBlockTree, BlockContent(..), MDBlock(..), stringOfMDBlockTree)
+module Parse exposing (toMDBlockTree, MDBlock(..), BlockContent(..), stringOfMDBlockTree)
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
 which can then be further transformed or passed on
-to a rendering function.  The AST is a rose tree
+to a rendering function. The AST is a rose tree
 of `MBlock` -- short for "Markdown Blocks."
 
-
-@docs toMDBlockTree,  MDBlock, BlockContent, stringOfMDBlockTree
+@docs toMDBlockTree, MDBlock, BlockContent, stringOfMDBlockTree
 
 -}
 
@@ -43,6 +41,7 @@ typeOfBlock : Block -> BlockType
 typeOfBlock (Block bt _ _) =
     bt
 
+
 {-| An MBlock differs from the a Block
 in that the Content, which is a
 type alias for String,
@@ -54,7 +53,6 @@ by applying
 -}
 type MDBlock
     = MDBlock BlockType Level BlockContent
-
 
 
 {-| The type of a parsed Block
@@ -286,7 +284,6 @@ nextState option line ((FSM state blocks register) as fsm_) =
     let
         fsm =
             handleRegister fsm_
-
     in
     case stateOfFSM fsm of
         Start ->
@@ -359,7 +356,6 @@ nextStateStart option line ((FSM state blocks register) as fsm) =
 
                 newLine =
                     removePrefix blockType line
-
             in
             if
                 newBlockType
@@ -372,7 +368,7 @@ nextStateStart option line ((FSM state blocks register) as fsm) =
                 FSM (InBlock (Block newBlockType level newLine)) blocks newRegister
 
             else
-              fsm
+                fsm
 
 
 newBlockTypeIsDifferent : BlockType -> State -> Bool
@@ -439,6 +435,7 @@ processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks regist
 lineIsNotBlank : Line -> Bool
 lineIsNotBlank line =
     String.trim line /= ""
+
 
 handleTableRow : BlockType -> Level -> Line -> State -> List Block -> Register -> FSM
 handleTableRow blockTypeOfLine level line state blocks register =
@@ -805,7 +802,7 @@ indent k str =
         |> String.join "\n"
 
 
-{-| A string representation of an MDBlockTree.  Useful
+{-| A string representation of an MDBlockTree. Useful
 for verifying the validity of the AST.
 -}
 stringOfMDBlockTree : Tree MDBlock -> String
@@ -834,7 +831,6 @@ stringOfBlockContent blockContent =
 
         T str ->
             str
-
 
 
 stringOfMMInline : MDInline -> String

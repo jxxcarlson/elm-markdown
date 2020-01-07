@@ -40,12 +40,11 @@ where functions in the modules
 
 -}
 
-import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..), Level)
+import BlockType exposing (BalancedType(..), BlockType(..), Level, MarkdownType(..))
 import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
 import Html.Keyed as Keyed
 import Json.Encode
-import SyntaxHighlight exposing (useTheme, monokai, elm, toBlockHtml)
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
 import ParseWithId
@@ -60,6 +59,7 @@ import ParseWithId
         , stringOfId
         )
 import Prefix
+import SyntaxHighlight exposing (elm, monokai, toBlockHtml, useTheme)
 import Tree exposing (Tree)
 
 
@@ -410,8 +410,10 @@ idAttrWithLabel id label =
     HA.id (stringOfId id ++ label)
 
 
+
 --type MDBlock
 --    = MDBlock BlockType Level BlockContent
+
 
 renderBlock : Id -> MDBlock -> Html msg
 renderBlock id block =
@@ -449,7 +451,7 @@ renderBlock id block =
         MDBlock (BalancedBlock DisplayMath) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.div [ idAttr id, marginOfLevel level] [ displayMathText str ]
+                    Html.div [ idAttr id, marginOfLevel level ] [ displayMathText str ]
 
                 _ ->
                     displayMathText ""
@@ -457,7 +459,7 @@ renderBlock id block =
         MDBlock (BalancedBlock Verbatim) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.pre [ idAttr id,  marginOfLevel level ] [ Html.text str ]
+                    Html.pre [ idAttr id, marginOfLevel level ] [ Html.text str ]
 
                 _ ->
                     displayMathText ""
@@ -467,11 +469,12 @@ renderBlock id block =
                 T str ->
                     Html.div []
                         [ useTheme monokai
-                            , elm str
-                                |> Result.map (toBlockHtml (Just 1))
-                                |> Result.withDefault
-                                    (Html.pre [] [ Html.code [] [ Html.text str ]])
-                            ]
+                        , elm str
+                            |> Result.map (toBlockHtml (Just 1))
+                            |> Result.withDefault
+                                (Html.pre [] [ Html.code [] [ Html.text str ] ])
+                        ]
+
                 _ ->
                     displayMathText ""
 
@@ -479,15 +482,14 @@ renderBlock id block =
             Html.td [ HA.class "mm-table-cell" ] [ renderBlockContent id level blockContent ]
 
         MDBlock (MarkdownBlock TableRow) level blockContent ->
-            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent id  level blockContent ]
+            Html.tr [ HA.class "mm-table-row" ] [ renderBlockContent id level blockContent ]
 
         MDBlock (MarkdownBlock Table) level blockContent ->
-            Html.table [ HA.class "mm-table",  marginOfLevel level ] [ renderBlockContent id  level blockContent ]
-
+            Html.table [ HA.class "mm-table", marginOfLevel level ] [ renderBlockContent id level blockContent ]
 
 
 marginOfLevel level =
-    HA.style "margin-left" ((String.fromInt (12 * level)) ++ "px")
+    HA.style "margin-left" (String.fromInt (12 * level) ++ "px")
 
 
 unWrapParagraph : MDInline -> List MDInline
@@ -500,7 +502,7 @@ unWrapParagraph mmInline =
             []
 
 
-renderUListItem : Id ->  Level -> BlockContent -> Html msg
+renderUListItem : Id -> Level -> BlockContent -> Html msg
 renderUListItem id level blockContent =
     let
         margin =
@@ -510,10 +512,10 @@ renderUListItem id level blockContent =
         label =
             case level of
                 1 ->
-                    "• "
+                    " "
 
                 2 ->
-                    "◊ "
+                    " "
 
                 3 ->
                     "† "
@@ -632,10 +634,10 @@ renderQuotation id level blockContent =
         [ renderBlockContent id level blockContent ]
 
 
-renderPoetry : Id -> Level ->  BlockContent -> Html msg
+renderPoetry : Id -> Level -> BlockContent -> Html msg
 renderPoetry id level blockContent =
     Html.div
-        [ HA.class "mm-poetry", marginOfLevel level  ]
+        [ HA.class "mm-poetry", marginOfLevel level ]
         [ renderBlockContent id level blockContent ]
 
 
@@ -646,7 +648,7 @@ renderBlockContent id level blockContent =
             renderToHtmlMsg id level mmInline
 
         T str ->
-            Html.span [ idAttr id, marginOfLevel level] [ Html.text str ]
+            Html.span [ idAttr id, marginOfLevel level ] [ Html.text str ]
 
 
 nameFromBlockContent : BlockContent -> String
@@ -716,7 +718,7 @@ renderToHtmlMsg id level mmInline =
                 Html.span [ HA.class "line" ] joined
 
         Paragraph arg ->
-            Html.p [ idAttr id, HA.class "mm-paragraph" , marginOfLevel level] (List.map (renderToHtmlMsg id level) arg)
+            Html.p [ idAttr id, HA.class "mm-paragraph", marginOfLevel level ] (List.map (renderToHtmlMsg id level) arg)
 
         Stanza arg ->
             renderStanza id arg
