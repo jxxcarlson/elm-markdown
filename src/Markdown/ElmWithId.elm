@@ -497,10 +497,6 @@ renderBlock id block =
         MDBlock (BalancedBlock (DisplayCode lang)) level blockContent ->
             case blockContent of
                 T str ->
-                    let
-                        _ =
-                            Debug.log "bb" ( lang, str )
-                    in
                     Html.div []
                         [ useTheme monokai
                         , parserOfLanguage lang (BlockType.deleteLangPrefix lang str)

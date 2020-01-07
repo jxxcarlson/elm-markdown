@@ -496,9 +496,6 @@ nextState option line ((FSM state blocks register) as fsm_) =
     let
         fsm =
             handleRegister fsm_
-
-        _ =
-            Debug.log "data" ( line, topOfBlockStack register, BlockType.get option line )
     in
     case stateOfFSM fsm of
         Start ->
@@ -623,10 +620,6 @@ nextStateInBlock option line ((FSM state_ blocks_ register) as fsm) =
 
 isBalanced : String -> Maybe BlockType -> BlockType -> Bool
 isBalanced str mbt bt2 =
-    let
-        _ =
-            Debug.log "balance" ( str, mbt, bt2 )
-    in
     case mbt of
         Nothing ->
             case bt2 of
@@ -656,10 +649,6 @@ isBalanced str mbt bt2 =
 
 processMarkDownBlock : Option -> Level -> BlockType -> Line -> FSM -> FSM
 processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks register) as fsm) =
-    let
-        _ =
-            Debug.log "p MDB"
-    in
     case state of
         -- add current block to block list and
         -- start new block with the current line and lineType
@@ -770,8 +759,7 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
             InBlock block_ ->
                 let
                     line_ =
-                        Debug.log "removePrefix"
-                            (removePrefix blockType line)
+                        removePrefix blockType line
                 in
                 FSM Start (addLineToBlock line_ block_ :: blocks_) register
 
@@ -783,12 +771,6 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
         case stateOfFSM fsm of
             InBlock block_ ->
                 let
-                    _ =
-                        Debug.log "(A)" block_
-
-                    _ =
-                        Debug.log "(A: line)" line
-
                     line_ =
                         if line == "```\n" then
                             "\n"
@@ -800,10 +782,6 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
 
             -- YYY
             _ ->
-                let
-                    _ =
-                        Debug.log "(B)" 1
-                in
                 fsm
 
 
