@@ -1,4 +1,7 @@
-module ParseWithId exposing (toMDBlockTree, MDBlock(..), MDBlockWithId(..), BlockContent(..), equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree)
+module ParseWithId exposing
+    ( toMDBlockTree, MDBlock(..), MDBlockWithId(..), BlockContent(..), equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+    , getTopOfBlockTypeStack
+    )
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
@@ -235,6 +238,31 @@ type State
     | Error
 
 
+getCurrentBlock : FSM -> Maybe Block
+getCurrentBlock (FSM state _ _) =
+    case state of
+        InBlock block ->
+            Just block
+
+        _ ->
+            Nothing
+
+
+getCurrentBlockType : FSM -> Maybe BlockType
+getCurrentBlockType (FSM state _ _) =
+    case state of
+        InBlock block ->
+            Just (typeOfBlock block)
+
+        _ ->
+            Nothing
+
+
+getTopOfBlockTypeStack : FSM -> Maybe BlockType
+getTopOfBlockTypeStack (FSM _ _ register) =
+    List.head register.blockTypeStack
+
+
 {-| The register collects information
 needed to number list items and (with
 blocStack and level) to parse tables.
@@ -250,7 +278,28 @@ type alias Register =
     , itemIndex4 : Int
     , level : Int
     , blockStack : List Block
+    , blockTypeStack : List BlockType
     }
+
+
+pushBlockStack : Block -> Register -> Register
+pushBlockStack block register =
+    { register | blockStack = block :: register.blockStack }
+
+
+topOfBlockStack : Register -> Maybe Block
+topOfBlockStack register =
+    List.head register.blockStack
+
+
+popBlockStack : Register -> ( Maybe Block, Register )
+popBlockStack register =
+    ( List.head register.blockStack, { register | blockStack = List.tail register.blockStack |> Maybe.withDefault [] } )
+
+
+clearBlockStack : Register -> Register
+clearBlockStack register =
+    { register | blockStack = [] }
 
 
 emptyRegister : Register
@@ -262,6 +311,7 @@ emptyRegister =
     , itemIndex4 = 0
     , level = 0
     , blockStack = []
+    , blockTypeStack = []
     }
 
 
@@ -357,8 +407,8 @@ extendedMathMDParser option_ (Block id bt level_ content_) =
                 _ ->
                     MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
-        BalancedBlock DisplayCode ->
-            MDBlockWithId id (BalancedBlock DisplayCode) level_ (T content_)
+        BalancedBlock (DisplayCode lang) ->
+            MDBlockWithId id (BalancedBlock (DisplayCode lang)) level_ (T content_)
 
         BalancedBlock Verbatim ->
             MDBlockWithId id (BalancedBlock Verbatim) level_ (T content_)
@@ -378,8 +428,8 @@ extendedMDParser option_ (Block id bt level_ content_) =
                 _ ->
                     MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
-        BalancedBlock DisplayCode ->
-            MDBlockWithId id (BalancedBlock DisplayCode) level_ (T content_)
+        BalancedBlock (DisplayCode lang) ->
+            MDBlockWithId id (BalancedBlock (DisplayCode lang)) level_ (T content_)
 
         BalancedBlock Verbatim ->
             MDBlockWithId id (BalancedBlock Verbatim) level_ (T content_)
@@ -394,8 +444,8 @@ standardMDParser option_ (Block id bt level_ content_) =
         MarkdownBlock mt ->
             MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
-        BalancedBlock DisplayCode ->
-            MDBlockWithId id (BalancedBlock DisplayCode) level_ (T content_)
+        BalancedBlock (DisplayCode lang) ->
+            MDBlockWithId id (BalancedBlock (DisplayCode lang)) level_ (T content_)
 
         _ ->
             MDBlockWithId id (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
@@ -446,6 +496,9 @@ nextState option line ((FSM state blocks register) as fsm_) =
     let
         fsm =
             handleRegister fsm_
+
+        _ =
+            Debug.log "data" ( line, topOfBlockStack register, BlockType.get option line )
     in
     case stateOfFSM fsm of
         Start ->
@@ -460,7 +513,7 @@ nextState option line ((FSM state blocks register) as fsm_) =
 
 handleRegister : FSM -> FSM
 handleRegister ((FSM state blocks register) as fsm) =
-    case List.head register.blockStack of
+    case topOfBlockStack register of
         Nothing ->
             fsm
 
@@ -491,7 +544,7 @@ handleRegister ((FSM state blocks register) as fsm) =
                             -- NOTE: the below is a very bad solution!!
                             List.filter (\(Block _ _ _ content) -> content /= "deleteMe") blocks
                     in
-                    FSM Start (tableData ++ newBlocks) { register | blockStack = [] }
+                    FSM Start (tableData ++ newBlocks) (clearBlockStack register)
 
 
 editBlock : Block -> Block
@@ -537,6 +590,8 @@ currentIdOfFSM (FSM _ _ register) =
     register.id
 
 
+{-| Used in parsing tables
+-}
 newBlockTypeIsDifferent : BlockType -> State -> Bool
 newBlockTypeIsDifferent blockType state =
     case state of
@@ -555,7 +610,7 @@ nextStateInBlock option line ((FSM state_ blocks_ register) as fsm) =
 
         ( level, Just blockType ) ->
             -- process balanced block
-            if BlockType.isBalanced blockType then
+            if isBalanced line (getTopOfBlockTypeStack fsm) blockType then
                 processBalancedBlock blockType line fsm
                 -- add markDown block d
 
@@ -566,8 +621,45 @@ nextStateInBlock option line ((FSM state_ blocks_ register) as fsm) =
                 fsm
 
 
+isBalanced : String -> Maybe BlockType -> BlockType -> Bool
+isBalanced str mbt bt2 =
+    let
+        _ =
+            Debug.log "balance" ( str, mbt, bt2 )
+    in
+    case mbt of
+        Nothing ->
+            case bt2 of
+                BalancedBlock _ ->
+                    True
+
+                MarkdownBlock _ ->
+                    False
+
+        Just bt1 ->
+            case ( bt1, bt2, str == "```\n" ) of
+                ( BalancedBlock (DisplayCode _), MarkdownBlock _, False ) ->
+                    False
+
+                ( BalancedBlock (DisplayCode _), MarkdownBlock _, True ) ->
+                    True
+
+                ( BalancedBlock (DisplayCode _), _, _ ) ->
+                    False
+
+                ( _, BalancedBlock _, _ ) ->
+                    True
+
+                ( _, MarkdownBlock _, _ ) ->
+                    False
+
+
 processMarkDownBlock : Option -> Level -> BlockType -> Line -> FSM -> FSM
 processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks register) as fsm) =
+    let
+        _ =
+            Debug.log "p MDB"
+    in
     case state of
         -- add current block to block list and
         -- start new block with the current line and lineType
@@ -637,7 +729,6 @@ handleTableStart blockTypeOfLine level line state blocks register =
                 newRow =
                     childrenOfNewBlock ++ [ rowBlock ]
             in
-            -- FSM (InBlock tableBlock) ((rowBlock :: childrenOfNewBlock) ++ currentBlock :: blocks) { register | level = register.level + 1 }
             FSM (InBlock rowBlock)
                 blocks
                 { register | level = register.level + 0, blockStack = newRow }
@@ -679,7 +770,8 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
             InBlock block_ ->
                 let
                     line_ =
-                        removePrefix blockType line
+                        Debug.log "removePrefix"
+                            (removePrefix blockType line)
                 in
                 FSM Start (addLineToBlock line_ block_ :: blocks_) register
 
@@ -690,10 +782,28 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
     else
         case stateOfFSM fsm of
             InBlock block_ ->
-                FSM (InBlock (Block register.id blockType (BlockType.level line) line)) (block_ :: blocks_) register
+                let
+                    _ =
+                        Debug.log "(A)" block_
+
+                    _ =
+                        Debug.log "(A: line)" line
+
+                    line_ =
+                        if line == "```\n" then
+                            "\n"
+
+                        else
+                            line
+                in
+                FSM (InBlock (Block register.id blockType (BlockType.level line_) line_)) (block_ :: blocks_) { register | blockTypeStack = List.drop 1 register.blockTypeStack }
 
             -- YYY
             _ ->
+                let
+                    _ =
+                        Debug.log "(B)" 1
+                in
                 fsm
 
 
@@ -763,6 +873,9 @@ updateRegisterAndBlockType blockType level_ register =
                 MarkdownBlock (OListItem index)
         in
         ( newBlockType, newRegister )
+
+    else if BlockType.isCode blockType then
+        ( blockType, { register | blockTypeStack = blockType :: register.blockTypeStack } )
 
     else
         ( blockType, emptyRegister )

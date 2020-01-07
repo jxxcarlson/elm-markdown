@@ -1,17 +1,21 @@
 module BlockType exposing
     ( BalancedType(..)
     , BlockType(..)
+    , Language(..)
     , Level
     , Line
     , MarkdownType(..)
+    , deleteLangPrefix
     , get
     , isBalanced
+    , isCode
     , isMarkDown
     , isOListItem
     , level
     , parse
     , prefixOfBlockType
     , stringOfBlockType
+    , stringOfLanguage
     )
 
 {-| The BlockType module provides a parser that
@@ -61,9 +65,44 @@ type BlockType
 
 
 type BalancedType
-    = DisplayCode
+    = DisplayCode Language
     | Verbatim
     | DisplayMath
+
+
+type Language
+    = ElmLang
+    | CssLang
+    | JavascriptLang
+    | JsonLang
+    | PythonLang
+    | SqlLang
+    | XmlLang
+
+
+stringOfLanguage : Language -> String
+stringOfLanguage lang_ =
+    case lang_ of
+        ElmLang ->
+            "elm"
+
+        CssLang ->
+            "css"
+
+        JavascriptLang ->
+            "javascript"
+
+        JsonLang ->
+            "json"
+
+        PythonLang ->
+            "python"
+
+        SqlLang ->
+            "sql"
+
+        XmlLang ->
+            "xml"
 
 
 type MarkdownType
@@ -214,8 +253,58 @@ parseHeadingPrefix =
 
 codeBlock : Parser BlockType
 codeBlock =
-    succeed (BalancedBlock DisplayCode)
+    (succeed identity
         |. symbol (Token "```" (Expecting "Expecting three ticks to begin code block"))
+        |= oneOf [ cssLang, elmLang, javascriptLang, jsonLang, pythonLang, sqlLang, xmlLang ]
+    )
+        |> map (\lang -> BalancedBlock (DisplayCode lang))
+
+
+deleteLangPrefix : Language -> String -> String
+deleteLangPrefix lang str =
+    String.dropLeft (String.length (stringOfLanguage lang) + 1) str
+
+
+cssLang : Parser Language
+cssLang =
+    succeed CssLang
+        |. symbol (Token "css" (Expecting "Expecting string for language"))
+
+
+elmLang : Parser Language
+elmLang =
+    succeed ElmLang
+        |. symbol (Token "elm" (Expecting "Expecting string for language"))
+
+
+javascriptLang : Parser Language
+javascriptLang =
+    succeed JavascriptLang
+        |. symbol (Token "javascript" (Expecting "Expecting string for language"))
+
+
+jsonLang : Parser Language
+jsonLang =
+    succeed JsonLang
+        |. symbol (Token "json" (Expecting "Expecting string for language"))
+
+
+pythonLang : Parser Language
+pythonLang =
+    succeed PythonLang
+        |. symbol (Token "python" (Expecting "Expecting string for language"))
+
+
+sqlLang : Parser Language
+sqlLang =
+    succeed SqlLang
+        |. symbol (Token "sql" (Expecting "Expecting string for language"))
+
+
+xmlLang : Parser Language
+xmlLang =
+    succeed XmlLang
+        |. symbol (Token "xml" (Expecting "Expecting string for language"))
 
 
 verbatimBlock : Parser BlockType
@@ -254,7 +343,7 @@ parseWhile accepting =
 prefixOfBalancedType : BalancedType -> String
 prefixOfBalancedType bt =
     case bt of
-        DisplayCode ->
+        DisplayCode _ ->
             "```"
 
         Verbatim ->
@@ -359,6 +448,16 @@ isBalanced bt =
             False
 
 
+isCode : BlockType -> Bool
+isCode bt =
+    case bt of
+        BalancedBlock (DisplayCode _) ->
+            True
+
+        _ ->
+            False
+
+
 isOListItem : BlockType -> Bool
 isOListItem blockType =
     case blockType of
@@ -443,8 +542,8 @@ stringOfBlockType bt =
 stringOfBalancedType : BalancedType -> String
 stringOfBalancedType bt =
     case bt of
-        DisplayCode ->
-            "DisplayCode"
+        DisplayCode language ->
+            stringOfLanguage language
 
         Verbatim ->
             "Verbatim"

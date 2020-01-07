@@ -40,7 +40,7 @@ where functions in the modules
 
 -}
 
-import BlockType exposing (BalancedType(..), BlockType(..), Level, MarkdownType(..))
+import BlockType exposing (BalancedType(..), BlockType(..), Language(..), Level, MarkdownType(..))
 import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
 import Html.Keyed as Keyed
@@ -58,9 +58,39 @@ import ParseWithId
         , projectedStringOfBlockContent
         , stringOfId
         )
+import Parser
 import Prefix
-import SyntaxHighlight exposing (elm, monokai, toBlockHtml, useTheme)
+import SyntaxHighlight exposing (monokai, toBlockHtml, useTheme)
 import Tree exposing (Tree)
+
+
+parserOfLanguage : Language -> (String -> Result (List Parser.DeadEnd) SyntaxHighlight.HCode)
+parserOfLanguage lang_ =
+    case lang_ of
+        ElmLang ->
+            SyntaxHighlight.elm
+
+        CssLang ->
+            SyntaxHighlight.css
+
+        JavascriptLang ->
+            SyntaxHighlight.javascript
+
+        JsonLang ->
+            SyntaxHighlight.json
+
+        PythonLang ->
+            SyntaxHighlight.python
+
+        SqlLang ->
+            SyntaxHighlight.sql
+
+        XmlLang ->
+            SyntaxHighlight.xml
+
+
+
+-- languageParser : Language -> Result (List DeadEnd) HCode
 
 
 typeOfMDBlock : MDBlock -> BlockType
@@ -336,7 +366,7 @@ mmBlockTreeToHtml tree =
             MDBlockWithId id (BalancedBlock Verbatim) _ _ ->
                 Html.pre [ HA.id (stringOfId id) ] [ Html.text "OUF: Verbatim!" ]
 
-            MDBlockWithId id (BalancedBlock DisplayCode) _ _ ->
+            MDBlockWithId id (BalancedBlock (DisplayCode lang)) _ _ ->
                 Html.div [ HA.id (stringOfId id) ] [ Html.text "OUF: Code!" ]
 
 
@@ -464,12 +494,16 @@ renderBlock id block =
                 _ ->
                     displayMathText ""
 
-        MDBlock (BalancedBlock DisplayCode) level blockContent ->
+        MDBlock (BalancedBlock (DisplayCode lang)) level blockContent ->
             case blockContent of
                 T str ->
+                    let
+                        _ =
+                            Debug.log "bb" ( lang, str )
+                    in
                     Html.div []
                         [ useTheme monokai
-                        , elm str
+                        , parserOfLanguage lang (BlockType.deleteLangPrefix lang str)
                             |> Result.map (toBlockHtml (Just 1))
                             |> Result.withDefault
                                 (Html.pre [] [ Html.code [] [ Html.text str ] ])
