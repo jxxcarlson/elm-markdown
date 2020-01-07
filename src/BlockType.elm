@@ -215,7 +215,7 @@ parseHeadingPrefix =
 codeBlock : Parser BlockType
 codeBlock =
     succeed (BalancedBlock DisplayCode)
-        |. symbol (Token "```" (Expecting "Expecting four ticks to begin verbatim block"))
+        |. symbol (Token "```" (Expecting "Expecting three ticks to begin code block"))
 
 
 verbatimBlock : Parser BlockType
