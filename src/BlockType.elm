@@ -25,7 +25,7 @@ which computes a tuple consisting of the Level and
 BlockType of a Line. A Line is an alias for a Sting
 and Level, which is an alias for Int, is a measure
 of indentation: the number of leading spaces divided
-by 3, where division is integer division.
+by 4, where division is integer division.
 
 -}
 
@@ -422,7 +422,7 @@ level : Line -> Int
 level ln =
     run numberOfLeadingBlanks ln
         |> Result.toMaybe
-        |> Maybe.map (\l -> l // 3)
+        |> Maybe.map (\l -> l // 4)
         |> Maybe.withDefault 0
 
 
