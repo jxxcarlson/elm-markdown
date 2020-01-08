@@ -158,6 +158,13 @@ parse version option str =
     ParseWithId.toMDBlockTree version option str
 
 
+
+--parse2 : Int -> Option -> String -> Tree MDBlockWithId
+--parse version option str =
+--    parse version option str
+--      |>
+
+
 {-| Search the AST for nodes whose label contains the
 given string, returning the Id of the first node found,
 if any.
@@ -279,7 +286,7 @@ renderHtmlWithTOC heading ast =
             Html.div [ masterId ] (separator :: toc :: separator :: spacing :: title :: body)
 
 
-{-| Like `renderHtmlWithTOC`, but transforms a parser three into a record,
+{-| Like `renderHtmlWithTOC`, but transforms a parser tree into a record,
 with fields for the document title, the table of contents, and the body
 of the document.
 -}
@@ -497,9 +504,9 @@ renderBlock id block =
         MDBlock (BalancedBlock (DisplayCode lang)) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.div []
+                    Html.div [ blockLevelClass (level - 1) ]
                         [ useTheme monokai
-                        , parserOfLanguage lang (BlockType.deleteLangPrefix lang str)
+                        , parserOfLanguage lang (String.trimLeft <| BlockType.deleteLangPrefix lang str)
                             |> Result.map (toBlockHtml (Just 1))
                             |> Result.withDefault
                                 (Html.pre [] [ Html.code [] [ Html.text str ] ])
@@ -522,6 +529,10 @@ marginOfLevel level =
     HA.style "margin-left" (String.fromInt (0 * level) ++ "px")
 
 
+blockLevelClass k =
+    HA.class <| "mm-block-" ++ String.fromInt k
+
+
 unWrapParagraph : MDInline -> List MDInline
 unWrapParagraph mmInline =
     case mmInline of
@@ -535,10 +546,6 @@ unWrapParagraph mmInline =
 renderUListItem : Id -> Level -> BlockContent -> Html msg
 renderUListItem id level blockContent =
     let
-        margin =
-            String.fromInt (18 * level)
-                ++ "px"
-
         label =
             case level of
                 1 ->
@@ -557,8 +564,8 @@ renderUListItem id level blockContent =
                     "N. "
     in
     Html.li
-        [ style "margin-left" margin
-        , HA.class "mm-ulist-item"
+        [ HA.class "mm-ulist-item"
+        , blockLevelClass (level - 1)
         , idAttr id
         ]
         [ renderBlockContent id level <| prependToParagraph (OrdinaryText label) blockContent ]
@@ -582,10 +589,6 @@ prependToParagraph head tail =
 renderOListItem : Id -> Int -> Level -> BlockContent -> Html msg
 renderOListItem id index level blockContent =
     let
-        margin =
-            String.fromInt (18 * level)
-                ++ "px"
-
         label =
             case level of
                 1 ->
@@ -604,8 +607,8 @@ renderOListItem id index level blockContent =
                     "N. "
     in
     Html.li
-        [ style "margin-left" margin
-        , HA.class "mm-olist-item"
+        [ HA.class "mm-olist-item"
+        , blockLevelClass (level - 1)
         , idAttr id
         ]
         [ renderBlockContent id level (prependToParagraph (OrdinaryText label) blockContent) ]
@@ -660,7 +663,7 @@ renderTOCHeading id k level blockContent =
 renderQuotation : Id -> Level -> BlockContent -> Html msg
 renderQuotation id level blockContent =
     Html.div
-        [ HA.class "mm-quotation", marginOfLevel level ]
+        [ HA.class "mm-quotation", blockLevelClass level ]
         [ renderBlockContent id level blockContent ]
 
 
@@ -678,7 +681,7 @@ renderBlockContent id level blockContent =
             renderToHtmlMsg id level mmInline
 
         T str ->
-            Html.span [ idAttr id, marginOfLevel level ] [ Html.text str ]
+            Html.span [ idAttr id, blockLevelClass (level - 1) ] [ Html.text str ]
 
 
 nameFromBlockContent : BlockContent -> String
@@ -748,7 +751,7 @@ renderToHtmlMsg id level mmInline =
                 Html.span [ HA.class "line" ] joined
 
         Paragraph arg ->
-            Html.p [ idAttr id, HA.class "mm-paragraph", marginOfLevel level ] (List.map (renderToHtmlMsg id level) arg)
+            Html.p [ idAttr id, HA.class "mm-paragraph", blockLevelClass (level - 1) ] (List.map (renderToHtmlMsg id level) arg)
 
         Stanza arg ->
             renderStanza id arg
