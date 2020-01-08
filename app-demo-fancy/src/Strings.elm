@@ -1,4 +1,4 @@
-module Strings exposing (text1, text2, test, test2, test3, notes)
+module Strings exposing (text1, text2, test, test2, test3, test4, notes)
 
 
 test =
@@ -43,6 +43,22 @@ test3 = """To compile, use
 qq
 """
 
+test4 = """
+
+# Test
+
+    # foo
+
+```elm
+editBlock : Block -> Block
+editBlock ((Block id bt lev content) as block) =
+   if bt == MarkdownBlock TableRow && content == "row" then
+       Block id bt lev ""
+
+   else
+       block
+```
+"""
 
 text1 =
     """# A Pure Elm Markdown Parser
@@ -497,7 +513,7 @@ Below are graphs of the real part of the free-particle propagator for time $t = 
 
 **Jupyter code**
 
-````
+```python
 %matplotlib inline
 
 import matplotlib.pyplot as plt
@@ -507,7 +523,7 @@ x = np.linspace(0, 6*np.pi, 500)
 t=4
 plt.plot(x, np.cos(x**2/t)/np.sqrt(t))
 plt.title('Free particle propagator, t=4');
-````
+```
 
 """
 

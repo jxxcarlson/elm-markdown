@@ -329,7 +329,7 @@ display model =
         , renderedSource model
         , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [
                 clearButton 60
-              , restartButton 70
+              -- , restartButton 70
               , example1Button 80
               , example2Button 80
               , span [style "margin-left" "30px", style "margin-right" "10px" ] [text "Markdown flavor: "]
