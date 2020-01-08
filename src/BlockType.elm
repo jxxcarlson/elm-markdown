@@ -37,6 +37,11 @@ import Markdown.Option exposing (Option(..))
 import Parser.Advanced exposing (..)
 
 
+levelIndentation : Int
+levelIndentation =
+    4
+
+
 type alias Parser a =
     Parser.Advanced.Parser Context Problem a
 
@@ -132,7 +137,7 @@ get option str =
                 ( level str, Just result )
 
             Err _ ->
-                ( 0, Just (MarkdownBlock Plain) )
+                ( level str, Just (MarkdownBlock Plain) )
 
 
 
@@ -158,7 +163,6 @@ parseStandard =
     oneOf
         [ tableBlock
         , imageBlock
-        , mathBlock
         , unorderedListItemBlock
         , orderedListItemBlock
         , quotationBlock
@@ -521,7 +525,7 @@ level : Line -> Int
 level ln =
     run numberOfLeadingBlanks ln
         |> Result.toMaybe
-        |> Maybe.map (\l -> l // 4)
+        |> Maybe.map (\l -> l // levelIndentation)
         |> Maybe.withDefault 0
 
 
