@@ -43,6 +43,11 @@ type Block
     = Block Id BlockType Level Content
 
 
+trimBalancedBlock : Block -> Block
+trimBalancedBlock (Block id bt lev content) =
+    Block id bt lev (String.trim content)
+
+
 {-| Used to generate Ids of Html elements and to
 implement differential rendering. The first
 Int is a version number, incremented after each
@@ -630,7 +635,7 @@ isBalanced str mbt bt2 =
                     False
 
         Just bt1 ->
-            case ( bt1, bt2, str == "```\n" ) of
+            case ( bt1, bt2, String.trimLeft str == "```\n" ) of
                 ( BalancedBlock (DisplayCode _), MarkdownBlock _, False ) ->
                     False
 
@@ -760,8 +765,11 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
                 let
                     line_ =
                         removePrefix blockType line
+
+                    block__ =
+                        trimBalancedBlock block_
                 in
-                FSM Start (addLineToBlock line_ block_ :: blocks_) register
+                FSM Start (addLineToBlock line_ block__ :: blocks_) register
 
             _ ->
                 fsm
@@ -772,13 +780,16 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
             InBlock block_ ->
                 let
                     line_ =
-                        if line == "```\n" then
+                        if String.trimLeft line == "```\n" then
                             "\n"
 
                         else
                             line
+
+                    block__ =
+                        trimBalancedBlock block_
                 in
-                FSM (InBlock (Block register.id blockType (BlockType.level line_) line_)) (block_ :: blocks_) { register | blockTypeStack = List.drop 1 register.blockTypeStack }
+                FSM (InBlock (Block register.id blockType (BlockType.level line_) line_)) (block__ :: blocks_) { register | blockTypeStack = List.drop 1 register.blockTypeStack }
 
             -- YYY
             _ ->
