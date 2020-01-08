@@ -7,7 +7,6 @@ import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
 import Markdown.Elm
 import Markdown.Option exposing (Option(..))
-import Parse
 import Random
 import Strings
 import Style exposing (..)

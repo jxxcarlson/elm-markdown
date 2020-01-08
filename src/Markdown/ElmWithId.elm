@@ -1,4 +1,7 @@
-module Markdown.ElmWithId exposing (parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, searchAST, numberOfMathElements)
+module Markdown.ElmWithId exposing
+    ( parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, searchAST, numberOfMathElements
+    , toHtml, toHtmlWithTOC
+    )
 
 {-| Use this module if you need to edit math + markdown _and_
 require optimizations for speed and a smooth editing experience.
