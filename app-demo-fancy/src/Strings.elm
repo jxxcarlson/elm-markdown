@@ -1,20 +1,46 @@
-module Strings exposing (text1, text2, notes)
+module Strings exposing (text1, text2, test, test2, test3, notes)
 
 
-testText =
-    """## Example
-
-**Pythagoras** said: $a^2 + b^2 = c^2$.
-
-
-An integral formula:
+test =
+    """
+# Test
 
 $$
-\\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi
+\\int_0^1 x^n dx = \\frac{1}{n+1}
 $$
 
-You should see two formulas above.
+    $$
+    a^2 + b^2 = c^2
+    $$
+qqq
+"""
 
+test2 = """
+#E
+
+one
+
+- g
+
+> q1
+
+- a
+
+    > q2
+
+    > q3
+
+> q1
+
+"""
+
+test3 = """To compile, use
+
+    ```elm
+    elm make --output=Main.js
+    ```
+
+qq
 """
 
 
@@ -287,7 +313,7 @@ ___
 
 To compile, use
 
-```
+```elm
 elm make --output=Main.js
 ```
 
