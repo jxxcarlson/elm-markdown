@@ -196,7 +196,7 @@ mapperExtendedMath option_ (Block bt level_ content_) =
                     MDBlock (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MDBlock (BalancedBlock DisplayCode) level_ (T content_)
+            MDBlock (BalancedBlock (DisplayCode lang)) level_ (T content_)
 
         BalancedBlock Verbatim ->
             MDBlock (BalancedBlock Verbatim) level_ (T content_)
@@ -217,7 +217,7 @@ mapperExtended option_ (Block bt level_ content_) =
                     MDBlock (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MDBlock (BalancedBlock DisplayCode) level_ (T content_)
+            MDBlock (BalancedBlock (DisplayCode lang)) level_ (T content_)
 
         BalancedBlock Verbatim ->
             MDBlock (BalancedBlock Verbatim) level_ (T content_)
@@ -233,7 +233,7 @@ mapperStandard option_ (Block bt level_ content_) =
             MDBlock (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
         BalancedBlock DisplayCode ->
-            MDBlock (BalancedBlock DisplayCode) level_ (T content_)
+            MDBlock (BalancedBlock (DisplayCode lang)) level_ (T content_)
 
         _ ->
             MDBlock (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
