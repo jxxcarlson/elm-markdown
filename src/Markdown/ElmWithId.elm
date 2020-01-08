@@ -519,7 +519,7 @@ renderBlock id block =
 
 
 marginOfLevel level =
-    HA.style "margin-left" (String.fromInt (12 * level) ++ "px")
+    HA.style "margin-left" (String.fromInt (0 * level) ++ "px")
 
 
 unWrapParagraph : MDInline -> List MDInline
@@ -542,10 +542,10 @@ renderUListItem id level blockContent =
         label =
             case level of
                 1 ->
-                    " "
+                    "• "
 
                 2 ->
-                    " "
+                    "◊ "
 
                 3 ->
                     "† "
@@ -558,7 +558,7 @@ renderUListItem id level blockContent =
     in
     Html.li
         [ style "margin-left" margin
-        , HA.class "mm-olist-item"
+        , HA.class "mm-ulist-item"
         , idAttr id
         ]
         [ renderBlockContent id level <| prependToParagraph (OrdinaryText label) blockContent ]

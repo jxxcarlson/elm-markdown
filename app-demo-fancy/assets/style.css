@@ -41,11 +41,11 @@
 	list-style: none;
   margin-bottom: 8px;
   padding-left: 18px;
-  text-indent: -18px;
+  text-indent: -12px;
 	white-space: normal;
 }
 .mm-quotation {
-	margin-left: 24px;
+	margin-left: 24px !important;
 	margin-top: 18px;
 	margin-right: 36px;
 	margin-bottom: 18px;

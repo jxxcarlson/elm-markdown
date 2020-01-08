@@ -16,3 +16,8 @@
   
   
 - Change css for better list display
+
+- Use !important so that .mm-quotation overrides margin setting.
+
+- In ElmWithID.marginOfLevel, set multiplier to zero (TODO:
+issues to review.)
