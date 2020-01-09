@@ -21,3 +21,9 @@
 
 - In ElmWithID.marginOfLevel, set multiplier to zero (TODO:
 issues to review.)
+
+- Better handling of nested blocks
+
+- Simplificaton of API
+
+- Update to use all of Hirafuji's implemented langauges for syntax highlighting.

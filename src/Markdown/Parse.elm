@@ -1,4 +1,8 @@
-module Markdown.Parse exposing (searchAST, toMDBlockTree, MDBlock(..), MDBlockWithId(..), BlockContent(..), equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree)
+module Markdown.Parse exposing
+    ( toMDBlockTree, searchAST
+    , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
+    , equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+    )
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
@@ -9,7 +13,20 @@ of `MDBlockWithId` — short for "Markdown Blocks."
 See the documentation at the head of module `Markdown.ElmWithId` for
 the rationale for this module.
 
-@docs searchAST, toMDBlockTree, MDBlock, MDBlockWithId, BlockContent, equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+
+## Create or use AST
+
+@docs toMDBlockTree, searchAST
+
+
+## Types
+
+@docs MDBlock, MDBlockWithId, BlockContent, Id
+
+
+## Tools
+
+@docs equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
 
 -}
 

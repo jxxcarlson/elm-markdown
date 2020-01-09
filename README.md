@@ -98,7 +98,8 @@ wish to write your own renderer, or do other fancy things,
 you will want to produce and manpulate the AST:
 
 ```
-Markdown.Parse.toMDBlockTree : Version -> Option -> Document -> Tree MDBlock
+Markdown.Parse.toMDBlockTree : Version 
+       -> Option -> Document -> Tree MDBlock
 ```
 
 where `Version` is an integer and `Document` is a type alias for `String`.  
@@ -153,8 +154,14 @@ this library towards the Commonmark spec to the greatest
 extent possible by the method of successive approximations
 
 
+## Changes
+
+See `CHANGELOG.md`
+
+
 ## Thanks
 
 Thanks to Folkert de Vries and Luke Westby.  A shout-out
 to Folkert for an optimiztaion of the pure text 
 rendering (10 x speedup).
+
