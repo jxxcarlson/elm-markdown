@@ -98,12 +98,14 @@ wish to write your own renderer, or do other fancy things,
 you will want to produce and manpulate the AST:
 
 ```
-Parse.toMDBlockTree : Option -> Document -> Tree MDBlock
+Markdown.Parse.toMDBlockTree : Version -> Option -> Document -> Tree MDBlock
 ```
 
-where `Document` is a type alias for `String`.  This is also
-useful if you wish to transform the abstact syntax tree before 
-rendering it.
+where `Version` is an integer and `Document` is a type alias for `String`.  
+This is also useful if you wish to transform the abstract syntax tree before 
+rendering it. The `Version` parameter may be set to zero if you do not
+have to worry about updated thd ids of rendered elements in an interactive 
+editing environment.
 
 
 
@@ -124,8 +126,12 @@ this info to Elm.  The function `ElmWithId.searchAST` finds the id of the
 corresponding element the AST (parse tree), which is ultimately used by 
 `Browser.Dom.setViewportOf` to set the viewport of the rendered text window.
 
+**Note.** I intend to replace the Codemirror editor shortly with a pure Elm 
+text editor.
+
 The system is not yet foolproof, the main weak point being that `searchAST` does not
-always find its target  This is "Left-to-Right" sync.  We also want to implement
+always find its target  This is for "Left-to-Right" sync of source
+and rendered text.  We also want to implement
 Right-to-Left sync.
 
 All this editor stuff requires the following lines in `index.html`
@@ -149,5 +155,6 @@ extent possible by the method of successive approximations
 
 ## Thanks
 
-Thanks to Bill St. Clair, Folkert deVries, and Luke Westby.  A shout-out
-to Folkert for an optimiztion of the pure text rendering (10 x speedup).
+Thanks to Folkert de Vries and Luke Westby.  A shout-out
+to Folkert for an optimiztaion of the pure text 
+rendering (10 x speedup).

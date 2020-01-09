@@ -7,12 +7,12 @@ import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Markdown.ElmWithId
 import Markdown.Option exposing (Option(..))
+import Markdown.Parse as Parse
 import Random
 import CustomElement.CodeEditor as Editor
 import Markdown.ElmWithId as ElmWithId
 import Strings
 import Tree exposing(Tree)
-import ParseWithId
 import Tree.Diff as Diff
 import Process
 import Task exposing(Task)
@@ -38,7 +38,7 @@ not re-render mathematical text that is unchanged.
 
 To see where these optimizations are applied,
 look for the places where functions in the modules
-`ParseWithId` and `Markdown.ElmWithId` are called.
+`Parse` and `Markdown.ElmWithId` are called.
 
 -}
 main : Program Flags Model Msg
@@ -58,13 +58,13 @@ type alias Model =
     , seed : Int
     , option : Option
     , sourceText : String
-    , lastAst : Tree ParseWithId.MDBlockWithId
+    , lastAst : Tree Parse.MDBlockWithId
     , renderedText : RenderedText Msg
     , message : String
     }
 
-emptyAst : Tree ParseWithId.MDBlockWithId
-emptyAst =  Markdown.ElmWithId.parse -1 ExtendedMath ""
+emptyAst : Tree Parse.MDBlockWithId
+emptyAst =  Parse.toMDBlockTree -1 ExtendedMath ""
 
 emptyRenderedText : RenderedText Msg
 emptyRenderedText =  Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" emptyAst
@@ -86,7 +86,7 @@ type Msg
     | SelectStandard
     | SelectExtended
     | SelectExtendedMath
-    | GotSecondPart (Tree ParseWithId.MDBlockWithId, RenderedText Msg)
+    | GotSecondPart (Tree Parse.MDBlockWithId, RenderedText Msg)
 
 type alias Flags =
     {}
@@ -94,7 +94,7 @@ type alias Flags =
 renderAstFor : Model -> String -> Cmd Msg
 renderAstFor model text =
     let
-            newAst = Markdown.ElmWithId.parse model.counter ExtendedMath text
+            newAst = Parse.toMDBlockTree model.counter ExtendedMath text
     in
         Process.sleep 10
             |> Task.andThen (\_ -> Process.sleep 100
@@ -121,10 +121,10 @@ init flags =
 doInit : ( Model, Cmd Msg )
 doInit =
     let
-        lastAst = Markdown.ElmWithId.parse 0 ExtendedMath initialText
+        lastAst = Parse.toMDBlockTree 0 ExtendedMath initialText
         nMath = Markdown.ElmWithId.numberOfMathElements lastAst
         firstAst = if nMath > 10 then
-                      Markdown.ElmWithId.parse 1 ExtendedMath (getFirstPart initialText)
+                      Parse.toMDBlockTree 1 ExtendedMath (getFirstPart initialText)
                    else
                       lastAst
 
@@ -151,8 +151,8 @@ update msg model =
     case msg of
         GetContent str ->
             let
-              newAst_ =  Markdown.ElmWithId.parse model.counter model.option str
-              newAst = Diff.mergeWith ParseWithId.equal model.lastAst newAst_
+              newAst_ =  Parse.toMDBlockTree model.counter model.option str
+              newAst = Diff.mergeWith Parse.equal model.lastAst newAst_
             in
             ( { model
                 |  sourceText = str
@@ -167,9 +167,9 @@ update msg model =
             )
         ProcessLine str ->
           let
-             id = (case ElmWithId.searchAST str model.lastAst of
+             id = (case Parse.searchAST str model.lastAst of
                  Nothing -> "??"
-                 Just id_ -> id_ |>  ParseWithId.stringOfId)
+                 Just id_ -> id_ |>  Parse.stringOfId)
 
           in
              ({ model | message = "str = " ++ String.left 20 str ++ " -- Clicked on id: " ++ id},
@@ -208,13 +208,13 @@ update msg model =
 
         LoadExample1 ->
             let
-                firstAst =  Markdown.ElmWithId.parse model.counter ExtendedMath (getFirstPart Strings.text1)
+                firstAst =  Parse.toMDBlockTree model.counter ExtendedMath (getFirstPart Strings.text1)
                 newModel = { model
                                | counter = model.counter + 1
                                  , message = "Loading example 1"
                                  , sourceText = Strings.text1
                                  --, firstAst =  firstAst
-                                 , lastAst = Markdown.ElmWithId.parse model.counter ExtendedMath Strings.text1
+                                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath Strings.text1
                                  , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
                                }
             in
@@ -222,13 +222,13 @@ update msg model =
 
         LoadExample2 ->
             let
-                firstAst =  Markdown.ElmWithId.parse model.counter ExtendedMath (getFirstPart Strings.text2)
+                firstAst =  Parse.toMDBlockTree model.counter ExtendedMath (getFirstPart Strings.text2)
                 newModel = { model
                                | counter = model.counter + 1
                                  , message = "Loading example 2"
                                  , sourceText = Strings.text2
                                  -- , firstAst =  firstAst
-                                 , lastAst = Markdown.ElmWithId.parse model.counter ExtendedMath Strings.text2
+                                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath Strings.text2
                                  , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
                                }
             in
@@ -324,7 +324,7 @@ display : Model -> Html Msg
 display model =
     div []
         [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
-        , p [style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt"] [text "MathJax 3. Click in gutter to sync"]
+        , p [style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt"] [text "MathJax 3."]
         , editor model
         , renderedSource model
         , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [

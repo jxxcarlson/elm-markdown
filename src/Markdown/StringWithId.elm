@@ -17,7 +17,7 @@ import Html.String.Keyed as Keyed
 import Json.Encode
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
-import ParseWithId
+import Parse
     exposing
         ( BlockContent(..)
         , Id
@@ -93,7 +93,7 @@ return a parse tree.
 -}
 parse : Int -> Option -> String -> Tree MDBlockWithId
 parse version option str =
-    ParseWithId.toMDBlockTree version option str
+    Parse.toMDBlockTree version option str
 
 
 {-| Render a parse tree to Html.
@@ -111,7 +111,7 @@ toHtmlWithTOC version option str =
     let
         ast : Tree MDBlockWithId
         ast =
-            ParseWithId.toMDBlockTree version option str
+            Parse.toMDBlockTree version option str
 
         toc : Html msg
         toc =

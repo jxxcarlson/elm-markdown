@@ -1,4 +1,4 @@
-module ParseWithId exposing (toMDBlockTree, MDBlock(..), MDBlockWithId(..), BlockContent(..), equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree)
+module Markdown.Parse exposing (searchAST, toMDBlockTree, MDBlock(..), MDBlockWithId(..), BlockContent(..), equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree)
 
 {-| The purpose of this module is to parse a Document,
 that is, a string, into an abstract syntax tree (AST)
@@ -9,7 +9,7 @@ of `MDBlockWithId` — short for "Markdown Blocks."
 See the documentation at the head of module `Markdown.ElmWithId` for
 the rationale for this module.
 
-@docs toMDBlockTree, MDBlock, MDBlockWithId, BlockContent, equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+@docs searchAST, toMDBlockTree, MDBlock, MDBlockWithId, BlockContent, equal, project, Id, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
 
 -}
 
@@ -17,6 +17,7 @@ import BlockType exposing (BalancedType(..), BlockType(..), Line, MarkdownType(.
 import HTree
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
+import Prefix
 import Tree exposing (Tree)
 
 
@@ -357,7 +358,7 @@ changeLevel k (Block id_ bt_ level_ content_) =
 {-| Parse a string using a Markdown flavor option, returning the AST.
 Example:
 
-    ParseWithId.toMDBlockTree 1 Extended "This **is** a test."
+    Parse.toMDBlockTree 1 Extended "This **is** a test."
     --> Tree (MDBlockWithId (0,1)
     -->    (MarkdownBlock Root) 0 (M (Paragraph [
     -->       Line [OrdinaryText "DOCUMENT"]]))) [
@@ -369,7 +370,7 @@ Example:
     -->              , Line []
     -->            ])))
     -->      []]
-    --> : Tree.Tree ParseWithId.MDBlockWithId
+    --> : Tree.Tree Parse.MDBlockWithId
 
 -}
 toMDBlockTree : Int -> Option -> Document -> Tree MDBlockWithId
@@ -1109,3 +1110,30 @@ stringOfBlockContent blockContent =
 stringOfMMInline : MDInline -> String
 stringOfMMInline mmInline =
     MDInline.string mmInline
+
+
+
+-- AST Tools --
+
+
+{-| Search the AST for nodes whose label contains the
+given string, returning the Id of the first node found,
+if any.
+-}
+searchAST : String -> Tree MDBlockWithId -> Maybe Id
+searchAST str ast =
+    ast
+        |> Tree.flatten
+        |> List.filter (\block -> String.contains (Prefix.truncate str) (stringContentFromBlock block))
+        |> List.head
+        |> Maybe.map idOfBlock
+
+
+stringContentFromBlock : MDBlockWithId -> String
+stringContentFromBlock (MDBlockWithId _ _ _ c) =
+    case c of
+        T str ->
+            str
+
+        M mdInline ->
+            MDInline.stringContent mdInline |> Prefix.truncate

@@ -1,6 +1,6 @@
 module Markdown.ElmWithId exposing
-    ( parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, searchAST, numberOfMathElements
-    , toHtml, toHtmlWithTOC
+    ( renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC
+    , numberOfMathElements
     )
 
 {-| Use this module if you need to edit math + markdown _and_
@@ -39,7 +39,15 @@ look for the places in `app-demo-optimized/Main.elm`
 where functions in the modules
 `ParseWithId` and `Markdown.ElmWithId` are called.
 
-@docs parse, renderHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC, searchAST, numberOfMathElements
+
+## Rendering
+
+@docs renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC
+
+
+## Utility
+
+@docs numberOfMathElements
 
 -}
 
@@ -50,7 +58,7 @@ import Html.Keyed as Keyed
 import Json.Encode
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
-import ParseWithId
+import Markdown.Parse as Parse
     exposing
         ( BlockContent(..)
         , Id
@@ -62,7 +70,6 @@ import ParseWithId
         , stringOfId
         )
 import Parser
-import Prefix
 import SyntaxHighlight exposing (monokai, toBlockHtml, useTheme)
 import Tree exposing (Tree)
 
@@ -148,51 +155,8 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 toHtml : Int -> Option -> String -> Html msg
 toHtml version option str =
     str
-        |> parse version option
+        |> Parse.toMDBlockTree version option
         |> renderHtml
-
-
-{-| Given a version number, an option defining
-a flavor of Markdown, and a text string,
-return a parse tree.
--}
-parse : Int -> Option -> String -> Tree MDBlockWithId
-parse version option str =
-    ParseWithId.toMDBlockTree version option str
-
-
-
---parse2 : Int -> Option -> String -> Tree MDBlockWithId
---parse version option str =
---    parse version option str
---      |>
-
-
-{-| Search the AST for nodes whose label contains the
-given string, returning the Id of the first node found,
-if any.
--}
-searchAST : String -> Tree MDBlockWithId -> Maybe Id
-searchAST str ast =
-    ast
-        |> Tree.flatten
-        |> List.filter (\block -> String.contains (Prefix.truncate str) (stringContentFromBlock block))
-        |> List.head
-        |> Maybe.map ParseWithId.idOfBlock
-
-
-
---- XXX
-
-
-stringContentFromBlock : MDBlockWithId -> String
-stringContentFromBlock (MDBlockWithId _ _ _ c) =
-    case c of
-        T str ->
-            str
-
-        M mdInline ->
-            MDInline.stringContent mdInline |> Prefix.truncate
 
 
 masterId =
@@ -214,7 +178,7 @@ toHtmlWithTOC version option heading str =
     let
         ast : Tree MDBlockWithId
         ast =
-            ParseWithId.toMDBlockTree version option str
+            Parse.toMDBlockTree version option str
 
         toc : Html msg
         toc =

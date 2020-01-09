@@ -1,10 +1,9 @@
-module Test.Helpers exposing (..)
+module Test.Helpers exposing (exampleAST, exampleCM, exampleHtml, exampleText, getExample, htmlTest, myHtmlTest, parseStringToHtml, parseStringToString)
 
 import Expect exposing (Expectation)
 import Html.String exposing (..)
 import Markdown.Option exposing (..)
-import Markdown.String
-import Parse
+import ParserTypes
 import Test exposing (..)
 import Test.Types exposing (..)
 import Tree exposing (Tree)
@@ -28,9 +27,9 @@ exampleCM testList index =
     getExample testList index |> .html
 
 
-exampleAST : List SmallTestDatum -> Int -> Tree Parse.MDBlock
+exampleAST : List SmallTestDatum -> Int -> Tree ParserTypes.MDBlock
 exampleAST testList index =
-    Parse.toMDBlockTree ExtendedMath (exampleText testList index)
+    ParserTypes.toMDBlockTree ExtendedMath (exampleText testList index)
 
 
 exampleHtml : List SmallTestDatum -> Int -> String

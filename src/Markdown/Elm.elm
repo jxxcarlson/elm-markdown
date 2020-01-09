@@ -7,16 +7,10 @@ options defined in the `Option` module.
 
 -}
 
-import BlockType exposing (BalancedType(..), BlockType(..), MarkdownType(..))
 import Html exposing (Html)
-import Html.Attributes as HA exposing (style)
-import Json.Encode
-import MDInline exposing (MDInline(..))
 import Markdown.ElmWithId
 import Markdown.Option exposing (Option(..))
-import Parse exposing (BlockContent(..), MDBlock(..))
-import ParseTools
-import Tree exposing (Tree)
+import Markdown.Parse
 
 
 {-| Parse the input and render it to Html, e.g.,
@@ -34,7 +28,7 @@ toHtml option str =
 toHtmlWithTOC : Option -> String -> Html msg
 toHtmlWithTOC option str =
     str
-        |> Markdown.ElmWithId.parse 0 option
+        |> Markdown.Parse.toMDBlockTree 0 option
         |> Markdown.ElmWithId.renderHtmlWithTOC "Contents"
 
 
@@ -45,5 +39,5 @@ anther of which is the rendered table of contents.
 toHtmlWithExternaTOC : Option -> String -> { title : Html msg, toc : Html msg, document : Html msg }
 toHtmlWithExternaTOC option str =
     str
-        |> Markdown.ElmWithId.parse 0 option
+        |> Markdown.Parse.toMDBlockTree 0 option
         |> Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents"
