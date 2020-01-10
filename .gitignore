@@ -15,3 +15,6 @@ mathjax3/browser.element-demo/elm-stuff
 app-demo-fancy/bench.html
 cervone/
 mathjax3/
+app-demo-simple/*.sh
+app-demo-simple/Main.js
+app-demo-simple/dist/Main.min.js
