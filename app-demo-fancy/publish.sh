@@ -9,5 +9,3 @@ scp assets/custom-element-config.js root@138.197.81.6:/var/www/markdown.minilate
 scp assets/math-text.js root@138.197.81.6:/var/www/markdown.minilatex.app/html/assets/
 scp assets/style.css root@138.197.81.6:/var/www/markdown.minilatex.app/html/assets/
 
-scp lib/codemirror.css root@138.197.81.6:/var/www/markdown.minilatex.app/html/lib/
-scp lib/codemirror.js root@138.197.81.6:/var/www/markdown.minilatex.app/html/lib/

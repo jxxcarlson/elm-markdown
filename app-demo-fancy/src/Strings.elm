@@ -103,15 +103,17 @@ here, or it can be absent.
 The [library](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)
 with which this demo app is built
 is suitable for light-weight writing
-tasks that require athematical notation
+tasks that require mathematical notation
 — problem sets, short class notes, etc.
 
 
-This project is a work in progress: more
-to to do make it adhere as closely as p
-ossible to the CommonMark spec. Write me at
+This project is a work in progress: there is more
+ to do make it adhere as closely as
+possible to the CommonMark spec and to root out
+the bugs and shortcomings in the user interface
+design.  Please write me at
 jxxcarlson@gmail.com with comments and bug
-reports, or post an issue on the
+reports, or (better yet) post an issue on the
 [GitHub repo](https://github.com/jxxcarlson/elm-markdown).
 
 For installation, see the notes
@@ -119,7 +121,7 @@ at the end. This Markdown package
 is written in pure Elm. It uses MathJax.js
 to render math formulas.  New in this release
 is syntax highlighting using
-/pablohirafuji/elm-syntax-highlight](https://package.elm-lang.org/packages/pablohirafuji/elm-syntax-highlight/latest/).
+[pablohirafuji/elm-syntax-highlight](https://package.elm-lang.org/packages/pablohirafuji/elm-syntax-highlight/latest/).
 Language support at this time: elm,
 javascript, xml, css, python, sql, json.
 

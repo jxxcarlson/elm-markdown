@@ -520,7 +520,8 @@ renderedSource model =
         , style "margin-left" "24px"
         , style "padding-left" "12px"
         , style "padding-right" "12px"
-        , style "overflow" "scroll "
+        , style "overflow-x" "scroll "
+        , style "overflow-y" "hidden"
         , style "background-color" "#eee"
         ]
         [ model.renderedText.document ]
