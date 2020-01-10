@@ -1,4 +1,12 @@
+.flex-column n {
+  display: flex;
+  flex-direction: column;
+}
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
 
 
 .elmsh-line {
@@ -6,11 +14,11 @@
     line-height: 12px !important;
  }
 
- h1 {font-size: 18pt}
- h2 {font-size: 16pt}
- h3 {font-size: 12pt}
- h4 {font-size: 10pt}
- h5 {font-size: 10pt}
+ h1 {font-size: 18px, margin : 0;}
+ h2 {font-size: 16px}
+ h3 {font-size: 12px}
+ h4 {font-size: 10px}
+ h5 {font-size: 10px}
 
 
 

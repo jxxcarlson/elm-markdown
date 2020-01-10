@@ -1,39 +1,47 @@
 module Main exposing (main)
 
+-- for external copy-paste if needed
+
 import Browser
 import Browser.Dom as Dom
+import Editor exposing (Editor, EditorConfig, EditorMsg)
+import Editor.Config exposing (WrapOption(..))
+import Editor.Strings
+import Editor.Update
 import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
+import Json.Encode as E
 import Markdown.ElmWithId
 import Markdown.Option exposing (Option(..))
 import Markdown.Parse as Parse
-import Random
-import CustomElement.CodeEditor as Editor
-import Markdown.ElmWithId as ElmWithId
-import Strings
-import Tree exposing(Tree)
-import Tree.Diff as Diff
+import Outside
 import Process
-import Task exposing(Task)
+import Random
+import SingleSlider as Slider
+import Strings
 import Style
+import Task exposing (Task)
+import Tree exposing (Tree)
+import Tree.Diff as Diff
 
-{-|  This version of the demo app has some optimizations
+
+{-| This version of the demo app has some optimizations
 that make the editing process smoother for long documents,
 containing a lot of mathematics.
 
 The idea is to to parse the document text when the
-document is first opened.  The resulting parse
+document is first opened. The resulting parse
 tree (AST: abstract syntax tree) is stored as
-`model.lastAst`.  Each block in the AST carries
+`model.lastAst`. Each block in the AST carries
 a label `(version, id): (Int, Int)`, where
 the `id` is unique to each block.
 Each time the text changes, a new AST is computed a
-with an incremented version number.  The
+with an incremented version number. The
 the function function `Diff.mergeWith equals` is applied
-to compute the updated AST.  The effect of this operation
+to compute the updated AST. The effect of this operation
 is that the id's of the nodes that have not changed
-are themselves unchanged.  In this way, MathJax will
+are themselves unchanged. In this way, MathJax will
 not re-render mathematical text that is unchanged.
 
 To see where these optimizations are applied,
@@ -50,35 +58,49 @@ main =
         , subscriptions = subscriptions
         }
 
+
+
 -- MODEL
 
+
 type alias Model =
-    {
-      counter : Int
+    { counter : Int
     , seed : Int
     , option : Option
     , sourceText : String
     , lastAst : Tree Parse.MDBlockWithId
     , renderedText : RenderedText Msg
     , message : String
+    , editor : Editor
+    , clipboard : String
     }
 
+
 emptyAst : Tree Parse.MDBlockWithId
-emptyAst =  Parse.toMDBlockTree -1 ExtendedMath ""
+emptyAst =
+    Parse.toMDBlockTree -1 ExtendedMath ""
+
 
 emptyRenderedText : RenderedText Msg
-emptyRenderedText =  Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" emptyAst
+emptyRenderedText =
+    Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" emptyAst
+
+
 
 -- MSG
 
+
 type Msg
     = NoOp
+    | EditorMsg EditorMsg
+    | SliderMsg Slider.Msg
+    | Outside Outside.InfoForElm
+    | LogErr String
     | Clear
     | Restart
     | GetContent String
     | ProcessLine String
-    | SetViewPortForElement (Result Dom.Error (Dom.Element, Dom.Viewport))
-
+    | SetViewPortForElement (Result Dom.Error ( Dom.Element, Dom.Viewport ))
     | GenerateSeed
     | NewSeed Int
     | LoadExample1
@@ -86,20 +108,26 @@ type Msg
     | SelectStandard
     | SelectExtended
     | SelectExtendedMath
-    | GotSecondPart (Tree Parse.MDBlockWithId, RenderedText Msg)
+    | GotSecondPart ( Tree Parse.MDBlockWithId, RenderedText Msg )
+
 
 type alias Flags =
     {}
 
+
 renderAstFor : Model -> String -> Cmd Msg
 renderAstFor model text =
     let
-            newAst = Parse.toMDBlockTree model.counter ExtendedMath text
+        newAst =
+            Parse.toMDBlockTree model.counter ExtendedMath text
     in
-        Process.sleep 10
-            |> Task.andThen (\_ -> Process.sleep 100
-            |> Task.andThen (\_ -> Task.succeed (newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst)))
-            |> Task.perform GotSecondPart
+    Process.sleep 10
+        |> Task.andThen
+            (\_ ->
+                Process.sleep 100
+                    |> Task.andThen (\_ -> Task.succeed ( newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst ))
+            )
+        |> Task.perform GotSecondPart
 
 
 renderSecond : Model -> Cmd Msg
@@ -109,79 +137,166 @@ renderSecond model =
 
 getFirstPart : String -> String
 getFirstPart str =
-        String.left 1500 str
+    String.left 1500 str
 
-initialText = Strings.text1
+
+initialText =
+    Strings.text1
+
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
     doInit
 
 
+config : EditorConfig Msg
+config =
+    { editorMsg = EditorMsg
+    , sliderMsg = SliderMsg
+    , editorStyle = editorStyle
+    , width = 400
+    , lines = 35
+    , lineHeight = 16.0
+    , showInfoPanel = True
+    , wrapParams = { maximumWidth = 55, optimalWidth = 50, stringWidth = String.length }
+    , wrapOption = DontWrap
+    }
+
+
+editorStyle : List (Html.Attribute msg)
+editorStyle =
+    [ HA.style "background-color" "#dddddd"
+    , HA.style "border" "solid 0.5px"
+    ]
+
+
 doInit : ( Model, Cmd Msg )
 doInit =
     let
-        lastAst = Parse.toMDBlockTree 0 ExtendedMath initialText
-        nMath = Markdown.ElmWithId.numberOfMathElements lastAst
-        firstAst = if nMath > 10 then
-                      Parse.toMDBlockTree 1 ExtendedMath (getFirstPart initialText)
-                   else
-                      lastAst
+        lastAst =
+            Parse.toMDBlockTree 0 ExtendedMath initialText
+
+        nMath =
+            Markdown.ElmWithId.numberOfMathElements lastAst
+
+        firstAst =
+            if nMath > 10 then
+                Parse.toMDBlockTree 1 ExtendedMath (getFirstPart initialText)
+
+            else
+                lastAst
 
         model =
-            {
-              counter = 2
+            { counter = 2
             , seed = 0
             , option = ExtendedMath
             , sourceText = initialText
             , lastAst = lastAst
             , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
             , message = "Starting up, number of math elements = " ++ String.fromInt nMath
+            , editor = Editor.init config initialText
+            , clipboard = ""
             }
     in
-    ( model, Cmd.batch[resetViewportOfEditor, resetViewportOfRenderedText, renderSecond model] )
+    ( model, Cmd.batch [ resetViewportOfEditor, resetViewportOfRenderedText, renderSecond model ] )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Sub.batch
+        [ Sub.map SliderMsg <|
+            Slider.subscriptions (Editor.slider model.editor)
+        ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetContent str ->
+        EditorMsg editorMsg ->
             let
-              newAst_ =  Parse.toMDBlockTree model.counter model.option str
-              newAst = Diff.mergeWith Parse.equal model.lastAst newAst_
+                -- needed for external copy-paste:
+                clipBoardCmd =
+                    if editorMsg == Editor.Update.CopyPasteClipboard then
+                        Outside.sendInfo (Outside.AskForClipBoard E.null)
+
+                    else
+                        Cmd.none
+
+                ( editor_, cmd ) =
+                    Editor.update editorMsg model.editor
+
+                text =
+                    case editorMsg of
+                        Editor.Update.Insert char ->
+                            Just (Editor.getSource editor_)
+
+                        _ ->
+                            Nothing
+
+                ( newAst, renderedText ) =
+                    case text of
+                        Nothing ->
+                            ( model.lastAst, model.renderedText )
+
+                        Just text_ ->
+                            let
+                                newAst_ =
+                                    Parse.toMDBlockTree model.counter model.option text_
+
+                                newAst__ =
+                                    Diff.mergeWith Parse.equal model.lastAst newAst_
+
+                                renderedText__ =
+                                    Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst__
+                            in
+                            ( newAst__, renderedText__ )
             in
-            ( { model
-                |  sourceText = str
-
-                -- rendering
-                , lastAst = newAst
-                , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst
-                , counter = model.counter + 1
-
-              }
-            , Cmd.none
+            ( { model | editor = editor_, lastAst = newAst, renderedText = renderedText, counter = model.counter + 1 }
+            , Cmd.batch [ clipBoardCmd, Cmd.map EditorMsg cmd ]
             )
+
+        SliderMsg sliderMsg ->
+            let
+                ( newEditor, cmd ) =
+                    Editor.sliderUpdate sliderMsg model.editor
+            in
+            ( { model | editor = newEditor }, cmd |> Cmd.map SliderMsg )
+
+        -- The below are optional, and used for external copy/pastes
+        -- See module `Outside` and also `outside.js` and `index.html` for additional
+        -- information
+        Outside infoForElm ->
+            case infoForElm of
+                Outside.GotClipboard clipboard ->
+                    ( { model | clipboard = clipboard }, Cmd.none )
+
+        LogErr _ ->
+            ( model, Cmd.none )
+
+        GetContent str ->
+            processContent model str
+
         ProcessLine str ->
-          let
-             id = (case Parse.searchAST str model.lastAst of
-                 Nothing -> "??"
-                 Just id_ -> id_ |>  Parse.stringOfId)
+            let
+                id =
+                    case Parse.searchAST str model.lastAst of
+                        Nothing ->
+                            "??"
 
-          in
-             ({ model | message = "str = " ++ String.left 20 str ++ " -- Clicked on id: " ++ id},
-               setViewportForElement id
-              )
-
+                        Just id_ ->
+                            id_ |> Parse.stringOfId
+            in
+            ( { model | message = "str = " ++ String.left 20 str ++ " -- Clicked on id: " ++ id }
+            , setViewportForElement id
+            )
 
         SetViewPortForElement result ->
             case result of
-                Ok (element, viewport) ->
-                      (model, setViewPortForSelectedLine element viewport)
-                Err _ -> ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
+                Ok ( element, viewport ) ->
+                    ( model, setViewPortForSelectedLine element viewport )
+
+                Err _ ->
+                    ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
 
         GenerateSeed ->
             ( model, Random.generate NewSeed (Random.int 1 10000) )
@@ -189,18 +304,18 @@ update msg model =
         NewSeed newSeed ->
             ( { model | seed = newSeed }, Cmd.none )
 
-        NoOp -> (model, Cmd.none)
+        NoOp ->
+            ( model, Cmd.none )
 
         Clear ->
             ( { model
-                |
-                  counter = model.counter + 1
+                | counter = model.counter + 1
                 , sourceText = ""
                 , lastAst = emptyAst
                 , renderedText = emptyRenderedText
                 , message = "Cleared"
               }
-            , Cmd.batch [resetViewportOfRenderedText, resetViewportOfEditor, renderAstFor model ""]
+            , Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderAstFor model "" ]
             )
 
         Restart ->
@@ -208,32 +323,41 @@ update msg model =
 
         LoadExample1 ->
             let
-                firstAst =  Parse.toMDBlockTree model.counter ExtendedMath (getFirstPart Strings.text1)
-                newModel = { model
-                               | counter = model.counter + 1
-                                 , message = "Loading example 1"
-                                 , sourceText = Strings.text1
-                                 --, firstAst =  firstAst
-                                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath Strings.text1
-                                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
-                               }
+                firstAst =
+                    Parse.toMDBlockTree model.counter ExtendedMath (getFirstPart Strings.text1)
+
+                newModel =
+                    { model
+                        | counter = model.counter + 1
+                        , message = "Loading example 1"
+                        , sourceText = Strings.text1
+
+                        --, firstAst =  firstAst
+                        , lastAst = Parse.toMDBlockTree model.counter ExtendedMath Strings.text1
+                        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
+                        , editor = Editor.init config Strings.text1
+                    }
             in
-            ( newModel , Cmd.batch [resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel])
+            ( newModel, Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel ] )
 
         LoadExample2 ->
             let
-                firstAst =  Parse.toMDBlockTree model.counter ExtendedMath (getFirstPart Strings.text2)
-                newModel = { model
-                               | counter = model.counter + 1
-                                 , message = "Loading example 2"
-                                 , sourceText = Strings.text2
-                                 -- , firstAst =  firstAst
-                                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath Strings.text2
-                                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
-                               }
-            in
-            ( newModel , Cmd.batch [resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel])
+                firstAst =
+                    Parse.toMDBlockTree model.counter ExtendedMath (getFirstPart Strings.text2)
 
+                newModel =
+                    { model
+                        | counter = model.counter + 1
+                        , message = "Loading example 2"
+                        , sourceText = Strings.text2
+
+                        -- , firstAst =  firstAst
+                        , lastAst = Parse.toMDBlockTree model.counter ExtendedMath Strings.text2
+                        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
+                        , editor = Editor.init config Strings.text2
+                    }
+            in
+            ( newModel, Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel ] )
 
         SelectStandard ->
             ( { model
@@ -256,46 +380,85 @@ update msg model =
             , Cmd.none
             )
 
-        GotSecondPart (newAst, newRenderedText) ->
-            ({model | lastAst = newAst, renderedText = newRenderedText, counter = model.counter + 1, message = "Got second part"}, Cmd.none)
+        GotSecondPart ( newAst, newRenderedText ) ->
+            ( { model | lastAst = newAst, renderedText = newRenderedText, counter = model.counter + 1, message = "Got second part" }, Cmd.none )
+
+
+
+-- UPDATE HELPERS
+
+
+processContent : Model -> String -> ( Model, Cmd Msg )
+processContent model str =
+    let
+        newAst_ =
+            Parse.toMDBlockTree model.counter model.option str
+
+        newAst =
+            Diff.mergeWith Parse.equal model.lastAst newAst_
+    in
+    ( { model
+        | sourceText = str
+
+        -- rendering
+        , lastAst = newAst
+        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst
+        , counter = model.counter + 1
+      }
+    , Cmd.none
+    )
+
+
+{-| Load text into Editor
+-}
+load : WrapOption -> String -> Model -> ( Model, Cmd Msg )
+load wrapOption str model =
+    let
+        newEditor =
+            Editor.load wrapOption str model.editor
+    in
+    ( { model | editor = newEditor }, Cmd.none )
+
+
 
 -- VIEWPORT
 
 
 resetViewportOfRenderedText : Cmd Msg
 resetViewportOfRenderedText =
-  Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 0)
+    Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 0)
+
 
 resetViewportOfEditor : Cmd Msg
 resetViewportOfEditor =
-  Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_editor_" 0 0)
-
+    Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_editor_" 0 0)
 
 
 
 -- NEW STUFF
 
+
 setViewportForElement : String -> Cmd Msg
 setViewportForElement id =
     Dom.getViewportOf "_rendered_text_"
-      |> Task.andThen (\vp -> getElementWithViewPort vp id)
-      |> Task.attempt SetViewPortForElement
+        |> Task.andThen (\vp -> getElementWithViewPort vp id)
+        |> Task.attempt SetViewPortForElement
 
-getElementWithViewPort : Dom.Viewport -> String -> Task Dom.Error (Dom.Element, Dom.Viewport)
+
+getElementWithViewPort : Dom.Viewport -> String -> Task Dom.Error ( Dom.Element, Dom.Viewport )
 getElementWithViewPort vp id =
     Dom.getElement id
-      |> Task.map (\el -> (el, vp))
-
+        |> Task.map (\el -> ( el, vp ))
 
 
 setViewPortForSelectedLine : Dom.Element -> Dom.Viewport -> Cmd Msg
 setViewPortForSelectedLine element viewport =
     let
-
         y =
             viewport.viewport.y + element.element.y - element.element.height - 100
     in
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
+
 
 
 --setViewPortForSelectedLine : Dom.Element -> Dom.Viewport -> Cmd Msg
@@ -305,8 +468,6 @@ setViewPortForSelectedLine element viewport =
 --    in
 --    Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
 --
-
-
 --
 -- VIEW FUNCTIONS
 ---
@@ -314,67 +475,94 @@ setViewPortForSelectedLine element viewport =
 
 view : Model -> Html Msg
 view model =
-    div Style.outerStyle
-        [ display model
-        ]
-
-type alias RenderedText msg = {title: Html msg, toc: Html msg, document: Html msg}
-
-display : Model -> Html Msg
-display model =
-    div []
-        [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
-        , p [style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt"] [text "MathJax 3."]
-        , editor model
-        , renderedSource model
-        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [
-                clearButton 60
-              -- , restartButton 70
-              , example1Button 80
-              , example2Button 80
-              , span [style "margin-left" "30px", style "margin-right" "10px" ] [text "Markdown flavor: "]
-              , standardMarkdownButton model 100
-              , extendedMarkdownButton model 100
-              , extendedMathMarkdownButton model 140
-             ]
-        , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
-            [ text "minilatex.io" ]
-        , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
-            [ text "package.elm-lang.org" ]
-        , span [style "margin-left" "50px"] [text <|  model.message]
-
-        ]
-
-
-label text_ =
-    p Style.labelStyle [ text text_ ]
-
-
-editor : Model -> Html Msg
-editor model =
-        Editor.codeEditor
-            [ Editor.editorValue (model.sourceText)
-            , Editor.onEditorChanged GetContent
-            , Editor.onGutterClicked ProcessLine
-
+    div [ HA.class "flex-column", style "width" "1200px", style "margin-top" "18px" ]
+        [ heading model
+        , div [ HA.class "flex-row" ]
+            [ embeddedEditor model
+            , renderedSource model
+            , tocView model
             ]
-            []
-            |> (\x -> Html.div
-               (Style.editorTextStyle ++ [  HA.id "_editor_", HA.style "width" "400px", HA.style "height" "500px", HA.style "overflow" "scroll" ]) [ x ])
+        , footer1 model
+        , footer2 model
+        ]
 
 
---    textarea (editorTextStyle ++ [ onInput GetContent, HA.value model.sourceText ]) []
+type alias RenderedText msg =
+    { title : Html msg, toc : Html msg, document : Html msg }
+
+
+heading : Model -> Html Msg
+heading model =
+    div [ HA.class "flex-row", style "height" "50px", style "margin-bottom" "8px", style "margin-top" "-16px" ]
+        [ div [ style "width" "400px", style "margin-left" "48px", style "font-size" "14px" ] []
+        , div [ style "width" "400px", style "margin-left" "-24px" ] [ titleView model ]
+        , div [ style "width" "250px", style "margin-left" "48px" ] []
+        ]
+
+
+embeddedEditor : Model -> Html Msg
+embeddedEditor model =
+    div [ style "width" "400px", style "height" "500px", style "overflow" "scroll" ]
+        [ Editor.embedded config model.editor ]
+
+
+titleView : Model -> Html Msg
+titleView model =
+    span [] [ model.renderedText.title ]
 
 
 renderedSource : Model -> Html Msg
 renderedSource model =
-      div [] [
-         div  (Style.renderedSourceStyle ++ [HA.id "_rendered_text_"]) [ h1 [style "font-size" "14px"] [
-            model.renderedText.title],  model.renderedText.document
-           ]
+    div
+        [ HA.id "_rendered_text_"
+        , style "width" "400px"
+        , style "height" "560px"
+        , style "margin-left" "24px"
+        , style "padding-left" "12px"
+        , style "padding-right" "12px"
+        , style "overflow" "scroll "
+        , style "background-color" "#eee"
+        ]
+        [ model.renderedText.document ]
 
-       , div Style.tocStyle [model.renderedText.toc]
-      ]
+
+tocView : Model -> Html Msg
+tocView model =
+    div
+        [ style "width" "250px"
+        , style "height" "535px"
+        , style "margin-left" "24px"
+        , style "padding" "12px"
+        , style "overflow" "scroll "
+        , style "background-color" "#eee"
+        ]
+        [ model.renderedText.toc ]
+
+
+footer1 : Model -> Html Msg
+footer1 model =
+    p [ style "margin-left" "20px", style "margin-top" "0px" ]
+        [ clearButton 60
+
+        -- , restartButton 70
+        , example1Button 80
+        , example2Button 80
+        , span [ style "margin-left" "30px", style "margin-right" "10px" ] [ text "Markdown flavor: " ]
+        , standardMarkdownButton model 100
+        , extendedMarkdownButton model 100
+        , extendedMathMarkdownButton model 140
+        ]
+
+
+footer2 model =
+    p []
+        [ a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
+            [ text "minilatex.io" ]
+        , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
+            [ text "package.elm-lang.org" ]
+        , span [ style "margin-left" "50px" ] [ text <| model.message ]
+        ]
+
 
 
 -- BUTTONS --
@@ -383,6 +571,7 @@ renderedSource model =
 clearButton width =
     button ([ onClick Clear ] ++ Style.buttonStyle Style.colorBlue width) [ text "Clear" ]
 
+
 restartButton width =
     button ([ onClick Restart ] ++ Style.buttonStyle Style.colorBlue width) [ text "Restart" ]
 
@@ -390,8 +579,10 @@ restartButton width =
 example1Button width =
     button ([ onClick LoadExample1 ] ++ Style.buttonStyle Style.colorBlue width) [ text "Example 1" ]
 
+
 example2Button width =
     button ([ onClick LoadExample2 ] ++ Style.buttonStyle Style.colorBlue width) [ text "Example 2" ]
+
 
 standardMarkdownButton model width =
     button ([ onClick SelectStandard ] ++ Style.buttonStyleSelected (model.option == Standard) Style.colorBlue Style.colorDarkRed width) [ text "Standard" ]
@@ -403,4 +594,3 @@ extendedMarkdownButton model width =
 
 extendedMathMarkdownButton model width =
     button ([ onClick SelectExtendedMath ] ++ Style.buttonStyleSelected (model.option == ExtendedMath) Style.colorBlue Style.colorDarkRed width) [ text "Extended-Math" ]
-

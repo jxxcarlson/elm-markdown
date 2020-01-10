@@ -1,4 +1,4 @@
-module Style exposing (buttonStyle, buttonStyleSelected, colorBlue, colorDarkRed, colorDark, colorLight, editorTextStyle, tocStyle, labelStyle, macroPanelStyle, outerStyle, renderedSourceStyle, textStyle)
+module Style exposing (buttonStyle, buttonStyleSelected, colorBlue, colorDark, colorDarkRed, colorLight, editorTextStyle, labelStyle, macroPanelStyle, outerStyle, renderedSourceStyle, textStyle, tocStyle)
 
 -- import Html exposing (..)
 
@@ -14,8 +14,10 @@ import Html.Attributes exposing (style)
 colorBlue =
     "rgb(100,100,200)"
 
+
 colorDarkRed =
     "rgb(180,0,0)"
+
 
 colorLight =
     "#88a"
@@ -50,8 +52,11 @@ buttonStyleSelected bit color color2 width =
             width + 0 |> String.fromInt |> (\x -> x ++ "px")
     in
     [ case bit of
-        False -> style "backgroundColor" color
-        True -> style "backgroundColor" color2
+        False ->
+            style "backgroundColor" color
+
+        True ->
+            style "backgroundColor" color2
     , style "color" "white"
     , style "width" realWidth
     , style "height" "25px"
@@ -61,6 +66,7 @@ buttonStyleSelected bit color color2 width =
     , style "text-align" "center"
     , style "border" "none"
     ]
+
 
 
 -- STYLE FUNCTIONS
@@ -86,8 +92,9 @@ macroPanelStyle =
 renderedSourceStyle =
     textStyle "400px" "500px" "#fff"
 
+
 tocStyle =
-    textStyle "200px" "500px" "#fff" ++ [style "float" "left"]
+    textStyle "200px" "500px" "#fff" ++ [ style "float" "left" ]
 
 
 textStyle width height color =
@@ -97,7 +104,6 @@ textStyle width height color =
     , style "margin-left" "20px"
     , style "background-color" color
     , style "overflow" "scroll"
-    , style "float" "left"
     ]
 
 

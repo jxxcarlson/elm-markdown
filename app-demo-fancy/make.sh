@@ -1,5 +1,7 @@
 #!/bin/bash
 
+date +"%H:%M:%S"
+
 case $1 in
 -d)
   elm make --debug src/Main.elm --output=Main.js

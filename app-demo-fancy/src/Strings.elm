@@ -1,4 +1,4 @@
-module Strings exposing (text1, text2, test, test2, test3, test4, notes)
+module Strings exposing (notes, test, test2, test3, test4, text1, text2)
 
 
 test =
@@ -15,7 +15,9 @@ $$
 qqq
 """
 
-test2 = """
+
+test2 =
+    """
 #E
 
 one
@@ -34,7 +36,9 @@ one
 
 """
 
-test3 = """To compile, use
+
+test3 =
+    """To compile, use
 
     ```elm
     elm make --output=Main.js
@@ -43,7 +47,9 @@ test3 = """To compile, use
 qq
 """
 
-test4 = """
+
+test4 =
+    """
 
 # Test
 
@@ -60,6 +66,7 @@ editBlock ((Block id bt lev content) as block) =
 ```
 """
 
+
 text1 =
     """# A Pure Elm Markdown Parser
 
@@ -71,9 +78,10 @@ grew out of the need to have a
 pure Elm Markdown parser-renderer
 that could also handle mathematical
 text.  Mathematical text is rendered by
-MathJax 3, which has very large
-performance advantages compared to its
-predecessors. The Markdown used here offers
+MathJax.  The project now includes
+a pure Elm text editor (work in progress!)
+
+ The Markdown used here offers
 three options: *Standard*, *Extended* a
 nd *ExtendedMath*. The Extended option
 provides for strike-through
@@ -213,21 +221,27 @@ are separated by blank lines.
 
 ### Problem Set 18
 
-1. Compute the coefficient of $a^5b^2$ in $(a + b)^7$.
+1. Compute the coefficient of $a^5b^2$
+in $(a + b)^7$.
 
-    1. Do also: coefficient of $a^5b^5$ in $(a + 2b)^{10}$
+    1. Do also: coefficient of $a^5b^5$
+    in $(a + 2b)^{10}$
 
-    2. Do also: coefficient of $a^7b^5$ in $(a - b)^{12}$
+    2. Do also: coefficient of $a^7b^5$
+    in $(a - b)^{12}$
 
-4. If $f'(2) = 0$, what can you say about the graph of $f$ at $x = 2$?
+4. If $f'(2) = 0$, what can you say about
+the graph of $f$ at $x = 2$?
 
-6. Suppose that in addition, $f''(2) > 0$. What else can say about the graph?
+6. Suppose that in addition, $f''(2) > 0$.
+ What else can say about the graph?
 
 
 ### Problem Set 19
 
 4. Show that $u(x,t) = f(x - ct)$ is a solution to
-the equation $\\partial u(x,t)/\\partial x + c^{-1} \\partial u(x,t)/\\partial t = 0$.
+the equation
+$\\partial u(x,t)/\\partial x + c^{-1} \\partial u(x,t)/\\partial t = 0$.
 
 3. State the wave equation and show that
 $u(x,t)$ as above is a solution to it.
@@ -338,6 +352,7 @@ Then open `index.html` to run the app.
 
 """
 
+
 text2 =
     """
 # Propagation and Evolution
@@ -345,15 +360,27 @@ text2 =
 
 ## The propagator
 
-Consider a wave function $\\psi(x,t)$.  If we
-fix $t$ and let $x$ vary, the result is an element $\\psi(t)$ of $L^2(R)$ or,
-more generally $L^2(\\text{configuration space})$.  Thus the evolution of our system in time is given by a function $t \\mapsto \\psi(t)$.  The dynamics of this path in Hilbert space is governed by an ordinary differential equation ,
+Consider a wave function $\\psi(x,t)$.
+If we fix $t$ and let $x$ vary, the result
+is an element $\\psi(t)$ of $L^2(R)$ or,
+more generally $L^2(\\text{configuration space})$.
+Thus the evolution of our system in time is given
+by a function $t \\mapsto \\psi(t)$.  The
+dynamics of this path in Hilbert space is
+governed by an ordinary differential equation ,
 
 $$
 i\\hbar\\frac{d\\psi}{dt} = H\\phi,
 $$
 
-Now consider bases of orthogonal normalized states $\\{\\; \\psi_k(t_1)\\;\\}$ and $\\{\\; \\psi_k(t_0) \\; \\}$ at times $t_1$ and $t_0$, with $t_1 > t_0$.  There is a unique linear transformation $U(t_1,t_0)$ such that $\\psi_k(t_1) = U(t_1,t_0)\\psi_k(t_0)$ for all $k$.  It must be unitary because the bases are orthonormal.  This family of transformations is called the \\term{propagator}.  The propagator satisfies various identities, e.g., the composition law
+Now consider bases of orthogonal normalized states
+$\\{\\; \\psi_k(t_1)\\;\\}$ and $\\{\\; \\psi_k(t_0) \\; \\}$
+at times $t_1$ and $t_0$, with $t_1 > t_0$.
+There is a unique linear transformation $U(t_1,t_0)$
+such that $\\psi_k(t_1) = U(t_1,t_0)\\psi_k(t_0)$ for all $k$.
+It must be unitary because the bases are orthonormal.
+This family of transformations is called the \\term{propagator}.
+The propagator satisfies various identities, e.g., the composition law
 
 $$
 U(t_2, t_0) = U(t_2, t_1)U(t_1, t_0)
@@ -526,8 +553,6 @@ plt.title('Free particle propagator, t=4');
 ```
 
 """
-
-
 
 
 notes =

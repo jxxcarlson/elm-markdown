@@ -7,7 +7,6 @@
 -- Distributed under the MIT License
 -- See LICENSE.txt
 --
-
 -- Modified 2019 by James Carlson (see the onGutterClicked function)
 ----------------------------------------------------------------------
 
@@ -52,7 +51,6 @@ import Json.Decode as JD exposing (Decoder)
 import Json.Encode as JE exposing (Value)
 
 
-
 {-| Create a code editor Html element.
 -}
 codeEditor : List (Attribute msg) -> List (Html msg) -> Html msg
@@ -76,6 +74,7 @@ onEditorChanged tagger =
         JD.map tagger <|
             JD.at [ "target", "editorValue" ]
                 JD.string
+
 
 {-| This is how you receive the content of the line clicked.
 -}
