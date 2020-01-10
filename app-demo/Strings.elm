@@ -223,7 +223,7 @@ ___
 
 To compile, use
 
-```
+```elm
 elm make --output=Main.js
 ```
 
