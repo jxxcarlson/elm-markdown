@@ -157,7 +157,7 @@ config =
     , width = 400
     , lines = 35
     , lineHeight = 16.0
-    , showInfoPanel = True
+    , showInfoPanel = False
     , wrapParams = { maximumWidth = 55, optimalWidth = 50, stringWidth = String.length }
     , wrapOption = DontWrap
     }
@@ -193,7 +193,7 @@ doInit =
             , sourceText = initialText
             , lastAst = lastAst
             , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
-            , message = "Starting up, number of math elements = " ++ String.fromInt nMath
+            , message = "Click ctrl-shift-I in editor to toggle info panel"
             , editor = Editor.init config initialText
             , clipboard = ""
             }
@@ -214,7 +214,6 @@ update msg model =
     case msg of
         EditorMsg editorMsg ->
             let
-                _ = Debug.log "editorMsg" editorMsg
                 -- needed for external copy-paste:
                 clipBoardCmd =
                     if editorMsg == Editor.Update.CopyPasteClipboard then
@@ -299,10 +298,10 @@ update msg model =
         SetViewPortForElement result ->
             case result of
                 Ok ( element, viewport ) ->
-                    ( model, setViewPortForSelectedLine element viewport )
+                    ( {model | message = "synced"}, setViewPortForSelectedLine element viewport )
 
                 Err _ ->
-                    ( { model | message = model.message ++ ", doc VP ERROR" }, Cmd.none )
+                    ( { model | message =  "sync error" }, Cmd.none )
 
         GenerateSeed ->
             ( model, Random.generate NewSeed (Random.int 1 10000) )
@@ -521,7 +520,7 @@ heading model =
 
 embeddedEditor : Model -> Html Msg
 embeddedEditor model =
-    div [ style "width" "400px", style "height" "500px", style "overflow" "scroll" ]
+    div [ style "width" "400px", style "height" "500px", style "overflow-y" "hidden", style "overflow-x" "scroll" ]
         [ Editor.embedded config model.editor ]
 
 
@@ -539,8 +538,8 @@ renderedSource model =
         , style "margin-left" "24px"
         , style "padding-left" "12px"
         , style "padding-right" "12px"
-        , style "overflow-x" "scroll "
-        , style "overflow-y" "hidden"
+        , style "overflow-x" "hidden "
+        , style "overflow-y" "scroll"
         , style "background-color" "#eee"
         ]
         [ model.renderedText.document ]
