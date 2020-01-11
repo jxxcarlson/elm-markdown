@@ -214,6 +214,7 @@ update msg model =
     case msg of
         EditorMsg editorMsg ->
             let
+                _ = Debug.log "editorMsg" editorMsg
                 -- needed for external copy-paste:
                 clipBoardCmd =
                     if editorMsg == Editor.Update.CopyPasteClipboard then
@@ -232,6 +233,11 @@ update msg model =
 
                         _ ->
                             Nothing
+
+                syncCmd = case editorMsg of
+                      Editor.Update.SendLine ->
+                          syncRenderedText (Editor.lineAtCursor editor_) model
+                      _ -> Cmd.none
 
                 ( newAst, renderedText ) =
                     case text of
@@ -252,7 +258,7 @@ update msg model =
                             ( newAst__, renderedText__ )
             in
             ( { model | editor = editor_, lastAst = newAst, renderedText = renderedText, counter = model.counter + 1 }
-            , Cmd.batch [ clipBoardCmd, Cmd.map EditorMsg cmd ]
+            , Cmd.batch [ clipBoardCmd, Cmd.map EditorMsg cmd, syncCmd ]
             )
 
         SliderMsg sliderMsg ->
@@ -381,11 +387,24 @@ update msg model =
             )
 
         GotSecondPart ( newAst, newRenderedText ) ->
-            ( { model | lastAst = newAst, renderedText = newRenderedText, counter = model.counter + 1, message = "Got second part" }, Cmd.none )
+            ( { model | lastAst = newAst, renderedText = newRenderedText, counter = model.counter + 1 }, Cmd.none )
 
 
 
 -- UPDATE HELPERS
+
+syncRenderedText : String ->  Model -> Cmd Msg
+syncRenderedText str model =
+      let
+         id = (case Parse.searchAST str model.lastAst of
+             Nothing -> "??"
+             Just id_ -> id_ |>  Parse.stringOfId
+             )
+
+      in
+           setViewportForElement id
+
+
 
 
 processContent : Model -> String -> ( Model, Cmd Msg )
