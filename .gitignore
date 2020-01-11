@@ -4,6 +4,8 @@ elm-stuff/
 app-demo/Main.js
 app-demo/Main.min.js
 app-demo/package-lock.json
+app-demo/make.sh
+
 app-demo-fancy/Main.js
 app-demo-fancy/Main.min.js
 app-demo-fancy/package-lock.json

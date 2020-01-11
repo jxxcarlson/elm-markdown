@@ -153,21 +153,15 @@ config : EditorConfig Msg
 config =
     { editorMsg = EditorMsg
     , sliderMsg = SliderMsg
-    , editorStyle = editorStyle
+    , editorStyle = []
     , width = 400
     , lines = 35
     , lineHeight = 16.0
     , showInfoPanel = False
-    , wrapParams = { maximumWidth = 40, optimalWidth = 35, stringWidth = String.length }
+    , wrapParams = { maximumWidth = 45, optimalWidth = 40, stringWidth = String.length }
     , wrapOption = DoWrap
     }
 
-
-editorStyle : List (Html.Attribute msg)
-editorStyle =
-    [ HA.style "background-color" "#dddddd"
-    , HA.style "border" "solid 0.5px"
-    ]
 
 
 doInit : ( Model, Cmd Msg )
@@ -491,16 +485,7 @@ setViewPortForSelectedLine element viewport =
 
 
 
---setViewPortForSelectedLine : Dom.Element -> Dom.Viewport -> Cmd Msg
---setViewPortForSelectedLine element viewport =
---    let
---        y =  viewport.viewport.y + element.element.y - element.element.height - 100
---    in
---    Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
---
---
 -- VIEW FUNCTIONS
----
 
 
 view : Model -> Html Msg
@@ -532,7 +517,8 @@ heading model =
 
 embeddedEditor : Model -> Html Msg
 embeddedEditor model =
-    div [ style "width" "400px", style "height" "500px", style "overflow-y" "hidden", style "overflow-x" "scroll" ]
+    -- div [ style "width" "400px", style "height" "500px", style "overflow-y" "hidden", style "overflow-x" "scroll" ]
+    div [ style "width" "400px" ]
         [ Editor.embedded config model.editor ]
 
 
