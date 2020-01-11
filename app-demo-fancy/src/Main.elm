@@ -159,7 +159,7 @@ config =
     , lineHeight = 16.0
     , showInfoPanel = False
     , wrapParams = { maximumWidth = 45, optimalWidth = 40, stringWidth = String.length }
-    , wrapOption = DoWrap
+    , wrapOption = DontWrap
     }
 
 
@@ -189,7 +189,7 @@ doInit =
             , sourceText = initialText
             , lastAst = lastAst
             , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
-            , message = "Click ctrl-shift-I in editor to toggle info panel"
+            , message = "Click ctrl-shift-I in editor to toggle info panel, ctrl-h to toggle help"
             , editor = editor
             , clipboard = ""
             }
@@ -577,10 +577,17 @@ footer2 model =
             [ text "minilatex.io" ]
         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
             [ text "package.elm-lang.org" ]
-        , span [ style "margin-left" "50px" ] [ text <| model.message ]
+        , messageLine model
         ]
 
-
+messageLine : Model -> Html msg
+messageLine model =
+    let
+        message = model.message
+     in
+       case String.contains "error" message of
+           True -> span [ style "margin-left" "50px", style "color" "red" ] [ text <| model.message ]
+           False -> span [ style "margin-left" "50px" ] [ text <| model.message ]
 
 -- BUTTONS --
 
