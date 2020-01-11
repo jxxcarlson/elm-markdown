@@ -215,7 +215,8 @@ update msg model =
             case editorMsg of
 
                 Editor.Update.CopyPasteClipboard ->
-                    ({model | editor = editor_}, Outside.sendInfo (Outside.AskForClipBoard E.null) )
+                    updateText model editor_ cmd_
+                      |> (\(m, _) -> (m, Outside.sendInfo (Outside.AskForClipBoard E.null)))
 
                 Editor.Update.Insert str ->
                     updateText model editor_ cmd_
@@ -231,6 +232,19 @@ update msg model =
 
                 Editor.Update.Paste ->
                     updateText model editor_ cmd_
+
+                Editor.Update.Undo ->
+                      updateText model editor_ cmd_
+
+                Editor.Update.Redo ->
+                      updateText model editor_ cmd_
+
+                Editor.Update.RemoveGroupAfter ->
+                      updateText model editor_ cmd_
+
+                Editor.Update.RemoveGroupBefore ->
+                      updateText model editor_ cmd_
+
                 _ -> ({model | editor = editor_}, Cmd.none)
 
 
