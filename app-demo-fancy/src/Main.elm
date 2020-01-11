@@ -221,29 +221,35 @@ update msg model =
             case editorMsg of
 
                 Editor.Update.CopyPasteClipboard ->
-                    (model, Outside.AskForClipBoard E.null |> Cmd.map Outside )
+                    ({model | editor = editor_}, Outside.sendInfo (Outside.AskForClipBoard E.null) )
 
-                _ -> (model, Cmd.none)
+                Editor.Update.Insert str ->
+                    let
+                        text = Editor.getSource editor_
+                        (newAst, renderedText) = updateRenderingData model text
+                    in
+                      ({ model | editor = editor_
+                               , lastAst = newAst
+                               , renderedText = renderedText
+                               , counter = model.counter + 1
+                         }, Cmd.map EditorMsg cmd_
+                       )
+                Editor.Update.SendLine ->
+                      ({model | editor = editor_}, syncRenderedText (Editor.lineAtCursor editor_) model)
 
---                Editor.Update.Insert str ->
---                    let
---                        text = Editor.getSource editor_
---                        ( newAst, renderedText ) =
---                          case text of
---                            Nothing -> (model, Cmd.none)
---                            Just text_ -> updateRenderingData model text_
---                    in
---                      ({ model | editor = editor_
---                               , lastAst = newAst
---                               , renderedText = renderedText
---                               , counter = model.counter + 1
---                         }, Cmd.map EditorMsg cmd_
---                       )
---                Editor.Update.SendLine ->
---                      ({model | editor = editor_}, syncRenderedText (Editor.lineAtCursor editor_) model)
---
---                Editor.Update.WrapAll ->
---                     (model, Cmd.none)
+                Editor.Update.WrapAll ->
+                    let
+                        text = Editor.getSource editor_
+                        (newAst, renderedText) = updateRenderingData model text
+                    in
+                      ({ model | editor = editor_
+                               , lastAst = newAst
+                               , renderedText = renderedText
+                               , counter = model.counter + 1
+                         }, Cmd.map EditorMsg cmd_
+                       )
+
+                _ -> ({model | editor = editor_}, Cmd.none)
 
 
 
