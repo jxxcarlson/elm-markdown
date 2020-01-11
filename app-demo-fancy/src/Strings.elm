@@ -73,7 +73,8 @@ text1 =
 
 ## Introduction
 
-![Hummingbird::left](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)   This project
+![Hummingbird::left](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)
+This project
 grew out of the need to have a
 pure Elm Markdown parser-renderer
 that could also handle mathematical

@@ -158,8 +158,8 @@ config =
     , lines = 35
     , lineHeight = 16.0
     , showInfoPanel = False
-    , wrapParams = { maximumWidth = 55, optimalWidth = 50, stringWidth = String.length }
-    , wrapOption = DontWrap
+    , wrapParams = { maximumWidth = 40, optimalWidth = 35, stringWidth = String.length }
+    , wrapOption = DoWrap
     }
 
 
@@ -173,8 +173,10 @@ editorStyle =
 doInit : ( Model, Cmd Msg )
 doInit =
     let
+        editor = Editor.init config initialText
+
         lastAst =
-            Parse.toMDBlockTree 0 ExtendedMath initialText
+            Parse.toMDBlockTree 0 ExtendedMath (Editor.getSource editor)
 
         nMath =
             Markdown.ElmWithId.numberOfMathElements lastAst
@@ -194,7 +196,7 @@ doInit =
             , lastAst = lastAst
             , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
             , message = "Click ctrl-shift-I in editor to toggle info panel"
-            , editor = Editor.init config initialText
+            , editor = editor
             , clipboard = ""
             }
     in
@@ -239,22 +241,19 @@ update msg model =
                       _ -> Cmd.none
 
                 ( newAst, renderedText ) =
-                    case text of
-                        Nothing ->
+                    case (text, editorMsg) of
+                        (Just text_ , Editor.Update.Insert _) ->
+                           updateRenderingData model text_
+
+                        (Just text_, Editor.Update.WrapAll) ->
+                           updateRenderingData model text_
+
+                        (Just _ , _) -> ( model.lastAst, model.renderedText )
+
+                        (Nothing, _) ->
                             ( model.lastAst, model.renderedText )
 
-                        Just text_ ->
-                            let
-                                newAst_ =
-                                    Parse.toMDBlockTree model.counter model.option text_
 
-                                newAst__ =
-                                    Diff.mergeWith Parse.equal model.lastAst newAst_
-
-                                renderedText__ =
-                                    Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst__
-                            in
-                            ( newAst__, renderedText__ )
             in
             ( { model | editor = editor_, lastAst = newAst, renderedText = renderedText, counter = model.counter + 1 }
             , Cmd.batch [ clipBoardCmd, Cmd.map EditorMsg cmd, syncCmd ]
@@ -391,6 +390,24 @@ update msg model =
 
 
 -- UPDATE HELPERS
+
+-- updateRendered : Model -> ()
+
+
+updateRenderingData : Model -> String -> (Tree Parse.MDBlockWithId, RenderedText msg)
+updateRenderingData model text_ =
+   let
+        newAst_ =
+            Parse.toMDBlockTree model.counter model.option text_
+
+        newAst__ =
+            Diff.mergeWith Parse.equal model.lastAst newAst_
+
+        renderedText__ =
+            Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst__
+    in
+    ( newAst__, renderedText__ )
+
 
 syncRenderedText : String ->  Model -> Cmd Msg
 syncRenderedText str model =
