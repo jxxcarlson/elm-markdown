@@ -25,4 +25,5 @@ app-demo-fancy/make.sh
 app-demo-fancy/publish.sh
 app-demo-fancy/bench.html
 app-demo-fancy/index-remote.html
+app-demo-fancy/benchmarks
 
