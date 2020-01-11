@@ -211,58 +211,42 @@ subscriptions model =
         ]
 
 
-type alias EditorData = {
-        editor : Editor
-          
-   }
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         EditorMsg editorMsg ->
             let
-                -- needed for external copy-paste:
-                clipBoardCmd =
-                    if editorMsg == Editor.Update.CopyPasteClipboard then
-                        Outside.sendInfo (Outside.AskForClipBoard E.null)
-
-                    else
-                        Cmd.none
-
-                ( editor_, cmd ) =
-                    Editor.update editorMsg model.editor
-
-                text =
-                    case editorMsg of
-                        Editor.Update.Insert char ->
-                            Just (Editor.getSource editor_)
-
-                        _ ->
-                            Nothing
-
-                syncCmd = case editorMsg of
-                      Editor.Update.SendLine ->
-                          syncRenderedText (Editor.lineAtCursor editor_) model
-                      _ -> Cmd.none
-
-                ( newAst, renderedText ) =
-                    case (text, editorMsg) of
-                        (Just text_ , Editor.Update.Insert _) ->
-                           updateRenderingData model text_
-
-                        (Just text_, Editor.Update.WrapAll) ->
-                           updateRenderingData model text_
-
-                        (Just _ , _) -> ( model.lastAst, model.renderedText )
-
-                        (Nothing, _) ->
-                            ( model.lastAst, model.renderedText )
-
-
+               (editor_ , cmd_ ) = Editor.update editorMsg model.editor
             in
-            ( { model | editor = editor_, lastAst = newAst, renderedText = renderedText, counter = model.counter + 1 }
-            , Cmd.batch [ clipBoardCmd, Cmd.map EditorMsg cmd, syncCmd ]
-            )
+            case editorMsg of
+
+                Editor.Update.CopyPasteClipboard ->
+                    (model, Outside.AskForClipBoard E.null |> Cmd.map Outside)
+
+                _ -> (model, Cmd.none)
+
+--                Editor.Update.Insert str ->
+--                    let
+--                        text = Editor.getSource editor_
+--                        ( newAst, renderedText ) =
+--                          case text of
+--                            Nothing -> (model, Cmd.none)
+--                            Just text_ -> updateRenderingData model text_
+--                    in
+--                      ({ model | editor = editor_
+--                               , lastAst = newAst
+--                               , renderedText = renderedText
+--                               , counter = model.counter + 1
+--                         }, Cmd.map EditorMsg cmd_
+--                       )
+--                Editor.Update.SendLine ->
+--                      ({model | editor = editor_}, syncRenderedText (Editor.lineAtCursor editor_) model)
+--
+--                Editor.Update.WrapAll ->
+--                     (model, Cmd.none)
+
+
+
 
         SliderMsg sliderMsg ->
             let
