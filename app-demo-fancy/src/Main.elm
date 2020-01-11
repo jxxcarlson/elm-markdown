@@ -203,7 +203,7 @@ subscriptions model =
         [ Sub.map SliderMsg <|
             Slider.subscriptions (Editor.slider model.editor)
         ]
-
+-- UPDATE
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -218,31 +218,19 @@ update msg model =
                     ({model | editor = editor_}, Outside.sendInfo (Outside.AskForClipBoard E.null) )
 
                 Editor.Update.Insert str ->
-                    let
-                        text = Editor.getSource editor_
-                        (newAst, renderedText) = updateRenderingData model text
-                    in
-                      ({ model | editor = editor_
-                               , lastAst = newAst
-                               , renderedText = renderedText
-                               , counter = model.counter + 1
-                         }, Cmd.map EditorMsg cmd_
-                       )
+                    updateText model editor_ cmd_
+
                 Editor.Update.SendLine ->
                       ({model | editor = editor_}, syncRenderedText (Editor.lineAtCursor editor_) model)
 
                 Editor.Update.WrapAll ->
-                    let
-                        text = Editor.getSource editor_
-                        (newAst, renderedText) = updateRenderingData model text
-                    in
-                      ({ model | editor = editor_
-                               , lastAst = newAst
-                               , renderedText = renderedText
-                               , counter = model.counter + 1
-                         }, Cmd.map EditorMsg cmd_
-                       )
+                    updateText model editor_ cmd_
 
+                Editor.Update.Cut ->
+                    updateText model editor_ cmd_
+
+                Editor.Update.Paste ->
+                    updateText model editor_ cmd_
                 _ -> ({model | editor = editor_}, Cmd.none)
 
 
@@ -381,6 +369,19 @@ update msg model =
 -- UPDATE HELPERS
 
 -- updateRendered : Model -> ()
+
+
+updateText model editor_ cmd_ =
+      let
+            text = Editor.getSource editor_
+            (newAst, renderedText) = updateRenderingData model text
+        in
+          ({ model | editor = editor_
+                   , lastAst = newAst
+                   , renderedText = renderedText
+                   , counter = model.counter + 1
+             }, Cmd.map EditorMsg cmd_
+           )
 
 
 updateRenderingData : Model -> String -> (Tree Parse.MDBlockWithId, RenderedText msg)
@@ -576,7 +577,9 @@ footer2 model =
         [ a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
             [ text "minilatex.io" ]
         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
-            [ text "package.elm-lang.org" ]
+            [ text "jxxcarlson/elm-markdown" ]
+         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-text-editor/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
+                    [ text "jxxcarlson/elm-text-editor" ]
         , messageLine model
         ]
 
