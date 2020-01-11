@@ -221,7 +221,7 @@ update msg model =
             case editorMsg of
 
                 Editor.Update.CopyPasteClipboard ->
-                    (model, Outside.AskForClipBoard E.null |> Cmd.map Outside)
+                    (model, Outside.AskForClipBoard E.null |> Cmd.map Outside )
 
                 _ -> (model, Cmd.none)
 
