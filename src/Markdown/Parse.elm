@@ -2,7 +2,6 @@ module Markdown.Parse exposing
     ( toMDBlockTree, searchAST
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
     , equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
-    , searchAST2, stringContentFromBlock
     )
 
 {-| The purpose of this module is to parse a Document,
