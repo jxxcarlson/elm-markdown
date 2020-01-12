@@ -5,11 +5,15 @@ app-demo/Main.js
 app-demo/Main.min.js
 app-demo/package-lock.json
 app-demo/make.sh
+app-demo/package-lock.json
 
 app-demo-fancy/Main.js
 app-demo-fancy/Main.min.js
 app-demo-fancy/package-lock.json
+app-demo/index-remote.html
+
 src/MDExample.elm
+
 mathjax3/browser.application-demo/Main.js
 mathjax3/browser.application-demo/elm-stuff
 mathjax3/browser.elemment-demo/Main.js
@@ -29,3 +33,5 @@ app-demo-fancy/bench.html
 app-demo-fancy/index-remote.html
 app-demo-fancy/benchmarks
 
+
+app-demo/package-lock.json
