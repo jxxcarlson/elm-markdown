@@ -2,6 +2,7 @@ module Markdown.Parse exposing
     ( toMDBlockTree, searchAST
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
     , equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+    , searchAST2, stringContentFromBlock
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -1141,6 +1142,29 @@ searchAST : String -> Tree MDBlockWithId -> Maybe Id
 searchAST str ast =
     ast
         |> Tree.flatten
+        |> List.filter (\block -> String.contains (Prefix.truncate str |> String.trim) (Prefix.truncate (stringContentFromBlock block)))
+        |> List.head
+        |> Maybe.map idOfBlock
+
+
+
+--  searchAST2 : String -> Tree MDBlockWithId -> Maybe Id
+
+
+searchAST2 str ast =
+    ast
+        |> Tree.flatten
+
+
+
+-- |> List.filter (\block -> String.contains (Prefix.truncate str) (stringContentFromBlock block))
+-- |> List.filter (\block -> String.contains (String.left 20 str) (stringContentFromBlock block))
+
+
+searchAST1 : String -> Tree MDBlockWithId -> Maybe Id
+searchAST1 str ast =
+    ast
+        |> Tree.flatten
         |> List.filter (\block -> String.contains (Prefix.truncate str) (stringContentFromBlock block))
         |> List.head
         |> Maybe.map idOfBlock
@@ -1153,4 +1177,8 @@ stringContentFromBlock (MDBlockWithId _ _ _ c) =
             str
 
         M mdInline ->
-            MDInline.stringContent mdInline |> Prefix.truncate
+            MDInline.stringContent mdInline
+
+
+
+-- |> Prefix.truncate

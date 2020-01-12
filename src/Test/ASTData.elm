@@ -1,4 +1,4 @@
-module Test.ASTData exposing (..)
+module Test.ASTData exposing (blockBasic, blockBasicAST, blockTree, emptyDoc, emptyDocAST, inlineBasic, inlineBasicAST, m1, m2, x1)
 
 
 emptyDoc =
@@ -7,6 +7,19 @@ emptyDoc =
 
 emptyDocAST =
     "Root (0) Paragraph [  Line [Text [DOCUMENT]]]"
+
+
+x1 =
+    """
+Top
+
+$$
+a = b
+$$
+
+Bottom
+
+"""
 
 
 m1 =

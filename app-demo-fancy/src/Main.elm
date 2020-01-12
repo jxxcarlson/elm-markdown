@@ -162,11 +162,11 @@ config =
     }
 
 
-
 doInit : ( Model, Cmd Msg )
 doInit =
     let
-        editor = Editor.init config initialText
+        editor =
+            Editor.init config initialText
 
         lastAst =
             Parse.toMDBlockTree 0 ExtendedMath (Editor.getSource editor)
@@ -201,29 +201,33 @@ subscriptions model =
     Sub.batch
         [ Sub.map SliderMsg <|
             Slider.subscriptions (Editor.slider model.editor)
-           , Outside.getInfo Outside LogErr
+        , Outside.getInfo Outside LogErr
         ]
+
+
+
 -- UPDATE
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         EditorMsg editorMsg ->
             let
-               (editor_ , cmd_ ) = Editor.update editorMsg model.editor
+                ( editor_, cmd_ ) =
+                    Editor.update editorMsg model.editor
             in
             case editorMsg of
-
                 Editor.Update.CopyPasteClipboard ->
                     updateText model editor_ cmd_
-                      |> (\(m, _) -> (m, Outside.sendInfo (Outside.AskForClipBoard E.null)))
---                   (model, Outside.sendInfo (Outside.AskForClipBoard E.null))
+                        |> (\( m, _ ) -> ( m, Outside.sendInfo (Outside.AskForClipBoard E.null) ))
 
+                --                   (model, Outside.sendInfo (Outside.AskForClipBoard E.null))
                 Editor.Update.Insert str ->
                     updateText model editor_ cmd_
 
                 Editor.Update.SendLine ->
-                      ({model | editor = editor_}, syncRenderedText (Editor.lineAtCursor editor_) model)
+                    ( { model | editor = editor_ }, syncRenderedText (Editor.lineAtCursor editor_) model )
 
                 Editor.Update.WrapAll ->
                     updateText model editor_ cmd_
@@ -235,21 +239,19 @@ update msg model =
                     updateText model editor_ cmd_
 
                 Editor.Update.Undo ->
-                      updateText model editor_ cmd_
+                    updateText model editor_ cmd_
 
                 Editor.Update.Redo ->
-                      updateText model editor_ cmd_
+                    updateText model editor_ cmd_
 
                 Editor.Update.RemoveGroupAfter ->
-                      updateText model editor_ cmd_
+                    updateText model editor_ cmd_
 
                 Editor.Update.RemoveGroupBefore ->
-                      updateText model editor_ cmd_
+                    updateText model editor_ cmd_
 
-                _ -> ({model | editor = editor_}, Cmd.none)
-
-
-
+                _ ->
+                    ( { model | editor = editor_ }, Cmd.none )
 
         SliderMsg sliderMsg ->
             let
@@ -290,10 +292,10 @@ update msg model =
         SetViewPortForElement result ->
             case result of
                 Ok ( element, viewport ) ->
-                    ( {model | message = "synced"}, setViewPortForSelectedLine element viewport )
+                    ( { model | message = "synced" }, setViewPortForSelectedLine element viewport )
 
                 Err _ ->
-                    ( { model | message =  "sync error" }, Cmd.none )
+                    ( { model | message = "sync error" }, Cmd.none )
 
         GenerateSeed ->
             ( model, Random.generate NewSeed (Random.int 1 10000) )
@@ -383,7 +385,6 @@ update msg model =
 
 
 -- UPDATE HELPERS
-
 -- updateRendered : Model -> ()
 
 
@@ -403,21 +404,26 @@ pasteToEditorClipboard model str =
 
 
 updateText model editor_ cmd_ =
-      let
-            text = Editor.getSource editor_
-            (newAst, renderedText) = updateRenderingData model text
-        in
-          ({ model | editor = editor_
-                   , lastAst = newAst
-                   , renderedText = renderedText
-                   , counter = model.counter + 1
-             }, Cmd.map EditorMsg cmd_
-           )
+    let
+        text =
+            Editor.getSource editor_
+
+        ( newAst, renderedText ) =
+            updateRenderingData model text
+    in
+    ( { model
+        | editor = editor_
+        , lastAst = newAst
+        , renderedText = renderedText
+        , counter = model.counter + 1
+      }
+    , Cmd.map EditorMsg cmd_
+    )
 
 
-updateRenderingData : Model -> String -> (Tree Parse.MDBlockWithId, RenderedText msg)
+updateRenderingData : Model -> String -> ( Tree Parse.MDBlockWithId, RenderedText msg )
 updateRenderingData model text_ =
-   let
+    let
         newAst_ =
             Parse.toMDBlockTree model.counter model.option text_
 
@@ -430,18 +436,18 @@ updateRenderingData model text_ =
     ( newAst__, renderedText__ )
 
 
-syncRenderedText : String ->  Model -> Cmd Msg
+syncRenderedText : String -> Model -> Cmd Msg
 syncRenderedText str model =
-      let
-         id = (case Parse.searchAST str model.lastAst of
-             Nothing -> "??"
-             Just id_ -> id_ |>  Parse.stringOfId
-             )
+    let
+        id =
+            case Parse.searchAST str model.lastAst of
+                Nothing ->
+                    "??"
 
-      in
-           setViewportForElement id
-
-
+                Just id_ ->
+                    id_ |> Parse.stringOfId
+    in
+    setViewportForElement id
 
 
 processContent : Model -> String -> ( Model, Cmd Msg )
@@ -609,19 +615,26 @@ footer2 model =
             [ text "minilatex.io" ]
         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
             [ text "jxxcarlson/elm-markdown" ]
-         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-text-editor/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
-                    [ text "jxxcarlson/elm-text-editor" ]
+        , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-text-editor/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ]
+            [ text "jxxcarlson/elm-text-editor" ]
         , messageLine model
         ]
+
 
 messageLine : Model -> Html msg
 messageLine model =
     let
-        message = model.message
-     in
-       case String.contains "error" message of
-           True -> span [ style "margin-left" "50px", style "color" "red" ] [ text <| model.message ]
-           False -> span [ style "margin-left" "50px" ] [ text <| model.message ]
+        message =
+            model.message
+    in
+    case String.contains "error" message of
+        True ->
+            span [ style "margin-left" "50px", style "color" "red" ] [ text <| model.message ]
+
+        False ->
+            span [ style "margin-left" "50px" ] [ text <| model.message ]
+
+
 
 -- BUTTONS --
 
