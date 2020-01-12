@@ -153,9 +153,8 @@ config : EditorConfig Msg
 config =
     { editorMsg = EditorMsg
     , sliderMsg = SliderMsg
-    , editorStyle = []
     , width = 400
-    , lines = 35
+    , height = 560
     , lineHeight = 16.0
     , showInfoPanel = False
     , wrapParams = { maximumWidth = 45, optimalWidth = 40, stringWidth = String.length }
@@ -202,6 +201,7 @@ subscriptions model =
     Sub.batch
         [ Sub.map SliderMsg <|
             Slider.subscriptions (Editor.slider model.editor)
+           , Outside.getInfo Outside LogErr
         ]
 -- UPDATE
 
@@ -217,6 +217,7 @@ update msg model =
                 Editor.Update.CopyPasteClipboard ->
                     updateText model editor_ cmd_
                       |> (\(m, _) -> (m, Outside.sendInfo (Outside.AskForClipBoard E.null)))
+--                   (model, Outside.sendInfo (Outside.AskForClipBoard E.null))
 
                 Editor.Update.Insert str ->
                     updateText model editor_ cmd_
@@ -263,7 +264,8 @@ update msg model =
         Outside infoForElm ->
             case infoForElm of
                 Outside.GotClipboard clipboard ->
-                    ( { model | clipboard = clipboard }, Cmd.none )
+                    -- ( { model | clipboard = clipboard }, Cmd.none )
+                    pasteToEditorClipboard model clipboard
 
         LogErr _ ->
             ( model, Cmd.none )
@@ -383,6 +385,21 @@ update msg model =
 -- UPDATE HELPERS
 
 -- updateRendered : Model -> ()
+
+
+pasteToEditorClipboard : Model -> String -> ( Model, Cmd msg )
+pasteToEditorClipboard model str =
+    let
+        cursor =
+            Editor.getCursor model.editor
+
+        wrapOption =
+            Editor.getWrapOption model.editor
+
+        editor2 =
+            Editor.placeInClipboard str model.editor
+    in
+    ( { model | editor = Editor.insert wrapOption cursor str editor2 }, Cmd.none )
 
 
 updateText model editor_ cmd_ =
