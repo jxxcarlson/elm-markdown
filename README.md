@@ -50,7 +50,7 @@ another in `app-demo-fancy` which has more features and some optimizations
 that are useful for documents with a lot of mathematics.
 
 See [markdown.minilatex.app](https://markdown.minilatex.app)
-for a demo of the latest implementation the fancy demo.
+for the latest version the fancy demo.
 
 **NOTE:** This package is still evolving relatively rapidly.  I regret
 publishing so many updates, but I am using it in several apps, and this
