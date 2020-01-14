@@ -7,7 +7,7 @@ import Browser.Dom as Dom
 import Editor exposing (Editor, EditorConfig, EditorMsg)
 import Editor.Config exposing (WrapOption(..))
 import Editor.Strings
-import Editor.Update
+import Editor.Update as E
 import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
@@ -218,36 +218,50 @@ update msg model =
                     Editor.update editorMsg model.editor
             in
             case editorMsg of
-                Editor.Update.CopyPasteClipboard ->
+                E.CopyPasteClipboard ->
                     updateText model editor_ cmd_
                         |> (\( m, _ ) -> ( m, Outside.sendInfo (Outside.AskForClipBoard E.null) ))
 
-                --                   (model, Outside.sendInfo (Outside.AskForClipBoard E.null))
-                Editor.Update.Insert str ->
+                E.WriteToSystemClipBoard ->
+                    ( { model | editor = editor_ }, Outside.sendInfo (Outside.WriteToClipBoard (Editor.getSelectedText editor_ |> Maybe.withDefault "Nothing!!")) )
+
+                E.Unload str ->
                     updateText model editor_ cmd_
 
-                Editor.Update.SendLine ->
+                E.SendLine ->
                     ( { model | editor = editor_ }, syncRenderedText (Editor.lineAtCursor editor_) model )
 
-                Editor.Update.WrapAll ->
+                E.WrapAll ->
                     updateText model editor_ cmd_
 
-                Editor.Update.Cut ->
+                E.Cut ->
                     updateText model editor_ cmd_
 
-                Editor.Update.Paste ->
+                E.Paste ->
                     updateText model editor_ cmd_
 
-                Editor.Update.Undo ->
+                E.Undo ->
                     updateText model editor_ cmd_
 
-                Editor.Update.Redo ->
+                E.Redo ->
                     updateText model editor_ cmd_
 
-                Editor.Update.RemoveGroupAfter ->
+                E.RemoveGroupAfter ->
                     updateText model editor_ cmd_
 
-                Editor.Update.RemoveGroupBefore ->
+                E.RemoveGroupBefore ->
+                    updateText model editor_ cmd_
+
+                E.Indent ->
+                    updateText model editor_ cmd_
+
+                E.Deindent ->
+                    updateText model editor_ cmd_
+
+                E.Clear ->
+                    updateText model editor_ cmd_
+
+                E.WrapSelection ->
                     updateText model editor_ cmd_
 
                 _ ->
@@ -555,8 +569,7 @@ heading model =
 
 embeddedEditor : Model -> Html Msg
 embeddedEditor model =
-    -- div [ style "width" "400px", style "height" "500px", style "overflow-y" "hidden", style "overflow-x" "scroll" ]
-    div [ style "width" "400px" ]
+    div [ style "width" "500px" ]
         [ Editor.embedded config model.editor ]
 
 
