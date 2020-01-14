@@ -214,58 +214,64 @@ update msg model =
     case msg of
         EditorMsg editorMsg ->
             let
-                ( editor_, cmd_ ) =
+                ( newEditor, editorCmd ) =
                     Editor.update editorMsg model.editor
             in
             case editorMsg of
                 E.CopyPasteClipboard ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
                         |> (\( m, _ ) -> ( m, Outside.sendInfo (Outside.AskForClipBoard E.null) ))
 
                 E.WriteToSystemClipBoard ->
-                    ( { model | editor = editor_ }, Outside.sendInfo (Outside.WriteToClipBoard (Editor.getSelectedText editor_ |> Maybe.withDefault "Nothing!!")) )
+                    ( { model | editor = newEditor }, Outside.sendInfo (Outside.WriteToClipBoard (Editor.getSelectedText newEditor |> Maybe.withDefault "Nothing!!")) )
 
-                E.Unload str ->
-                    updateText model editor_ cmd_
+                --                E.Unload str ->
+                --                    let
+                --                        _ =
+                --                            Debug.log "Unload" str
+                --                    in
+                --                    syncWithEditor model newEditor editorCmd
+                E.Insert str ->
+                    syncWithEditor model newEditor editorCmd
 
                 E.SendLine ->
-                    ( { model | editor = editor_ }, syncRenderedText (Editor.lineAtCursor editor_) model )
+                    ( { model | editor = newEditor }, syncRenderedText (Editor.lineAtCursor newEditor) model )
 
                 E.WrapAll ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.Cut ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.Paste ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.Undo ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.Redo ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.RemoveGroupAfter ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.RemoveGroupBefore ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.Indent ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.Deindent ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.Clear ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 E.WrapSelection ->
-                    updateText model editor_ cmd_
+                    syncWithEditor model newEditor editorCmd
 
                 _ ->
-                    ( { model | editor = editor_ }, Cmd.none )
+                    ( { model | editor = newEditor }, Cmd.none )
 
         SliderMsg sliderMsg ->
             let
@@ -417,7 +423,8 @@ pasteToEditorClipboard model str =
     ( { model | editor = Editor.insert wrapOption cursor str editor2 }, Cmd.none )
 
 
-updateText model editor_ cmd_ =
+syncWithEditor : Model -> Editor -> Cmd EditorMsg -> ( Model, Cmd Msg )
+syncWithEditor model editor_ cmd_ =
     let
         text =
             Editor.getSource editor_
@@ -433,6 +440,22 @@ updateText model editor_ cmd_ =
       }
     , Cmd.map EditorMsg cmd_
     )
+
+
+
+--syncWithEditor : Model -> Editor -> Cmd EditorMsg -> ( Model, Cmd Msg )
+--syncWithEditor model editor cmd =
+--    let
+--        newSource =
+--            Editor.getSource editor
+--    in
+--    ( { model
+--        | editor = editor
+--        , sourceText = newSource
+--        , ast = Parse.toMDBlockTree 0 Extended newSource
+--      }
+--    , Cmd.map EditorMsg cmd
+--    )
 
 
 updateRenderingData : Model -> String -> ( Tree Parse.MDBlockWithId, RenderedText msg )
