@@ -1,12 +1,27 @@
-.flex-column n {
+.flex-column {
   display: flex;
   flex-direction: column;
 }
+
+.flex-column-space {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 
 .flex-row {
   display: flex;
   flex-direction: row;
 }
+
+.flex-row-text-aligned {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+
 
 
 .elmsh-line {

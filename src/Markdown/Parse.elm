@@ -519,7 +519,7 @@ nextState option line ((FSM state blocks register) as fsm_) =
     in
     case stateOfFSM fsm of
         Start ->
-            nextStateStart option line fsm
+            nextStateAtStart option line fsm
 
         InBlock _ ->
             nextStateInBlock option line fsm
@@ -573,8 +573,8 @@ editBlock ((Block id bt lev content) as block) =
         block
 
 
-nextStateStart : Option -> Line -> FSM -> FSM
-nextStateStart option line ((FSM state blocks register) as fsm) =
+nextStateAtStart : Option -> Line -> FSM -> FSM
+nextStateAtStart option line ((FSM state blocks register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
             FSM Error blocks register
@@ -782,7 +782,13 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
                         removePrefix blockType line
 
                     block__ =
-                        trimBalancedBlock block_
+                        -- NOTE: the case analysis is needed to preserve the integrity of verbatim blocks
+                        case blockType of
+                            BalancedBlock Verbatim ->
+                                block_
+
+                            _ ->
+                                trimBalancedBlock block_
                 in
                 FSM Start (addLineToBlock line_ block__ :: blocks_) register
 

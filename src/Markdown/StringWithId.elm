@@ -17,7 +17,7 @@ import Html.String.Keyed as Keyed
 import Json.Encode
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
-import Parse
+import Markdown.Parse as Parse
     exposing
         ( BlockContent(..)
         , Id
