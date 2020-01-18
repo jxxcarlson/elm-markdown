@@ -223,19 +223,26 @@ update msg model =
                         |> (\( m, _ ) -> ( m, Outside.sendInfo (Outside.AskForClipBoard E.null) ))
 
                 E.WriteToSystemClipBoard ->
-                    ( { model | editor = newEditor }, Outside.sendInfo (Outside.WriteToClipBoard (Editor.getSelectedText newEditor |> Maybe.withDefault "Nothing!!")) )
+                    ( { model | editor = newEditor }
+                    , Cmd.batch
+                        [ Outside.sendInfo (Outside.WriteToClipBoard (Editor.getSelectedText newEditor |> Maybe.withDefault "Nothing!!"))
+                        , editorCmd |> Cmd.map EditorMsg
+                        ]
+                    )
 
-                --                E.Unload str ->
-                --                    let
-                --                        _ =
-                --                            Debug.log "Unload" str
-                --                    in
-                --                    syncWithEditor model newEditor editorCmd
                 E.Insert str ->
+                    updateEditor model newEditor editorCmd
+
+                E.Unload str ->
                     syncWithEditor model newEditor editorCmd
 
                 E.SendLine ->
-                    ( { model | editor = newEditor }, syncRenderedText (Editor.lineAtCursor newEditor) model )
+                    ( { model | editor = newEditor }
+                    , Cmd.batch
+                        [ syncRenderedText (Editor.lineAtCursor newEditor) model
+                        , editorCmd |> Cmd.map EditorMsg
+                        ]
+                    )
 
                 E.WrapAll ->
                     syncWithEditor model newEditor editorCmd
@@ -271,7 +278,7 @@ update msg model =
                     syncWithEditor model newEditor editorCmd
 
                 _ ->
-                    ( { model | editor = newEditor }, Cmd.none )
+                    ( { model | editor = newEditor }, editorCmd |> Cmd.map EditorMsg )
 
         SliderMsg sliderMsg ->
             let
@@ -423,6 +430,11 @@ syncWithEditor model editor_ cmd_ =
       }
     , Cmd.map EditorMsg cmd_
     )
+
+
+updateEditor : Model -> Editor -> Cmd EditorMsg -> ( Model, Cmd Msg )
+updateEditor model editor_ cmd_ =
+    ( { model | editor = editor_ }, Cmd.map EditorMsg cmd_ )
 
 
 updateRenderingData : Model -> String -> ( Tree Parse.MDBlockWithId, RenderedText msg )
