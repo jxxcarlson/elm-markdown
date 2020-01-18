@@ -99,10 +99,6 @@ parserOfLanguage lang_ =
             SyntaxHighlight.xml
 
 
-
--- languageParser : Language -> Result (List DeadEnd) HCode
-
-
 typeOfMDBlock : MDBlock -> BlockType
 typeOfMDBlock (MDBlock bt _ _) =
     bt
