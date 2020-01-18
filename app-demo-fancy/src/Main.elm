@@ -327,56 +327,16 @@ update msg model =
             ( model, Cmd.none )
 
         Clear ->
-            ( { model
-                | counter = model.counter + 1
-                , sourceText = ""
-                , lastAst = emptyAst
-                , renderedText = emptyRenderedText
-                , message = "Cleared"
-              }
-            , Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderAstFor model "" ]
-            )
+            load model ""
 
         Restart ->
             doInit
 
         LoadExample1 ->
-            let
-                firstAst =
-                    Parse.toMDBlockTree model.counter ExtendedMath (getFirstPart Strings.text1)
-
-                newModel =
-                    { model
-                        | counter = model.counter + 1
-                        , message = "Loading example 1"
-                        , sourceText = Strings.text1
-
-                        --, firstAst =  firstAst
-                        , lastAst = Parse.toMDBlockTree model.counter ExtendedMath Strings.text1
-                        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
-                        , editor = Editor.init config Strings.text1
-                    }
-            in
-            ( newModel, Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel ] )
+            load model Strings.text1
 
         LoadExample2 ->
-            let
-                firstAst =
-                    Parse.toMDBlockTree model.counter ExtendedMath (getFirstPart Strings.text2)
-
-                newModel =
-                    { model
-                        | counter = model.counter + 1
-                        , message = "Loading example 2"
-                        , sourceText = Strings.text2
-
-                        -- , firstAst =  firstAst
-                        , lastAst = Parse.toMDBlockTree model.counter ExtendedMath Strings.text2
-                        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
-                        , editor = Editor.init config Strings.text2
-                    }
-            in
-            ( newModel, Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel ] )
+            load model Strings.text2
 
         SelectStandard ->
             ( { model
@@ -406,6 +366,29 @@ update msg model =
 
 -- UPDATE HELPERS
 -- updateRendered : Model -> ()
+
+
+{-| Load text into Editor
+-}
+load : Model -> String -> ( Model, Cmd Msg )
+load model text =
+    let
+        firstAst =
+            Parse.toMDBlockTree model.counter ExtendedMath (getFirstPart text)
+
+        newModel =
+            { model
+                | counter = model.counter + 1
+                , message = "Loaded new text"
+                , sourceText = text
+
+                -- , firstAst =  firstAst
+                , lastAst = Parse.toMDBlockTree model.counter ExtendedMath text
+                , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
+                , editor = Editor.init config text
+            }
+    in
+    ( newModel, Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel ] )
 
 
 pasteToEditorClipboard : Model -> String -> ( Model, Cmd msg )
@@ -440,22 +423,6 @@ syncWithEditor model editor_ cmd_ =
       }
     , Cmd.map EditorMsg cmd_
     )
-
-
-
---syncWithEditor : Model -> Editor -> Cmd EditorMsg -> ( Model, Cmd Msg )
---syncWithEditor model editor cmd =
---    let
---        newSource =
---            Editor.getSource editor
---    in
---    ( { model
---        | editor = editor
---        , sourceText = newSource
---        , ast = Parse.toMDBlockTree 0 Extended newSource
---      }
---    , Cmd.map EditorMsg cmd
---    )
 
 
 updateRenderingData : Model -> String -> ( Tree Parse.MDBlockWithId, RenderedText msg )
@@ -508,18 +475,14 @@ processContent model str =
     )
 
 
-{-| Load text into Editor
--}
-load : WrapOption -> String -> Model -> ( Model, Cmd Msg )
-load wrapOption str model =
-    let
-        newEditor =
-            Editor.load wrapOption str model.editor
-    in
-    ( { model | editor = newEditor }, Cmd.none )
 
-
-
+--load : WrapOption -> String -> Model -> ( Model, Cmd Msg )
+--load wrapOption str model =
+--    let
+--        newEditor =
+--            Editor.load wrapOption str model.editor
+--    in
+--    ( { model | editor = newEditor }, Cmd.none )
 -- VIEWPORT
 
 
