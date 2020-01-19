@@ -1160,7 +1160,7 @@ inspectAST ast =
         |> List.map (\b -> ( idOfBlock b, stringContentFromBlock b ))
 
 
-{-| Get leading text element from AST
+{-| Get lead ing text element from AST
 -}
 getLeadingTextFromAST : Tree MDBlockWithId -> String
 getLeadingTextFromAST ast =

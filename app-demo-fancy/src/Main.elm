@@ -72,6 +72,8 @@ type alias Model =
     , message : String
     , editor : Editor
     , clipboard : String
+    , width : Float
+    , height : Float
     }
 
 
@@ -110,32 +112,15 @@ type Msg
 
 
 type alias Flags =
-    {}
+    { width : Float
+    , height : Float
+    }
 
 
-renderAstFor : Model -> String -> Cmd Msg
-renderAstFor model text =
-    let
-        newAst =
-            Parse.toMDBlockTree model.counter ExtendedMath text
-    in
-    Process.sleep 10
-        |> Task.andThen
-            (\_ ->
-                Process.sleep 100
-                    |> Task.andThen (\_ -> Task.succeed ( newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst ))
-            )
-        |> Task.perform GotSecondPart
-
-
-renderSecond : Model -> Cmd Msg
-renderSecond model =
-    renderAstFor model model.sourceText
-
-
-getFirstPart : String -> String
-getFirstPart str =
-    String.left 1500 str
+proportion =
+    { width = 0.3
+    , height = 0.7
+    }
 
 
 initialText =
@@ -144,14 +129,14 @@ initialText =
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    doInit
+    doInit flags
 
 
-config : EditorConfig Msg
-config =
+config : Flags -> EditorConfig Msg
+config flags =
     { editorMsg = EditorMsg
-    , width = 400
-    , height = 400
+    , width = flags.width * proportion.width
+    , height = flags.height * proportion.height
     , lineHeight = 16.0
     , showInfoPanel = False
     , wrapParams = { maximumWidth = 45, optimalWidth = 40, stringWidth = String.length }
@@ -159,11 +144,11 @@ config =
     }
 
 
-doInit : ( Model, Cmd Msg )
-doInit =
+doInit : Flags -> ( Model, Cmd Msg )
+doInit flags =
     let
         editor =
-            Editor.init config initialText
+            Editor.init (config (transformFlagsForEditor flags)) initialText
 
         lastAst =
             Parse.toMDBlockTree 0 ExtendedMath (Editor.getSource editor)
@@ -188,6 +173,8 @@ doInit =
             , message = "Click ctrl-shift-I in editor to toggle info panel, ctrl-h to toggle help"
             , editor = editor
             , clipboard = ""
+            , width = flags.width
+            , height = flags.height
             }
     in
     ( model, Cmd.batch [ resetViewportOfEditor, resetViewportOfRenderedText, renderSecond model ] )
@@ -325,7 +312,7 @@ update msg model =
             load model ""
 
         Restart ->
-            doInit
+            doInit (getFlags model)
 
         LoadExample1 ->
             load model Strings.text1
@@ -380,7 +367,7 @@ load model text =
                 -- , firstAst =  firstAst
                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath text
                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
-                , editor = Editor.init config text
+                , editor = Editor.init (config <| transformFlagsForEditor <| getFlags model) text
             }
     in
     ( newModel, Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel ] )
@@ -523,12 +510,41 @@ setViewPortForSelectedLine element viewport =
 
 
 
+-- RENDERING
+
+
+renderAstFor : Model -> String -> Cmd Msg
+renderAstFor model text =
+    let
+        newAst =
+            Parse.toMDBlockTree model.counter ExtendedMath text
+    in
+    Process.sleep 10
+        |> Task.andThen
+            (\_ ->
+                Process.sleep 100
+                    |> Task.andThen (\_ -> Task.succeed ( newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst ))
+            )
+        |> Task.perform GotSecondPart
+
+
+renderSecond : Model -> Cmd Msg
+renderSecond model =
+    renderAstFor model model.sourceText
+
+
+getFirstPart : String -> String
+getFirstPart str =
+    String.left 1500 str
+
+
+
 -- VIEW FUNCTIONS
 
 
 view : Model -> Html Msg
 view model =
-    div [ HA.class "flex-column", style "width" "1200px", style "margin-top" "18px" ]
+    div [ HA.class "flex-column", style "width" (px model.width), style "margin-top" "18px" ]
         [ heading model
         , div [ HA.class "flex-row" ]
             [ embeddedEditor model
@@ -544,6 +560,16 @@ type alias RenderedText msg =
     { title : Html msg, toc : Html msg, document : Html msg }
 
 
+getFlags : Model -> Flags
+getFlags model =
+    { width = model.width, height = model.height }
+
+
+transformFlagsForEditor : Flags -> Flags
+transformFlagsForEditor flags =
+    { flags | height = proportion.height * flags.height, width = proportion.width * flags.width }
+
+
 heading : Model -> Html Msg
 heading model =
     div [ HA.class "flex-row", style "height" "50px", style "margin-bottom" "8px", style "margin-top" "-16px" ]
@@ -555,8 +581,17 @@ heading model =
 
 embeddedEditor : Model -> Html Msg
 embeddedEditor model =
-    div [ style "width" "500px" ]
-        [ Editor.embedded config model.editor ]
+    let
+        flags =
+            transformFlagsForEditor <| getFlags model
+    in
+    div [ style "width" (px flags.width), style "overflow-x" "scroll", style "height" (px flags.height) ]
+        [ Editor.embedded (config <| getFlags model) model.editor ]
+
+
+px : Float -> String
+px p =
+    String.fromFloat p ++ "px"
 
 
 titleView : Model -> Html Msg
@@ -566,10 +601,14 @@ titleView model =
 
 renderedSource : Model -> Html Msg
 renderedSource model =
+    let
+        flags =
+            transformFlagsForEditor <| getFlags model
+    in
     div
         [ HA.id "_rendered_text_"
-        , style "width" "400px"
-        , style "height" "560px"
+        , style "width" (px flags.width)
+        , style "height" (px flags.height)
         , style "margin-left" "24px"
         , style "padding-left" "12px"
         , style "padding-right" "12px"
@@ -582,9 +621,13 @@ renderedSource model =
 
 tocView : Model -> Html Msg
 tocView model =
+    let
+        h =
+            (transformFlagsForEditor (getFlags model)).height - 23
+    in
     div
         [ style "width" "250px"
-        , style "height" "535px"
+        , style "height" (px h)
         , style "margin-left" "24px"
         , style "padding" "12px"
         , style "overflow" "scroll "
