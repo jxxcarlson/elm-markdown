@@ -154,7 +154,7 @@ config =
     { editorMsg = EditorMsg
     , sliderMsg = SliderMsg
     , width = 400
-    , height = 560
+    , height = 400
     , lineHeight = 16.0
     , showInfoPanel = False
     , wrapParams = { maximumWidth = 45, optimalWidth = 40, stringWidth = String.length }

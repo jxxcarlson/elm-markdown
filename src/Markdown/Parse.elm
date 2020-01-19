@@ -1,5 +1,5 @@
 module Markdown.Parse exposing
-    ( toMDBlockTree, searchAST
+    ( toMDBlockTree, searchAST, sourceMap
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
     , equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
     )
@@ -16,7 +16,7 @@ the rationale for this module.
 
 ## Create or use AST
 
-@docs toMDBlockTree, searchAST
+@docs toMDBlockTree, searchAST, sourceMap
 
 
 ## Types
@@ -31,6 +31,7 @@ the rationale for this module.
 -}
 
 import BlockType exposing (BalancedType(..), BlockType(..), Line, MarkdownType(..))
+import Dict exposing (Dict)
 import HTree
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
@@ -1152,6 +1153,34 @@ searchAST str ast =
         |> Maybe.map idOfBlock
 
 
+inspectAST : Tree MDBlockWithId -> List ( Id, String )
+inspectAST ast =
+    ast
+        |> Tree.flatten
+        |> List.map (\b -> ( idOfBlock b, stringContentFromBlock b ))
+
+
+{-| Create a sourceMap from the text: a dictionary whose keys
+are text strings and whose values are text version of the
+id of the corresponding element in the DOM
+-}
+sourceMap : String -> Dict String String
+sourceMap str =
+    let
+        list =
+            str
+                |> toMDBlockTree 0 ExtendedMath
+                |> Tree.flatten
+                |> List.map (\b -> ( stringContentFromBlock b, (stringifyTuple << idOfBlock) b ))
+    in
+    Dict.fromList list
+
+
+stringifyTuple : ( Int, Int ) -> String
+stringifyTuple ( a, b ) =
+    "[" ++ String.fromInt a ++ ", " ++ String.fromInt b ++ "]"
+
+
 
 --  searchAST2 : String -> Tree MDBlockWithId -> Maybe Id
 
@@ -1159,11 +1188,6 @@ searchAST str ast =
 searchAST2 str ast =
     ast
         |> Tree.flatten
-
-
-
--- |> List.filter (\block -> String.contains (Prefix.truncate str) (stringContentFromBlock block))
--- |> List.filter (\block -> String.contains (String.left 20 str) (stringContentFromBlock block))
 
 
 searchAST1 : String -> Tree MDBlockWithId -> Maybe Id
@@ -1182,7 +1206,7 @@ stringContentFromBlock (MDBlockWithId _ _ _ c) =
             str
 
         M mdInline ->
-            MDInline.stringContent mdInline
+            MDInline.string2 mdInline
 
 
 

@@ -1,4 +1,7 @@
-module MDInline exposing (MDInline(..), parse, string, stringContent)
+module MDInline exposing
+    ( MDInline(..), parse, string, stringContent
+    , string2
+    )
 
 {-| Module MDInline provides one type and two functions. The
 type is MDInline, which is the type of inline Markdown elements
@@ -88,7 +91,7 @@ stringContent mmInline =
             a
 
         Line arg ->
-            List.map string arg |> String.join " "
+            List.map string2 arg |> String.join " "
 
         Paragraph arg ->
             List.map string arg |> List.map indentLine |> String.join "\n"
@@ -98,6 +101,53 @@ stringContent mmInline =
 
         Error arg ->
             List.map string arg |> String.join " "
+
+
+string2 : MDInline -> String
+string2 mmInline =
+    let
+        _ =
+            Debug.log "mmLInline" mmInline
+    in
+    case mmInline of
+        OrdinaryText str ->
+            str
+
+        ItalicText str ->
+            str
+
+        BoldText str ->
+            str
+
+        Code str ->
+            str
+
+        InlineMath str ->
+            str
+
+        StrikeThroughText str ->
+            str
+
+        BracketedText str ->
+            str
+
+        Link a b ->
+            a ++ b
+
+        Image a b ->
+            a ++ b
+
+        Line arg ->
+            List.map string2 arg |> String.join " "
+
+        Paragraph arg ->
+            List.map string2 arg |> String.join "\n"
+
+        Stanza arg ->
+            arg
+
+        Error arg ->
+            "Error [" ++ (List.map string arg |> String.join " ") ++ "]"
 
 
 {-| String representation of an MDInline value
