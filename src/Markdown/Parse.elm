@@ -1160,16 +1160,15 @@ inspectAST ast =
         |> List.map (\b -> ( idOfBlock b, stringContentFromBlock b ))
 
 
-{-| Create a sourceMap from the text: a dictionary whose keys
-are text strings and whose values are text version of the
-id of the corresponding element in the DOM
+{-| Create a sourceMap from the AST: a dictionary whose keys
+are text strings and whose values
+ids of the corresponding elements in the DOM
 -}
-sourceMap : String -> Dict String String
-sourceMap str =
+sourceMap : Tree MDBlockWithId -> Dict String String
+sourceMap ast =
     let
         list =
-            str
-                |> toMDBlockTree 0 ExtendedMath
+            ast
                 |> Tree.flatten
                 |> List.map (\b -> ( stringContentFromBlock b, (stringifyTuple << idOfBlock) b ))
     in
