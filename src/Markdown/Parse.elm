@@ -1161,12 +1161,14 @@ inspectAST ast =
         |> List.map (\b -> ( idOfBlock b, stringContentFromBlock b ))
 
 
-getLeadingTextFromAST : Tree MDBlockWithId -> Maybe String
+getLeadingTextFromAST : Tree MDBlockWithId -> String
 getLeadingTextFromAST ast =
     ast
         |> Tree.flatten
         |> List.map (\b -> stringContentFromBlock b)
+        |> List.drop 1
         |> List.head
+        |> Maybe.withDefault "_Not found_"
 
 
 {-| Create a sourceMap from the AST: a dictionary whose keys
@@ -1179,7 +1181,7 @@ sourceMap ast =
         list =
             ast
                 |> Tree.flatten
-                |> List.map (\b -> ( stringContentFromBlock b, (stringifyTuple << idOfBlock) b ))
+                |> List.map (\b -> ( (String.trim << stringContentFromBlock) b, (stringifyTuple << idOfBlock) b ))
     in
     Dict.fromList list
 

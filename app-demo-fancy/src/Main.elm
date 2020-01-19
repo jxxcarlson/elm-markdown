@@ -18,7 +18,6 @@ import Markdown.Parse as Parse
 import Outside
 import Process
 import Random
-import SingleSlider as Slider
 import Strings
 import Style
 import Task exposing (Task)
@@ -93,7 +92,6 @@ emptyRenderedText =
 type Msg
     = NoOp
     | EditorMsg EditorMsg
-    | SliderMsg Slider.Msg
     | Outside Outside.InfoForElm
     | LogErr String
     | Clear
@@ -152,7 +150,6 @@ init flags =
 config : EditorConfig Msg
 config =
     { editorMsg = EditorMsg
-    , sliderMsg = SliderMsg
     , width = 400
     , height = 400
     , lineHeight = 16.0
@@ -199,9 +196,7 @@ doInit =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
-        [ Sub.map SliderMsg <|
-            Slider.subscriptions (Editor.slider model.editor)
-        , Outside.getInfo Outside LogErr
+        [ Outside.getInfo Outside LogErr
         ]
 
 
@@ -279,13 +274,6 @@ update msg model =
 
                 _ ->
                     ( { model | editor = newEditor }, editorCmd |> Cmd.map EditorMsg )
-
-        SliderMsg sliderMsg ->
-            let
-                ( newEditor, cmd ) =
-                    Editor.sliderUpdate sliderMsg model.editor
-            in
-            ( { model | editor = newEditor }, cmd |> Cmd.map SliderMsg )
 
         -- The below are optional, and used for external copy/pastes
         -- See module `Outside` and also `outside.js` and `index.html` for additional
