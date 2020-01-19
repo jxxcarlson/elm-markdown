@@ -1,8 +1,7 @@
 module Markdown.Parse exposing
-    ( toMDBlockTree, searchAST, sourceMap
+    ( toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
     , equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
-    , getLeadingTextFromAST
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -17,7 +16,7 @@ the rationale for this module.
 
 ## Create or use AST
 
-@docs toMDBlockTree, searchAST, sourceMap
+@docs toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
 
 
 ## Types
@@ -1161,6 +1160,8 @@ inspectAST ast =
         |> List.map (\b -> ( idOfBlock b, stringContentFromBlock b ))
 
 
+{-| Get leading text element from AST
+-}
 getLeadingTextFromAST : Tree MDBlockWithId -> String
 getLeadingTextFromAST ast =
     ast
