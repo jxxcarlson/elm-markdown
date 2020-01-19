@@ -105,10 +105,6 @@ stringContent mmInline =
 
 string2 : MDInline -> String
 string2 mmInline =
-    let
-        _ =
-            Debug.log "mmLInline" mmInline
-    in
     case mmInline of
         OrdinaryText str ->
             str

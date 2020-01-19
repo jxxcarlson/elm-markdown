@@ -2,6 +2,7 @@ module Markdown.Parse exposing
     ( toMDBlockTree, searchAST, sourceMap
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
     , equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+    , getLeadingTextFromAST
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -1158,6 +1159,14 @@ inspectAST ast =
     ast
         |> Tree.flatten
         |> List.map (\b -> ( idOfBlock b, stringContentFromBlock b ))
+
+
+getLeadingTextFromAST : Tree MDBlockWithId -> Maybe String
+getLeadingTextFromAST ast =
+    ast
+        |> Tree.flatten
+        |> List.map (\b -> stringContentFromBlock b)
+        |> List.head
 
 
 {-| Create a sourceMap from the AST: a dictionary whose keys
