@@ -157,6 +157,20 @@
 	 text-decoration: line-through;
 }
 
+
+.mm-table-cell {
+  padding: 4px;
+  margin-right : 3px;
+  margin-bottom: 6px;
+  background-color: #eef;
+  }
+
+
+.mm-paragraph.mm-block-2 {
+  margin: 0;
+  }
+
+
 .mm-table-row {
 	 display: block;
 	 margin-left: 40px;

@@ -614,7 +614,10 @@ renderedSource model =
         , style "padding-right" "12px"
         , style "overflow-x" "hidden "
         , style "overflow-y" "scroll"
-        , style "background-color" "#eee"
+        , style "background-color" "#fff"
+        , style "border-style" "solid"
+        , style "border-width" "thin"
+        , style "border-color" "#999"
         ]
         [ model.renderedText.document ]
 
