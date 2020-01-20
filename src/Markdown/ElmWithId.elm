@@ -585,19 +585,19 @@ renderHeading id k level blockContent =
     in
     case k of
         1 ->
-            Html.h1 [ HA.id name ] [ renderBlockContent id level blockContent ]
+            Html.h1 [ HA.id name, HA.class "mm-h1" ] [ renderBlockContent id level blockContent ]
 
         2 ->
-            Html.h2 [ HA.id name ] [ renderBlockContent id level blockContent ]
+            Html.h2 [ HA.id name, HA.class "mm-h2" ] [ renderBlockContent id level blockContent ]
 
         3 ->
-            Html.h3 [ HA.id name ] [ renderBlockContent id level blockContent ]
+            Html.h3 [ HA.id name, HA.class "mm-h3" ] [ renderBlockContent id level blockContent ]
 
         4 ->
-            Html.h4 [ HA.id name ] [ renderBlockContent id level blockContent ]
+            Html.h4 [ HA.id name, HA.class "mm-h4" ] [ renderBlockContent id level blockContent ]
 
         _ ->
-            Html.h5 [ HA.id name ] [ renderBlockContent id level blockContent ]
+            Html.h5 [ HA.id name, HA.class "mm-h5" ] [ renderBlockContent id level blockContent ]
 
 
 renderTOCHeading : Id -> Int -> Level -> BlockContent -> Html msg

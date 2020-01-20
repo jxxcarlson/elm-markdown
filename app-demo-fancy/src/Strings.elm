@@ -83,8 +83,8 @@ MathJax.  The project now includes
 a pure Elm text editor (work in progress!)
 
  The Markdown used here offers
-three options: *Standard*, *Extended* a
-nd *ExtendedMath*. The Extended option
+three options: *Standard*, *Extended* and
+ *ExtendedMath*. The Extended option
 provides for strike-through
 text, verbatim blocks, poetry blocks,
 and tables.  ExtendedMath handles
