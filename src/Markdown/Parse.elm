@@ -1072,11 +1072,11 @@ stringOfBlockTree tree =
         |> String.join "\n"
 
 
-{-| Return a string value of and Id
+{-| Return a string value of an Id
 -}
 stringOfId : Id -> String
 stringOfId id =
-    "[" ++ (String.fromInt <| Tuple.first id) ++ ", " ++ (String.fromInt <| Tuple.second id) ++ "]"
+    "i" ++ (String.fromInt <| Tuple.first id) ++ "v" ++ (String.fromInt <| Tuple.second id)
 
 
 stringOfBlock : Block -> String
