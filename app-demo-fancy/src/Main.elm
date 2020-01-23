@@ -428,12 +428,13 @@ syncRenderedText : String -> Cmd Msg -> Model -> ( Model, Cmd Msg )
 syncRenderedText str cmd model =
     let
         id =
-            case Parse.searchAST str model.lastAst of
-                Nothing ->
-                    ( 0, 0 )
+            Debug.log "SYNC ID" <|
+                case Parse.searchAST str model.lastAst of
+                    Nothing ->
+                        ( 0, 0 )
 
-                Just id_ ->
-                    id_
+                    Just id_ ->
+                        id_ |> (\( a, b ) -> ( a, b + 1 ))
     in
     ( processContent model.sourceText { model | selectedId = id }
         |> (\m -> { m | counter = m.counter + 1 })
@@ -456,7 +457,7 @@ processContent str model =
         -- rendering
         , lastAst = newAst
         , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst
-        , counter = model.counter + 1
+        , counter = model.counter + 0
     }
 
 

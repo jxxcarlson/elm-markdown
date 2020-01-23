@@ -135,6 +135,11 @@ idOfBlock (MDBlockWithId id _ _ _) =
     id
 
 
+equal : MDBlockWithId -> MDBlockWithId -> Bool
+equal a b =
+    idOfBlock a == idOfBlock b
+
+
 
 --{-| Check for equality of
 --
@@ -159,8 +164,8 @@ idOfBlock (MDBlockWithId id _ _ _) =
 ignoring the id.
 
 -}
-equal : MDBlockWithId -> MDBlockWithId -> Bool
-equal (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
+equal1 : MDBlockWithId -> MDBlockWithId -> Bool
+equal1 (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
     if (l1 - l2) == 0 then
         -- && bt1 == bt2 && c1 == c2
         case bt1 of

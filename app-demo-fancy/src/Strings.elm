@@ -1,23 +1,22 @@
 module Strings exposing (notes, text1, text2)
 
 
-text1X =
+text1 =
     """
 # Test
 
-This is a test.
+## AAA
 
 $$
 \\int_0^1 x^n dx = \\frac{1}{n+1}
 $$
 
-
-The end
+The End
 
 """
 
 
-text1 =
+text1X =
     """# A Pure Elm Markdown Parser
 
 
