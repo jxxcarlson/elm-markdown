@@ -1182,32 +1182,9 @@ sourceMap ast =
         list =
             ast
                 |> Tree.flatten
-                |> List.map (\b -> ( (String.trim << stringContentFromBlock) b, (stringifyTuple << idOfBlock) b ))
+                |> List.map (\b -> ( (String.trim << stringContentFromBlock) b, (stringOfId << idOfBlock) b ))
     in
     Dict.fromList list
-
-
-stringifyTuple : ( Int, Int ) -> String
-stringifyTuple ( a, b ) =
-    "[" ++ String.fromInt a ++ ", " ++ String.fromInt b ++ "]"
-
-
-
---  searchAST2 : String -> Tree MDBlockWithId -> Maybe Id
-
-
-searchAST2 str ast =
-    ast
-        |> Tree.flatten
-
-
-searchAST1 : String -> Tree MDBlockWithId -> Maybe Id
-searchAST1 str ast =
-    ast
-        |> Tree.flatten
-        |> List.filter (\block -> String.contains (Prefix.truncate str) (stringContentFromBlock block))
-        |> List.head
-        |> Maybe.map idOfBlock
 
 
 stringContentFromBlock : MDBlockWithId -> String
