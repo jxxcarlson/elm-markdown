@@ -1,7 +1,7 @@
 module Strings exposing (notes, text1, text2)
 
 
-text1 =
+text1X =
     """
 # Test
 
@@ -16,7 +16,7 @@ The End
 """
 
 
-text1X =
+text1 =
     """# A Pure Elm Markdown Parser
 
 
