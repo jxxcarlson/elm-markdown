@@ -74,6 +74,7 @@ type alias Model =
     , clipboard : String
     , width : Float
     , height : Float
+    , selectedId : ( Int, Int )
     }
 
 
@@ -84,7 +85,7 @@ emptyAst =
 
 emptyRenderedText : RenderedText Msg
 emptyRenderedText =
-    Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" emptyAst
+    Markdown.ElmWithId.renderHtmlWithExternaTOC ( 0, 0 ) "Contents" emptyAst
 
 
 
@@ -169,12 +170,13 @@ doInit flags =
             , option = ExtendedMath
             , sourceText = initialText
             , lastAst = lastAst
-            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
+            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC ( 0, 0 ) "Contents" <| firstAst
             , message = "Click ctrl-shift-I in editor to toggle info panel, ctrl-h to toggle help"
             , editor = editor
             , clipboard = ""
             , width = flags.width
             , height = flags.height
+            , selectedId = ( 0, 0 )
             }
     in
     ( model, Cmd.batch [ resetViewportOfEditor, resetViewportOfRenderedText, renderSecond model ] )
@@ -219,12 +221,7 @@ update msg model =
                     syncWithEditor model newEditor editorCmd
 
                 E.SendLine ->
-                    ( { model | editor = newEditor }
-                    , Cmd.batch
-                        [ syncRenderedText (Editor.lineAtCursor newEditor) model
-                        , editorCmd |> Cmd.map EditorMsg
-                        ]
-                    )
+                    syncRenderedText (Editor.lineAtCursor newEditor) (editorCmd |> Cmd.map EditorMsg) { model | editor = newEditor }
 
                 E.WrapAll ->
                     syncWithEditor model newEditor editorCmd
@@ -275,7 +272,7 @@ update msg model =
             ( model, Cmd.none )
 
         GetContent str ->
-            processContent model str
+            ( processContent str model, Cmd.none )
 
         ProcessLine str ->
             let
@@ -366,7 +363,7 @@ load model text =
 
                 -- , firstAst =  firstAst
                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath text
-                , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" <| firstAst
+                , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" <| firstAst
                 , editor = Editor.init (config <| transformFlagsForEditor <| getFlags model) text
             }
     in
@@ -422,27 +419,30 @@ updateRenderingData model text_ =
             Diff.mergeWith Parse.equal model.lastAst newAst_
 
         renderedText__ =
-            Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst__
+            Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst__
     in
     ( newAst__, renderedText__ )
 
 
-syncRenderedText : String -> Model -> Cmd Msg
-syncRenderedText str model =
+syncRenderedText : String -> Cmd Msg -> Model -> ( Model, Cmd Msg )
+syncRenderedText str cmd model =
     let
         id =
             case Parse.searchAST str model.lastAst of
                 Nothing ->
-                    "??"
+                    ( 0, 0 )
 
                 Just id_ ->
-                    id_ |> Parse.stringOfId
+                    id_
     in
-    setViewportForElement id
+    ( processContent model.sourceText { model | selectedId = id }
+        |> (\m -> { m | counter = m.counter + 1 })
+    , Cmd.batch [ cmd, setViewportForElement (Parse.stringOfId id) ]
+    )
 
 
-processContent : Model -> String -> ( Model, Cmd Msg )
-processContent model str =
+processContent : String -> Model -> Model
+processContent str model =
     let
         newAst_ =
             Parse.toMDBlockTree model.counter model.option str
@@ -450,26 +450,17 @@ processContent model str =
         newAst =
             Diff.mergeWith Parse.equal model.lastAst newAst_
     in
-    ( { model
+    { model
         | sourceText = str
 
         -- rendering
         , lastAst = newAst
-        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst
+        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst
         , counter = model.counter + 1
-      }
-    , Cmd.none
-    )
+    }
 
 
 
---load : WrapOption -> String -> Model -> ( Model, Cmd Msg )
---load wrapOption str model =
---    let
---        newEditor =
---            Editor.load wrapOption str model.editor
---    in
---    ( { model | editor = newEditor }, Cmd.none )
 -- VIEWPORT
 
 
@@ -523,7 +514,8 @@ renderAstFor model text =
         |> Task.andThen
             (\_ ->
                 Process.sleep 100
-                    |> Task.andThen (\_ -> Task.succeed ( newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents" newAst ))
+                    |> Task.andThen
+                        (\_ -> Task.succeed ( newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst ))
             )
         |> Task.perform GotSecondPart
 

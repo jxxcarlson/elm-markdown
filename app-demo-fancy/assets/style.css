@@ -43,7 +43,7 @@
   , Courier, monospace; padding: 8px; background-color: #f5f5f5; font-size: 11pt;
 }
 .mm-inline-code {font-family: "Courier New"
-  , Courier, monospace; padding-left: 5px; padding-right: 5px;background-color: #f5f5f5; font-size: 11pt;
+  , Courier, monospace; padding-left: 5px; padding-right: 5px; background-color: #f5f5f5; font-size: 11pt;
 }
 
 .mm-image {width : 100%; }

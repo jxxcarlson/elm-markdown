@@ -1,69 +1,19 @@
-module Strings exposing (notes, test, test2, test3, test4, text1, text2)
+module Strings exposing (notes, text1, text2)
 
 
-test =
+text1X =
     """
 # Test
+
+This is a test.
 
 $$
 \\int_0^1 x^n dx = \\frac{1}{n+1}
 $$
 
-    $$
-    a^2 + b^2 = c^2
-    $$
-qqq
-"""
 
+The end
 
-test2 =
-    """
-#E
-
-one
-
-- g
-
-> q1
-
-- a
-
-    > q2
-
-    > q3
-
-> q1
-
-"""
-
-
-test3 =
-    """To compile, use
-
-    ```elm
-    elm make --output=Main.js
-    ```
-
-qq
-"""
-
-
-test4 =
-    """
-
-# Test
-
-    # foo
-
-```elm
-editBlock : Block -> Block
-editBlock ((Block id bt lev content) as block) =
-   if bt == MarkdownBlock TableRow && content == "row" then
-       Block id bt lev ""
-
-   else
-       block
-```
 """
 
 
