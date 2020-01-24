@@ -284,13 +284,13 @@ renderHtmlWithExternaTOC selectedId heading ast =
     }
 
 
-
--- NOTE XXX
--- selectedClass : String -> String -> Html.Attribute
-
-
 highlightColor =
     "#8d9ffe"
+
+
+makeKeyedNodeBody : Id -> Id -> Int -> MDInline -> ( String, Html msg )
+makeKeyedNodeBody selectedId id level mDInline =
+    ( stringOfId id, renderToHtmlMsg selectedId id level mDInline )
 
 
 selectedStyle_ : Id -> Id -> Html.Attribute msg
@@ -328,7 +328,7 @@ mmBlockTreeToHtml selectedId tree =
                     [ ( stringOfId id, renderBlock selectedId id (MDBlock bt lev content) ) ]
 
             _ ->
-                Html.span (selectedStyle selectedId id) [ renderBlock selectedId id (MDBlock bt lev content) ]
+                Keyed.node "span" (selectedStyle selectedId id) [ ( stringOfId id, renderBlock selectedId id (MDBlock bt lev content) ) ]
 
     else
         case Tree.label tree of
@@ -361,7 +361,7 @@ mmBlockTreeToHtml selectedId tree =
                     [ ( stringOfId id, displayMathText (projectedStringOfBlockContent content) ) ]
 
             MDBlockWithId id (BalancedBlock Verbatim) _ _ ->
-                Html.pre [ HA.id (stringOfId id), selectedStyle_ selectedId id ] [ Html.text "OUF: Verbatim!" ]
+                Keyed.node "pre" [ HA.id (stringOfId id), selectedStyle_ selectedId id ] [ ( stringOfId id, Html.text "OUF: Verbatim!" ) ]
 
             MDBlockWithId id (BalancedBlock (DisplayCode lang)) _ _ ->
                 Html.div [ HA.id (stringOfId id), selectedStyle_ selectedId id ] [ Html.text "OUF: Code!" ]
@@ -422,13 +422,6 @@ renderHeadingForTOC heading =
             Html.span [] []
 
 
-
---
---renderBlockWithId : MDBlockWithId -> Html msg
---renderBlockWithId (MDBlockWithId id bt lev content) =
---    Keyed.node "div" [] [ ( stringOfId id, renderBlock id (MDBlock bt lev content) ) ]
-
-
 idAttr : Id -> Html.Attribute msg
 idAttr id =
     HA.id (stringOfId id)
@@ -437,11 +430,6 @@ idAttr id =
 idAttrWithLabel : Id -> String -> Html.Attribute msg
 idAttrWithLabel id label =
     HA.id (stringOfId id ++ label)
-
-
-
---type MDBlock
---    = MDBlock BlockType Level BlockContent
 
 
 renderBlock : Id -> Id -> MDBlock -> Html msg
@@ -672,7 +660,7 @@ renderBlockContent : Id -> Id -> Level -> BlockContent -> Html msg
 renderBlockContent selectedId id level blockContent =
     case blockContent of
         M mmInline ->
-            renderToHtmlMsg id level mmInline
+            renderToHtmlMsg selectedId id level mmInline
 
         T str ->
             Html.span [ idAttr id, blockLevelClass (level - 1), selectedStyle_ selectedId id ] [ Html.text str ]
@@ -688,8 +676,8 @@ nameFromBlockContent blockContent =
             ""
 
 
-renderToHtmlMsg : Id -> Level -> MDInline -> Html msg
-renderToHtmlMsg id level mmInline =
+renderToHtmlMsg : Id -> Id -> Level -> MDInline -> Html msg
+renderToHtmlMsg selectedId id level mmInline =
     case mmInline of
         OrdinaryText str ->
             Html.span [ idAttr id, HA.class "ordinary", marginOfLevel level ] [ Html.text str ]
@@ -736,7 +724,7 @@ renderToHtmlMsg id level mmInline =
         Line arg ->
             let
                 joined =
-                    joinLine id level arg
+                    joinLine selectedId id level arg
             in
             if List.length joined == 1 then
                 List.head joined |> Maybe.withDefault (Html.span [] [ Html.text "" ])
@@ -745,13 +733,20 @@ renderToHtmlMsg id level mmInline =
                 Html.span [ HA.class "line" ] joined
 
         Paragraph arg ->
-            Html.p [ idAttr id, HA.class "mm-paragraph", blockLevelClass (level - 1) ] (List.map (renderToHtmlMsg id level) arg)
+            let
+                mapper : MDInline -> ( String, Html msg )
+                mapper =
+                    \m -> ( stringOfId id, renderToHtmlMsg selectedId id level m )
+            in
+            Keyed.node "p"
+                [ idAttr id, selectedStyle_ selectedId id, HA.class "mm-paragraph", blockLevelClass (level - 1) ]
+                (List.map mapper arg)
 
         Stanza arg ->
             renderStanza id arg
 
         Error arg ->
-            Html.p [] (List.map (renderToHtmlMsg id level) arg)
+            Html.p [] (List.map (renderToHtmlMsg selectedId id level) arg)
 
 
 renderStanza : Id -> String -> Html msg
@@ -766,8 +761,8 @@ renderStanza id arg =
     Html.div [ idAttr id, HA.class "mm-poetry" ] (List.map poetryLine lines)
 
 
-joinLine : Id -> Level -> List MDInline -> List (Html msg)
-joinLine id level items =
+joinLine : Id -> Id -> Level -> List MDInline -> List (Html msg)
+joinLine selectedId id level items =
     let
         folder : MDInline -> ( List String, List (Html msg) ) -> ( List String, List (Html msg) )
         folder item ( accString, accElement ) =
@@ -784,10 +779,10 @@ joinLine id level items =
                             span =
                                 Html.span [ HA.class "innerJoin" ] [ Html.text content ]
                         in
-                        ( [], renderToHtmlMsg id level item :: span :: accElement )
+                        ( [], renderToHtmlMsg selectedId id level item :: span :: accElement )
 
                     else
-                        ( [], renderToHtmlMsg id level item :: accElement )
+                        ( [], renderToHtmlMsg selectedId id level item :: accElement )
 
         flush : ( List String, List (Html msg) ) -> List (Html msg)
         flush ( accString, accElement ) =

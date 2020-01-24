@@ -1,7 +1,8 @@
 module Markdown.Parse exposing
     ( toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
-    , equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+    , project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+    , equalContent, equalIds
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -135,8 +136,10 @@ idOfBlock (MDBlockWithId id _ _ _) =
     id
 
 
-equal : MDBlockWithId -> MDBlockWithId -> Bool
-equal a b =
+{-| Return true of the blocks have the same id
+-}
+equalIds : MDBlockWithId -> MDBlockWithId -> Bool
+equalIds a b =
     idOfBlock a == idOfBlock b
 
 
@@ -164,8 +167,8 @@ equal a b =
 ignoring the id.
 
 -}
-equal1 : MDBlockWithId -> MDBlockWithId -> Bool
-equal1 (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
+equalContent : MDBlockWithId -> MDBlockWithId -> Bool
+equalContent (MDBlockWithId _ bt1 l1 c1) (MDBlockWithId _ bt2 l2 c2) =
     if (l1 - l2) == 0 then
         -- && bt1 == bt2 && c1 == c2
         case bt1 of

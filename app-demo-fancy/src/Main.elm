@@ -221,7 +221,7 @@ update msg model =
                     syncWithEditor model newEditor editorCmd
 
                 E.SendLine ->
-                    syncRenderedText (Editor.lineAtCursor newEditor) (editorCmd |> Cmd.map EditorMsg) { model | editor = newEditor }
+                    syncAndHighlightRenderedText (Editor.lineAtCursor newEditor) (editorCmd |> Cmd.map EditorMsg) { model | editor = newEditor }
 
                 E.WrapAll ->
                     syncWithEditor model newEditor editorCmd
@@ -416,7 +416,7 @@ updateRenderingData model text_ =
             Parse.toMDBlockTree model.counter model.option text_
 
         newAst__ =
-            Diff.mergeWith Parse.equal model.lastAst newAst_
+            Diff.mergeWith Parse.equalContent model.lastAst newAst_
 
         renderedText__ =
             Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst__
@@ -424,11 +424,11 @@ updateRenderingData model text_ =
     ( newAst__, renderedText__ )
 
 
-syncRenderedText : String -> Cmd Msg -> Model -> ( Model, Cmd Msg )
-syncRenderedText str cmd model =
+syncAndHighlightRenderedText : String -> Cmd Msg -> Model -> ( Model, Cmd Msg )
+syncAndHighlightRenderedText str cmd model =
     let
         id =
-            --  Debug.log "SYNC ID" <|
+            --            Debug.log "SYNC ID" <|
             case Parse.searchAST str model.lastAst of
                 Nothing ->
                     ( 0, 0 )
@@ -436,8 +436,7 @@ syncRenderedText str cmd model =
                 Just id_ ->
                     id_ |> (\( a, b ) -> ( a, b + 1 ))
     in
-    ( processContent model.sourceText { model | selectedId = id }
-        |> (\m -> { m | counter = m.counter + 1 })
+    ( processContentForHighlighting model.sourceText { model | selectedId = id }
     , Cmd.batch [ cmd, setViewportForElement (Parse.stringOfId id) ]
     )
 
@@ -449,7 +448,7 @@ processContent str model =
             Parse.toMDBlockTree model.counter model.option str
 
         newAst =
-            Diff.mergeWith Parse.equal model.lastAst newAst_
+            Diff.mergeWith Parse.equalContent model.lastAst newAst_
     in
     { model
         | sourceText = str
@@ -457,7 +456,26 @@ processContent str model =
         -- rendering
         , lastAst = newAst
         , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst
-        , counter = model.counter + 0
+        , counter = model.counter + 1
+    }
+
+
+processContentForHighlighting : String -> Model -> Model
+processContentForHighlighting str model =
+    let
+        newAst_ =
+            Parse.toMDBlockTree model.counter model.option str
+
+        newAst =
+            Diff.mergeWith Parse.equalIds model.lastAst newAst_
+    in
+    { model
+        | sourceText = str
+
+        -- rendering
+        , lastAst = newAst
+        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst
+        , counter = model.counter + 1
     }
 
 
