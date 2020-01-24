@@ -78,6 +78,11 @@ type alias Model =
     }
 
 
+highlightVerticalOffset : Float
+highlightVerticalOffset =
+    150
+
+
 emptyAst : Tree Parse.MDBlockWithId
 emptyAst =
     Parse.toMDBlockTree -1 ExtendedMath ""
@@ -514,7 +519,7 @@ setViewPortForSelectedLine : Dom.Element -> Dom.Viewport -> Cmd Msg
 setViewPortForSelectedLine element viewport =
     let
         y =
-            viewport.viewport.y + element.element.y - element.element.height - 100
+            viewport.viewport.y + element.element.y - element.element.height - highlightVerticalOffset
     in
     Task.attempt (\_ -> NoOp) (Dom.setViewportOf "_rendered_text_" 0 y)
 
