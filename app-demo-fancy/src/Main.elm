@@ -80,7 +80,7 @@ type alias Model =
 
 highlightVerticalOffset : Float
 highlightVerticalOffset =
-    150
+    160
 
 
 emptyAst : Tree Parse.MDBlockWithId
