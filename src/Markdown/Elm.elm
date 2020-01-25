@@ -20,7 +20,7 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 -}
 toHtml : Option -> String -> Html msg
 toHtml option str =
-    Markdown.ElmWithId.toHtml 0 option str
+    Markdown.ElmWithId.toHtml ( 0, 0 ) 0 option str
 
 
 {-| Like `toHtml`, but constructs a table of contents.
@@ -29,7 +29,7 @@ toHtmlWithTOC : Option -> String -> Html msg
 toHtmlWithTOC option str =
     str
         |> Markdown.Parse.toMDBlockTree 0 option
-        |> Markdown.ElmWithId.renderHtmlWithTOC "Contents"
+        |> Markdown.ElmWithId.renderHtmlWithTOC ( 0, 0 ) "Contents"
 
 
 {-| Like `toHtmlWithTOC`, but constructs returns a record,
@@ -40,4 +40,4 @@ toHtmlWithExternaTOC : Option -> String -> { title : Html msg, toc : Html msg, d
 toHtmlWithExternaTOC option str =
     str
         |> Markdown.Parse.toMDBlockTree 0 option
-        |> Markdown.ElmWithId.renderHtmlWithExternaTOC "Contents"
+        |> Markdown.ElmWithId.renderHtmlWithExternaTOC ( 0, 0 ) "Contents"
