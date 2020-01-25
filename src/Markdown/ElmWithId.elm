@@ -476,7 +476,7 @@ renderBlock selectedId id block =
         MDBlock (BalancedBlock Verbatim) level blockContent ->
             case blockContent of
                 T str ->
-                    Html.pre [ idAttr id, marginOfLevel level ] [ Html.text str ]
+                    Html.pre [ idAttr id, marginOfLevel level, selectedStyle_ selectedId id ] [ Html.text str ]
 
                 _ ->
                     displayMathText ""

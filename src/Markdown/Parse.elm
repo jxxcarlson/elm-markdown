@@ -2,7 +2,7 @@ module Markdown.Parse exposing
     ( toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
     , project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
-    , equalContent, equalIds
+    , equalContent, equalIds, getId, idFromString, stringFromId
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -36,6 +36,7 @@ import Dict exposing (Dict)
 import HTree
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
+import Parser exposing ((|.), (|=), Parser, int, succeed, symbol)
 import Prefix
 import Tree exposing (Tree)
 
@@ -1193,6 +1194,50 @@ sourceMap ast =
                 |> List.map (\b -> ( (String.trim << stringContentFromBlock) b, (stringOfId << idOfBlock) b ))
     in
     Dict.fromList list
+
+
+getId : String -> Dict String String -> ( String, Maybe String )
+getId str_ sourceMapDict =
+    let
+        str =
+            toMDBlockTree 0 ExtendedMath str_ |> getLeadingTextFromAST |> String.trim
+
+        id =
+            List.filter (\( k, _ ) -> String.contains str k) (Dict.toList sourceMapDict)
+                |> List.map (\( _, id_ ) -> id_)
+                |> List.head
+    in
+    ( str, id )
+
+
+type alias IdRecord =
+    { id : Int, version : Int }
+
+
+idParser : Parser ( Int, Int )
+idParser =
+    (succeed IdRecord
+        |. symbol "i"
+        |= int
+        |. symbol "v"
+        |= int
+    )
+        |> Parser.map (\r -> ( r.id, r.version ))
+
+
+idFromString : String -> ( Int, Int )
+idFromString str =
+    case Parser.run idParser str of
+        Ok result ->
+            result
+
+        Err _ ->
+            ( 0, 0 )
+
+
+stringFromId : ( Int, Int ) -> String
+stringFromId ( id, version ) =
+    "i" ++ String.fromInt id ++ "v" ++ String.fromInt version
 
 
 stringContentFromBlock : MDBlockWithId -> String

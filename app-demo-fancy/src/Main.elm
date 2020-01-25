@@ -147,6 +147,8 @@ config flags =
     , showInfoPanel = False
     , wrapParams = { maximumWidth = 45, optimalWidth = 40, stringWidth = String.length }
     , wrapOption = DontWrap
+    , fontProportion = 0.75
+    , lineHeightFactor = 1
     }
 
 
@@ -154,7 +156,8 @@ doInit : Flags -> ( Model, Cmd Msg )
 doInit flags =
     let
         editor =
-            Editor.init (config (transformFlagsForEditor flags)) initialText
+            -- Editor.init (config (transformFlagsForEditor flags)) initialText
+            Editor.init (config flags) initialText
 
         lastAst =
             Parse.toMDBlockTree 0 ExtendedMath (Editor.getSource editor)
@@ -369,7 +372,7 @@ load model text =
                 -- , firstAst =  firstAst
                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath text
                 , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" <| firstAst
-                , editor = Editor.init (config <| transformFlagsForEditor <| getFlags model) text
+                , editor = Editor.init (config <| getFlags model) text
             }
     in
     ( newModel, Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel ] )

@@ -2,7 +2,8 @@
     "type": "application",
     "source-directories": [
         "./src",
-        "../src"
+        "../src",
+        "../editor"
     ],
     "elm-version": "0.19.1",
     "dependencies": {
@@ -20,7 +21,6 @@
             "elm-explorations/benchmark": "1.0.1",
             "folkertdev/elm-paragraph": "1.0.0",
             "jinjor/elm-debounce": "3.0.0",
-            "jxxcarlson/elm-text-editor": "6.0.1",
             "jxxcarlson/htree": "2.0.1",
             "lovasoa/elm-rolling-list": "1.1.4",
             "lukewestby/elm-string-interpolate": "1.0.4",
