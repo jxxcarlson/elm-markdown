@@ -40,3 +40,5 @@ tools/src/main.js
 tools/main.js
 
 editor/
+
+app-demo-fancy/node_modules/
