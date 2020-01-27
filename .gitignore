@@ -3,13 +3,10 @@ elm-stuff/
 .idea/
 app-demo/Main.js
 app-demo/Main.min.js
-app-demo/package-lock.json
 app-demo/make.sh
-app-demo/package-lock.json
 
 app-demo-fancy/Main.js
 app-demo-fancy/Main.min.js
-app-demo-fancy/package-lock.json
 app-demo/index-remote.html
 app-demo-fancy/node_modules/
 
@@ -35,7 +32,6 @@ app-demo-fancy/index-remote.html
 app-demo-fancy/benchmarks
 
 
-app-demo/package-lock.json
 
 tools/src/main.js
 tools/main.js
