@@ -35,3 +35,8 @@ app-demo-fancy/benchmarks
 
 
 app-demo/package-lock.json
+
+tools/src/main.js
+tools/main.js
+
+editor/
