@@ -11,6 +11,7 @@ app-demo-fancy/Main.js
 app-demo-fancy/Main.min.js
 app-demo-fancy/package-lock.json
 app-demo/index-remote.html
+app-demo-fancy/node_modules/
 
 src/MDExample.elm
 
@@ -41,4 +42,3 @@ tools/main.js
 
 editor/
 
-app-demo-fancy/node_modules/
