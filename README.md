@@ -57,7 +57,15 @@ publishing so many updates, but I am using it in several apps, and this
 is the only way I know how to encapsulate the complexity, work
  with the CI build systems, and keep my sanity
 
+## Installing the Demo
 
+```bash
+$ cd to ./app-demo-fancy
+
+$ npm install
+
+$ npm start
+```
 
 ## Style
 

@@ -1,6 +1,6 @@
 # Notes
 
-## Debugging types
+## Debugging tips
 
 Use `Debug.log`  in 
 
