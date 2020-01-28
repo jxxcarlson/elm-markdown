@@ -1,8 +1,9 @@
 module Markdown.Parse exposing
     ( toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
-    , project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
-    , equalContent, equalIds, getId, idFromString, stringFromId
+    , getId, idFromString, stringOfId, stringFromId, idOfBlock
+    , equalContent, equalIds
+    , project, projectedStringOfBlockContent, stringOfMDBlockTree
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -25,9 +26,19 @@ the rationale for this module.
 @docs MDBlock, MDBlockWithId, BlockContent, Id
 
 
+## Ids
+
+@docs getId, idFromString, stringOfId, stringFromId, idOfBlock
+
+
+## Comparison
+
+@docs equalContent, equalIds
+
+
 ## Tools
 
-@docs equal, project, stringOfId, idOfBlock, projectedStringOfBlockContent, stringOfMDBlockTree
+@docs project, projectedStringOfBlockContent, stringOfMDBlockTree
 
 -}
 
@@ -1196,6 +1207,10 @@ sourceMap ast =
     Dict.fromList list
 
 
+{-| Given a string s, return (ss, id), where ss is a string containing s
+and id a Maybe value representing the id of the corresponding element
+in the rendered text.
+-}
 getId : String -> Dict String String -> ( String, Maybe String )
 getId str_ sourceMapDict =
     let
@@ -1225,6 +1240,12 @@ idParser =
         |> Parser.map (\r -> ( r.id, r.version ))
 
 
+{-| Compute id from a string representation of that id, e.g..
+
+    idFromString "i5v3"
+    --> (5,3)
+
+-}
 idFromString : String -> ( Int, Int )
 idFromString str =
     case Parser.run idParser str of
@@ -1235,6 +1256,12 @@ idFromString str =
             ( 0, 0 )
 
 
+{-| Compute a string representation of an id. Thus
+
+    stringFromId (5,3)
+    -> "i5v3"
+
+-}
 stringFromId : ( Int, Int ) -> String
 stringFromId ( id, version ) =
     "i" ++ String.fromInt id ++ "v" ++ String.fromInt version
