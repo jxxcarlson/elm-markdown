@@ -290,7 +290,7 @@ update msg model =
                             "??"
 
                         Just id_ ->
-                            id_ |> Parse.stringOfId
+                            id_ |> Parse.stringFromId
             in
             ( { model | message = "str = " ++ String.left 20 str ++ " -- Clicked on id: " ++ id }
             , setViewportForElement id
@@ -445,7 +445,7 @@ syncAndHighlightRenderedText str cmd model =
                     id_ |> (\( a, b ) -> ( a, b + 1 ))
     in
     ( processContentForHighlighting model.sourceText { model | selectedId = id }
-    , Cmd.batch [ cmd, setViewportForElement (Parse.stringOfId id) ]
+    , Cmd.batch [ cmd, setViewportForElement (Parse.stringFromId id) ]
     )
 
 

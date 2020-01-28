@@ -120,38 +120,8 @@ editing environment.
 
 ## Editor
 
-This section is relevant only to those wanting to implement a "fancy" editor
-that interacts with the rendered text in some way, e.g., sync of 
- source and rendered text, as described below.
-
-Following Luke Westby's talk at Elm Europe 2018, I've implemented an editor
-using custom elements and Codemirror.js. In addition, there is a start on a system 
-for synchronizing the source text in the editor (Left) and the rendered text
-(Right).  If one clicks somewhere in the gutter of the editor, the 
-right-hand window scrolls to display the corresponding rendered text.  There
-are quite a few moving parts to this system. Codemirror detects the click,
-finds the line number, and returns the corresponding text as string, forwarding
-this info to Elm.  The function `ElmWithId.searchAST` finds the id of the
-corresponding element the AST (parse tree), which is ultimately used by 
-`Browser.Dom.setViewportOf` to set the viewport of the rendered text window.
-
-**Note.** I intend to replace the Codemirror editor shortly with a pure Elm 
-text editor.
-
-The system is not yet foolproof, the main weak point being that `searchAST` does not
-always find its target  This is for "Left-to-Right" sync of source
-and rendered text.  We also want to implement
-Right-to-Left sync.
-
-All this editor stuff requires the following lines in `index.html`
-
-```
-  <!-- Text Editor -->
-  <link rel='stylesheet' href='lib/codemirror.css'>
-  <script type='text/javascript' src='lib/codemirror.js'></script>
-  <script type='text/javascript' src='assets/code-editor.js'></script>
- ``` 
-
+The fancy demo app now uses [pure Elm text editor](https://package.elm-lang.org/packages/jxxcarlson/elm-text-editor/latest/).
+It is very much a work in progress.
 
 ## Bugs and whatnot
 

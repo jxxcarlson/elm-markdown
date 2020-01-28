@@ -26,7 +26,7 @@ import Markdown.Parse as Parse
         , idOfBlock
         , project
         , projectedStringOfBlockContent
-        , stringOfId
+        , stringFromId
         )
 import Parser
 import SyntaxHighlight exposing (monokai, toBlockHtml, useTheme)
@@ -259,7 +259,7 @@ mmBlockTreeToHtml tree =
             BalancedBlock DisplayMath ->
                 Keyed.node "spanXXX"
                     []
-                    [ ( stringOfId id, renderBlock id (MDBlock bt lev content) ) ]
+                    [ ( stringFromId id, renderBlock id (MDBlock bt lev content) ) ]
 
             _ ->
                 Html.span [] [ renderBlock id (MDBlock bt lev content) ]
@@ -272,17 +272,17 @@ mmBlockTreeToHtml tree =
 
             MDBlockWithId id (MarkdownBlock Table) _ _ ->
                 Keyed.node "table"
-                    [ HA.class "mm-table", HA.id (stringOfId id) ]
-                    [ ( stringOfId id, Html.div [] (List.map mmBlockTreeToHtml (Tree.children tree)) ) ]
+                    [ HA.class "mm-table", HA.id (stringFromId id) ]
+                    [ ( stringFromId id, Html.div [] (List.map mmBlockTreeToHtml (Tree.children tree)) ) ]
 
             MDBlockWithId id (MarkdownBlock Plain) _ _ ->
-                Html.div [ HA.class "mm-plain", HA.id (stringOfId id) ] (List.map mmBlockTreeToHtml (Tree.children tree))
+                Html.div [ HA.class "mm-plain", HA.id (stringFromId id) ] (List.map mmBlockTreeToHtml (Tree.children tree))
 
             MDBlockWithId id (MarkdownBlock _) _ _ ->
                 Keyed.node "div"
                     []
-                    [ ( stringOfId id
-                      , Html.div [ HA.id (stringOfId id) ]
+                    [ ( stringFromId id
+                      , Html.div [ HA.id (stringFromId id) ]
                             [ renderBlock id (project (Tree.label tree))
                             , Html.div [ idAttr id ] (List.map mmBlockTreeToHtml (Tree.children tree))
                             ]
@@ -290,13 +290,13 @@ mmBlockTreeToHtml tree =
                     ]
 
             MDBlockWithId id (BalancedBlock DisplayMath) level content ->
-                Keyed.node "div" [ HA.id (stringOfId id) ] [ ( stringOfId id, displayMathText (projectedStringOfBlockContent content) ) ]
+                Keyed.node "div" [ HA.id (stringFromId id) ] [ ( stringFromId id, displayMathText (projectedStringOfBlockContent content) ) ]
 
             MDBlockWithId id (BalancedBlock Verbatim) _ _ ->
-                Html.pre [ HA.id (stringOfId id) ] [ Html.text "OUF: Verbatim!" ]
+                Html.pre [ HA.id (stringFromId id) ] [ Html.text "OUF: Verbatim!" ]
 
             MDBlockWithId id (BalancedBlock (DisplayCode lang)) _ _ ->
-                Html.div [ HA.id (stringOfId id) ] [ Html.text "OUF: Code!" ]
+                Html.div [ HA.id (stringFromId id) ] [ Html.text "OUF: Code!" ]
 
 
 tableOfContentsAsBlocks : Tree MDBlock -> List MDBlock
@@ -356,17 +356,17 @@ renderHeadingForTOC heading =
 
 renderBlockWithId : MDBlockWithId -> Html msg
 renderBlockWithId (MDBlockWithId id bt lev content) =
-    Keyed.node "div" [] [ ( stringOfId id, renderBlock id (MDBlock bt lev content) ) ]
+    Keyed.node "div" [] [ ( stringFromId id, renderBlock id (MDBlock bt lev content) ) ]
 
 
 idAttr : Id -> Html.Attribute msg
 idAttr id =
-    HA.id (stringOfId id)
+    HA.id (stringFromId id)
 
 
 idAttrWithLabel : Id -> String -> Html.Attribute msg
 idAttrWithLabel id label =
-    HA.id (stringOfId id ++ label)
+    HA.id (stringFromId id ++ label)
 
 
 
@@ -757,7 +757,7 @@ mathText content =
 
 inlineMathText : Id -> String -> Html msg
 inlineMathText id str =
-    Keyed.node "span" [ idAttrWithLabel id "m" ] [ ( stringOfId id ++ "m", mathText <| "$ " ++ String.trim str ++ " $ " ) ]
+    Keyed.node "span" [ idAttrWithLabel id "m" ] [ ( stringFromId id ++ "m", mathText <| "$ " ++ String.trim str ++ " $ " ) ]
 
 
 displayMathText : String -> Html msg
