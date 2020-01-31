@@ -3,7 +3,7 @@
     "name": "jxxcarlson/elm-markdown",
     "summary": "Experimental markdown parser, handles math, has hooks for editor sync",
     "license": "BSD-3-Clause",
-    "version": "6.0.0",
+    "version": "6.0.1",
     "exposed-modules": [
         "Markdown.Elm",
         "Markdown.ElmWithId",
