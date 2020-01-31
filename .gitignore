@@ -1,12 +1,10 @@
 grammar.md
 elm-stuff/
 .idea/
-app-demo/public/Main.js
-app-demo/Main.min.js
+app-demo/public/*.js
 app-demo/make.sh
 
-app-demo-fancy/public/Main.js
-app-demo-fancy/public/Main.min.js
+app-demo-fancy/public/*.js
 app-demo/public/index-remote.html
 app-demo-fancy/node_modules/
 
@@ -30,7 +28,7 @@ app-demo-fancy/scripts/publish.sh
 app-demo-fancy/bench.html
 app-demo-fancy/public/index-remote.html
 app-demo-fancy/benchmarks
-app-dome-fancy/pubic/*.js
+app-demo-fancy/public/*.js
 
 
 
