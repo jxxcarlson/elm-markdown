@@ -5,7 +5,7 @@
   "main": "Main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "elm-live -d public/ src/Main.elm -- --debug --output public/Main.js",
+    "start": "elm-live -d public/ src/Main.elm -- --output public/Main.js",
     "debug": "elm make --debug src/Main.elm --output public/Main.js",
     "compile": "elm make --optimize src/Main.elm --output public/Main.js",
     "ff": "open -a /Applications/Firefox.app/ public/index.html",
