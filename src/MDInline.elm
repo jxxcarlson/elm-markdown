@@ -392,7 +392,7 @@ ordinaryTextParser validStart =
     let
         -- a regular character must not be a ']' and must be a valid starting character
         isRegular c =
-            not (c == ']') && validStart c
+            not (isRightBracket c && validStart c)
     in
     chompIf validStart (Expecting "expecting regular character to begin ordinary text line")
         |. chompWhile isRegular
@@ -409,16 +409,46 @@ ordinaryTextExtendedMath : Parser MDInline
 ordinaryTextExtendedMath =
     let
         validStart c =
-            not (c == '~' || c == '$' || isSpecialCharacter c)
+            not (isTilde c || isDollar c || isSpecialCharacter c)
     in
     ordinaryTextParser validStart
+
+
+isTilde : Char -> Bool
+isTilde c =
+    case c of
+        '~' ->
+            True
+
+        _ ->
+            False
+
+
+isDollar : Char -> Bool
+isDollar c =
+    case c of
+        '$' ->
+            True
+
+        _ ->
+            False
+
+
+isRightBracket : Char -> Bool
+isRightBracket c =
+    case c of
+        ']' ->
+            True
+
+        _ ->
+            False
 
 
 ordinaryTextExtended : Parser MDInline
 ordinaryTextExtended =
     let
         validStart c =
-            not (c == '~' || isSpecialCharacter c)
+            not (isTilde c || isSpecialCharacter c)
     in
     ordinaryTextParser validStart
 
