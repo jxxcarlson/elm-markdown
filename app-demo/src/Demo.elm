@@ -1,4 +1,4 @@
-module Main exposing (main)
+module Demo exposing (main)
 
 import Browser
 import Html exposing (..)
@@ -139,20 +139,23 @@ view model =
         ]
 
 
-type alias RenderedText msg = {title: Html msg, toc: Html msg, document: Html msg}
+type alias RenderedText msg =
+    { title : Html msg, toc : Html msg, document : Html msg }
+
 
 display : Model -> Html Msg
 display model =
-  let
-     rt : RenderedText Msg
-     rt = Markdown.Elm.toHtmlWithExternaTOC model.option model.sourceText
-  in
+    let
+        rt : RenderedText Msg
+        rt =
+            Markdown.Elm.toHtmlWithExternaTOC model.option model.sourceText
+    in
     div []
         [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
-        , p [style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt"] [text "MathJax 3."]
+        , p [ style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt" ] [ text "MathJax 3." ]
         , editor model
         , renderedSource rt model
-        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80, span [style "margin-left" "30px", style "margin-right" "10px" ] [text "Markdown flavor: "], standardMarkdownButton model 100, extendedMarkdownButton model 100, extendedMathMarkdownButton model 140  ]
+        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80, span [ style "margin-left" "30px", style "margin-right" "10px" ] [ text "Markdown flavor: " ], standardMarkdownButton model 100, extendedMarkdownButton model 100, extendedMathMarkdownButton model 140 ]
         , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "minilatex.io" ]
         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "package.elm-lang.org" ]
         ]
@@ -173,12 +176,10 @@ renderedSource rt model =
         token =
             String.fromInt model.counter
     in
-      div [] [
-        Keyed.node "div"  renderedSourceStyle [ (token ++ "-xx", h1 [style "font-size" "14px"] [ rt.title]), ( token, rt.document ) ]
-       , div tocStyle [rt.toc]
-      ]
-
-
+    div []
+        [ Keyed.node "div" renderedSourceStyle [ ( token ++ "-xx", h1 [ style "font-size" "14px" ] [ rt.title ] ), ( token, rt.document ) ]
+        , div tocStyle [ rt.toc ]
+        ]
 
 
 

@@ -1,13 +1,13 @@
 grammar.md
 elm-stuff/
 .idea/
-app-demo/Main.js
+app-demo/public/Main.js
 app-demo/Main.min.js
 app-demo/make.sh
 
 app-demo-fancy/public/Main.js
 app-demo-fancy/public/Main.min.js
-app-demo/index-remote.html
+app-demo/public/index-remote.html
 app-demo-fancy/node_modules/
 
 src/MDExample.elm
@@ -30,6 +30,7 @@ app-demo-fancy/scripts/publish.sh
 app-demo-fancy/bench.html
 app-demo-fancy/public/index-remote.html
 app-demo-fancy/benchmarks
+app-dome-fancy/pubic/*.js
 
 
 

@@ -1,0 +1,22 @@
+{
+  "name": "app-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Demo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "elm-live -d public/ src/Demo.elm -- --output public/Demo.js",
+    "debug": "elm make --debug src/Demo.elm --output public/Demo.js",
+    "compile": "elm make --optimize src/Demo.elm --output public/Demo.js",
+    "ff": "open -a /Applications/Firefox.app/ public/index.html",
+    "chrome": "open -a /Applications/GoogleChrome.app/ public/index.html",
+    "set-dev": "cp elm-dev.json elm.json",
+    "set-pub": "cp elm-pub.json elm.json",
+    "update-pub": "cp elm.json elm-pub.json",
+    "publish": "sh scripts/publish.sh",
+    "go": "open -a /Applications/Firefox.app/ https://markdown.minilatex.app/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
