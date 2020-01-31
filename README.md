@@ -121,7 +121,7 @@ editing environment.
 ## Editor
 
 The fancy demo app now uses [pure Elm text editor](https://package.elm-lang.org/packages/jxxcarlson/elm-text-editor/latest/).
-It is very much a work in progress.
+It is very much a work in progress. 
 
 ## Bugs and whatnot
 

@@ -365,10 +365,26 @@ parseWhile accepting =
 omits the closing square bracket `]` because on its own it is a regular character.
 It only gets special meaning when it closes a corresponding opening square bracket
 
+NOTE: implementation changed to use 'case .. of' instead of '==' for performance reasons.
+
 -}
 isSpecialCharacter : Char -> Bool
 isSpecialCharacter c =
-    c == '`' || c == '[' || c == '*' || c == '\n'
+    case c of
+        '`' ->
+            True
+
+        '[' ->
+            True
+
+        '*' ->
+            True
+
+        '\n' ->
+            True
+
+        _ ->
+            False
 
 
 ordinaryTextParser : (Char -> Bool) -> Parser MDInline

@@ -124,7 +124,7 @@ type alias Flags =
 
 
 proportion =
-    { width = 0.3
+    { width = 0.35
     , height = 0.7
     }
 
@@ -156,7 +156,6 @@ doInit : Flags -> ( Model, Cmd Msg )
 doInit flags =
     let
         editor =
-            -- Editor.init (config (transformFlagsForEditor flags)) initialText
             Editor.init (config flags) initialText
 
         lastAst =

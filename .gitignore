@@ -5,8 +5,8 @@ app-demo/Main.js
 app-demo/Main.min.js
 app-demo/make.sh
 
-app-demo-fancy/Main.js
-app-demo-fancy/Main.min.js
+app-demo-fancy/public/Main.js
+app-demo-fancy/public/Main.min.js
 app-demo/index-remote.html
 app-demo-fancy/node_modules/
 
@@ -26,9 +26,9 @@ app-demo-simple/dist/Main.min.js
 
 app-demo-fancy/make-test.sh
 app-demo-fancy/make.sh
-app-demo-fancy/publish.sh
+app-demo-fancy/scripts/publish.sh
 app-demo-fancy/bench.html
-app-demo-fancy/index-remote.html
+app-demo-fancy/public/index-remote.html
 app-demo-fancy/benchmarks
 
 
