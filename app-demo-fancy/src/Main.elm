@@ -68,7 +68,7 @@ type alias Model =
     , option : Option
     , sourceText : String
     , lastAst : Tree Parse.MDBlockWithId
-    , renderedText : RenderedText Msg
+    , renderedText : RenderedText
     , message : String
     , editor : Editor
     , clipboard : String
@@ -88,7 +88,7 @@ emptyAst =
     Parse.toMDBlockTree -1 ExtendedMath ""
 
 
-emptyRenderedText : RenderedText Msg
+emptyRenderedText : RenderedText
 emptyRenderedText =
     Markdown.ElmWithId.renderHtmlWithExternaTOC ( 0, 0 ) "Contents" emptyAst
 
@@ -114,7 +114,7 @@ type Msg
     | SelectStandard
     | SelectExtended
     | SelectExtendedMath
-    | GotSecondPart ( Tree Parse.MDBlockWithId, RenderedText Msg )
+    | GotSecondPart ( Tree Parse.MDBlockWithId, RenderedText )
     | MarkdownMsg MarkdownMsg
 
 
@@ -349,6 +349,11 @@ update msg model =
         GotSecondPart ( newAst, newRenderedText ) ->
             ( { model | lastAst = newAst, renderedText = newRenderedText, counter = model.counter + 1 }, Cmd.none )
 
+        MarkdownMsg markdownMsg ->
+            case markdownMsg of
+                IDClicked id ->
+                    ( { model | message = "Clicked: " ++ id }, Cmd.none )
+
 
 
 -- UPDATE HELPERS
@@ -378,7 +383,7 @@ load model text =
     ( newModel, Cmd.batch [ resetViewportOfRenderedText, resetViewportOfEditor, renderSecond newModel ] )
 
 
-pasteToEditorClipboard : Model -> String -> ( Model, Cmd msg )
+pasteToEditorClipboard : Model -> String -> ( Model, Cmd Msg )
 pasteToEditorClipboard model str =
     let
         cursor =
@@ -417,7 +422,7 @@ updateEditor model editor_ cmd_ =
     ( { model | editor = editor_ }, Cmd.map EditorMsg cmd_ )
 
 
-updateRenderingData : Model -> String -> ( Tree Parse.MDBlockWithId, RenderedText msg )
+updateRenderingData : Model -> String -> ( Tree Parse.MDBlockWithId, RenderedText )
 updateRenderingData model text_ =
     let
         newAst_ =
@@ -426,6 +431,7 @@ updateRenderingData model text_ =
         newAst__ =
             Diff.mergeWith Parse.equalContent model.lastAst newAst_
 
+        renderedText__ : { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
         renderedText__ =
             Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst__
     in
@@ -575,8 +581,8 @@ view model =
         ]
 
 
-type alias RenderedText msg =
-    { title : Html msg, toc : Html msg, document : Html msg }
+type alias RenderedText =
+    { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
 
 
 getFlags : Model -> Flags
@@ -615,7 +621,7 @@ px p =
 
 titleView : Model -> Html Msg
 titleView model =
-    span [] [ model.renderedText.title ]
+    span [] [ model.renderedText.title |> Html.map MarkdownMsg ]
 
 
 renderedSource : Model -> Html Msg
@@ -638,7 +644,7 @@ renderedSource model =
         , style "border-width" "thin"
         , style "border-color" "#999"
         ]
-        [ model.renderedText.document ]
+        [ model.renderedText.document |> Html.map MarkdownMsg ]
 
 
 tocView : Model -> Html Msg
@@ -655,7 +661,7 @@ tocView model =
         , style "overflow" "scroll "
         , style "background-color" "#eee"
         ]
-        [ model.renderedText.toc ]
+        [ model.renderedText.toc |> Html.map MarkdownMsg ]
 
 
 footer1 : Model -> Html Msg
@@ -685,18 +691,18 @@ footer2 model =
         ]
 
 
-messageLine : Model -> Html msg
+messageLine : Model -> Html Msg
 messageLine model =
-    let
-        message =
-            model.message
-    in
-    case String.contains "error" message of
-        True ->
-            span [ style "margin-left" "50px", style "color" "red" ] [ text <| model.message ]
-
-        False ->
-            span [ style "margin-left" "50px" ] [ text <| model.message ]
+    --let
+    --    message =
+    --        model.message
+    --in
+    --case String.contains "error" message of
+    --    True ->
+    --        span [ style "margin-left" "50px", style "color" "red" ] [ text <| model.message ]
+    --
+    --    False ->
+    span [ style "margin-left" "50px" ] [ text <| model.message ]
 
 
 

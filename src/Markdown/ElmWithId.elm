@@ -55,6 +55,7 @@ where functions in the modules
 import BlockType exposing (BalancedType(..), BlockType(..), Language(..), Level, MarkdownType(..))
 import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
+import Html.Events as HE
 import Html.Keyed as Keyed
 import Json.Encode
 import MDInline exposing (MDInline(..))
@@ -329,11 +330,11 @@ mmBlockTreeToHtml selectedId tree =
         case bt of
             BalancedBlock DisplayMath ->
                 Keyed.node "spanXXX"
-                    (selectedStyle selectedId id)
+                    (selectedStyle selectedId id ++ [ HE.onClick (IDClicked (stringFromId id)) ])
                     [ ( stringFromId id, renderBlock selectedId id (MDBlock bt lev content) ) ]
 
             _ ->
-                Keyed.node "span" (selectedStyle selectedId id) [ ( stringFromId id, renderBlock selectedId id (MDBlock bt lev content) ) ]
+                Keyed.node "span" (selectedStyle selectedId id ++ [ HE.onClick (IDClicked (stringFromId id)) ]) [ ( stringFromId id, renderBlock selectedId id (MDBlock bt lev content) ) ]
 
     else
         case Tree.label tree of
@@ -343,17 +344,17 @@ mmBlockTreeToHtml selectedId tree =
 
             MDBlockWithId id (MarkdownBlock Table) _ _ ->
                 Keyed.node "table"
-                    [ HA.class "mm-table", HA.id (stringFromId id), selectedStyle_ selectedId id ]
+                    [ HA.class "mm-table", HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ]
                     [ ( stringFromId id, Html.div [] (List.map (mmBlockTreeToHtml selectedId) (Tree.children tree)) ) ]
 
             MDBlockWithId id (MarkdownBlock Plain) _ _ ->
-                Html.div [ HA.class "mm-plain", HA.id (stringFromId id), selectedStyle_ selectedId id ] (List.map (mmBlockTreeToHtml selectedId) (Tree.children tree))
+                Html.div [ HA.class "mm-plain", HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ] (List.map (mmBlockTreeToHtml selectedId) (Tree.children tree))
 
             MDBlockWithId id (MarkdownBlock _) _ _ ->
                 Keyed.node "div"
                     [ selectedStyle_ selectedId id ]
                     [ ( stringFromId id
-                      , Html.div [ HA.id (stringFromId id) ]
+                      , Html.div [ HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)) ]
                             [ renderBlock selectedId id (project (Tree.label tree))
                             , Html.div [ idAttr id ] (List.map (mmBlockTreeToHtml selectedId) (Tree.children tree))
                             ]
@@ -362,14 +363,14 @@ mmBlockTreeToHtml selectedId tree =
 
             MDBlockWithId id (BalancedBlock DisplayMath) level content ->
                 Keyed.node "div"
-                    [ HA.id (stringFromId id), selectedStyle_ selectedId id ]
+                    [ HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ]
                     [ ( stringFromId id, displayMathText (projectedStringOfBlockContent content) ) ]
 
             MDBlockWithId id (BalancedBlock Verbatim) _ _ ->
-                Keyed.node "pre" [ HA.id (stringFromId id), selectedStyle_ selectedId id ] [ ( stringFromId id, Html.text "OUF: Verbatim!" ) ]
+                Keyed.node "pre" [ HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ] [ ( stringFromId id, Html.text "OUF: Verbatim!" ) ]
 
             MDBlockWithId id (BalancedBlock (DisplayCode lang)) _ _ ->
-                Html.div [ HA.id (stringFromId id), selectedStyle_ selectedId id ] [ Html.text "OUF: Code!" ]
+                Html.div [ HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ] [ Html.text "OUF: Code!" ]
 
 
 tableOfContentsAsBlocks : Tree MDBlock -> List MDBlock

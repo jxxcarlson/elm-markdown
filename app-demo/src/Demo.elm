@@ -139,14 +139,14 @@ view model =
         ]
 
 
-type alias RenderedText msg =
-    { title : Html msg, toc : Html msg, document : Html msg }
+type alias RenderedText =
+    { title : Html MarkdownMsg, toc : Html Msg, document : Html Msg }
 
 
 display : Model -> Html Msg
 display model =
     let
-        rt : RenderedText Msg
+        rt : RenderedText
         rt =
             Markdown.Elm.toHtmlWithExternaTOC model.option model.sourceText
     in
@@ -170,7 +170,7 @@ editor model =
     textarea (editorTextStyle ++ [ onInput GetContent, HA.value model.sourceText ]) []
 
 
-renderedSource : RenderedText Msg -> Model -> Html Msg
+renderedSource : RenderedText -> Model -> Html Msg
 renderedSource rt model =
     let
         token =
