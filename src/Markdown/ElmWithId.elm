@@ -1,6 +1,7 @@
 module Markdown.ElmWithId exposing
     ( renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC
     , numberOfMathElements
+    , MarkdownMsg(..)
     )
 
 {-| Use this module if you need to edit math + markdown _and_
@@ -72,6 +73,10 @@ import Markdown.Parse as Parse
 import Parser
 import SyntaxHighlight exposing (monokai, toBlockHtml, useTheme)
 import Tree exposing (Tree)
+
+
+type MarkdownMsg
+    = IDClicked String
 
 
 parserOfLanguage : Language -> (String -> Result (List Parser.DeadEnd) SyntaxHighlight.HCode)
@@ -148,7 +153,7 @@ id0 =
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Id -> Int -> Option -> String -> Html msg
+toHtml : Id -> Int -> Option -> String -> Html MarkdownMsg
 toHtml selectedId version option str =
     str
         |> Parse.toMDBlockTree version option
@@ -161,7 +166,7 @@ masterId =
 
 {-| Render a parse tree to Html.
 -}
-renderHtml : Id -> Tree MDBlockWithId -> Html msg
+renderHtml : Id -> Tree MDBlockWithId -> Html MarkdownMsg
 renderHtml selectedId blockTreeWithId =
     blockTreeWithId
         |> Tree.children
@@ -169,14 +174,14 @@ renderHtml selectedId blockTreeWithId =
         |> (\x -> Html.div [ masterId ] x)
 
 
-toHtmlWithTOC : Id -> Int -> Option -> String -> String -> Html msg
+toHtmlWithTOC : Id -> Int -> Option -> String -> String -> Html MarkdownMsg
 toHtmlWithTOC selectedId version option heading str =
     let
         ast : Tree MDBlockWithId
         ast =
             Parse.toMDBlockTree version option str
 
-        toc : Html msg
+        toc : Html MarkdownMsg
         toc =
             tableOfContentsAsHtml heading (Tree.map project ast)
 
@@ -212,10 +217,10 @@ toHtmlWithTOC selectedId version option heading str =
 
 {-| Like `renderHtml`, but constructs a table of contents.
 -}
-renderHtmlWithTOC : Id -> String -> Tree MDBlockWithId -> Html msg
+renderHtmlWithTOC : Id -> String -> Tree MDBlockWithId -> Html MarkdownMsg
 renderHtmlWithTOC selectedId heading ast =
     let
-        toc : Html msg
+        toc : Html MarkdownMsg
         toc =
             tableOfContentsAsHtml heading (Tree.map project ast)
 
@@ -253,10 +258,10 @@ renderHtmlWithTOC selectedId heading ast =
 with fields for the document title, the table of contents, and the body
 of the document.
 -}
-renderHtmlWithExternaTOC : Id -> String -> Tree MDBlockWithId -> { title : Html msg, toc : Html msg, document : Html msg }
+renderHtmlWithExternaTOC : Id -> String -> Tree MDBlockWithId -> { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
 renderHtmlWithExternaTOC selectedId heading ast =
     let
-        toc : Html msg
+        toc : Html MarkdownMsg
         toc =
             tableOfContentsAsHtml heading (Tree.map project ast)
 
@@ -288,12 +293,12 @@ highlightColor =
     "#8d9ffe"
 
 
-makeKeyedNodeBody : Id -> Id -> Int -> MDInline -> ( String, Html msg )
+makeKeyedNodeBody : Id -> Id -> Int -> MDInline -> ( String, Html MarkdownMsg )
 makeKeyedNodeBody selectedId id level mDInline =
     ( stringFromId id, renderToHtmlMsg selectedId id level mDInline )
 
 
-selectedStyle_ : Id -> Id -> Html.Attribute msg
+selectedStyle_ : Id -> Id -> Html.Attribute MarkdownMsg
 selectedStyle_ targetId currentId =
     case targetId == currentId of
         True ->
@@ -303,7 +308,7 @@ selectedStyle_ targetId currentId =
             HA.style "background-color" "none"
 
 
-selectedStyle : Id -> Id -> List (Html.Attribute msg)
+selectedStyle : Id -> Id -> List (Html.Attribute MarkdownMsg)
 selectedStyle targetId currentId =
     case targetId == currentId of
         True ->
@@ -313,7 +318,7 @@ selectedStyle targetId currentId =
             []
 
 
-mmBlockTreeToHtml : Id -> Tree MDBlockWithId -> Html msg
+mmBlockTreeToHtml : Id -> Tree MDBlockWithId -> Html MarkdownMsg
 mmBlockTreeToHtml selectedId tree =
     if Tree.children tree == [] then
         -- Render leaf blocks
@@ -384,14 +389,14 @@ numberOfMathElements blockTree =
         |> List.length
 
 
-tableOfContentsAsHtml : String -> Tree MDBlock -> Html msg
+tableOfContentsAsHtml : String -> Tree MDBlock -> Html MarkdownMsg
 tableOfContentsAsHtml heading blockTree =
     blockTree
         |> tableOfContentsAsBlocks
         |> renderTableOfContents heading
 
 
-renderTableOfContents : String -> List MDBlock -> Html msg
+renderTableOfContents : String -> List MDBlock -> Html MarkdownMsg
 renderTableOfContents heading blockList =
     let
         contentHeading =
@@ -412,7 +417,7 @@ tocStyle =
     ]
 
 
-renderHeadingForTOC : MDBlock -> Html msg
+renderHeadingForTOC : MDBlock -> Html MarkdownMsg
 renderHeadingForTOC heading =
     case heading of
         MDBlock (MarkdownBlock (Heading k)) level blockContent ->
@@ -422,17 +427,17 @@ renderHeadingForTOC heading =
             Html.span [] []
 
 
-idAttr : Id -> Html.Attribute msg
+idAttr : Id -> Html.Attribute MarkdownMsg
 idAttr id =
     HA.id (stringFromId id)
 
 
-idAttrWithLabel : Id -> String -> Html.Attribute msg
+idAttrWithLabel : Id -> String -> Html.Attribute MarkdownMsg
 idAttrWithLabel id label =
     HA.id (stringFromId id ++ label)
 
 
-renderBlock : Id -> Id -> MDBlock -> Html msg
+renderBlock : Id -> Id -> MDBlock -> Html MarkdownMsg
 renderBlock selectedId id block =
     case block of
         MDBlock (MarkdownBlock Root) _ _ ->
@@ -523,7 +528,7 @@ unWrapParagraph mmInline =
             []
 
 
-renderUListItem : Id -> Id -> Level -> BlockContent -> Html msg
+renderUListItem : Id -> Id -> Level -> BlockContent -> Html MarkdownMsg
 renderUListItem selectedId id level blockContent =
     let
         label =
@@ -567,7 +572,7 @@ prependToParagraph head tail =
                     tail
 
 
-renderOListItem : Id -> Id -> Int -> Level -> BlockContent -> Html msg
+renderOListItem : Id -> Id -> Int -> Level -> BlockContent -> Html MarkdownMsg
 renderOListItem selectedId id index level blockContent =
     let
         label =
@@ -596,7 +601,7 @@ renderOListItem selectedId id index level blockContent =
         [ renderBlockContent selectedId id level (prependToParagraph (OrdinaryText label) blockContent) ]
 
 
-renderHeading : Id -> Id -> Int -> Level -> BlockContent -> Html msg
+renderHeading : Id -> Id -> Int -> Level -> BlockContent -> Html MarkdownMsg
 renderHeading selectedId id k level blockContent =
     let
         name =
@@ -619,7 +624,7 @@ renderHeading selectedId id k level blockContent =
             Html.h5 [ HA.id name, HA.class "mm-h5", selectedStyle_ selectedId id ] [ renderBlockContent selectedId id level blockContent ]
 
 
-renderTOCHeading : Id -> Id -> Int -> Level -> BlockContent -> Html msg
+renderTOCHeading : Id -> Id -> Int -> Level -> BlockContent -> Html MarkdownMsg
 renderTOCHeading selectedId id k level blockContent =
     let
         name =
@@ -642,21 +647,21 @@ renderTOCHeading selectedId id k level blockContent =
             Html.a [ HA.href name, HA.class "toc-level-3", HA.style "display" "block" ] [ renderBlockContent selectedId id level blockContent ]
 
 
-renderQuotation : Id -> Id -> Level -> BlockContent -> Html msg
+renderQuotation : Id -> Id -> Level -> BlockContent -> Html MarkdownMsg
 renderQuotation selectedId id level blockContent =
     Html.div
         [ HA.class "mm-quotation", blockLevelClass level, selectedStyle_ selectedId id ]
         [ renderBlockContent selectedId id level blockContent ]
 
 
-renderPoetry : Id -> Id -> Level -> BlockContent -> Html msg
+renderPoetry : Id -> Id -> Level -> BlockContent -> Html MarkdownMsg
 renderPoetry selectedId id level blockContent =
     Html.div
         [ HA.class "mm-poetry", marginOfLevel level, selectedStyle_ selectedId id ]
         [ renderBlockContent selectedId id level blockContent ]
 
 
-renderBlockContent : Id -> Id -> Level -> BlockContent -> Html msg
+renderBlockContent : Id -> Id -> Level -> BlockContent -> Html MarkdownMsg
 renderBlockContent selectedId id level blockContent =
     case blockContent of
         M mmInline ->
@@ -676,7 +681,7 @@ nameFromBlockContent blockContent =
             ""
 
 
-renderToHtmlMsg : Id -> Id -> Level -> MDInline -> Html msg
+renderToHtmlMsg : Id -> Id -> Level -> MDInline -> Html MarkdownMsg
 renderToHtmlMsg selectedId id level mmInline =
     case mmInline of
         OrdinaryText str ->
@@ -734,7 +739,7 @@ renderToHtmlMsg selectedId id level mmInline =
 
         Paragraph arg ->
             let
-                mapper : MDInline -> ( String, Html msg )
+                mapper : MDInline -> ( String, Html MarkdownMsg )
                 mapper =
                     \m -> ( stringFromId id, renderToHtmlMsg selectedId id level m )
             in
@@ -749,7 +754,7 @@ renderToHtmlMsg selectedId id level mmInline =
             Html.p [] (List.map (renderToHtmlMsg selectedId id level) arg)
 
 
-renderStanza : Id -> String -> Html msg
+renderStanza : Id -> String -> Html MarkdownMsg
 renderStanza id arg =
     let
         lines =
@@ -761,10 +766,10 @@ renderStanza id arg =
     Html.div [ idAttr id, HA.class "mm-poetry" ] (List.map poetryLine lines)
 
 
-joinLine : Id -> Id -> Level -> List MDInline -> List (Html msg)
+joinLine : Id -> Id -> Level -> List MDInline -> List (Html MarkdownMsg)
 joinLine selectedId id level items =
     let
-        folder : MDInline -> ( List String, List (Html msg) ) -> ( List String, List (Html msg) )
+        folder : MDInline -> ( List String, List (Html MarkdownMsg) ) -> ( List String, List (Html MarkdownMsg) )
         folder item ( accString, accElement ) =
             case item of
                 OrdinaryText str ->
@@ -784,7 +789,7 @@ joinLine selectedId id level items =
                     else
                         ( [], renderToHtmlMsg selectedId id level item :: accElement )
 
-        flush : ( List String, List (Html msg) ) -> List (Html msg)
+        flush : ( List String, List (Html MarkdownMsg) ) -> List (Html MarkdownMsg)
         flush ( accString, accElement ) =
             if accString /= [] then
                 let
@@ -809,7 +814,7 @@ isPunctuation str =
     List.member str [ ".", ",", ";", ":", "?", "!" ]
 
 
-strikethrough : String -> Html msg
+strikethrough : String -> Html MarkdownMsg
 strikethrough str =
     Html.span [ HA.class "mm-strike-through" ] [ Html.text str ]
 
@@ -818,19 +823,19 @@ strikethrough str =
 -- MATH --
 
 
-mathText : String -> Html msg
+mathText : String -> Html MarkdownMsg
 mathText content =
     Html.node "math-text"
         [ HA.class "mm-math", HA.property "content" (Json.Encode.string content) ]
         []
 
 
-inlineMathText : Id -> String -> Html msg
+inlineMathText : Id -> String -> Html MarkdownMsg
 inlineMathText id str =
     Keyed.node "span" [ idAttrWithLabel id "m" ] [ ( stringFromId id ++ "m", mathText <| "$ " ++ String.trim str ++ " $ " ) ]
 
 
-displayMathText : String -> Html msg
+displayMathText : String -> Html MarkdownMsg
 displayMathText str =
     let
         str2 =

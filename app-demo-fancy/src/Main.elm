@@ -12,7 +12,7 @@ import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Json.Encode as E
-import Markdown.ElmWithId
+import Markdown.ElmWithId exposing (MarkdownMsg(..))
 import Markdown.Option exposing (Option(..))
 import Markdown.Parse as Parse
 import Outside
@@ -115,6 +115,7 @@ type Msg
     | SelectExtended
     | SelectExtendedMath
     | GotSecondPart ( Tree Parse.MDBlockWithId, RenderedText Msg )
+    | MarkdownMsg MarkdownMsg
 
 
 type alias Flags =
