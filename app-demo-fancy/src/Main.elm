@@ -90,7 +90,7 @@ emptyAst =
 
 emptyRenderedText : RenderedText
 emptyRenderedText =
-    Markdown.ElmWithId.renderHtmlWithExternaTOC ( 0, 0 ) "Contents" emptyAst
+    Markdown.ElmWithId.renderHtmlWithExternalTOC ( 0, 0 ) "Contents" emptyAst
 
 
 
@@ -178,7 +178,7 @@ doInit flags =
             , option = ExtendedMath
             , sourceText = initialText
             , lastAst = lastAst
-            , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC ( 0, 0 ) "Contents" <| firstAst
+            , renderedText = Markdown.ElmWithId.renderHtmlWithExternalTOC ( 0, 0 ) "Contents" <| firstAst
             , message = "Click ctrl-shift-I in editor to toggle info panel, ctrl-h to toggle help"
             , editor = editor
             , clipboard = ""
@@ -376,7 +376,7 @@ load model text =
 
                 -- , firstAst =  firstAst
                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath text
-                , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" <| firstAst
+                , renderedText = Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" <| firstAst
                 , editor = Editor.init (config <| getFlags model) text
             }
     in
@@ -433,7 +433,7 @@ updateRenderingData model text_ =
 
         renderedText__ : { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
         renderedText__ =
-            Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst__
+            Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" newAst__
     in
     ( newAst__, renderedText__ )
 
@@ -469,7 +469,7 @@ processContent str model =
 
         -- rendering
         , lastAst = newAst
-        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst
+        , renderedText = Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" newAst
         , counter = model.counter + 1
     }
 
@@ -488,7 +488,7 @@ processContentForHighlighting str model =
 
         -- rendering
         , lastAst = newAst
-        , renderedText = Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst
+        , renderedText = Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" newAst
         , counter = model.counter + 1
     }
 
@@ -548,7 +548,7 @@ renderAstFor model text =
             (\_ ->
                 Process.sleep 100
                     |> Task.andThen
-                        (\_ -> Task.succeed ( newAst, Markdown.ElmWithId.renderHtmlWithExternaTOC model.selectedId "Contents" newAst ))
+                        (\_ -> Task.succeed ( newAst, Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" newAst ))
             )
         |> Task.perform GotSecondPart
 

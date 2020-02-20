@@ -6,6 +6,7 @@ import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
 import Markdown.Elm
+import Markdown.ElmWithId exposing (MarkdownMsg)
 import Markdown.Option exposing (Option(..))
 import Random
 import Strings
@@ -40,6 +41,7 @@ type Msg
     | SelectStandard
     | SelectExtended
     | SelectExtendedMath
+    | MarkdownMsg MarkdownMsg
 
 
 type alias Flags =
@@ -125,6 +127,9 @@ update msg model =
             , Cmd.none
             )
 
+        MarkdownMsg _ ->
+            ( model, Cmd.none )
+
 
 
 --
@@ -140,7 +145,7 @@ view model =
 
 
 type alias RenderedText =
-    { title : Html MarkdownMsg, toc : Html Msg, document : Html Msg }
+    { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
 
 
 display : Model -> Html Msg
@@ -177,9 +182,17 @@ renderedSource rt model =
             String.fromInt model.counter
     in
     div []
-        [ Keyed.node "div" renderedSourceStyle [ ( token ++ "-xx", h1 [ style "font-size" "14px" ] [ rt.title ] ), ( token, rt.document ) ]
+        [ Keyed.node "div"
+            renderedSourceStyle
+            [ ( token ++ "-xx"
+              , h1 [ style "font-size" "14px" ]
+                    [ rt.title ]
+              )
+            , ( token, rt.document )
+            ]
         , div tocStyle [ rt.toc ]
         ]
+        |> Html.map MarkdownMsg
 
 
 

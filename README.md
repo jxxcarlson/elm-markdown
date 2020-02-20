@@ -44,10 +44,13 @@ You will need some Javascript, incuding MathJax 3.
 
 ## Demo
 
-There are two versions
-of the demo, a basic one in  `./app-demo/`, 
-another in `app-demo-fancy` which has more features and some optimizations
-that are useful for documents with a lot of mathematics.
+There are three versions
+of the demo, a basic one in  `./app-demo-simple/`, 
+ `./app-demo-simple/`, and`app-demo-fancy`.  Best
+to look at the first one first.  The second and third
+include extra bells, whistles and optimizations
+that are useful for interactive editing environments
+and documents with a lot of mathematics.
 
 See [markdown.minilatex.app](https://markdown.minilatex.app)
 for the latest version the fancy demo.

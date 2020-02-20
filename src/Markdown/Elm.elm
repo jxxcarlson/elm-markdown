@@ -8,7 +8,7 @@ options defined in the `Option` module.
 -}
 
 import Html exposing (Html)
-import Markdown.ElmWithId
+import Markdown.ElmWithId exposing (MarkdownMsg(..))
 import Markdown.Option exposing (Option(..))
 import Markdown.Parse
 
@@ -18,14 +18,14 @@ import Markdown.Parse
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Option -> String -> Html msg
+toHtml : Option -> String -> Html MarkdownMsg
 toHtml option str =
     Markdown.ElmWithId.toHtml ( 0, 0 ) 0 option str
 
 
 {-| Like `toHtml`, but constructs a table of contents.
 -}
-toHtmlWithTOC : Option -> String -> Html msg
+toHtmlWithTOC : Option -> String -> Html MarkdownMsg
 toHtmlWithTOC option str =
     str
         |> Markdown.Parse.toMDBlockTree 0 option
@@ -36,8 +36,8 @@ toHtmlWithTOC option str =
 one field of which is the rendered document,
 anther of which is the rendered table of contents.
 -}
-toHtmlWithExternaTOC : Option -> String -> { title : Html msg, toc : Html msg, document : Html msg }
+toHtmlWithExternaTOC : Option -> String -> { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
 toHtmlWithExternaTOC option str =
     str
         |> Markdown.Parse.toMDBlockTree 0 option
-        |> Markdown.ElmWithId.renderHtmlWithExternaTOC ( 0, 0 ) "Contents"
+        |> Markdown.ElmWithId.renderHtmlWithExternalTOC ( 0, 0 ) "Contents"

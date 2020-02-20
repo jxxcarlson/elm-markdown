@@ -20,7 +20,7 @@ mathjax3/
 
 app-demo-simple/*.sh
 app-demo-simple/Main.js
-app-demo-simple/dist/Main.min.js
+app-demo-simple/public/Main.min.js
 
 app-demo-fancy/make-test.sh
 app-demo-fancy/make.sh

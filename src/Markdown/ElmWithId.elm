@@ -1,7 +1,6 @@
 module Markdown.ElmWithId exposing
-    ( renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC
+    ( renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg(..)
     , numberOfMathElements
-    , MarkdownMsg(..)
     )
 
 {-| Use this module if you need to edit math + markdown _and_
@@ -43,7 +42,7 @@ where functions in the modules
 
 ## Rendering
 
-@docs renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternaTOC
+@docs renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg
 
 
 ## Utility
@@ -76,6 +75,8 @@ import SyntaxHighlight exposing (monokai, toBlockHtml, useTheme)
 import Tree exposing (Tree)
 
 
+{-| Use `Html MarkdownMsg` so that user clicks on elements in the rendered text can be detected.
+-}
 type MarkdownMsg
     = IDClicked String
 
@@ -259,8 +260,8 @@ renderHtmlWithTOC selectedId heading ast =
 with fields for the document title, the table of contents, and the body
 of the document.
 -}
-renderHtmlWithExternaTOC : Id -> String -> Tree MDBlockWithId -> { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
-renderHtmlWithExternaTOC selectedId heading ast =
+renderHtmlWithExternalTOC : Id -> String -> Tree MDBlockWithId -> { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
+renderHtmlWithExternalTOC selectedId heading ast =
     let
         toc : Html MarkdownMsg
         toc =
