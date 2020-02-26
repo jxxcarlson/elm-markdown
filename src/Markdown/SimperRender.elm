@@ -1,4 +1,4 @@
-module Markdown.Elm exposing (toHtml, toHtmlWithTOC, toHtmlWithExternaTOC)
+module Markdown.SimperRender exposing (toHtml, toHtmlWithTOC, toHtmlWithExternaTOC)
 
 {-| Render Markdown text to Html using one of the
 options defined in the `Option` module.
@@ -8,13 +8,9 @@ options defined in the `Option` module.
 -}
 
 import Html exposing (Html)
-import Markdown.ElmWithId exposing (MarkdownMsg(..))
 import Markdown.Option exposing (Option(..))
 import Markdown.Parse
-
-
-type MarkdownMsg
-    = IDClicked String
+import Markdown.Render exposing (MarkdownMsg(..))
 
 
 {-| Parse the input and render it to Html, e.g.,
@@ -24,7 +20,7 @@ toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 -}
 toHtml : Option -> String -> Html MarkdownMsg
 toHtml option str =
-    Markdown.ElmWithId.toHtml ( 0, 0 ) 0 option str
+    Markdown.Render.toHtml ( 0, 0 ) 0 option str
 
 
 {-| Like `toHtml`, but constructs a table of contents.
@@ -33,7 +29,7 @@ toHtmlWithTOC : Option -> String -> Html MarkdownMsg
 toHtmlWithTOC option str =
     str
         |> Markdown.Parse.toMDBlockTree 0 option
-        |> Markdown.ElmWithId.renderHtmlWithTOC ( 0, 0 ) "Contents"
+        |> Markdown.Render.renderHtmlWithTOC ( 0, 0 ) "Contents"
 
 
 {-| Like `toHtmlWithTOC`, but constructs returns a record,
@@ -44,4 +40,4 @@ toHtmlWithExternaTOC : Option -> String -> { title : Html MarkdownMsg, toc : Htm
 toHtmlWithExternaTOC option str =
     str
         |> Markdown.Parse.toMDBlockTree 0 option
-        |> Markdown.ElmWithId.renderHtmlWithExternalTOC ( 0, 0 ) "Contents"
+        |> Markdown.Render.renderHtmlWithExternalTOC ( 0, 0 ) "Contents"

@@ -24,9 +24,9 @@ For simple applications, use the `Madrkown.Elm` and `Markdown.Option` modules,
 as in these examples:
 
 ```
-Markdown.Elm.toHtml Extended "This **is** a test."
+Markdown.Elm.toHtml Extended "This **is** a test." |> Html.map MarkdownMsg
 
-Markdown.Elm.toHtml ExtendedMath "Use $a^2 + b^2 = c^2$."
+Markdown.Elm.toHtml ExtendedMath "Use $a^2 + b^2 = c^2$." |> Html.map MarkdownMsg
 ```
 
 where in `Markdown.Option` one has
@@ -137,9 +137,17 @@ extent possible by the method of successive approximations
 
 ## Recent Changes
 
+
+- Changed the return type of the rendering functions, e.g.,
+ `toHtml : Option -> String -> Html  msg` becomes
+ `toHtml : Option -> String -> Html MarkdownMsg`. This change
+ makes the rendered text "active," e.g., can respond to clicks.
+ See next item.
+ 
 - Added `sourceMap : Tree MDBlockWithId -> BiDict String String` in the 
 `Markdown.Parse` module as a hook for host programs to implement 
 bidrectional sync of source and rendered text. 
+
 
 
 ## Thanks

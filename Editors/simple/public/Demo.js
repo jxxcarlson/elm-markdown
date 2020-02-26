@@ -5458,12 +5458,12 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $jxxcarlson$elm_markdown$Markdown$Option$ExtendedMath = {$: 'ExtendedMath'};
+var $author$project$Markdown$Option$ExtendedMath = {$: 'ExtendedMath'};
 var $author$project$Strings$initialText = '# A Pure Elm Markdown Parser\n\n\n## Introduction\n\n![Hummingbird::left](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)   This project grew out of the need to have a pure Elm Markdown\n parser-renderer that could also handle mathematical\n text.  Mathematical text is rendered by\n MathJax 3, which has very large performance advantages\n compared to its predecessors.\n The Markdown used here offers three options: *Standard*,\n *Extended* and *ExtendedMath*. The Extended option provides for strike-through\n text, verbatim blocks, poetry blocks, and tables.  ExtendedMath\n handles\n formulas written in TeX/LaTeX:\n\n$$\n\\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi\n$$\n\nNote also that there is an automatically generated\nactive table of contents. It can be placed inside the document\nat the top, to one side, as it is here, or it can be absent.\n\n\nThe [library](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)\n with which this demo app is built is suitable for\nlight-weight writing tasks that require\nmathematical notation — problem sets, short class notes, etc.\n\n\nThis project is a work in progress: more to to do make\nit adhere as closely as possible to the CommonMark spec.\nWrite me at jxxcarlson@gmail.com with comments and bug reports,\nor post an issue on the [GitHub repo](https://github.com/jxxcarlson/elm-markdown).\n\nFor installation, see the notes\nat the end. This Markdown package is written in pure Elm.\nIt uses MathJax.js to render math formulas.\n\n## Demo\n\nBelow we illustrate some typical Markdown elements: images, links, headings, etc.\n\n![Hummingbird](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)\nHummingbird (Meditation)\n\nLink: [New York Times](http://nytimes.com)\n\nText styles: **bold** *italic* ~~strike it out~~\n\n\n## Inline Math\n\nThis is a test: $a^2 + b^2 = c^2$.\n\n## Display Math\n\nSo is this:\n\n$$\n\\int_0^1 x^n dx = \\frac{1}{n+1}\n$$\n\n\n## Code\n\nHe said that `a := 0` is an initialization statement.\n\n```\n# Partial sum of the harmonic series:\n\nsum = 0\nfor n in range(1..100):\n  sum = sum + 1.0/n\nsum\n```\n\n## Verbatim and Tables (Extensions)\n\nA verbatim block begins and ends with four tick marks.\nIt is just like a code block, except that there is no\nsyntax highlighting.  Verbatim blocks are an extension\nof normal Markdown.\n\n````\nVerbatim text has many uses:\n\n   Element    |    Z\n   --------------------\n   Altium     |    4/5\n   Brazilium  |    7/5\n   Certium    |    9/5\n````\n\nBut better is to use Markdown tables:\n\n|  Element  | Symbol |  Z | A |\n| Hydrogen  | H      |  1 | 1.008   |\n| Helium    | He     |  2 |  4.0026 |\n| Lithium   | Li     |  3 |  6.94   |\n| Beryllium | Be     |  4 |  9.0122 |\n| Boron     | B      |  5 | 10.81   |\n| Carbon    | C      |  6 | 12.011  |\n| Nitrogen  | N      |  7 | 14.007  |\n| Oxygen    | O      |  8 | 15.999  |\n| Flourine  | F      |  9 | 18.998  |\n| Neon      | Ne     | 10 | 20.180  |\n\n\n## Lists\n\nIndent by four spaces for each level.  List items\nare separated by blank lines.\n\n- Solids\n\n    - Iron *(metal)*\n\n        - Iron disulfide (Pyrite): $FeS_2$, crystalline\n\n        - Iron(II) sulfed $FeS$, not stable, amorphous\n\n    - Selenium *(use for solar cells)*\n\n- Liquids\n\n    - Alcohol *(careful!)*\n\n    - Water *(Ok to drink)*\n\n## Numbered lists\n\n### Problem Set 18\n\n1. Compute the coefficient of $a^5b^2$ in $(a + b)^7$.\n\n    1. Do also: coefficient of $a^5b^5$ in $(a + 2b)^{10}$\n\n    2. Do also: coefficient of $a^7b^5$ in $(a - b)^{12}$\n\n4. If $f\'(2) = 0$, what can you say about the graph of $f$ at $x = 2$?\n\n6. Suppose that in addition, $f\'\'(2) > 0$. What else can say about the graph?\n\n\n### Problem Set 19\n\n4. Show that $u(x,t) = f(x - ct)$ is a solution to the equation $\\partial u(x,t)/\\partial x + c^{-1} \\partial u(x,t)/\\partial t = 0$.\n\n3. State the wave equation and show that $u(x,t)$ as above is a solution to it.\n\n2. In what direction does the wave defined by $u(x,t) = f(x - ct)$ move?\n\n4.  Find a solution of the wave equation that represents a pulse moving in the opposite direction.\n\n\n\n## Quotations\n\n\nQuotations are offset:\n\n> Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.\n\n> Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.\n\n> But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth.\n\n— Abraham Lincoln, *Gettysbug Address*\n\n## Poetry (Extension)\n\nPoetry blocks, an extension of normal Markdown,\n begin with ">>"; line endings are respected.\n\n>> Twas brillig, and the slithy toves\nDid gyre and gimble in the wabe:\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n\n>> Beware the Jabberwock, my son!\nThe jaws that bite, the claws that catch!\nBeware the Jubjub bird, and shun\nThe frumious Bandersnatch!\n\n\nEtcetera!\n\n___\n\n\nNOTE: this Markdown implementation is an option for writing documents on [knode.io](https://knode.io).\nKnode also offers MiniLaTeX, a web-friendly subset of TeX/LaTex.  To see\nhow it works without a sign-in, please see [demo.minilatex.app](https://demo.minilatex.app).\n\n\n___\n\n## Installation\n\n\nTo compile, use\n\n```elm\nelm make --output=Main.js\n```\n\nThen open `index.html` to run the app.\n\n\n';
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Demo$init = function (flags) {
-	var model = {counter: 0, option: $jxxcarlson$elm_markdown$Markdown$Option$ExtendedMath, seed: 0, sourceText: $author$project$Strings$initialText};
+	var model = {counter: 0, option: $author$project$Markdown$Option$ExtendedMath, seed: 0, sourceText: $author$project$Strings$initialText};
 	return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
@@ -5471,11 +5471,11 @@ var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
 var $author$project$Demo$subscriptions = function (model) {
 	return $elm$core$Platform$Sub$none;
 };
-var $jxxcarlson$elm_markdown$Markdown$Option$Extended = {$: 'Extended'};
+var $author$project$Markdown$Option$Extended = {$: 'Extended'};
 var $author$project$Demo$NewSeed = function (a) {
 	return {$: 'NewSeed', a: a};
 };
-var $jxxcarlson$elm_markdown$Markdown$Option$Standard = {$: 'Standard'};
+var $author$project$Markdown$Option$Standard = {$: 'Standard'};
 var $elm$random$Random$Generate = function (a) {
 	return {$: 'Generate', a: a};
 };
@@ -5671,19 +5671,19 @@ var $author$project$Demo$update = F2(
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{option: $jxxcarlson$elm_markdown$Markdown$Option$Standard}),
+						{option: $author$project$Markdown$Option$Standard}),
 					$elm$core$Platform$Cmd$none);
 			case 'SelectExtended':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{option: $jxxcarlson$elm_markdown$Markdown$Option$Extended}),
+						{option: $author$project$Markdown$Option$Extended}),
 					$elm$core$Platform$Cmd$none);
 			case 'SelectExtendedMath':
 				return _Utils_Tuple2(
 					_Utils_update(
 						model,
-						{option: $jxxcarlson$elm_markdown$Markdown$Option$ExtendedMath}),
+						{option: $author$project$Markdown$Option$ExtendedMath}),
 					$elm$core$Platform$Cmd$none);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -5858,7 +5858,7 @@ var $author$project$Demo$extendedMarkdownButton = F2(
 					]),
 				A4(
 					$author$project$Style$buttonStyleSelected,
-					_Utils_eq(model.option, $jxxcarlson$elm_markdown$Markdown$Option$Extended),
+					_Utils_eq(model.option, $author$project$Markdown$Option$Extended),
 					$author$project$Style$colorBlue,
 					$author$project$Style$colorDarkRed,
 					width)),
@@ -5879,7 +5879,7 @@ var $author$project$Demo$extendedMathMarkdownButton = F2(
 					]),
 				A4(
 					$author$project$Style$buttonStyleSelected,
-					_Utils_eq(model.option, $jxxcarlson$elm_markdown$Markdown$Option$ExtendedMath),
+					_Utils_eq(model.option, $author$project$Markdown$Option$ExtendedMath),
 					$author$project$Style$colorBlue,
 					$author$project$Style$colorDarkRed,
 					width)),
@@ -5978,7 +5978,7 @@ var $author$project$Demo$standardMarkdownButton = F2(
 					]),
 				A4(
 					$author$project$Style$buttonStyleSelected,
-					_Utils_eq(model.option, $jxxcarlson$elm_markdown$Markdown$Option$Standard),
+					_Utils_eq(model.option, $author$project$Markdown$Option$Standard),
 					$author$project$Style$colorBlue,
 					$author$project$Style$colorDarkRed,
 					width)),
@@ -6138,10 +6138,10 @@ var $zwilias$elm_rosetree$Tree$map = F2(
 			_Utils_Tuple0,
 			t).b;
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$IDClicked = function (a) {
+var $author$project$Markdown$Render$IDClicked = function (a) {
 	return {$: 'IDClicked', a: a};
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$MDBlock = F3(
+var $author$project$Markdown$Parse$MDBlock = F3(
 	function (a, b, c) {
 		return {$: 'MDBlock', a: a, b: b, c: c};
 	});
@@ -6159,7 +6159,7 @@ var $elm$virtual_dom$VirtualDom$property = F2(
 			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $elm$html$Html$Attributes$property = $elm$virtual_dom$VirtualDom$property;
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mathText = function (content) {
+var $author$project$Markdown$Render$mathText = function (content) {
 	return A3(
 		$elm$html$Html$node,
 		'math-text',
@@ -6174,30 +6174,30 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mathText = function (content) {
 		_List_Nil);
 };
 var $elm$core$String$trim = _String_trim;
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$displayMathText = function (str) {
+var $author$project$Markdown$Render$displayMathText = function (str) {
 	var str2 = $elm$core$String$trim(str);
-	return $jxxcarlson$elm_markdown$Markdown$ElmWithId$mathText('$$\n' + (str2 + '\n$$'));
+	return $author$project$Markdown$Render$mathText('$$\n' + (str2 + '\n$$'));
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$stringFromId = function (_v0) {
+var $author$project$Markdown$Parse$stringFromId = function (_v0) {
 	var id = _v0.a;
 	var version = _v0.b;
 	return 'i' + ($elm$core$String$fromInt(id) + ('v' + $elm$core$String$fromInt(version)));
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr = function (id) {
+var $author$project$Markdown$Render$idAttr = function (id) {
 	return $elm$html$Html$Attributes$id(
-		$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id));
+		$author$project$Markdown$Parse$stringFromId(id));
 };
 var $zwilias$elm_rosetree$Tree$label = function (_v0) {
 	var v = _v0.a;
 	return v;
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$project = function (_v0) {
+var $author$project$Markdown$Parse$project = function (_v0) {
 	var bt = _v0.b;
 	var lev = _v0.c;
 	var content = _v0.d;
-	return A3($jxxcarlson$elm_markdown$Markdown$Parse$MDBlock, bt, lev, content);
+	return A3($author$project$Markdown$Parse$MDBlock, bt, lev, content);
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$projectedStringOfBlockContent = function (blockContent) {
+var $author$project$Markdown$Parse$projectedStringOfBlockContent = function (blockContent) {
 	if (blockContent.$ === 'M') {
 		var mmInline = blockContent.a;
 		return '';
@@ -6206,12 +6206,12 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$projectedStringOfBlockContent = func
 		return str;
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$blockLevelClass = function (k) {
+var $author$project$Markdown$Render$blockLevelClass = function (k) {
 	return $elm$html$Html$Attributes$class(
 		'mm-block-' + $elm$core$String$fromInt(k));
 };
 var $elm$html$Html$code = _VirtualDom_node('code');
-var $jxxcarlson$elm_markdown$BlockType$stringOfLanguage = function (lang_) {
+var $author$project$BlockType$stringOfLanguage = function (lang_) {
 	switch (lang_.$) {
 		case 'ElmLang':
 			return 'elm';
@@ -6229,12 +6229,12 @@ var $jxxcarlson$elm_markdown$BlockType$stringOfLanguage = function (lang_) {
 			return 'xml';
 	}
 };
-var $jxxcarlson$elm_markdown$BlockType$deleteLangPrefix = F2(
+var $author$project$BlockType$deleteLangPrefix = F2(
 	function (lang, str) {
 		return A2(
 			$elm$core$String$dropLeft,
 			$elm$core$String$length(
-				$jxxcarlson$elm_markdown$BlockType$stringOfLanguage(lang)) + 1,
+				$author$project$BlockType$stringOfLanguage(lang)) + 1,
 			str);
 	});
 var $elm$core$Result$map = F2(
@@ -6248,7 +6248,7 @@ var $elm$core$Result$map = F2(
 			return $elm$core$Result$Err(e);
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$marginOfLevel = function (level) {
+var $author$project$Markdown$Render$marginOfLevel = function (level) {
 	return A2(
 		$elm$html$Html$Attributes$style,
 		'margin-left',
@@ -11732,7 +11732,7 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$xml = A2(
 	$elm$core$Basics$composeR,
 	$pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Xml$toLines,
 	$elm$core$Result$map($pablohirafuji$elm_syntax_highlight$SyntaxHighlight$HCode));
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$parserOfLanguage = function (lang_) {
+var $author$project$Markdown$Render$parserOfLanguage = function (lang_) {
 	switch (lang_.$) {
 		case 'ElmLang':
 			return $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$elm;
@@ -11753,31 +11753,31 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$parserOfLanguage = function (lan
 var $elm$html$Html$pre = _VirtualDom_node('pre');
 var $elm$html$Html$em = _VirtualDom_node('em');
 var $elm$html$Html$img = _VirtualDom_node('img');
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttrWithLabel = F2(
+var $author$project$Markdown$Render$idAttrWithLabel = F2(
 	function (id, label) {
 		return $elm$html$Html$Attributes$id(
 			_Utils_ap(
-				$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id),
+				$author$project$Markdown$Parse$stringFromId(id),
 				label));
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$inlineMathText = F2(
+var $author$project$Markdown$Render$inlineMathText = F2(
 	function (id, str) {
 		return A3(
 			$elm$html$Html$Keyed$node,
 			'span',
 			_List_fromArray(
 				[
-					A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttrWithLabel, id, 'm')
+					A2($author$project$Markdown$Render$idAttrWithLabel, id, 'm')
 				]),
 			_List_fromArray(
 				[
 					_Utils_Tuple2(
-					$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id) + 'm',
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$mathText(
+					$author$project$Markdown$Parse$stringFromId(id) + 'm',
+					$author$project$Markdown$Render$mathText(
 						'$ ' + ($elm$core$String$trim(str) + ' $ ')))
 				]));
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderStanza = F2(
+var $author$project$Markdown$Render$renderStanza = F2(
 	function (id, arg) {
 		var poetryLine = function (line) {
 			return A2(
@@ -11793,12 +11793,12 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderStanza = F2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
+					$author$project$Markdown$Render$idAttr(id),
 					$elm$html$Html$Attributes$class('mm-poetry')
 				]),
 			A2($elm$core$List$map, poetryLine, lines));
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_ = F2(
+var $author$project$Markdown$Render$selectedStyle_ = F2(
 	function (targetId, currentId) {
 		var _v0 = _Utils_eq(targetId, currentId);
 		if (_v0) {
@@ -11813,7 +11813,7 @@ var $elm$html$Html$Attributes$src = function (url) {
 		'src',
 		_VirtualDom_noJavaScriptOrHtmlUri(url));
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$strikethrough = function (str) {
+var $author$project$Markdown$Render$strikethrough = function (str) {
 	return A2(
 		$elm$html$Html$span,
 		_List_fromArray(
@@ -11952,7 +11952,7 @@ var $elm$core$List$take = F2(
 	function (n, list) {
 		return A3($elm$core$List$takeFast, 0, n, list);
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$joinLine = F4(
+var $author$project$Markdown$Render$joinLine = F4(
 	function (selectedId, id, level, items) {
 		var folder = F2(
 			function (item, _v6) {
@@ -11980,14 +11980,14 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$joinLine = F4(
 							_List_Nil,
 							A2(
 								$elm$core$List$cons,
-								A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level, item),
+								A4($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level, item),
 								A2($elm$core$List$cons, span, accElement)));
 					} else {
 						return _Utils_Tuple2(
 							_List_Nil,
 							A2(
 								$elm$core$List$cons,
-								A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level, item),
+								A4($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level, item),
 								accElement));
 					}
 				}
@@ -12017,7 +12017,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$joinLine = F4(
 					_Utils_Tuple2(_List_Nil, _List_Nil),
 					items)));
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg = F4(
+var $author$project$Markdown$Render$renderToHtmlMsg = F4(
 	function (selectedId, id, level, mmInline) {
 		switch (mmInline.$) {
 			case 'OrdinaryText':
@@ -12026,9 +12026,9 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg = F4(
 					$elm$html$Html$span,
 					_List_fromArray(
 						[
-							$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
+							$author$project$Markdown$Render$idAttr(id),
 							$elm$html$Html$Attributes$class('ordinary'),
-							$jxxcarlson$elm_markdown$Markdown$ElmWithId$marginOfLevel(level)
+							$author$project$Markdown$Render$marginOfLevel(level)
 						]),
 					_List_fromArray(
 						[
@@ -12058,7 +12058,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg = F4(
 					$elm$html$Html$code,
 					_List_fromArray(
 						[
-							$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id)
+							$author$project$Markdown$Render$idAttr(id)
 						]),
 					_List_fromArray(
 						[
@@ -12066,10 +12066,10 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg = F4(
 						]));
 			case 'InlineMath':
 				var str = mmInline.a;
-				return A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$inlineMathText, id, str);
+				return A2($author$project$Markdown$Render$inlineMathText, id, str);
 			case 'StrikeThroughText':
 				var str = mmInline.a;
-				return $jxxcarlson$elm_markdown$Markdown$ElmWithId$strikethrough(str);
+				return $author$project$Markdown$Render$strikethrough(str);
 			case 'BracketedText':
 				var str = mmInline.a;
 				return A2(
@@ -12127,7 +12127,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg = F4(
 					$elm$html$Html$img,
 					_List_fromArray(
 						[
-							$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
+							$author$project$Markdown$Render$idAttr(id),
 							$elm$html$Html$Attributes$src(url),
 							$elm$html$Html$Attributes$class(_class)
 						]),
@@ -12137,7 +12137,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg = F4(
 						]));
 			case 'Line':
 				var arg = mmInline.a;
-				var joined = A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$joinLine, selectedId, id, level, arg);
+				var joined = A4($author$project$Markdown$Render$joinLine, selectedId, id, level, arg);
 				return ($elm$core$List$length(joined) === 1) ? A2(
 					$elm$core$Maybe$withDefault,
 					A2(
@@ -12158,23 +12158,23 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg = F4(
 				var arg = mmInline.a;
 				var mapper = function (m) {
 					return _Utils_Tuple2(
-						$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id),
-						A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level, m));
+						$author$project$Markdown$Parse$stringFromId(id),
+						A4($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level, m));
 				};
 				return A3(
 					$elm$html$Html$Keyed$node,
 					'p',
 					_List_fromArray(
 						[
-							$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
-							A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id),
+							$author$project$Markdown$Render$idAttr(id),
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id),
 							$elm$html$Html$Attributes$class('mm-paragraph'),
-							$jxxcarlson$elm_markdown$Markdown$ElmWithId$blockLevelClass(level - 1)
+							$author$project$Markdown$Render$blockLevelClass(level - 1)
 						]),
 					A2($elm$core$List$map, mapper, arg));
 			case 'Stanza':
 				var arg = mmInline.a;
-				return A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderStanza, id, arg);
+				return A2($author$project$Markdown$Render$renderStanza, id, arg);
 			default:
 				var arg = mmInline.a;
 				return A2(
@@ -12182,24 +12182,24 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg = F4(
 					_List_Nil,
 					A2(
 						$elm$core$List$map,
-						A3($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level),
+						A3($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level),
 						arg));
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent = F4(
+var $author$project$Markdown$Render$renderBlockContent = F4(
 	function (selectedId, id, level, blockContent) {
 		if (blockContent.$ === 'M') {
 			var mmInline = blockContent.a;
-			return A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level, mmInline);
+			return A4($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level, mmInline);
 		} else {
 			var str = blockContent.a;
 			return A2(
 				$elm$html$Html$span,
 				_List_fromArray(
 					[
-						$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
-						$jxxcarlson$elm_markdown$Markdown$ElmWithId$blockLevelClass(level - 1),
-						A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+						$author$project$Markdown$Render$idAttr(id),
+						$author$project$Markdown$Render$blockLevelClass(level - 1),
+						A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 					]),
 				_List_fromArray(
 					[
@@ -12210,7 +12210,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent = F4(
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$html$Html$h4 = _VirtualDom_node('h4');
 var $elm$html$Html$h5 = _VirtualDom_node('h5');
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$nameFromBlockContent = function (blockContent) {
+var $author$project$Markdown$Render$nameFromBlockContent = function (blockContent) {
 	if ((((((((blockContent.$ === 'M') && (blockContent.a.$ === 'Paragraph')) && blockContent.a.a.b) && (blockContent.a.a.a.$ === 'Line')) && blockContent.a.a.a.a.b) && (blockContent.a.a.a.a.a.$ === 'OrdinaryText')) && (!blockContent.a.a.a.a.b.b)) && (!blockContent.a.a.b.b)) {
 		var _v1 = blockContent.a.a;
 		var _v2 = _v1.a.a;
@@ -12220,9 +12220,9 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$nameFromBlockContent = function 
 		return '';
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeading = F5(
+var $author$project$Markdown$Render$renderHeading = F5(
 	function (selectedId, id, k, level, blockContent) {
-		var name = $jxxcarlson$elm_markdown$Markdown$ElmWithId$nameFromBlockContent(blockContent);
+		var name = $author$project$Markdown$Render$nameFromBlockContent(blockContent);
 		switch (k) {
 			case 1:
 				return A2(
@@ -12231,11 +12231,11 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h1'),
-							A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 2:
 				return A2(
@@ -12244,11 +12244,11 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h2'),
-							A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 3:
 				return A2(
@@ -12257,11 +12257,11 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h3'),
-							A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 4:
 				return A2(
@@ -12270,11 +12270,11 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h4'),
-							A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			default:
 				return A2(
@@ -12283,18 +12283,18 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h5'),
-							A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 		}
 	});
-var $jxxcarlson$elm_markdown$MDInline$OrdinaryText = function (a) {
+var $author$project$MDInline$OrdinaryText = function (a) {
 	return {$: 'OrdinaryText', a: a};
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$alphabet = function (k) {
+var $author$project$Markdown$Render$alphabet = function (k) {
 	var alpha = _List_fromArray(
 		['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']);
 	return A2(
@@ -12304,13 +12304,13 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$alphabet = function (k) {
 			A2($elm$core$List$drop, k - 1, alpha)));
 };
 var $elm$html$Html$li = _VirtualDom_node('li');
-var $jxxcarlson$elm_markdown$Markdown$Parse$M = function (a) {
+var $author$project$Markdown$Parse$M = function (a) {
 	return {$: 'M', a: a};
 };
-var $jxxcarlson$elm_markdown$MDInline$Paragraph = function (a) {
+var $author$project$MDInline$Paragraph = function (a) {
 	return {$: 'Paragraph', a: a};
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$prependToParagraph = F2(
+var $author$project$Markdown$Render$prependToParagraph = F2(
 	function (head, tail) {
 		if (tail.$ === 'T') {
 			return tail;
@@ -12318,15 +12318,15 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$prependToParagraph = F2(
 			var mmInLine = tail.a;
 			if (mmInLine.$ === 'Paragraph') {
 				var lst = mmInLine.a;
-				return $jxxcarlson$elm_markdown$Markdown$Parse$M(
-					$jxxcarlson$elm_markdown$MDInline$Paragraph(
+				return $author$project$Markdown$Parse$M(
+					$author$project$MDInline$Paragraph(
 						A2($elm$core$List$cons, head, lst)));
 			} else {
 				return tail;
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$romanNumeral = function (k) {
+var $author$project$Markdown$Render$romanNumeral = function (k) {
 	var alpha = _List_fromArray(
 		['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'xiii', 'xiv', 'xv', 'xvi', 'xvii', 'xviii', 'xix', 'xx', 'xxi', 'xxii', 'xxiii', 'xiv', 'xv', 'xvi']);
 	return A2(
@@ -12335,16 +12335,16 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$romanNumeral = function (k) {
 		$elm$core$List$head(
 			A2($elm$core$List$drop, k - 1, alpha)));
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderOListItem = F5(
+var $author$project$Markdown$Render$renderOListItem = F5(
 	function (selectedId, id, index, level, blockContent) {
 		var label = function () {
 			switch (level) {
 				case 1:
 					return $elm$core$String$fromInt(index) + '. ';
 				case 2:
-					return $jxxcarlson$elm_markdown$Markdown$ElmWithId$alphabet(index) + '. ';
+					return $author$project$Markdown$Render$alphabet(index) + '. ';
 				case 3:
-					return $jxxcarlson$elm_markdown$Markdown$ElmWithId$romanNumeral(index) + '. ';
+					return $author$project$Markdown$Render$romanNumeral(index) + '. ';
 				case 4:
 					return $elm$core$String$fromInt(index) + '. ';
 				default:
@@ -12356,54 +12356,54 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderOListItem = F5(
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('mm-olist-item'),
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$blockLevelClass(level - 1),
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
-					A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+					$author$project$Markdown$Render$blockLevelClass(level - 1),
+					$author$project$Markdown$Render$idAttr(id),
+					A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 				]),
 			_List_fromArray(
 				[
 					A4(
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent,
+					$author$project$Markdown$Render$renderBlockContent,
 					selectedId,
 					id,
 					level,
 					A2(
-						$jxxcarlson$elm_markdown$Markdown$ElmWithId$prependToParagraph,
-						$jxxcarlson$elm_markdown$MDInline$OrdinaryText(label),
+						$author$project$Markdown$Render$prependToParagraph,
+						$author$project$MDInline$OrdinaryText(label),
 						blockContent))
 				]));
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderPoetry = F4(
+var $author$project$Markdown$Render$renderPoetry = F4(
 	function (selectedId, id, level, blockContent) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('mm-poetry'),
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$marginOfLevel(level),
-					A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+					$author$project$Markdown$Render$marginOfLevel(level),
+					A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 				]),
 			_List_fromArray(
 				[
-					A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+					A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 				]));
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderQuotation = F4(
+var $author$project$Markdown$Render$renderQuotation = F4(
 	function (selectedId, id, level, blockContent) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('mm-quotation'),
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$blockLevelClass(level),
-					A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+					$author$project$Markdown$Render$blockLevelClass(level),
+					A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 				]),
 			_List_fromArray(
 				[
-					A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+					A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 				]));
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderUListItem = F4(
+var $author$project$Markdown$Render$renderUListItem = F4(
 	function (selectedId, id, level, blockContent) {
 		var label = function () {
 			switch (level) {
@@ -12424,20 +12424,20 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderUListItem = F4(
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('mm-ulist-item'),
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$blockLevelClass(level - 1),
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
-					A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+					$author$project$Markdown$Render$blockLevelClass(level - 1),
+					$author$project$Markdown$Render$idAttr(id),
+					A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 				]),
 			_List_fromArray(
 				[
 					A4(
-					$jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent,
+					$author$project$Markdown$Render$renderBlockContent,
 					selectedId,
 					id,
 					level,
 					A2(
-						$jxxcarlson$elm_markdown$Markdown$ElmWithId$prependToParagraph,
-						$jxxcarlson$elm_markdown$MDInline$OrdinaryText(label),
+						$author$project$Markdown$Render$prependToParagraph,
+						$author$project$MDInline$OrdinaryText(label),
 						blockContent))
 				]));
 	});
@@ -12669,7 +12669,7 @@ var $elm$core$Result$withDefault = F2(
 			return def;
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
+var $author$project$Markdown$Render$renderBlock = F3(
 	function (selectedId, id, block) {
 		if (block.a.$ === 'BalancedBlock') {
 			switch (block.a.a.$) {
@@ -12683,16 +12683,16 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
 							$elm$html$Html$div,
 							_List_fromArray(
 								[
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$marginOfLevel(level),
-									A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									$author$project$Markdown$Render$idAttr(id),
+									$author$project$Markdown$Render$marginOfLevel(level),
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$displayMathText(str)
+									$author$project$Markdown$Render$displayMathText(str)
 								]));
 					} else {
-						return $jxxcarlson$elm_markdown$Markdown$ElmWithId$displayMathText('');
+						return $author$project$Markdown$Render$displayMathText('');
 					}
 				case 'Verbatim':
 					var _v11 = block.a.a;
@@ -12704,16 +12704,16 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
 							$elm$html$Html$pre,
 							_List_fromArray(
 								[
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$marginOfLevel(level),
-									A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									$author$project$Markdown$Render$idAttr(id),
+									$author$project$Markdown$Render$marginOfLevel(level),
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
 									$elm$html$Html$text(str)
 								]));
 					} else {
-						return $jxxcarlson$elm_markdown$Markdown$ElmWithId$displayMathText('');
+						return $author$project$Markdown$Render$displayMathText('');
 					}
 				default:
 					var lang = block.a.a.a;
@@ -12725,7 +12725,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
 							$elm$html$Html$div,
 							_List_fromArray(
 								[
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$blockLevelClass(level - 1)
+									$author$project$Markdown$Render$blockLevelClass(level - 1)
 								]),
 							_List_fromArray(
 								[
@@ -12750,13 +12750,13 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
 										$pablohirafuji$elm_syntax_highlight$SyntaxHighlight$toBlockHtml(
 											$elm$core$Maybe$Just(1)),
 										A2(
-											$jxxcarlson$elm_markdown$Markdown$ElmWithId$parserOfLanguage,
+											$author$project$Markdown$Render$parserOfLanguage,
 											lang,
 											$elm$core$String$trimLeft(
-												A2($jxxcarlson$elm_markdown$BlockType$deleteLangPrefix, lang, str)))))
+												A2($author$project$BlockType$deleteLangPrefix, lang, str)))))
 								]));
 					} else {
-						return $jxxcarlson$elm_markdown$Markdown$ElmWithId$displayMathText('');
+						return $author$project$Markdown$Render$displayMathText('');
 					}
 			}
 		} else {
@@ -12767,45 +12767,45 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
-								A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+								$author$project$Markdown$Render$idAttr(id),
+								A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 							]),
 						_List_Nil);
 				case 'Plain':
 					var _v2 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent);
 				case 'Blank':
 					var _v3 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent);
 				case 'Heading':
 					var k = block.a.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A5($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeading, selectedId, id, k, level, blockContent);
+					return A5($author$project$Markdown$Render$renderHeading, selectedId, id, k, level, blockContent);
 				case 'Quotation':
 					var _v4 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderQuotation, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderQuotation, selectedId, id, level, blockContent);
 				case 'Poetry':
 					var _v5 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderPoetry, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderPoetry, selectedId, id, level, blockContent);
 				case 'UListItem':
 					var _v6 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderUListItem, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderUListItem, selectedId, id, level, blockContent);
 				case 'OListItem':
 					var index = block.a.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A5($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderOListItem, selectedId, id, index, level, blockContent);
+					return A5($author$project$Markdown$Render$renderOListItem, selectedId, id, index, level, blockContent);
 				case 'HorizontalRule':
 					var _v7 = block.a.a;
 					var level = block.b;
@@ -12814,16 +12814,16 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
 						$elm$html$Html$hr,
 						_List_fromArray(
 							[
-								$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id),
+								$author$project$Markdown$Render$idAttr(id),
 								$elm$html$Html$Attributes$class('mm-thematic-break'),
-								A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+								A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 							]),
 						_List_Nil);
 				case 'Image':
 					var _v8 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent);
 				case 'TableCell':
 					var _v14 = block.a.a;
 					var level = block.b;
@@ -12836,7 +12836,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
 							]),
 						_List_fromArray(
 							[
-								A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+								A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 							]));
 				case 'TableRow':
 					var _v15 = block.a.a;
@@ -12850,7 +12850,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
 							]),
 						_List_fromArray(
 							[
-								A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+								A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 							]));
 				default:
 					var _v16 = block.a.a;
@@ -12861,29 +12861,29 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock = F3(
 						_List_fromArray(
 							[
 								$elm$html$Html$Attributes$class('mm-table'),
-								$jxxcarlson$elm_markdown$Markdown$ElmWithId$marginOfLevel(level)
+								$author$project$Markdown$Render$marginOfLevel(level)
 							]),
 						_List_fromArray(
 							[
-								A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+								A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 							]));
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$highlightColor = '#8d9ffe';
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle = F2(
+var $author$project$Markdown$Render$highlightColor = '#8d9ffe';
+var $author$project$Markdown$Render$selectedStyle = F2(
 	function (targetId, currentId) {
 		var _v0 = _Utils_eq(targetId, currentId);
 		if (_v0) {
 			return _List_fromArray(
 				[
-					A2($elm$html$Html$Attributes$style, 'background-color', $jxxcarlson$elm_markdown$Markdown$ElmWithId$highlightColor)
+					A2($elm$html$Html$Attributes$style, 'background-color', $author$project$Markdown$Render$highlightColor)
 				]);
 		} else {
 			return _List_Nil;
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
+var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 	function (selectedId, tree) {
 		if (_Utils_eq(
 			$zwilias$elm_rosetree$Tree$children(tree),
@@ -12899,44 +12899,44 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 					$elm$html$Html$Keyed$node,
 					'spanXXX',
 					_Utils_ap(
-						A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle, selectedId, id),
+						A2($author$project$Markdown$Render$selectedStyle, selectedId, id),
 						_List_fromArray(
 							[
 								$elm$html$Html$Events$onClick(
-								$jxxcarlson$elm_markdown$Markdown$ElmWithId$IDClicked(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id)))
+								$author$project$Markdown$Render$IDClicked(
+									$author$project$Markdown$Parse$stringFromId(id)))
 							])),
 					_List_fromArray(
 						[
 							_Utils_Tuple2(
-							$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id),
+							$author$project$Markdown$Parse$stringFromId(id),
 							A3(
-								$jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock,
+								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
-								A3($jxxcarlson$elm_markdown$Markdown$Parse$MDBlock, bt, lev, content)))
+								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
 						]));
 			} else {
 				return A3(
 					$elm$html$Html$Keyed$node,
 					'span',
 					_Utils_ap(
-						A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle, selectedId, id),
+						A2($author$project$Markdown$Render$selectedStyle, selectedId, id),
 						_List_fromArray(
 							[
 								$elm$html$Html$Events$onClick(
-								$jxxcarlson$elm_markdown$Markdown$ElmWithId$IDClicked(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id)))
+								$author$project$Markdown$Render$IDClicked(
+									$author$project$Markdown$Parse$stringFromId(id)))
 							])),
 					_List_fromArray(
 						[
 							_Utils_Tuple2(
-							$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id),
+							$author$project$Markdown$Parse$stringFromId(id),
 							A3(
-								$jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock,
+								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
-								A3($jxxcarlson$elm_markdown$Markdown$Parse$MDBlock, bt, lev, content)))
+								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
 						]));
 			}
 		} else {
@@ -12951,11 +12951,11 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 							_List_fromArray(
 								[
 									$elm$html$Html$Attributes$class('mm-table-row'),
-									A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							A2(
 								$elm$core$List$map,
-								$jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+								$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 								$zwilias$elm_rosetree$Tree$children(tree)));
 					case 'Table':
 						var id = _v3.a;
@@ -12967,22 +12967,22 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 								[
 									$elm$html$Html$Attributes$class('mm-table'),
 									$elm$html$Html$Attributes$id(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id)),
+									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$IDClicked(
-										$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id))),
-									A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									$author$project$Markdown$Render$IDClicked(
+										$author$project$Markdown$Parse$stringFromId(id))),
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
 									_Utils_Tuple2(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id),
+									$author$project$Markdown$Parse$stringFromId(id),
 									A2(
 										$elm$html$Html$div,
 										_List_Nil,
 										A2(
 											$elm$core$List$map,
-											$jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+											$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 											$zwilias$elm_rosetree$Tree$children(tree))))
 								]));
 					case 'Plain':
@@ -12994,15 +12994,15 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 								[
 									$elm$html$Html$Attributes$class('mm-plain'),
 									$elm$html$Html$Attributes$id(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id)),
+									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$IDClicked(
-										$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id))),
-									A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									$author$project$Markdown$Render$IDClicked(
+										$author$project$Markdown$Parse$stringFromId(id))),
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							A2(
 								$elm$core$List$map,
-								$jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+								$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 								$zwilias$elm_rosetree$Tree$children(tree)));
 					default:
 						var id = _v3.a;
@@ -13011,39 +13011,39 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 							'div',
 							_List_fromArray(
 								[
-									A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
 									_Utils_Tuple2(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id),
+									$author$project$Markdown$Parse$stringFromId(id),
 									A2(
 										$elm$html$Html$div,
 										_List_fromArray(
 											[
 												$elm$html$Html$Attributes$id(
-												$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id)),
+												$author$project$Markdown$Parse$stringFromId(id)),
 												$elm$html$Html$Events$onClick(
-												$jxxcarlson$elm_markdown$Markdown$ElmWithId$IDClicked(
-													$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id)))
+												$author$project$Markdown$Render$IDClicked(
+													$author$project$Markdown$Parse$stringFromId(id)))
 											]),
 										_List_fromArray(
 											[
 												A3(
-												$jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlock,
+												$author$project$Markdown$Render$renderBlock,
 												selectedId,
 												id,
-												$jxxcarlson$elm_markdown$Markdown$Parse$project(
+												$author$project$Markdown$Parse$project(
 													$zwilias$elm_rosetree$Tree$label(tree))),
 												A2(
 												$elm$html$Html$div,
 												_List_fromArray(
 													[
-														$jxxcarlson$elm_markdown$Markdown$ElmWithId$idAttr(id)
+														$author$project$Markdown$Render$idAttr(id)
 													]),
 												A2(
 													$elm$core$List$map,
-													$jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+													$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 													$zwilias$elm_rosetree$Tree$children(tree)))
 											])))
 								]));
@@ -13061,18 +13061,18 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 							_List_fromArray(
 								[
 									$elm$html$Html$Attributes$id(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id)),
+									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$IDClicked(
-										$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id))),
-									A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									$author$project$Markdown$Render$IDClicked(
+										$author$project$Markdown$Parse$stringFromId(id))),
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
 									_Utils_Tuple2(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id),
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$displayMathText(
-										$jxxcarlson$elm_markdown$Markdown$Parse$projectedStringOfBlockContent(content)))
+									$author$project$Markdown$Parse$stringFromId(id),
+									$author$project$Markdown$Render$displayMathText(
+										$author$project$Markdown$Parse$projectedStringOfBlockContent(content)))
 								]));
 					case 'Verbatim':
 						var id = _v3.a;
@@ -13083,16 +13083,16 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 							_List_fromArray(
 								[
 									$elm$html$Html$Attributes$id(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id)),
+									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$IDClicked(
-										$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id))),
-									A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									$author$project$Markdown$Render$IDClicked(
+										$author$project$Markdown$Parse$stringFromId(id))),
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
 									_Utils_Tuple2(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id),
+									$author$project$Markdown$Parse$stringFromId(id),
 									$elm$html$Html$text('OUF: Verbatim!'))
 								]));
 					default:
@@ -13103,11 +13103,11 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 							_List_fromArray(
 								[
 									$elm$html$Html$Attributes$id(
-									$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id)),
+									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$jxxcarlson$elm_markdown$Markdown$ElmWithId$IDClicked(
-										$jxxcarlson$elm_markdown$Markdown$Parse$stringFromId(id))),
-									A2($jxxcarlson$elm_markdown$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									$author$project$Markdown$Render$IDClicked(
+										$author$project$Markdown$Parse$stringFromId(id))),
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
@@ -13117,19 +13117,19 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$BlockType$Heading = function (a) {
+var $author$project$BlockType$Heading = function (a) {
 	return {$: 'Heading', a: a};
 };
-var $jxxcarlson$elm_markdown$MDInline$Line = function (a) {
+var $author$project$MDInline$Line = function (a) {
 	return {$: 'Line', a: a};
 };
-var $jxxcarlson$elm_markdown$BlockType$MarkdownBlock = function (a) {
+var $author$project$BlockType$MarkdownBlock = function (a) {
 	return {$: 'MarkdownBlock', a: a};
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$id0 = _Utils_Tuple2(-1, -1);
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderTOCHeading = F5(
+var $author$project$Markdown$Render$id0 = _Utils_Tuple2(-1, -1);
+var $author$project$Markdown$Render$renderTOCHeading = F5(
 	function (selectedId, id, k, level, blockContent) {
-		var name = '#' + $jxxcarlson$elm_markdown$Markdown$ElmWithId$nameFromBlockContent(blockContent);
+		var name = '#' + $author$project$Markdown$Render$nameFromBlockContent(blockContent);
 		switch (k) {
 			case 1:
 				return A2(
@@ -13141,7 +13141,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 2:
 				return A2(
@@ -13154,7 +13154,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 3:
 				return A2(
@@ -13167,7 +13167,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 4:
 				return A2(
@@ -13180,7 +13180,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			default:
 				return A2(
@@ -13193,19 +13193,19 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($jxxcarlson$elm_markdown$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeadingForTOC = function (heading) {
+var $author$project$Markdown$Render$renderHeadingForTOC = function (heading) {
 	if ((heading.a.$ === 'MarkdownBlock') && (heading.a.a.$ === 'Heading')) {
 		var k = heading.a.a.a;
 		var level = heading.b;
 		var blockContent = heading.c;
 		return A5(
-			$jxxcarlson$elm_markdown$Markdown$ElmWithId$renderTOCHeading,
+			$author$project$Markdown$Render$renderTOCHeading,
 			_Utils_Tuple2(0, 0),
-			$jxxcarlson$elm_markdown$Markdown$ElmWithId$id0,
+			$author$project$Markdown$Render$id0,
 			k,
 			level,
 			blockContent);
@@ -13213,36 +13213,36 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeadingForTOC = function (
 		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$tocStyle = _List_fromArray(
+var $author$project$Markdown$Render$tocStyle = _List_fromArray(
 	[
 		A2($elm$html$Html$Attributes$style, 'font-size', 'x-small'),
 		A2($elm$html$Html$Attributes$style, 'margin-left', '15px'),
 		A2($elm$html$Html$Attributes$style, 'color', '#555'),
 		$elm$html$Html$Attributes$id('toc')
 	]);
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderTableOfContents = F2(
+var $author$project$Markdown$Render$renderTableOfContents = F2(
 	function (heading, blockList) {
 		var contentHeading = A3(
-			$jxxcarlson$elm_markdown$Markdown$Parse$MDBlock,
-			$jxxcarlson$elm_markdown$BlockType$MarkdownBlock(
-				$jxxcarlson$elm_markdown$BlockType$Heading(1)),
+			$author$project$Markdown$Parse$MDBlock,
+			$author$project$BlockType$MarkdownBlock(
+				$author$project$BlockType$Heading(1)),
 			1,
-			$jxxcarlson$elm_markdown$Markdown$Parse$M(
-				$jxxcarlson$elm_markdown$MDInline$Paragraph(
+			$author$project$Markdown$Parse$M(
+				$author$project$MDInline$Paragraph(
 					_List_fromArray(
 						[
-							$jxxcarlson$elm_markdown$MDInline$Line(
+							$author$project$MDInline$Line(
 							_List_fromArray(
 								[
-									$jxxcarlson$elm_markdown$MDInline$OrdinaryText(heading)
+									$author$project$MDInline$OrdinaryText(heading)
 								]))
 						]))));
 		return function (x) {
-			return A2($elm$html$Html$div, $jxxcarlson$elm_markdown$Markdown$ElmWithId$tocStyle, x);
+			return A2($elm$html$Html$div, $author$project$Markdown$Render$tocStyle, x);
 		}(
 			A2(
 				$elm$core$List$map,
-				$jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHeadingForTOC,
+				$author$project$Markdown$Render$renderHeadingForTOC,
 				function (x) {
 					return A2($elm$core$List$cons, contentHeading, x);
 				}(
@@ -13321,37 +13321,37 @@ var $zwilias$elm_rosetree$Tree$foldr = F3(
 var $zwilias$elm_rosetree$Tree$flatten = function (t) {
 	return A3($zwilias$elm_rosetree$Tree$foldr, $elm$core$List$cons, _List_Nil, t);
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$typeOfMDBlock = function (_v0) {
+var $author$project$Markdown$Render$typeOfMDBlock = function (_v0) {
 	var bt = _v0.a;
 	return bt;
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$isHeading = function (block) {
-	var _v0 = $jxxcarlson$elm_markdown$Markdown$ElmWithId$typeOfMDBlock(block);
+var $author$project$Markdown$Render$isHeading = function (block) {
+	var _v0 = $author$project$Markdown$Render$typeOfMDBlock(block);
 	if ((_v0.$ === 'MarkdownBlock') && (_v0.a.$ === 'Heading')) {
 		return true;
 	} else {
 		return false;
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$tableOfContentsAsBlocks = function (blockTree) {
+var $author$project$Markdown$Render$tableOfContentsAsBlocks = function (blockTree) {
 	return A2(
 		$elm$core$List$filter,
-		$jxxcarlson$elm_markdown$Markdown$ElmWithId$isHeading,
+		$author$project$Markdown$Render$isHeading,
 		$zwilias$elm_rosetree$Tree$flatten(blockTree));
 };
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$tableOfContentsAsHtml = F2(
+var $author$project$Markdown$Render$tableOfContentsAsHtml = F2(
 	function (heading, blockTree) {
 		return A2(
-			$jxxcarlson$elm_markdown$Markdown$ElmWithId$renderTableOfContents,
+			$author$project$Markdown$Render$renderTableOfContents,
 			heading,
-			$jxxcarlson$elm_markdown$Markdown$ElmWithId$tableOfContentsAsBlocks(blockTree));
+			$author$project$Markdown$Render$tableOfContentsAsBlocks(blockTree));
 	});
-var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHtmlWithExternalTOC = F3(
+var $author$project$Markdown$Render$renderHtmlWithExternalTOC = F3(
 	function (selectedId, heading, ast) {
 		var toc = A2(
-			$jxxcarlson$elm_markdown$Markdown$ElmWithId$tableOfContentsAsHtml,
+			$author$project$Markdown$Render$tableOfContentsAsHtml,
 			heading,
-			A2($zwilias$elm_rosetree$Tree$map, $jxxcarlson$elm_markdown$Markdown$Parse$project, ast));
+			A2($zwilias$elm_rosetree$Tree$map, $author$project$Markdown$Parse$project, ast));
 		var spacing = A2(
 			$elm$html$Html$div,
 			_List_fromArray(
@@ -13371,7 +13371,7 @@ var $jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHtmlWithExternalTOC = F3(
 		var bodyAST = $zwilias$elm_rosetree$Tree$children(ast);
 		var html = A2(
 			$elm$core$List$map,
-			$jxxcarlson$elm_markdown$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+			$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 			bodyAST);
 		var title = A2(
 			$elm$core$Maybe$withDefault,
@@ -13411,28 +13411,28 @@ var $zwilias$elm_rosetree$Tree$indexedMap = F2(
 			0,
 			t).b;
 	});
-var $jxxcarlson$elm_markdown$BlockType$BalancedBlock = function (a) {
+var $author$project$BlockType$BalancedBlock = function (a) {
 	return {$: 'BalancedBlock', a: a};
 };
-var $jxxcarlson$elm_markdown$BlockType$DisplayCode = function (a) {
+var $author$project$BlockType$DisplayCode = function (a) {
 	return {$: 'DisplayCode', a: a};
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId = F4(
+var $author$project$Markdown$Parse$MDBlockWithId = F4(
 	function (a, b, c, d) {
 		return {$: 'MDBlockWithId', a: a, b: b, c: c, d: d};
 	});
-var $jxxcarlson$elm_markdown$BlockType$Plain = {$: 'Plain'};
-var $jxxcarlson$elm_markdown$MDInline$Stanza = function (a) {
+var $author$project$BlockType$Plain = {$: 'Plain'};
+var $author$project$MDInline$Stanza = function (a) {
 	return {$: 'Stanza', a: a};
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$T = function (a) {
+var $author$project$Markdown$Parse$T = function (a) {
 	return {$: 'T', a: a};
 };
-var $jxxcarlson$elm_markdown$BlockType$Verbatim = {$: 'Verbatim'};
-var $jxxcarlson$elm_markdown$MDInline$BoldText = function (a) {
+var $author$project$BlockType$Verbatim = {$: 'Verbatim'};
+var $author$project$MDInline$BoldText = function (a) {
 	return {$: 'BoldText', a: a};
 };
-var $jxxcarlson$elm_markdown$MDInline$Expecting = function (a) {
+var $author$project$MDInline$Expecting = function (a) {
 	return {$: 'Expecting', a: a};
 };
 var $elm$core$String$replace = F3(
@@ -13452,9 +13452,9 @@ var $elm$parser$Parser$Advanced$spaces = $elm$parser$Parser$Advanced$chompWhile(
 			c,
 			_Utils_chr('\r')));
 	});
-var $jxxcarlson$elm_markdown$MDInline$boldText = A2(
+var $author$project$MDInline$boldText = A2(
 	$elm$parser$Parser$Advanced$map,
-	$jxxcarlson$elm_markdown$MDInline$BoldText,
+	$author$project$MDInline$BoldText,
 	A2(
 		$elm$parser$Parser$Advanced$map,
 		A2($elm$core$String$replace, '**', ''),
@@ -13475,7 +13475,7 @@ var $jxxcarlson$elm_markdown$MDInline$boldText = A2(
 									A2(
 										$elm$parser$Parser$Advanced$Token,
 										'**',
-										$jxxcarlson$elm_markdown$MDInline$Expecting('expecting \'**\' to begin bold text')))),
+										$author$project$MDInline$Expecting('expecting \'**\' to begin bold text')))),
 							$elm$parser$Parser$Advanced$chompWhile(
 								function (c) {
 									return !_Utils_eq(
@@ -13486,18 +13486,18 @@ var $jxxcarlson$elm_markdown$MDInline$boldText = A2(
 							A2(
 								$elm$parser$Parser$Advanced$Token,
 								'**',
-								$jxxcarlson$elm_markdown$MDInline$Expecting('expecting \'**\' to end bold text')))),
+								$author$project$MDInline$Expecting('expecting \'**\' to end bold text')))),
 					$elm$parser$Parser$Advanced$spaces)))));
-var $jxxcarlson$elm_markdown$MDInline$Code = function (a) {
+var $author$project$MDInline$Code = function (a) {
 	return {$: 'Code', a: a};
 };
 var $elm$core$String$dropRight = F2(
 	function (n, string) {
 		return (n < 1) ? string : A3($elm$core$String$slice, 0, -n, string);
 	});
-var $jxxcarlson$elm_markdown$MDInline$code = A2(
+var $author$project$MDInline$code = A2(
 	$elm$parser$Parser$Advanced$map,
-	$jxxcarlson$elm_markdown$MDInline$Code,
+	$author$project$MDInline$Code,
 	A2(
 		$elm$parser$Parser$Advanced$map,
 		$elm$core$String$dropRight(1),
@@ -13521,7 +13521,7 @@ var $jxxcarlson$elm_markdown$MDInline$code = A2(
 										A2(
 											$elm$parser$Parser$Advanced$Token,
 											'`',
-											$jxxcarlson$elm_markdown$MDInline$Expecting('Expecting \'``\' to begin inline code')))),
+											$author$project$MDInline$Expecting('Expecting \'``\' to begin inline code')))),
 								$elm$parser$Parser$Advanced$chompWhile(
 									function (c) {
 										return !_Utils_eq(
@@ -13532,18 +13532,18 @@ var $jxxcarlson$elm_markdown$MDInline$code = A2(
 								A2(
 									$elm$parser$Parser$Advanced$Token,
 									'`',
-									$jxxcarlson$elm_markdown$MDInline$Expecting('Expecting \'``\' to end inline code')))),
+									$author$project$MDInline$Expecting('Expecting \'``\' to end inline code')))),
 						$elm$parser$Parser$Advanced$chompWhile(
 							function (c) {
 								return !_Utils_eq(
 									c,
 									_Utils_chr(' '));
 							})))))));
-var $jxxcarlson$elm_markdown$MDInline$Image = F2(
+var $author$project$MDInline$Image = F2(
 	function (a, b) {
 		return {$: 'Image', a: a, b: b};
 	});
-var $jxxcarlson$elm_markdown$MDInline$PrefixedString = F2(
+var $author$project$MDInline$PrefixedString = F2(
 	function (prefix, text) {
 		return {prefix: prefix, text: text};
 	});
@@ -13551,14 +13551,14 @@ var $elm$parser$Parser$Advanced$keeper = F2(
 	function (parseFunc, parseArg) {
 		return A3($elm$parser$Parser$Advanced$map2, $elm$core$Basics$apL, parseFunc, parseArg);
 	});
-var $jxxcarlson$elm_markdown$MDInline$parseWhile = function (accepting) {
+var $author$project$MDInline$parseWhile = function (accepting) {
 	return $elm$parser$Parser$Advanced$getChompedString(
 		$elm$parser$Parser$Advanced$chompWhile(accepting));
 };
-var $jxxcarlson$elm_markdown$MDInline$image = A2(
+var $author$project$MDInline$image = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (ps) {
-		return A2($jxxcarlson$elm_markdown$MDInline$Image, ps.prefix, ps.text);
+		return A2($author$project$MDInline$Image, ps.prefix, ps.text);
 	},
 	A2(
 		$elm$parser$Parser$Advanced$keeper,
@@ -13566,15 +13566,15 @@ var $jxxcarlson$elm_markdown$MDInline$image = A2(
 			$elm$parser$Parser$Advanced$keeper,
 			A2(
 				$elm$parser$Parser$Advanced$ignorer,
-				$elm$parser$Parser$Advanced$succeed($jxxcarlson$elm_markdown$MDInline$PrefixedString),
+				$elm$parser$Parser$Advanced$succeed($author$project$MDInline$PrefixedString),
 				$elm$parser$Parser$Advanced$symbol(
 					A2(
 						$elm$parser$Parser$Advanced$Token,
 						'![',
-						$jxxcarlson$elm_markdown$MDInline$Expecting('Expecting \'![\' to begin image block')))),
+						$author$project$MDInline$Expecting('Expecting \'![\' to begin image block')))),
 			A2(
 				$elm$parser$Parser$Advanced$ignorer,
-				$jxxcarlson$elm_markdown$MDInline$parseWhile(
+				$author$project$MDInline$parseWhile(
 					function (c) {
 						return !_Utils_eq(
 							c,
@@ -13584,12 +13584,12 @@ var $jxxcarlson$elm_markdown$MDInline$image = A2(
 					A2(
 						$elm$parser$Parser$Advanced$Token,
 						'](',
-						$jxxcarlson$elm_markdown$MDInline$Expecting('Expecting \'](\' in image block'))))),
+						$author$project$MDInline$Expecting('Expecting \'](\' in image block'))))),
 		A2(
 			$elm$parser$Parser$Advanced$ignorer,
 			A2(
 				$elm$parser$Parser$Advanced$ignorer,
-				$jxxcarlson$elm_markdown$MDInline$parseWhile(
+				$author$project$MDInline$parseWhile(
 					function (c) {
 						return !_Utils_eq(
 							c,
@@ -13599,19 +13599,19 @@ var $jxxcarlson$elm_markdown$MDInline$image = A2(
 					A2(
 						$elm$parser$Parser$Advanced$Token,
 						')',
-						$jxxcarlson$elm_markdown$MDInline$Expecting('Expecting \')\' to end image block')))),
+						$author$project$MDInline$Expecting('Expecting \')\' to end image block')))),
 			$elm$parser$Parser$Advanced$chompWhile(
 				function (c) {
 					return _Utils_eq(
 						c,
 						_Utils_chr('\n'));
 				}))));
-var $jxxcarlson$elm_markdown$MDInline$ItalicText = function (a) {
+var $author$project$MDInline$ItalicText = function (a) {
 	return {$: 'ItalicText', a: a};
 };
-var $jxxcarlson$elm_markdown$MDInline$italicText = A2(
+var $author$project$MDInline$italicText = A2(
 	$elm$parser$Parser$Advanced$map,
-	$jxxcarlson$elm_markdown$MDInline$ItalicText,
+	$author$project$MDInline$ItalicText,
 	A2(
 		$elm$parser$Parser$Advanced$map,
 		A2($elm$core$String$replace, '*', ''),
@@ -13629,7 +13629,7 @@ var $jxxcarlson$elm_markdown$MDInline$italicText = A2(
 								A2(
 									$elm$parser$Parser$Advanced$Token,
 									'*',
-									$jxxcarlson$elm_markdown$MDInline$Expecting('Expecting \'*\' to begin italic text')))),
+									$author$project$MDInline$Expecting('Expecting \'*\' to begin italic text')))),
 						$elm$parser$Parser$Advanced$chompWhile(
 							function (c) {
 								return !_Utils_eq(
@@ -13640,24 +13640,24 @@ var $jxxcarlson$elm_markdown$MDInline$italicText = A2(
 						A2(
 							$elm$parser$Parser$Advanced$Token,
 							'*',
-							$jxxcarlson$elm_markdown$MDInline$Expecting('Expecting \'*\' to end italic text')))),
+							$author$project$MDInline$Expecting('Expecting \'*\' to end italic text')))),
 				$elm$parser$Parser$Advanced$spaces))));
-var $jxxcarlson$elm_markdown$MDInline$BracketedText = function (a) {
+var $author$project$MDInline$BracketedText = function (a) {
 	return {$: 'BracketedText', a: a};
 };
-var $jxxcarlson$elm_markdown$MDInline$Link = F2(
+var $author$project$MDInline$Link = F2(
 	function (a, b) {
 		return {$: 'Link', a: a, b: b};
 	});
-var $jxxcarlson$elm_markdown$MDInline$linkOrBracket = function (ps) {
+var $author$project$MDInline$linkOrBracket = function (ps) {
 	var _v0 = ps.text;
 	if (_v0 === ' ') {
-		return $jxxcarlson$elm_markdown$MDInline$BracketedText(ps.prefix);
+		return $author$project$MDInline$BracketedText(ps.prefix);
 	} else {
-		return A2($jxxcarlson$elm_markdown$MDInline$Link, ps.text, ps.prefix);
+		return A2($author$project$MDInline$Link, ps.text, ps.prefix);
 	}
 };
-var $jxxcarlson$elm_markdown$MDInline$linkUrl = A2(
+var $author$project$MDInline$linkUrl = A2(
 	$elm$parser$Parser$Advanced$keeper,
 	A2(
 		$elm$parser$Parser$Advanced$ignorer,
@@ -13666,12 +13666,12 @@ var $jxxcarlson$elm_markdown$MDInline$linkUrl = A2(
 			A2(
 				$elm$parser$Parser$Advanced$Token,
 				'(',
-				$jxxcarlson$elm_markdown$MDInline$Expecting('expecting \'(\' to begin link url')))),
+				$author$project$MDInline$Expecting('expecting \'(\' to begin link url')))),
 	A2(
 		$elm$parser$Parser$Advanced$ignorer,
 		A2(
 			$elm$parser$Parser$Advanced$ignorer,
-			$jxxcarlson$elm_markdown$MDInline$parseWhile(
+			$author$project$MDInline$parseWhile(
 				function (c) {
 					return !_Utils_eq(
 						c,
@@ -13681,18 +13681,18 @@ var $jxxcarlson$elm_markdown$MDInline$linkUrl = A2(
 				A2(
 					$elm$parser$Parser$Advanced$Token,
 					')',
-					$jxxcarlson$elm_markdown$MDInline$Expecting('expecting \')\' to end link url')))),
+					$author$project$MDInline$Expecting('expecting \')\' to end link url')))),
 		$elm$parser$Parser$Advanced$spaces));
-var $jxxcarlson$elm_markdown$MDInline$terminateBracket = A2(
+var $author$project$MDInline$terminateBracket = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (_v0) {
 		return ' ';
 	},
 	$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0));
-var $jxxcarlson$elm_markdown$MDInline$link = A2(
+var $author$project$MDInline$link = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (ps) {
-		return $jxxcarlson$elm_markdown$MDInline$linkOrBracket(ps);
+		return $author$project$MDInline$linkOrBracket(ps);
 	},
 	A2(
 		$elm$parser$Parser$Advanced$keeper,
@@ -13700,15 +13700,15 @@ var $jxxcarlson$elm_markdown$MDInline$link = A2(
 			$elm$parser$Parser$Advanced$keeper,
 			A2(
 				$elm$parser$Parser$Advanced$ignorer,
-				$elm$parser$Parser$Advanced$succeed($jxxcarlson$elm_markdown$MDInline$PrefixedString),
+				$elm$parser$Parser$Advanced$succeed($author$project$MDInline$PrefixedString),
 				$elm$parser$Parser$Advanced$symbol(
 					A2(
 						$elm$parser$Parser$Advanced$Token,
 						'[',
-						$jxxcarlson$elm_markdown$MDInline$Expecting('expecting \'[\' to begin label')))),
+						$author$project$MDInline$Expecting('expecting \'[\' to begin label')))),
 			A2(
 				$elm$parser$Parser$Advanced$ignorer,
-				$jxxcarlson$elm_markdown$MDInline$parseWhile(
+				$author$project$MDInline$parseWhile(
 					function (c) {
 						return !_Utils_eq(
 							c,
@@ -13718,14 +13718,14 @@ var $jxxcarlson$elm_markdown$MDInline$link = A2(
 					A2(
 						$elm$parser$Parser$Advanced$Token,
 						']',
-						$jxxcarlson$elm_markdown$MDInline$Expecting('expecting \']\' to end first part of label'))))),
+						$author$project$MDInline$Expecting('expecting \']\' to end first part of label'))))),
 		A2(
 			$elm$parser$Parser$Advanced$ignorer,
 			$elm$parser$Parser$Advanced$oneOf(
 				_List_fromArray(
-					[$jxxcarlson$elm_markdown$MDInline$linkUrl, $jxxcarlson$elm_markdown$MDInline$terminateBracket])),
+					[$author$project$MDInline$linkUrl, $author$project$MDInline$terminateBracket])),
 			$elm$parser$Parser$Advanced$spaces)));
-var $jxxcarlson$elm_markdown$MDInline$isSpecialCharacter = function (c) {
+var $author$project$MDInline$isSpecialCharacter = function (c) {
 	switch (c.valueOf()) {
 		case '`':
 			return true;
@@ -13739,7 +13739,7 @@ var $jxxcarlson$elm_markdown$MDInline$isSpecialCharacter = function (c) {
 			return false;
 	}
 };
-var $jxxcarlson$elm_markdown$MDInline$ordinaryTextParser = function (validStart) {
+var $author$project$MDInline$ordinaryTextParser = function (validStart) {
 	var isRegular = function (c) {
 		return (!_Utils_eq(
 			c,
@@ -13749,30 +13749,30 @@ var $jxxcarlson$elm_markdown$MDInline$ordinaryTextParser = function (validStart)
 		$elm$parser$Parser$Advanced$mapChompedString,
 		F2(
 			function (s, _v0) {
-				return $jxxcarlson$elm_markdown$MDInline$OrdinaryText(s);
+				return $author$project$MDInline$OrdinaryText(s);
 			}),
 		A2(
 			$elm$parser$Parser$Advanced$ignorer,
 			A2(
 				$elm$parser$Parser$Advanced$chompIf,
 				validStart,
-				$jxxcarlson$elm_markdown$MDInline$Expecting('expecting regular character to begin ordinary text line')),
+				$author$project$MDInline$Expecting('expecting regular character to begin ordinary text line')),
 			$elm$parser$Parser$Advanced$chompWhile(isRegular)));
 };
-var $jxxcarlson$elm_markdown$MDInline$ordinaryTextExtended = function () {
+var $author$project$MDInline$ordinaryTextExtended = function () {
 	var validStart = function (c) {
 		return !(_Utils_eq(
 			c,
-			_Utils_chr('~')) || $jxxcarlson$elm_markdown$MDInline$isSpecialCharacter(c));
+			_Utils_chr('~')) || $author$project$MDInline$isSpecialCharacter(c));
 	};
-	return $jxxcarlson$elm_markdown$MDInline$ordinaryTextParser(validStart);
+	return $author$project$MDInline$ordinaryTextParser(validStart);
 }();
-var $jxxcarlson$elm_markdown$MDInline$StrikeThroughText = function (a) {
+var $author$project$MDInline$StrikeThroughText = function (a) {
 	return {$: 'StrikeThroughText', a: a};
 };
-var $jxxcarlson$elm_markdown$MDInline$strikeThroughText = A2(
+var $author$project$MDInline$strikeThroughText = A2(
 	$elm$parser$Parser$Advanced$map,
-	$jxxcarlson$elm_markdown$MDInline$StrikeThroughText,
+	$author$project$MDInline$StrikeThroughText,
 	A2(
 		$elm$parser$Parser$Advanced$map,
 		A2($elm$core$String$replace, '~~', ''),
@@ -13793,7 +13793,7 @@ var $jxxcarlson$elm_markdown$MDInline$strikeThroughText = A2(
 									A2(
 										$elm$parser$Parser$Advanced$Token,
 										'~~',
-										$jxxcarlson$elm_markdown$MDInline$Expecting('expecting \'~~\' to begin strikethrough')))),
+										$author$project$MDInline$Expecting('expecting \'~~\' to begin strikethrough')))),
 							$elm$parser$Parser$Advanced$chompWhile(
 								function (c) {
 									return !_Utils_eq(
@@ -13804,17 +13804,17 @@ var $jxxcarlson$elm_markdown$MDInline$strikeThroughText = A2(
 							A2(
 								$elm$parser$Parser$Advanced$Token,
 								'~~',
-								$jxxcarlson$elm_markdown$MDInline$Expecting('expecting \'~~\' to end strikethrough')))),
+								$author$project$MDInline$Expecting('expecting \'~~\' to end strikethrough')))),
 					$elm$parser$Parser$Advanced$spaces)))));
-var $jxxcarlson$elm_markdown$MDInline$inlineExtended = $elm$parser$Parser$Advanced$oneOf(
+var $author$project$MDInline$inlineExtended = $elm$parser$Parser$Advanced$oneOf(
 	_List_fromArray(
-		[$jxxcarlson$elm_markdown$MDInline$code, $jxxcarlson$elm_markdown$MDInline$image, $jxxcarlson$elm_markdown$MDInline$link, $jxxcarlson$elm_markdown$MDInline$boldText, $jxxcarlson$elm_markdown$MDInline$italicText, $jxxcarlson$elm_markdown$MDInline$strikeThroughText, $jxxcarlson$elm_markdown$MDInline$ordinaryTextExtended]));
-var $jxxcarlson$elm_markdown$MDInline$InlineMath = function (a) {
+		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$ordinaryTextExtended]));
+var $author$project$MDInline$InlineMath = function (a) {
 	return {$: 'InlineMath', a: a};
 };
-var $jxxcarlson$elm_markdown$MDInline$inlineMath = A2(
+var $author$project$MDInline$inlineMath = A2(
 	$elm$parser$Parser$Advanced$map,
-	$jxxcarlson$elm_markdown$MDInline$InlineMath,
+	$author$project$MDInline$InlineMath,
 	A2(
 		$elm$parser$Parser$Advanced$map,
 		$elm$core$String$dropRight(1),
@@ -13838,7 +13838,7 @@ var $jxxcarlson$elm_markdown$MDInline$inlineMath = A2(
 										A2(
 											$elm$parser$Parser$Advanced$Token,
 											'$',
-											$jxxcarlson$elm_markdown$MDInline$Expecting('Expecting \'$\' to begin inline math')))),
+											$author$project$MDInline$Expecting('Expecting \'$\' to begin inline math')))),
 								$elm$parser$Parser$Advanced$chompWhile(
 									function (c) {
 										return !_Utils_eq(
@@ -13849,44 +13849,44 @@ var $jxxcarlson$elm_markdown$MDInline$inlineMath = A2(
 								A2(
 									$elm$parser$Parser$Advanced$Token,
 									'$',
-									$jxxcarlson$elm_markdown$MDInline$Expecting('Expecting \'$\' to end inline math')))),
+									$author$project$MDInline$Expecting('Expecting \'$\' to end inline math')))),
 						$elm$parser$Parser$Advanced$chompWhile(
 							function (c) {
 								return _Utils_eq(
 									c,
 									_Utils_chr(' '));
 							})))))));
-var $jxxcarlson$elm_markdown$MDInline$ordinaryTextExtendedMath = function () {
+var $author$project$MDInline$ordinaryTextExtendedMath = function () {
 	var validStart = function (c) {
 		return !(_Utils_eq(
 			c,
 			_Utils_chr('~')) || (_Utils_eq(
 			c,
-			_Utils_chr('$')) || $jxxcarlson$elm_markdown$MDInline$isSpecialCharacter(c)));
+			_Utils_chr('$')) || $author$project$MDInline$isSpecialCharacter(c)));
 	};
-	return $jxxcarlson$elm_markdown$MDInline$ordinaryTextParser(validStart);
+	return $author$project$MDInline$ordinaryTextParser(validStart);
 }();
-var $jxxcarlson$elm_markdown$MDInline$inlineExtendedMath = $elm$parser$Parser$Advanced$oneOf(
+var $author$project$MDInline$inlineExtendedMath = $elm$parser$Parser$Advanced$oneOf(
 	_List_fromArray(
-		[$jxxcarlson$elm_markdown$MDInline$code, $jxxcarlson$elm_markdown$MDInline$image, $jxxcarlson$elm_markdown$MDInline$link, $jxxcarlson$elm_markdown$MDInline$boldText, $jxxcarlson$elm_markdown$MDInline$italicText, $jxxcarlson$elm_markdown$MDInline$strikeThroughText, $jxxcarlson$elm_markdown$MDInline$inlineMath, $jxxcarlson$elm_markdown$MDInline$ordinaryTextExtendedMath]));
-var $jxxcarlson$elm_markdown$MDInline$ordinaryTextStandard = function () {
-	var validStart = A2($elm$core$Basics$composeL, $elm$core$Basics$not, $jxxcarlson$elm_markdown$MDInline$isSpecialCharacter);
-	return $jxxcarlson$elm_markdown$MDInline$ordinaryTextParser(validStart);
+		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$inlineMath, $author$project$MDInline$ordinaryTextExtendedMath]));
+var $author$project$MDInline$ordinaryTextStandard = function () {
+	var validStart = A2($elm$core$Basics$composeL, $elm$core$Basics$not, $author$project$MDInline$isSpecialCharacter);
+	return $author$project$MDInline$ordinaryTextParser(validStart);
 }();
-var $jxxcarlson$elm_markdown$MDInline$inlineStandard = $elm$parser$Parser$Advanced$oneOf(
+var $author$project$MDInline$inlineStandard = $elm$parser$Parser$Advanced$oneOf(
 	_List_fromArray(
-		[$jxxcarlson$elm_markdown$MDInline$code, $jxxcarlson$elm_markdown$MDInline$image, $jxxcarlson$elm_markdown$MDInline$link, $jxxcarlson$elm_markdown$MDInline$boldText, $jxxcarlson$elm_markdown$MDInline$italicText, $jxxcarlson$elm_markdown$MDInline$ordinaryTextStandard]));
-var $jxxcarlson$elm_markdown$MDInline$inline = function (option) {
+		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$ordinaryTextStandard]));
+var $author$project$MDInline$inline = function (option) {
 	switch (option.$) {
 		case 'Standard':
-			return $jxxcarlson$elm_markdown$MDInline$inlineStandard;
+			return $author$project$MDInline$inlineStandard;
 		case 'Extended':
-			return $jxxcarlson$elm_markdown$MDInline$inlineExtended;
+			return $author$project$MDInline$inlineExtended;
 		default:
-			return $jxxcarlson$elm_markdown$MDInline$inlineExtendedMath;
+			return $author$project$MDInline$inlineExtendedMath;
 	}
 };
-var $jxxcarlson$elm_markdown$MDInline$manyHelp = F2(
+var $author$project$MDInline$manyHelp = F2(
 	function (p, vs) {
 		return $elm$parser$Parser$Advanced$oneOf(
 			_List_fromArray(
@@ -13908,43 +13908,43 @@ var $jxxcarlson$elm_markdown$MDInline$manyHelp = F2(
 					$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0))
 				]));
 	});
-var $jxxcarlson$elm_markdown$MDInline$many = function (p) {
+var $author$project$MDInline$many = function (p) {
 	return A2(
 		$elm$parser$Parser$Advanced$loop,
 		_List_Nil,
-		$jxxcarlson$elm_markdown$MDInline$manyHelp(p));
+		$author$project$MDInline$manyHelp(p));
 };
-var $jxxcarlson$elm_markdown$MDInline$inlineList = function (option) {
-	return $jxxcarlson$elm_markdown$MDInline$many(
-		$jxxcarlson$elm_markdown$MDInline$inline(option));
+var $author$project$MDInline$inlineList = function (option) {
+	return $author$project$MDInline$many(
+		$author$project$MDInline$inline(option));
 };
-var $jxxcarlson$elm_markdown$MDInline$displayDeadEnd = function (deadend) {
+var $author$project$MDInline$displayDeadEnd = function (deadend) {
 	var _v0 = deadend.problem;
 	var error = _v0.a;
 	return error;
 };
-var $jxxcarlson$elm_markdown$MDInline$decodeInlineError = function (errorList) {
+var $author$project$MDInline$decodeInlineError = function (errorList) {
 	var errorMessage = A2(
 		$elm$core$String$join,
 		';;\n\n',
-		A2($elm$core$List$map, $jxxcarlson$elm_markdown$MDInline$displayDeadEnd, errorList));
-	return $jxxcarlson$elm_markdown$MDInline$OrdinaryText(errorMessage);
+		A2($elm$core$List$map, $author$project$MDInline$displayDeadEnd, errorList));
+	return $author$project$MDInline$OrdinaryText(errorMessage);
 };
-var $jxxcarlson$elm_markdown$MDInline$resolveInlineResult = function (result) {
+var $author$project$MDInline$resolveInlineResult = function (result) {
 	if (result.$ === 'Ok') {
 		var res_ = result.a;
-		return $jxxcarlson$elm_markdown$MDInline$Line(res_);
+		return $author$project$MDInline$Line(res_);
 	} else {
 		var list = result.a;
-		return $jxxcarlson$elm_markdown$MDInline$decodeInlineError(list);
+		return $author$project$MDInline$decodeInlineError(list);
 	}
 };
-var $jxxcarlson$elm_markdown$MDInline$parseLine = F2(
+var $author$project$MDInline$parseLine = F2(
 	function (option, str) {
-		return $jxxcarlson$elm_markdown$MDInline$resolveInlineResult(
+		return $author$project$MDInline$resolveInlineResult(
 			A2(
 				$elm$parser$Parser$Advanced$run,
-				$jxxcarlson$elm_markdown$MDInline$inlineList(option),
+				$author$project$MDInline$inlineList(option),
 				str));
 	});
 var $elm$core$String$right = F2(
@@ -13955,39 +13955,39 @@ var $elm$core$String$right = F2(
 			$elm$core$String$length(string),
 			string);
 	});
-var $jxxcarlson$elm_markdown$MDInline$endsWithPunctuation = function (str) {
+var $author$project$MDInline$endsWithPunctuation = function (str) {
 	return A2($elm$core$String$right, 1, str) === '.';
 };
-var $jxxcarlson$elm_markdown$MDInline$wrapper = F2(
+var $author$project$MDInline$wrapper = F2(
 	function (str, acc) {
-		return (acc.currentString === '') ? {currentString: str, lst: _List_Nil} : ($jxxcarlson$elm_markdown$MDInline$endsWithPunctuation(acc.currentString) ? {
+		return (acc.currentString === '') ? {currentString: str, lst: _List_Nil} : ($author$project$MDInline$endsWithPunctuation(acc.currentString) ? {
 			currentString: str,
 			lst: A2($elm$core$List$cons, acc.currentString, acc.lst)
 		} : _Utils_update(
 			acc,
 			{currentString: acc.currentString + (' ' + str)}));
 	});
-var $jxxcarlson$elm_markdown$MDInline$wrap = function (strList) {
+var $author$project$MDInline$wrap = function (strList) {
 	return $elm$core$List$reverse(
 		function (acc) {
 			return A2($elm$core$List$cons, acc.currentString, acc.lst);
 		}(
 			A3(
 				$elm$core$List$foldl,
-				$jxxcarlson$elm_markdown$MDInline$wrapper,
+				$author$project$MDInline$wrapper,
 				{currentString: '', lst: _List_Nil},
 				strList)));
 };
-var $jxxcarlson$elm_markdown$MDInline$parse = F2(
+var $author$project$MDInline$parse = F2(
 	function (option, str) {
-		return $jxxcarlson$elm_markdown$MDInline$Paragraph(
+		return $author$project$MDInline$Paragraph(
 			A2(
 				$elm$core$List$map,
-				$jxxcarlson$elm_markdown$MDInline$parseLine(option),
-				$jxxcarlson$elm_markdown$MDInline$wrap(
+				$author$project$MDInline$parseLine(option),
+				$author$project$MDInline$wrap(
 					A2($elm$core$String$split, '\n', str))));
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$extendedMDParser = F2(
+var $author$project$Markdown$Parse$extendedMDParser = F2(
 	function (option_, _v0) {
 		var id = _v0.a;
 		var bt = _v0.b;
@@ -13997,53 +13997,53 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$extendedMDParser = F2(
 			var mt = bt.a;
 			if (mt.$ === 'Poetry') {
 				return A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+					$author$project$Markdown$Parse$MDBlockWithId,
 					id,
-					$jxxcarlson$elm_markdown$BlockType$MarkdownBlock(mt),
+					$author$project$BlockType$MarkdownBlock(mt),
 					level_,
-					$jxxcarlson$elm_markdown$Markdown$Parse$M(
-						$jxxcarlson$elm_markdown$MDInline$Stanza(content_)));
+					$author$project$Markdown$Parse$M(
+						$author$project$MDInline$Stanza(content_)));
 			} else {
 				return A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+					$author$project$Markdown$Parse$MDBlockWithId,
 					id,
-					$jxxcarlson$elm_markdown$BlockType$MarkdownBlock(mt),
+					$author$project$BlockType$MarkdownBlock(mt),
 					level_,
-					$jxxcarlson$elm_markdown$Markdown$Parse$M(
-						A2($jxxcarlson$elm_markdown$MDInline$parse, option_, content_)));
+					$author$project$Markdown$Parse$M(
+						A2($author$project$MDInline$parse, option_, content_)));
 			}
 		} else {
 			switch (bt.a.$) {
 				case 'DisplayCode':
 					var lang = bt.a.a;
 					return A4(
-						$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+						$author$project$Markdown$Parse$MDBlockWithId,
 						id,
-						$jxxcarlson$elm_markdown$BlockType$BalancedBlock(
-							$jxxcarlson$elm_markdown$BlockType$DisplayCode(lang)),
+						$author$project$BlockType$BalancedBlock(
+							$author$project$BlockType$DisplayCode(lang)),
 						level_,
-						$jxxcarlson$elm_markdown$Markdown$Parse$T(content_));
+						$author$project$Markdown$Parse$T(content_));
 				case 'Verbatim':
 					var _v3 = bt.a;
 					return A4(
-						$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+						$author$project$Markdown$Parse$MDBlockWithId,
 						id,
-						$jxxcarlson$elm_markdown$BlockType$BalancedBlock($jxxcarlson$elm_markdown$BlockType$Verbatim),
+						$author$project$BlockType$BalancedBlock($author$project$BlockType$Verbatim),
 						level_,
-						$jxxcarlson$elm_markdown$Markdown$Parse$T(content_));
+						$author$project$Markdown$Parse$T(content_));
 				default:
 					return A4(
-						$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+						$author$project$Markdown$Parse$MDBlockWithId,
 						id,
-						$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Plain),
+						$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain),
 						level_,
-						$jxxcarlson$elm_markdown$Markdown$Parse$M(
-							A2($jxxcarlson$elm_markdown$MDInline$parse, option_, content_)));
+						$author$project$Markdown$Parse$M(
+							A2($author$project$MDInline$parse, option_, content_)));
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$BlockType$DisplayMath = {$: 'DisplayMath'};
-var $jxxcarlson$elm_markdown$Markdown$Parse$extendedMathMDParser = F2(
+var $author$project$BlockType$DisplayMath = {$: 'DisplayMath'};
+var $author$project$Markdown$Parse$extendedMathMDParser = F2(
 	function (option_, _v0) {
 		var id = _v0.a;
 		var bt = _v0.b;
@@ -14053,52 +14053,52 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$extendedMathMDParser = F2(
 			var mt = bt.a;
 			if (mt.$ === 'Poetry') {
 				return A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+					$author$project$Markdown$Parse$MDBlockWithId,
 					id,
-					$jxxcarlson$elm_markdown$BlockType$MarkdownBlock(mt),
+					$author$project$BlockType$MarkdownBlock(mt),
 					level_,
-					$jxxcarlson$elm_markdown$Markdown$Parse$M(
-						$jxxcarlson$elm_markdown$MDInline$Stanza(content_)));
+					$author$project$Markdown$Parse$M(
+						$author$project$MDInline$Stanza(content_)));
 			} else {
 				return A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+					$author$project$Markdown$Parse$MDBlockWithId,
 					id,
-					$jxxcarlson$elm_markdown$BlockType$MarkdownBlock(mt),
+					$author$project$BlockType$MarkdownBlock(mt),
 					level_,
-					$jxxcarlson$elm_markdown$Markdown$Parse$M(
-						A2($jxxcarlson$elm_markdown$MDInline$parse, option_, content_)));
+					$author$project$Markdown$Parse$M(
+						A2($author$project$MDInline$parse, option_, content_)));
 			}
 		} else {
 			switch (bt.a.$) {
 				case 'DisplayCode':
 					var lang = bt.a.a;
 					return A4(
-						$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+						$author$project$Markdown$Parse$MDBlockWithId,
 						id,
-						$jxxcarlson$elm_markdown$BlockType$BalancedBlock(
-							$jxxcarlson$elm_markdown$BlockType$DisplayCode(lang)),
+						$author$project$BlockType$BalancedBlock(
+							$author$project$BlockType$DisplayCode(lang)),
 						level_,
-						$jxxcarlson$elm_markdown$Markdown$Parse$T(content_));
+						$author$project$Markdown$Parse$T(content_));
 				case 'Verbatim':
 					var _v3 = bt.a;
 					return A4(
-						$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+						$author$project$Markdown$Parse$MDBlockWithId,
 						id,
-						$jxxcarlson$elm_markdown$BlockType$BalancedBlock($jxxcarlson$elm_markdown$BlockType$Verbatim),
+						$author$project$BlockType$BalancedBlock($author$project$BlockType$Verbatim),
 						level_,
-						$jxxcarlson$elm_markdown$Markdown$Parse$T(content_));
+						$author$project$Markdown$Parse$T(content_));
 				default:
 					var _v4 = bt.a;
 					return A4(
-						$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+						$author$project$Markdown$Parse$MDBlockWithId,
 						id,
-						$jxxcarlson$elm_markdown$BlockType$BalancedBlock($jxxcarlson$elm_markdown$BlockType$DisplayMath),
+						$author$project$BlockType$BalancedBlock($author$project$BlockType$DisplayMath),
 						level_,
-						$jxxcarlson$elm_markdown$Markdown$Parse$T(content_));
+						$author$project$Markdown$Parse$T(content_));
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$standardMDParser = F2(
+var $author$project$Markdown$Parse$standardMDParser = F2(
 	function (option_, _v0) {
 		var id = _v0.a;
 		var bt = _v0.b;
@@ -14107,34 +14107,34 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$standardMDParser = F2(
 		if (bt.$ === 'MarkdownBlock') {
 			var mt = bt.a;
 			return A4(
-				$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+				$author$project$Markdown$Parse$MDBlockWithId,
 				id,
-				$jxxcarlson$elm_markdown$BlockType$MarkdownBlock(mt),
+				$author$project$BlockType$MarkdownBlock(mt),
 				level_,
-				$jxxcarlson$elm_markdown$Markdown$Parse$M(
-					A2($jxxcarlson$elm_markdown$MDInline$parse, option_, content_)));
+				$author$project$Markdown$Parse$M(
+					A2($author$project$MDInline$parse, option_, content_)));
 		} else {
 			if (bt.a.$ === 'DisplayCode') {
 				var lang = bt.a.a;
 				return A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+					$author$project$Markdown$Parse$MDBlockWithId,
 					id,
-					$jxxcarlson$elm_markdown$BlockType$BalancedBlock(
-						$jxxcarlson$elm_markdown$BlockType$DisplayCode(lang)),
+					$author$project$BlockType$BalancedBlock(
+						$author$project$BlockType$DisplayCode(lang)),
 					level_,
-					$jxxcarlson$elm_markdown$Markdown$Parse$T(content_));
+					$author$project$Markdown$Parse$T(content_));
 			} else {
 				return A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+					$author$project$Markdown$Parse$MDBlockWithId,
 					id,
-					$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Plain),
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain),
 					level_,
-					$jxxcarlson$elm_markdown$Markdown$Parse$M(
-						A2($jxxcarlson$elm_markdown$MDInline$parse, option_, content_)));
+					$author$project$Markdown$Parse$M(
+						A2($author$project$MDInline$parse, option_, content_)));
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$selectParser = F2(
+var $author$project$Markdown$Parse$selectParser = F2(
 	function (option, block) {
 		var id = block.a;
 		var bt = block.b;
@@ -14142,66 +14142,66 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$selectParser = F2(
 		var content_ = block.d;
 		switch (option.$) {
 			case 'Standard':
-				return A2($jxxcarlson$elm_markdown$Markdown$Parse$standardMDParser, option, block);
+				return A2($author$project$Markdown$Parse$standardMDParser, option, block);
 			case 'Extended':
-				return A2($jxxcarlson$elm_markdown$Markdown$Parse$extendedMDParser, option, block);
+				return A2($author$project$Markdown$Parse$extendedMDParser, option, block);
 			default:
-				return A2($jxxcarlson$elm_markdown$Markdown$Parse$extendedMathMDParser, option, block);
+				return A2($author$project$Markdown$Parse$extendedMathMDParser, option, block);
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$setBlockIndex = F3(
+var $author$project$Markdown$Parse$setBlockIndex = F3(
 	function (version, idx, _v0) {
 		var id = _v0.a;
 		var bt = _v0.b;
 		var lev = _v0.c;
 		var blockContent = _v0.d;
 		return A4(
-			$jxxcarlson$elm_markdown$Markdown$Parse$MDBlockWithId,
+			$author$project$Markdown$Parse$MDBlockWithId,
 			_Utils_Tuple2(idx, version),
 			bt,
 			lev,
 			blockContent);
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$blockLevel = function (_v0) {
+var $author$project$Markdown$Parse$blockLevel = function (_v0) {
 	var k = _v0.c;
 	return k;
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$Block = F4(
+var $author$project$Markdown$Parse$Block = F4(
 	function (a, b, c, d) {
 		return {$: 'Block', a: a, b: b, c: c, d: d};
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$changeLevel = F2(
+var $author$project$Markdown$Parse$changeLevel = F2(
 	function (k, _v0) {
 		var id_ = _v0.a;
 		var bt_ = _v0.b;
 		var level_ = _v0.c;
 		var content_ = _v0.d;
-		return A4($jxxcarlson$elm_markdown$Markdown$Parse$Block, id_, bt_, level_ + k, content_);
+		return A4($author$project$Markdown$Parse$Block, id_, bt_, level_ + k, content_);
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$blockListOfFSM = function (_v0) {
+var $author$project$Markdown$Parse$blockListOfFSM = function (_v0) {
 	var blockList_ = _v0.b;
 	return blockList_;
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$stateOfFSM = function (_v0) {
+var $author$project$Markdown$Parse$stateOfFSM = function (_v0) {
 	var state_ = _v0.a;
 	return state_;
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$flush = function (fsm) {
-	var _v0 = $jxxcarlson$elm_markdown$Markdown$Parse$stateOfFSM(fsm);
+var $author$project$Markdown$Parse$flush = function (fsm) {
+	var _v0 = $author$project$Markdown$Parse$stateOfFSM(fsm);
 	switch (_v0.$) {
 		case 'Start':
 			return $elm$core$List$reverse(
-				$jxxcarlson$elm_markdown$Markdown$Parse$blockListOfFSM(fsm));
+				$author$project$Markdown$Parse$blockListOfFSM(fsm));
 		case 'Error':
 			return $elm$core$List$reverse(
-				$jxxcarlson$elm_markdown$Markdown$Parse$blockListOfFSM(fsm));
+				$author$project$Markdown$Parse$blockListOfFSM(fsm));
 		default:
 			var b = _v0.a;
 			return $elm$core$List$reverse(
 				A2(
 					$elm$core$List$cons,
 					b,
-					$jxxcarlson$elm_markdown$Markdown$Parse$blockListOfFSM(fsm)));
+					$author$project$Markdown$Parse$blockListOfFSM(fsm)));
 	}
 };
 var $zwilias$elm_rosetree$Tree$Zipper$Zipper = function (a) {
@@ -14485,19 +14485,19 @@ var $jxxcarlson$htree$HTree$fromList = F3(
 					$zwilias$elm_rosetree$Tree$singleton(rootLabel)),
 				lst));
 	});
-var $jxxcarlson$elm_markdown$BlockType$Root = {$: 'Root'};
-var $jxxcarlson$elm_markdown$Markdown$Parse$rootBlock = A4(
-	$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+var $author$project$BlockType$Root = {$: 'Root'};
+var $author$project$Markdown$Parse$rootBlock = A4(
+	$author$project$Markdown$Parse$Block,
 	_Utils_Tuple2(0, 0),
-	$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Root),
+	$author$project$BlockType$MarkdownBlock($author$project$BlockType$Root),
 	0,
 	'DOCUMENT');
-var $jxxcarlson$elm_markdown$Markdown$Parse$FSM = F3(
+var $author$project$Markdown$Parse$FSM = F3(
 	function (a, b, c) {
 		return {$: 'FSM', a: a, b: b, c: c};
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$Start = {$: 'Start'};
-var $jxxcarlson$elm_markdown$Markdown$Parse$emptyRegister = {
+var $author$project$Markdown$Parse$Start = {$: 'Start'};
+var $author$project$Markdown$Parse$emptyRegister = {
 	blockStack: _List_Nil,
 	blockTypeStack: _List_Nil,
 	id: _Utils_Tuple2(0, 0),
@@ -14507,71 +14507,71 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$emptyRegister = {
 	itemIndex4: 0,
 	level: 0
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$initialFSM = A3($jxxcarlson$elm_markdown$Markdown$Parse$FSM, $jxxcarlson$elm_markdown$Markdown$Parse$Start, _List_Nil, $jxxcarlson$elm_markdown$Markdown$Parse$emptyRegister);
-var $jxxcarlson$elm_markdown$BlockType$Table = {$: 'Table'};
-var $jxxcarlson$elm_markdown$BlockType$TableRow = {$: 'TableRow'};
-var $jxxcarlson$elm_markdown$Markdown$Parse$clearBlockStack = function (register) {
+var $author$project$Markdown$Parse$initialFSM = A3($author$project$Markdown$Parse$FSM, $author$project$Markdown$Parse$Start, _List_Nil, $author$project$Markdown$Parse$emptyRegister);
+var $author$project$BlockType$Table = {$: 'Table'};
+var $author$project$BlockType$TableRow = {$: 'TableRow'};
+var $author$project$Markdown$Parse$clearBlockStack = function (register) {
 	return _Utils_update(
 		register,
 		{blockStack: _List_Nil});
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$editBlock = function (block) {
+var $author$project$Markdown$Parse$editBlock = function (block) {
 	var id = block.a;
 	var bt = block.b;
 	var lev = block.c;
 	var content = block.d;
 	return (_Utils_eq(
 		bt,
-		$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$TableRow)) && (content === 'row')) ? A4($jxxcarlson$elm_markdown$Markdown$Parse$Block, id, bt, lev, '') : block;
+		$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow)) && (content === 'row')) ? A4($author$project$Markdown$Parse$Block, id, bt, lev, '') : block;
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$topOfBlockStack = function (register) {
+var $author$project$Markdown$Parse$topOfBlockStack = function (register) {
 	return $elm$core$List$head(register.blockStack);
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$typeOfBlock = function (_v0) {
+var $author$project$Markdown$Parse$typeOfBlock = function (_v0) {
 	var bt = _v0.b;
 	return bt;
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$typeOfState = function (s) {
+var $author$project$Markdown$Parse$typeOfState = function (s) {
 	switch (s.$) {
 		case 'Start':
 			return $elm$core$Maybe$Nothing;
 		case 'InBlock':
 			var b = s.a;
 			return $elm$core$Maybe$Just(
-				$jxxcarlson$elm_markdown$Markdown$Parse$typeOfBlock(b));
+				$author$project$Markdown$Parse$typeOfBlock(b));
 		default:
 			return $elm$core$Maybe$Nothing;
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$handleRegister = function (fsm) {
+var $author$project$Markdown$Parse$handleRegister = function (fsm) {
 	var state = fsm.a;
 	var blocks = fsm.b;
 	var register = fsm.c;
-	var _v0 = $jxxcarlson$elm_markdown$Markdown$Parse$topOfBlockStack(register);
+	var _v0 = $author$project$Markdown$Parse$topOfBlockStack(register);
 	if (_v0.$ === 'Nothing') {
 		return fsm;
 	} else {
 		var block = _v0.a;
-		var _v1 = $jxxcarlson$elm_markdown$Markdown$Parse$typeOfState(state);
+		var _v1 = $author$project$Markdown$Parse$typeOfState(state);
 		if (((_v1.$ === 'Just') && (_v1.a.$ === 'MarkdownBlock')) && (_v1.a.a.$ === 'TableRow')) {
 			var _v2 = _v1.a.a;
 			return fsm;
 		} else {
 			var tableBlock = A4(
-				$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+				$author$project$Markdown$Parse$Block,
 				_Utils_Tuple2(-1, -1),
-				$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Table),
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$Table),
 				0,
 				'tableRoot');
 			var rowBlock = A4(
-				$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+				$author$project$Markdown$Parse$Block,
 				_Utils_Tuple2(-1, -1),
-				$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$TableRow),
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow),
 				1,
 				'row');
 			var tableData = A2(
 				$elm$core$List$map,
-				$jxxcarlson$elm_markdown$Markdown$Parse$editBlock,
+				$author$project$Markdown$Parse$editBlock,
 				function (x) {
 					return _Utils_ap(
 						x,
@@ -14587,19 +14587,19 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$handleRegister = function (fsm) {
 				},
 				blocks);
 			return A3(
-				$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-				$jxxcarlson$elm_markdown$Markdown$Parse$Start,
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$Start,
 				_Utils_ap(tableData, newBlocks),
-				$jxxcarlson$elm_markdown$Markdown$Parse$clearBlockStack(register));
+				$author$project$Markdown$Parse$clearBlockStack(register));
 		}
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$Error = {$: 'Error'};
-var $jxxcarlson$elm_markdown$Markdown$Parse$InBlock = function (a) {
+var $author$project$Markdown$Parse$Error = {$: 'Error'};
+var $author$project$Markdown$Parse$InBlock = function (a) {
 	return {$: 'InBlock', a: a};
 };
-var $jxxcarlson$elm_markdown$BlockType$Blank = {$: 'Blank'};
-var $jxxcarlson$elm_markdown$BlockType$numberOfLeadingBlanks = A2(
+var $author$project$BlockType$Blank = {$: 'Blank'};
+var $author$project$BlockType$numberOfLeadingBlanks = A2(
 	$elm$parser$Parser$Advanced$map,
 	$elm$core$String$length,
 	$elm$parser$Parser$Advanced$getChompedString(
@@ -14620,103 +14620,103 @@ var $elm$core$Result$toMaybe = function (result) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
-var $jxxcarlson$elm_markdown$BlockType$getNumberOfLeadingBlanks = function (str) {
+var $author$project$BlockType$getNumberOfLeadingBlanks = function (str) {
 	return A2(
 		$elm$core$Maybe$withDefault,
 		0,
 		$elm$core$Result$toMaybe(
-			A2($elm$parser$Parser$Advanced$run, $jxxcarlson$elm_markdown$BlockType$numberOfLeadingBlanks, str)));
+			A2($elm$parser$Parser$Advanced$run, $author$project$BlockType$numberOfLeadingBlanks, str)));
 };
-var $jxxcarlson$elm_markdown$BlockType$dropLeadingBlanks = function (str) {
+var $author$project$BlockType$dropLeadingBlanks = function (str) {
 	return A2(
 		$elm$core$String$dropLeft,
-		$jxxcarlson$elm_markdown$BlockType$getNumberOfLeadingBlanks(str),
+		$author$project$BlockType$getNumberOfLeadingBlanks(str),
 		str);
 };
-var $jxxcarlson$elm_markdown$BlockType$levelIndentation = 4;
-var $jxxcarlson$elm_markdown$BlockType$level = function (ln) {
+var $author$project$BlockType$levelIndentation = 4;
+var $author$project$BlockType$level = function (ln) {
 	return A2(
 		$elm$core$Maybe$withDefault,
 		0,
 		A2(
 			$elm$core$Maybe$map,
 			function (l) {
-				return (l / $jxxcarlson$elm_markdown$BlockType$levelIndentation) | 0;
+				return (l / $author$project$BlockType$levelIndentation) | 0;
 			},
 			$elm$core$Result$toMaybe(
-				A2($elm$parser$Parser$Advanced$run, $jxxcarlson$elm_markdown$BlockType$numberOfLeadingBlanks, ln))));
+				A2($elm$parser$Parser$Advanced$run, $author$project$BlockType$numberOfLeadingBlanks, ln))));
 };
-var $jxxcarlson$elm_markdown$BlockType$Expecting = function (a) {
+var $author$project$BlockType$Expecting = function (a) {
 	return {$: 'Expecting', a: a};
 };
-var $jxxcarlson$elm_markdown$BlockType$CssLang = {$: 'CssLang'};
-var $jxxcarlson$elm_markdown$BlockType$cssLang = A2(
+var $author$project$BlockType$CssLang = {$: 'CssLang'};
+var $author$project$BlockType$cssLang = A2(
 	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($jxxcarlson$elm_markdown$BlockType$CssLang),
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$CssLang),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'css',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting string for language'))));
-var $jxxcarlson$elm_markdown$BlockType$ElmLang = {$: 'ElmLang'};
-var $jxxcarlson$elm_markdown$BlockType$elmLang = A2(
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$ElmLang = {$: 'ElmLang'};
+var $author$project$BlockType$elmLang = A2(
 	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($jxxcarlson$elm_markdown$BlockType$ElmLang),
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$ElmLang),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'elm',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting string for language'))));
-var $jxxcarlson$elm_markdown$BlockType$JavascriptLang = {$: 'JavascriptLang'};
-var $jxxcarlson$elm_markdown$BlockType$javascriptLang = A2(
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$JavascriptLang = {$: 'JavascriptLang'};
+var $author$project$BlockType$javascriptLang = A2(
 	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($jxxcarlson$elm_markdown$BlockType$JavascriptLang),
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$JavascriptLang),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'javascript',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting string for language'))));
-var $jxxcarlson$elm_markdown$BlockType$JsonLang = {$: 'JsonLang'};
-var $jxxcarlson$elm_markdown$BlockType$jsonLang = A2(
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$JsonLang = {$: 'JsonLang'};
+var $author$project$BlockType$jsonLang = A2(
 	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($jxxcarlson$elm_markdown$BlockType$JsonLang),
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$JsonLang),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'json',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting string for language'))));
-var $jxxcarlson$elm_markdown$BlockType$PythonLang = {$: 'PythonLang'};
-var $jxxcarlson$elm_markdown$BlockType$pythonLang = A2(
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$PythonLang = {$: 'PythonLang'};
+var $author$project$BlockType$pythonLang = A2(
 	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($jxxcarlson$elm_markdown$BlockType$PythonLang),
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$PythonLang),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'python',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting string for language'))));
-var $jxxcarlson$elm_markdown$BlockType$SqlLang = {$: 'SqlLang'};
-var $jxxcarlson$elm_markdown$BlockType$sqlLang = A2(
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$SqlLang = {$: 'SqlLang'};
+var $author$project$BlockType$sqlLang = A2(
 	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($jxxcarlson$elm_markdown$BlockType$SqlLang),
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$SqlLang),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'sql',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting string for language'))));
-var $jxxcarlson$elm_markdown$BlockType$XmlLang = {$: 'XmlLang'};
-var $jxxcarlson$elm_markdown$BlockType$xmlLang = A2(
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$XmlLang = {$: 'XmlLang'};
+var $author$project$BlockType$xmlLang = A2(
 	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($jxxcarlson$elm_markdown$BlockType$XmlLang),
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$XmlLang),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'xml',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting string for language'))));
-var $jxxcarlson$elm_markdown$BlockType$codeBlock = A2(
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$codeBlock = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (lang) {
-		return $jxxcarlson$elm_markdown$BlockType$BalancedBlock(
-			$jxxcarlson$elm_markdown$BlockType$DisplayCode(lang));
+		return $author$project$BlockType$BalancedBlock(
+			$author$project$BlockType$DisplayCode(lang));
 	},
 	A2(
 		$elm$parser$Parser$Advanced$keeper,
@@ -14727,19 +14727,19 @@ var $jxxcarlson$elm_markdown$BlockType$codeBlock = A2(
 				A2(
 					$elm$parser$Parser$Advanced$Token,
 					'```',
-					$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting three ticks to begin code block')))),
+					$author$project$BlockType$Expecting('Expecting three ticks to begin code block')))),
 		$elm$parser$Parser$Advanced$oneOf(
 			_List_fromArray(
-				[$jxxcarlson$elm_markdown$BlockType$cssLang, $jxxcarlson$elm_markdown$BlockType$elmLang, $jxxcarlson$elm_markdown$BlockType$javascriptLang, $jxxcarlson$elm_markdown$BlockType$jsonLang, $jxxcarlson$elm_markdown$BlockType$pythonLang, $jxxcarlson$elm_markdown$BlockType$sqlLang, $jxxcarlson$elm_markdown$BlockType$xmlLang]))));
-var $jxxcarlson$elm_markdown$BlockType$parseWhile = function (accepting) {
+				[$author$project$BlockType$cssLang, $author$project$BlockType$elmLang, $author$project$BlockType$javascriptLang, $author$project$BlockType$jsonLang, $author$project$BlockType$pythonLang, $author$project$BlockType$sqlLang, $author$project$BlockType$xmlLang]))));
+var $author$project$BlockType$parseWhile = function (accepting) {
 	return $elm$parser$Parser$Advanced$getChompedString(
 		$elm$parser$Parser$Advanced$chompWhile(accepting));
 };
-var $jxxcarlson$elm_markdown$BlockType$headingBlock = A2(
+var $author$project$BlockType$headingBlock = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (s) {
-		return $jxxcarlson$elm_markdown$BlockType$MarkdownBlock(
-			$jxxcarlson$elm_markdown$BlockType$Heading(
+		return $author$project$BlockType$MarkdownBlock(
+			$author$project$BlockType$Heading(
 				$elm$core$String$length(s) + 1));
 	},
 	A2(
@@ -14754,18 +14754,18 @@ var $jxxcarlson$elm_markdown$BlockType$headingBlock = A2(
 				A2(
 					$elm$parser$Parser$Advanced$Token,
 					'#',
-					$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting \'#\' to begin heading block')))),
-		$jxxcarlson$elm_markdown$BlockType$parseWhile(
+					$author$project$BlockType$Expecting('Expecting \'#\' to begin heading block')))),
+		$author$project$BlockType$parseWhile(
 			function (c) {
 				return _Utils_eq(
 					c,
 					_Utils_chr('#'));
 			})));
-var $jxxcarlson$elm_markdown$BlockType$HorizontalRule = {$: 'HorizontalRule'};
-var $jxxcarlson$elm_markdown$BlockType$horizontalRuleBlock = A2(
+var $author$project$BlockType$HorizontalRule = {$: 'HorizontalRule'};
+var $author$project$BlockType$horizontalRuleBlock = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (x) {
-		return $jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$HorizontalRule);
+		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$HorizontalRule);
 	},
 	A2(
 		$elm$parser$Parser$Advanced$ignorer,
@@ -14777,34 +14777,34 @@ var $jxxcarlson$elm_markdown$BlockType$horizontalRuleBlock = A2(
 			A2(
 				$elm$parser$Parser$Advanced$Token,
 				'___',
-				$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting at least three underscores to begin thematic break')))));
-var $jxxcarlson$elm_markdown$BlockType$Image = {$: 'Image'};
-var $jxxcarlson$elm_markdown$BlockType$imageBlock = A2(
+				$author$project$BlockType$Expecting('Expecting at least three underscores to begin thematic break')))));
+var $author$project$BlockType$Image = {$: 'Image'};
+var $author$project$BlockType$imageBlock = A2(
 	$elm$parser$Parser$Advanced$ignorer,
 	$elm$parser$Parser$Advanced$succeed(
-		$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Image)),
+		$author$project$BlockType$MarkdownBlock($author$project$BlockType$Image)),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'![',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting \'![\' to begin image block'))));
-var $jxxcarlson$elm_markdown$BlockType$mathBlock = A2(
+			$author$project$BlockType$Expecting('Expecting \'![\' to begin image block'))));
+var $author$project$BlockType$mathBlock = A2(
 	$elm$parser$Parser$Advanced$ignorer,
 	$elm$parser$Parser$Advanced$succeed(
-		$jxxcarlson$elm_markdown$BlockType$BalancedBlock($jxxcarlson$elm_markdown$BlockType$DisplayMath)),
+		$author$project$BlockType$BalancedBlock($author$project$BlockType$DisplayMath)),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'$$',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting four ticks to begin verbatim block'))));
-var $jxxcarlson$elm_markdown$BlockType$OListItem = function (a) {
+			$author$project$BlockType$Expecting('Expecting four ticks to begin verbatim block'))));
+var $author$project$BlockType$OListItem = function (a) {
 	return {$: 'OListItem', a: a};
 };
-var $jxxcarlson$elm_markdown$BlockType$orderedListItemBlock = A2(
+var $author$project$BlockType$orderedListItemBlock = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (_v0) {
-		return $jxxcarlson$elm_markdown$BlockType$MarkdownBlock(
-			$jxxcarlson$elm_markdown$BlockType$OListItem(0));
+		return $author$project$BlockType$MarkdownBlock(
+			$author$project$BlockType$OListItem(0));
 	},
 	A2(
 		$elm$parser$Parser$Advanced$ignorer,
@@ -14815,7 +14815,7 @@ var $jxxcarlson$elm_markdown$BlockType$orderedListItemBlock = A2(
 				A2(
 					$elm$parser$Parser$Advanced$ignorer,
 					$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-					$jxxcarlson$elm_markdown$BlockType$parseWhile(
+					$author$project$BlockType$parseWhile(
 						function (c) {
 							return _Utils_eq(
 								c,
@@ -14826,7 +14826,7 @@ var $jxxcarlson$elm_markdown$BlockType$orderedListItemBlock = A2(
 					function (c) {
 						return $elm$core$Char$isDigit(c);
 					},
-					$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting digit to begin ordered list item'))),
+					$author$project$BlockType$Expecting('Expecting digit to begin ordered list item'))),
 			$elm$parser$Parser$Advanced$chompWhile(
 				function (c) {
 					return $elm$core$Char$isDigit(c);
@@ -14835,12 +14835,12 @@ var $jxxcarlson$elm_markdown$BlockType$orderedListItemBlock = A2(
 			A2(
 				$elm$parser$Parser$Advanced$Token,
 				'. ',
-				$jxxcarlson$elm_markdown$BlockType$Expecting('expecting period')))));
-var $jxxcarlson$elm_markdown$BlockType$Poetry = {$: 'Poetry'};
-var $jxxcarlson$elm_markdown$BlockType$poetryBlock = A2(
+				$author$project$BlockType$Expecting('expecting period')))));
+var $author$project$BlockType$Poetry = {$: 'Poetry'};
+var $author$project$BlockType$poetryBlock = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (_v0) {
-		return $jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Poetry);
+		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$Poetry);
 	},
 	A2(
 		$elm$parser$Parser$Advanced$ignorer,
@@ -14849,12 +14849,12 @@ var $jxxcarlson$elm_markdown$BlockType$poetryBlock = A2(
 			A2(
 				$elm$parser$Parser$Advanced$Token,
 				'>> ',
-				$jxxcarlson$elm_markdown$BlockType$Expecting('expecting \'>> \' to begin poetry block')))));
-var $jxxcarlson$elm_markdown$BlockType$Quotation = {$: 'Quotation'};
-var $jxxcarlson$elm_markdown$BlockType$quotationBlock = A2(
+				$author$project$BlockType$Expecting('expecting \'>> \' to begin poetry block')))));
+var $author$project$BlockType$Quotation = {$: 'Quotation'};
+var $author$project$BlockType$quotationBlock = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (_v0) {
-		return $jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Quotation);
+		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$Quotation);
 	},
 	A2(
 		$elm$parser$Parser$Advanced$ignorer,
@@ -14863,11 +14863,11 @@ var $jxxcarlson$elm_markdown$BlockType$quotationBlock = A2(
 			A2(
 				$elm$parser$Parser$Advanced$Token,
 				'> ',
-				$jxxcarlson$elm_markdown$BlockType$Expecting('expecting \'> \' to begin quotation')))));
-var $jxxcarlson$elm_markdown$BlockType$tableBlock = A2(
+				$author$project$BlockType$Expecting('expecting \'> \' to begin quotation')))));
+var $author$project$BlockType$tableBlock = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (_v0) {
-		return $jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$TableRow);
+		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow);
 	},
 	A2(
 		$elm$parser$Parser$Advanced$ignorer,
@@ -14876,86 +14876,86 @@ var $jxxcarlson$elm_markdown$BlockType$tableBlock = A2(
 			A2(
 				$elm$parser$Parser$Advanced$Token,
 				'| ',
-				$jxxcarlson$elm_markdown$BlockType$Expecting('expecting \'| \' to begin poetry block')))));
-var $jxxcarlson$elm_markdown$BlockType$UListItem = {$: 'UListItem'};
-var $jxxcarlson$elm_markdown$BlockType$unorderedListItemBlock = A2(
+				$author$project$BlockType$Expecting('expecting \'| \' to begin poetry block')))));
+var $author$project$BlockType$UListItem = {$: 'UListItem'};
+var $author$project$BlockType$unorderedListItemBlock = A2(
 	$elm$parser$Parser$Advanced$ignorer,
 	$elm$parser$Parser$Advanced$succeed(
-		$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$UListItem)),
+		$author$project$BlockType$MarkdownBlock($author$project$BlockType$UListItem)),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'- ',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting \'-\' to begin list item'))));
-var $jxxcarlson$elm_markdown$BlockType$verbatimBlock = A2(
+			$author$project$BlockType$Expecting('Expecting \'-\' to begin list item'))));
+var $author$project$BlockType$verbatimBlock = A2(
 	$elm$parser$Parser$Advanced$ignorer,
 	$elm$parser$Parser$Advanced$succeed(
-		$jxxcarlson$elm_markdown$BlockType$BalancedBlock($jxxcarlson$elm_markdown$BlockType$Verbatim)),
+		$author$project$BlockType$BalancedBlock($author$project$BlockType$Verbatim)),
 	$elm$parser$Parser$Advanced$symbol(
 		A2(
 			$elm$parser$Parser$Advanced$Token,
 			'````',
-			$jxxcarlson$elm_markdown$BlockType$Expecting('Expecting four ticks to begin verbatim block'))));
-var $jxxcarlson$elm_markdown$BlockType$parseExtended = $elm$parser$Parser$Advanced$oneOf(
+			$author$project$BlockType$Expecting('Expecting four ticks to begin verbatim block'))));
+var $author$project$BlockType$parseExtended = $elm$parser$Parser$Advanced$oneOf(
 	_List_fromArray(
 		[
-			$jxxcarlson$elm_markdown$BlockType$imageBlock,
-			$jxxcarlson$elm_markdown$BlockType$mathBlock,
-			$jxxcarlson$elm_markdown$BlockType$unorderedListItemBlock,
-			$jxxcarlson$elm_markdown$BlockType$orderedListItemBlock,
-			$jxxcarlson$elm_markdown$BlockType$quotationBlock,
-			$jxxcarlson$elm_markdown$BlockType$poetryBlock,
-			$elm$parser$Parser$Advanced$backtrackable($jxxcarlson$elm_markdown$BlockType$verbatimBlock),
-			$jxxcarlson$elm_markdown$BlockType$codeBlock,
-			$jxxcarlson$elm_markdown$BlockType$tableBlock,
-			$jxxcarlson$elm_markdown$BlockType$headingBlock,
-			$jxxcarlson$elm_markdown$BlockType$horizontalRuleBlock
+			$author$project$BlockType$imageBlock,
+			$author$project$BlockType$mathBlock,
+			$author$project$BlockType$unorderedListItemBlock,
+			$author$project$BlockType$orderedListItemBlock,
+			$author$project$BlockType$quotationBlock,
+			$author$project$BlockType$poetryBlock,
+			$elm$parser$Parser$Advanced$backtrackable($author$project$BlockType$verbatimBlock),
+			$author$project$BlockType$codeBlock,
+			$author$project$BlockType$tableBlock,
+			$author$project$BlockType$headingBlock,
+			$author$project$BlockType$horizontalRuleBlock
 		]));
-var $jxxcarlson$elm_markdown$BlockType$parseStandard = $elm$parser$Parser$Advanced$oneOf(
+var $author$project$BlockType$parseStandard = $elm$parser$Parser$Advanced$oneOf(
 	_List_fromArray(
-		[$jxxcarlson$elm_markdown$BlockType$tableBlock, $jxxcarlson$elm_markdown$BlockType$imageBlock, $jxxcarlson$elm_markdown$BlockType$unorderedListItemBlock, $jxxcarlson$elm_markdown$BlockType$orderedListItemBlock, $jxxcarlson$elm_markdown$BlockType$quotationBlock, $jxxcarlson$elm_markdown$BlockType$codeBlock, $jxxcarlson$elm_markdown$BlockType$headingBlock, $jxxcarlson$elm_markdown$BlockType$horizontalRuleBlock]));
-var $jxxcarlson$elm_markdown$BlockType$parse = function (option) {
+		[$author$project$BlockType$tableBlock, $author$project$BlockType$imageBlock, $author$project$BlockType$unorderedListItemBlock, $author$project$BlockType$orderedListItemBlock, $author$project$BlockType$quotationBlock, $author$project$BlockType$codeBlock, $author$project$BlockType$headingBlock, $author$project$BlockType$horizontalRuleBlock]));
+var $author$project$BlockType$parse = function (option) {
 	if (option.$ === 'Standard') {
-		return $jxxcarlson$elm_markdown$BlockType$parseStandard;
+		return $author$project$BlockType$parseStandard;
 	} else {
-		return $jxxcarlson$elm_markdown$BlockType$parseExtended;
+		return $author$project$BlockType$parseExtended;
 	}
 };
-var $jxxcarlson$elm_markdown$BlockType$get = F2(
+var $author$project$BlockType$get = F2(
 	function (option, str) {
 		if (str === '\n') {
 			return _Utils_Tuple2(
 				0,
 				$elm$core$Maybe$Just(
-					$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Blank)));
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$Blank)));
 		} else {
 			var _v0 = A2(
 				$elm$parser$Parser$Advanced$run,
-				$jxxcarlson$elm_markdown$BlockType$parse(option),
-				$jxxcarlson$elm_markdown$BlockType$dropLeadingBlanks(str));
+				$author$project$BlockType$parse(option),
+				$author$project$BlockType$dropLeadingBlanks(str));
 			if (_v0.$ === 'Ok') {
 				var result = _v0.a;
 				return _Utils_Tuple2(
-					$jxxcarlson$elm_markdown$BlockType$level(str),
+					$author$project$BlockType$level(str),
 					$elm$core$Maybe$Just(result));
 			} else {
 				return _Utils_Tuple2(
-					$jxxcarlson$elm_markdown$BlockType$level(str),
+					$author$project$BlockType$level(str),
 					$elm$core$Maybe$Just(
-						$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Plain)));
+						$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain)));
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$BlockType$TableCell = {$: 'TableCell'};
-var $jxxcarlson$elm_markdown$Markdown$Parse$parseTableRow = F2(
+var $author$project$BlockType$TableCell = {$: 'TableCell'};
+var $author$project$Markdown$Parse$parseTableRow = F2(
 	function (level, line) {
 		return A2(
 			$elm$core$List$map,
 			function (s) {
 				return A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+					$author$project$Markdown$Parse$Block,
 					_Utils_Tuple2(-1, -1),
-					$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$TableCell),
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableCell),
 					level,
 					s);
 			},
@@ -14969,56 +14969,56 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$parseTableRow = F2(
 					$elm$core$String$trim,
 					A2($elm$core$String$split, '|', line))));
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$handleTableStart = F6(
+var $author$project$Markdown$Parse$handleTableStart = F6(
 	function (blockTypeOfLine, level, line, state, blocks, register) {
 		switch (state.$) {
 			case 'Start':
-				return A3($jxxcarlson$elm_markdown$Markdown$Parse$FSM, state, blocks, register);
+				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
 			case 'Error':
-				return A3($jxxcarlson$elm_markdown$Markdown$Parse$FSM, state, blocks, register);
+				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
 			default:
 				var currentBlock = state.a;
 				var tableBlock = A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+					$author$project$Markdown$Parse$Block,
 					_Utils_Tuple2(-1, -1),
-					$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Table),
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$Table),
 					level,
 					'tableRoot');
 				var rowBlock = A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+					$author$project$Markdown$Parse$Block,
 					_Utils_Tuple2(-1, -1),
 					blockTypeOfLine,
 					level + 1,
 					'row');
-				var childrenOfNewBlock = A2($jxxcarlson$elm_markdown$Markdown$Parse$parseTableRow, level + 2, line);
+				var childrenOfNewBlock = A2($author$project$Markdown$Parse$parseTableRow, level + 2, line);
 				var newRow = _Utils_ap(
 					childrenOfNewBlock,
 					_List_fromArray(
 						[rowBlock]));
 				return A3(
-					$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-					$jxxcarlson$elm_markdown$Markdown$Parse$InBlock(rowBlock),
+					$author$project$Markdown$Parse$FSM,
+					$author$project$Markdown$Parse$InBlock(rowBlock),
 					blocks,
 					_Utils_update(
 						register,
 						{blockStack: newRow, level: register.level + 0}));
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$lineIsNotBlank = function (line) {
+var $author$project$Markdown$Parse$lineIsNotBlank = function (line) {
 	return $elm$core$String$trim(line) !== '';
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$newBlockTypeIsDifferent = F2(
+var $author$project$Markdown$Parse$newBlockTypeIsDifferent = F2(
 	function (blockType, state) {
 		if (state.$ === 'InBlock') {
 			var currentBlock = state.a;
 			return !_Utils_eq(
-				$jxxcarlson$elm_markdown$Markdown$Parse$typeOfBlock(currentBlock),
+				$author$project$Markdown$Parse$typeOfBlock(currentBlock),
 				blockType);
 		} else {
 			return false;
 		}
 	});
-var $jxxcarlson$elm_markdown$BlockType$prefixOfBalancedType = function (bt) {
+var $author$project$BlockType$prefixOfBalancedType = function (bt) {
 	switch (bt.$) {
 		case 'DisplayCode':
 			return '```';
@@ -15055,7 +15055,7 @@ var $elm$parser$Parser$Advanced$chompUntil = function (_v0) {
 				{col: newCol, context: s.context, indent: s.indent, offset: newOffset, row: newRow, src: s.src});
 		});
 };
-var $jxxcarlson$elm_markdown$BlockType$oListPrefix = A2(
+var $author$project$BlockType$oListPrefix = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (x) {
 		return x + '. ';
@@ -15068,7 +15068,7 @@ var $jxxcarlson$elm_markdown$BlockType$oListPrefix = A2(
 				A2(
 					$elm$parser$Parser$Advanced$Token,
 					'.',
-					$jxxcarlson$elm_markdown$BlockType$Expecting('expecting \'.\' to begin OListItem block'))))));
+					$author$project$BlockType$Expecting('expecting \'.\' to begin OListItem block'))))));
 var $elm$core$Bitwise$shiftRightBy = _Bitwise_shiftRightBy;
 var $elm$core$String$repeatHelp = F3(
 	function (n, chunk, result) {
@@ -15082,7 +15082,7 @@ var $elm$core$String$repeat = F2(
 	function (n, chunk) {
 		return A3($elm$core$String$repeatHelp, n, chunk, '');
 	});
-var $jxxcarlson$elm_markdown$BlockType$uListPrefix = A2(
+var $author$project$BlockType$uListPrefix = A2(
 	$elm$parser$Parser$Advanced$map,
 	function (s) {
 		return s + '- ';
@@ -15095,8 +15095,8 @@ var $jxxcarlson$elm_markdown$BlockType$uListPrefix = A2(
 				A2(
 					$elm$parser$Parser$Advanced$Token,
 					'-',
-					$jxxcarlson$elm_markdown$BlockType$Expecting('expecting \'-\' to begin UListItem block'))))));
-var $jxxcarlson$elm_markdown$BlockType$prefixOfMarkdownType = F2(
+					$author$project$BlockType$Expecting('expecting \'-\' to begin UListItem block'))))));
+var $author$project$BlockType$prefixOfMarkdownType = F2(
 	function (mdt, line) {
 		var runPrefix = F2(
 			function (prefixParser, str) {
@@ -15112,9 +15112,9 @@ var $jxxcarlson$elm_markdown$BlockType$prefixOfMarkdownType = F2(
 			case 'Root':
 				return '';
 			case 'UListItem':
-				return A2(runPrefix, $jxxcarlson$elm_markdown$BlockType$uListPrefix, line);
+				return A2(runPrefix, $author$project$BlockType$uListPrefix, line);
 			case 'OListItem':
-				return A2(runPrefix, $jxxcarlson$elm_markdown$BlockType$oListPrefix, line);
+				return A2(runPrefix, $author$project$BlockType$oListPrefix, line);
 			case 'Heading':
 				var k = mdt.a;
 				return A2($elm$core$String$repeat, k, '#') + ' ';
@@ -15138,22 +15138,22 @@ var $jxxcarlson$elm_markdown$BlockType$prefixOfMarkdownType = F2(
 				return '';
 		}
 	});
-var $jxxcarlson$elm_markdown$BlockType$prefixOfBlockType = F2(
+var $author$project$BlockType$prefixOfBlockType = F2(
 	function (bt, line) {
 		if (bt.$ === 'BalancedBlock') {
 			var bb = bt.a;
-			return $jxxcarlson$elm_markdown$BlockType$prefixOfBalancedType(bb);
+			return $author$project$BlockType$prefixOfBalancedType(bb);
 		} else {
 			var mdb = bt.a;
-			return A2($jxxcarlson$elm_markdown$BlockType$prefixOfMarkdownType, mdb, line);
+			return A2($author$project$BlockType$prefixOfMarkdownType, mdb, line);
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$removePrefix = F2(
+var $author$project$Markdown$Parse$removePrefix = F2(
 	function (blockType, line_) {
-		var p = A2($jxxcarlson$elm_markdown$BlockType$prefixOfBlockType, blockType, line_);
+		var p = A2($author$project$BlockType$prefixOfBlockType, blockType, line_);
 		return A3($elm$core$String$replace, p, '', line_);
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$incrementRegisterLevel = F2(
+var $author$project$Markdown$Parse$incrementRegisterLevel = F2(
 	function (level, register) {
 		var _v0 = level + 1;
 		switch (_v0) {
@@ -15185,31 +15185,31 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$incrementRegisterLevel = F2(
 				return _Utils_Tuple2(0, register);
 		}
 	});
-var $jxxcarlson$elm_markdown$BlockType$isCode = function (bt) {
+var $author$project$BlockType$isCode = function (bt) {
 	if ((bt.$ === 'BalancedBlock') && (bt.a.$ === 'DisplayCode')) {
 		return true;
 	} else {
 		return false;
 	}
 };
-var $jxxcarlson$elm_markdown$BlockType$isOListItem = function (blockType) {
+var $author$project$BlockType$isOListItem = function (blockType) {
 	if ((blockType.$ === 'MarkdownBlock') && (blockType.a.$ === 'OListItem')) {
 		return true;
 	} else {
 		return false;
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$updateRegisterAndBlockType = F3(
+var $author$project$Markdown$Parse$updateRegisterAndBlockType = F3(
 	function (blockType, level_, register) {
-		if ($jxxcarlson$elm_markdown$BlockType$isOListItem(blockType)) {
-			var _v0 = A2($jxxcarlson$elm_markdown$Markdown$Parse$incrementRegisterLevel, level_, register);
+		if ($author$project$BlockType$isOListItem(blockType)) {
+			var _v0 = A2($author$project$Markdown$Parse$incrementRegisterLevel, level_, register);
 			var index = _v0.a;
 			var newRegister = _v0.b;
-			var newBlockType = $jxxcarlson$elm_markdown$BlockType$MarkdownBlock(
-				$jxxcarlson$elm_markdown$BlockType$OListItem(index));
+			var newBlockType = $author$project$BlockType$MarkdownBlock(
+				$author$project$BlockType$OListItem(index));
 			return _Utils_Tuple2(newBlockType, newRegister);
 		} else {
-			if ($jxxcarlson$elm_markdown$BlockType$isCode(blockType)) {
+			if ($author$project$BlockType$isCode(blockType)) {
 				return _Utils_Tuple2(
 					blockType,
 					_Utils_update(
@@ -15218,33 +15218,33 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$updateRegisterAndBlockType = F3(
 							blockTypeStack: A2($elm$core$List$cons, blockType, register.blockTypeStack)
 						}));
 			} else {
-				return _Utils_Tuple2(blockType, $jxxcarlson$elm_markdown$Markdown$Parse$emptyRegister);
+				return _Utils_Tuple2(blockType, $author$project$Markdown$Parse$emptyRegister);
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$nextStateAtStart = F3(
+var $author$project$Markdown$Parse$nextStateAtStart = F3(
 	function (option, line, fsm) {
 		var state = fsm.a;
 		var blocks = fsm.b;
 		var register = fsm.c;
-		var _v0 = A2($jxxcarlson$elm_markdown$BlockType$get, option, line);
+		var _v0 = A2($author$project$BlockType$get, option, line);
 		if (_v0.b.$ === 'Nothing') {
 			var _v1 = _v0.b;
-			return A3($jxxcarlson$elm_markdown$Markdown$Parse$FSM, $jxxcarlson$elm_markdown$Markdown$Parse$Error, blocks, register);
+			return A3($author$project$Markdown$Parse$FSM, $author$project$Markdown$Parse$Error, blocks, register);
 		} else {
 			var level = _v0.a;
 			var blockType = _v0.b.a;
-			var newLine = A2($jxxcarlson$elm_markdown$Markdown$Parse$removePrefix, blockType, line);
-			var _v2 = A3($jxxcarlson$elm_markdown$Markdown$Parse$updateRegisterAndBlockType, blockType, level, register);
+			var newLine = A2($author$project$Markdown$Parse$removePrefix, blockType, line);
+			var _v2 = A3($author$project$Markdown$Parse$updateRegisterAndBlockType, blockType, level, register);
 			var newBlockType = _v2.a;
 			var newRegister = _v2.b;
 			return (_Utils_eq(
 				newBlockType,
-				$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$TableRow)) && A2($jxxcarlson$elm_markdown$Markdown$Parse$newBlockTypeIsDifferent, newBlockType, state)) ? A6($jxxcarlson$elm_markdown$Markdown$Parse$handleTableStart, blockType, level, line, state, blocks, register) : ($jxxcarlson$elm_markdown$Markdown$Parse$lineIsNotBlank(line) ? A3(
-				$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-				$jxxcarlson$elm_markdown$Markdown$Parse$InBlock(
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow)) && A2($author$project$Markdown$Parse$newBlockTypeIsDifferent, newBlockType, state)) ? A6($author$project$Markdown$Parse$handleTableStart, blockType, level, line, state, blocks, register) : ($author$project$Markdown$Parse$lineIsNotBlank(line) ? A3(
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$InBlock(
 					A4(
-						$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+						$author$project$Markdown$Parse$Block,
 						_Utils_Tuple2(-1, -1),
 						newBlockType,
 						level,
@@ -15253,11 +15253,11 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$nextStateAtStart = F3(
 				newRegister) : fsm);
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$getTopOfBlockTypeStack = function (_v0) {
+var $author$project$Markdown$Parse$getTopOfBlockTypeStack = function (_v0) {
 	var register = _v0.c;
 	return $elm$core$List$head(register.blockTypeStack);
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$isBalanced = F3(
+var $author$project$Markdown$Parse$isBalanced = F3(
 	function (str, mbt, bt2) {
 		if (mbt.$ === 'Nothing') {
 			if (bt2.$ === 'BalancedBlock') {
@@ -15290,84 +15290,84 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$isBalanced = F3(
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$BlockType$isMarkDown = function (bt) {
+var $author$project$BlockType$isMarkDown = function (bt) {
 	if (bt.$ === 'BalancedBlock') {
 		return false;
 	} else {
 		return true;
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$addLineToBlock = F2(
+var $author$project$Markdown$Parse$addLineToBlock = F2(
 	function (line, _v0) {
 		var id = _v0.a;
 		var blockType_ = _v0.b;
 		var level_ = _v0.c;
 		var content_ = _v0.d;
 		return A4(
-			$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+			$author$project$Markdown$Parse$Block,
 			id,
 			blockType_,
 			level_,
 			_Utils_ap(content_, line));
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$trimBalancedBlock = function (_v0) {
+var $author$project$Markdown$Parse$trimBalancedBlock = function (_v0) {
 	var id = _v0.a;
 	var bt = _v0.b;
 	var lev = _v0.c;
 	var content = _v0.d;
 	return A4(
-		$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+		$author$project$Markdown$Parse$Block,
 		id,
 		bt,
 		lev,
 		$elm$core$String$trim(content));
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$processBalancedBlock = F3(
+var $author$project$Markdown$Parse$processBalancedBlock = F3(
 	function (blockType, line, fsm) {
 		var state_ = fsm.a;
 		var blocks_ = fsm.b;
 		var register = fsm.c;
 		if (_Utils_eq(
 			$elm$core$Maybe$Just(blockType),
-			$jxxcarlson$elm_markdown$Markdown$Parse$typeOfState(
-				$jxxcarlson$elm_markdown$Markdown$Parse$stateOfFSM(fsm)))) {
-			var _v0 = $jxxcarlson$elm_markdown$Markdown$Parse$stateOfFSM(fsm);
+			$author$project$Markdown$Parse$typeOfState(
+				$author$project$Markdown$Parse$stateOfFSM(fsm)))) {
+			var _v0 = $author$project$Markdown$Parse$stateOfFSM(fsm);
 			if (_v0.$ === 'InBlock') {
 				var block_ = _v0.a;
-				var line_ = A2($jxxcarlson$elm_markdown$Markdown$Parse$removePrefix, blockType, line);
+				var line_ = A2($author$project$Markdown$Parse$removePrefix, blockType, line);
 				var block__ = function () {
 					if ((blockType.$ === 'BalancedBlock') && (blockType.a.$ === 'Verbatim')) {
 						var _v2 = blockType.a;
 						return block_;
 					} else {
-						return $jxxcarlson$elm_markdown$Markdown$Parse$trimBalancedBlock(block_);
+						return $author$project$Markdown$Parse$trimBalancedBlock(block_);
 					}
 				}();
 				return A3(
-					$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-					$jxxcarlson$elm_markdown$Markdown$Parse$Start,
+					$author$project$Markdown$Parse$FSM,
+					$author$project$Markdown$Parse$Start,
 					A2(
 						$elm$core$List$cons,
-						A2($jxxcarlson$elm_markdown$Markdown$Parse$addLineToBlock, line_, block__),
+						A2($author$project$Markdown$Parse$addLineToBlock, line_, block__),
 						blocks_),
 					register);
 			} else {
 				return fsm;
 			}
 		} else {
-			var _v3 = $jxxcarlson$elm_markdown$Markdown$Parse$stateOfFSM(fsm);
+			var _v3 = $author$project$Markdown$Parse$stateOfFSM(fsm);
 			if (_v3.$ === 'InBlock') {
 				var block_ = _v3.a;
 				var line_ = ($elm$core$String$trimLeft(line) === '```\n') ? '\n' : line;
-				var block__ = $jxxcarlson$elm_markdown$Markdown$Parse$trimBalancedBlock(block_);
+				var block__ = $author$project$Markdown$Parse$trimBalancedBlock(block_);
 				return A3(
-					$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-					$jxxcarlson$elm_markdown$Markdown$Parse$InBlock(
+					$author$project$Markdown$Parse$FSM,
+					$author$project$Markdown$Parse$InBlock(
 						A4(
-							$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+							$author$project$Markdown$Parse$Block,
 							register.id,
 							blockType,
-							$jxxcarlson$elm_markdown$BlockType$level(line_),
+							$author$project$BlockType$level(line_),
 							line_)),
 					A2($elm$core$List$cons, block__, blocks_),
 					_Utils_update(
@@ -15380,42 +15380,42 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$processBalancedBlock = F3(
 			}
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$addLineToState = F2(
+var $author$project$Markdown$Parse$addLineToState = F2(
 	function (line, state_) {
 		switch (state_.$) {
 			case 'Start':
-				return $jxxcarlson$elm_markdown$Markdown$Parse$Start;
+				return $author$project$Markdown$Parse$Start;
 			case 'Error':
-				return $jxxcarlson$elm_markdown$Markdown$Parse$Error;
+				return $author$project$Markdown$Parse$Error;
 			default:
 				var block_ = state_.a;
-				return $jxxcarlson$elm_markdown$Markdown$Parse$InBlock(
-					A2($jxxcarlson$elm_markdown$Markdown$Parse$addLineToBlock, line, block_));
+				return $author$project$Markdown$Parse$InBlock(
+					A2($author$project$Markdown$Parse$addLineToBlock, line, block_));
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$addLineToFSM = F2(
+var $author$project$Markdown$Parse$addLineToFSM = F2(
 	function (line, _v0) {
 		var state_ = _v0.a;
 		var blocks_ = _v0.b;
 		var register = _v0.c;
 		switch (state_.$) {
 			case 'Start':
-				return A3($jxxcarlson$elm_markdown$Markdown$Parse$FSM, state_, blocks_, register);
+				return A3($author$project$Markdown$Parse$FSM, state_, blocks_, register);
 			case 'Error':
-				return A3($jxxcarlson$elm_markdown$Markdown$Parse$FSM, state_, blocks_, register);
+				return A3($author$project$Markdown$Parse$FSM, state_, blocks_, register);
 			default:
 				var _v2 = $elm$core$List$head(register.blockStack);
 				if (_v2.$ === 'Nothing') {
 					return A3(
-						$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-						A2($jxxcarlson$elm_markdown$Markdown$Parse$addLineToState, line, state_),
+						$author$project$Markdown$Parse$FSM,
+						A2($author$project$Markdown$Parse$addLineToState, line, state_),
 						blocks_,
 						register);
 				} else {
 					var block = _v2.a;
 					return A3(
-						$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-						A2($jxxcarlson$elm_markdown$Markdown$Parse$addLineToState, line, state_),
+						$author$project$Markdown$Parse$FSM,
+						A2($author$project$Markdown$Parse$addLineToState, line, state_),
 						A2($elm$core$List$cons, block, blocks_),
 						_Utils_update(
 							register,
@@ -15425,21 +15425,21 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$addLineToFSM = F2(
 				}
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$adjustLevel = function (block) {
+var $author$project$Markdown$Parse$adjustLevel = function (block) {
 	var id = block.a;
 	var blockType = block.b;
 	var level = block.c;
 	var content = block.d;
 	if (_Utils_eq(
 		blockType,
-		$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Plain))) {
-		var newLevel = $jxxcarlson$elm_markdown$BlockType$level(content);
-		return A4($jxxcarlson$elm_markdown$Markdown$Parse$Block, id, blockType, newLevel, content);
+		$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain))) {
+		var newLevel = $author$project$BlockType$level(content);
+		return A4($author$project$Markdown$Parse$Block, id, blockType, newLevel, content);
 	} else {
 		return block;
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$addNewMarkdownBlock = F4(
+var $author$project$Markdown$Parse$addNewMarkdownBlock = F4(
 	function (option, currentBlock, line, fsm) {
 		var id = currentBlock.a;
 		var typeOfCurrentBlock = currentBlock.b;
@@ -15447,62 +15447,62 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$addNewMarkdownBlock = F4(
 		var state = fsm.a;
 		var blocks = fsm.b;
 		var register = fsm.c;
-		var _v0 = A2($jxxcarlson$elm_markdown$BlockType$get, option, line);
+		var _v0 = A2($author$project$BlockType$get, option, line);
 		if (_v0.b.$ === 'Nothing') {
 			var _v1 = _v0.b;
 			return fsm;
 		} else {
 			var level = _v0.a;
 			var newBlockType_ = _v0.b.a;
-			var newLine = A2($jxxcarlson$elm_markdown$Markdown$Parse$removePrefix, typeOfCurrentBlock, line);
-			var _v2 = A3($jxxcarlson$elm_markdown$Markdown$Parse$updateRegisterAndBlockType, newBlockType_, level, register);
+			var newLine = A2($author$project$Markdown$Parse$removePrefix, typeOfCurrentBlock, line);
+			var _v2 = A3($author$project$Markdown$Parse$updateRegisterAndBlockType, newBlockType_, level, register);
 			var newBlockType = _v2.a;
 			var newRegister = _v2.b;
 			var newBlock = A4(
-				$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+				$author$project$Markdown$Parse$Block,
 				id,
 				newBlockType,
 				level,
-				A2($jxxcarlson$elm_markdown$Markdown$Parse$removePrefix, newBlockType, newLine));
+				A2($author$project$Markdown$Parse$removePrefix, newBlockType, newLine));
 			return A3(
-				$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-				$jxxcarlson$elm_markdown$Markdown$Parse$InBlock(newBlock),
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$InBlock(newBlock),
 				A2(
 					$elm$core$List$cons,
-					$jxxcarlson$elm_markdown$Markdown$Parse$adjustLevel(currentBlock),
+					$author$project$Markdown$Parse$adjustLevel(currentBlock),
 					blocks),
 				newRegister);
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$handleInnerTableRow = F6(
+var $author$project$Markdown$Parse$handleInnerTableRow = F6(
 	function (blockTypeOfLine, level, line, state, blocks, register) {
 		switch (state.$) {
 			case 'Start':
-				return A3($jxxcarlson$elm_markdown$Markdown$Parse$FSM, state, blocks, register);
+				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
 			case 'Error':
-				return A3($jxxcarlson$elm_markdown$Markdown$Parse$FSM, state, blocks, register);
+				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
 			default:
 				var currentBlock = state.a;
 				var tableMarker = A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+					$author$project$Markdown$Parse$Block,
 					_Utils_Tuple2(-1, -1),
-					$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$TableRow),
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow),
 					level + 1,
 					'deleteMe');
 				var rowBlock = A4(
-					$jxxcarlson$elm_markdown$Markdown$Parse$Block,
+					$author$project$Markdown$Parse$Block,
 					_Utils_Tuple2(-1, -1),
 					blockTypeOfLine,
 					level + 1,
 					'row');
-				var childrenOfNewBlock = A2($jxxcarlson$elm_markdown$Markdown$Parse$parseTableRow, level + 2, line);
+				var childrenOfNewBlock = A2($author$project$Markdown$Parse$parseTableRow, level + 2, line);
 				var newRow = _Utils_ap(
 					childrenOfNewBlock,
 					_List_fromArray(
 						[rowBlock]));
 				return A3(
-					$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-					$jxxcarlson$elm_markdown$Markdown$Parse$InBlock(tableMarker),
+					$author$project$Markdown$Parse$FSM,
+					$author$project$Markdown$Parse$InBlock(tableMarker),
 					blocks,
 					_Utils_update(
 						register,
@@ -15511,18 +15511,18 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$handleInnerTableRow = F6(
 						}));
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$handleTableRow = F6(
+var $author$project$Markdown$Parse$handleTableRow = F6(
 	function (blockTypeOfLine, level, line, state, blocks, register) {
-		return A2($jxxcarlson$elm_markdown$Markdown$Parse$newBlockTypeIsDifferent, blockTypeOfLine, state) ? A6($jxxcarlson$elm_markdown$Markdown$Parse$handleTableStart, blockTypeOfLine, level, line, state, blocks, register) : A6($jxxcarlson$elm_markdown$Markdown$Parse$handleInnerTableRow, blockTypeOfLine, level, line, state, blocks, register);
+		return A2($author$project$Markdown$Parse$newBlockTypeIsDifferent, blockTypeOfLine, state) ? A6($author$project$Markdown$Parse$handleTableStart, blockTypeOfLine, level, line, state, blocks, register) : A6($author$project$Markdown$Parse$handleInnerTableRow, blockTypeOfLine, level, line, state, blocks, register);
 	});
-var $jxxcarlson$elm_markdown$BlockType$isBalanced = function (bt) {
+var $author$project$BlockType$isBalanced = function (bt) {
 	if (bt.$ === 'BalancedBlock') {
 		return true;
 	} else {
 		return false;
 	}
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$processMarkDownBlock = F5(
+var $author$project$Markdown$Parse$processMarkDownBlock = F5(
 	function (option, level, blockTypeOfLine, line, fsm) {
 		var state = fsm.a;
 		var blocks = fsm.b;
@@ -15532,75 +15532,75 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$processMarkDownBlock = F5(
 			var id = currentBlock.a;
 			var typeOfCurrentBlock = currentBlock.b;
 			var levelOfCurrentBlock = currentBlock.c;
-			return $jxxcarlson$elm_markdown$BlockType$isBalanced(typeOfCurrentBlock) ? A2($jxxcarlson$elm_markdown$Markdown$Parse$addLineToFSM, line, fsm) : (_Utils_eq(
+			return $author$project$BlockType$isBalanced(typeOfCurrentBlock) ? A2($author$project$Markdown$Parse$addLineToFSM, line, fsm) : (_Utils_eq(
 				blockTypeOfLine,
-				$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Blank)) ? A3(
-				$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-				$jxxcarlson$elm_markdown$Markdown$Parse$Start,
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$Blank)) ? A3(
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$Start,
 				A2(
 					$elm$core$List$cons,
-					$jxxcarlson$elm_markdown$Markdown$Parse$adjustLevel(currentBlock),
+					$author$project$Markdown$Parse$adjustLevel(currentBlock),
 					blocks),
 				register) : ((_Utils_eq(
 				blockTypeOfLine,
-				$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$Plain)) && ((!_Utils_eq(
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain)) && ((!_Utils_eq(
 				typeOfCurrentBlock,
-				$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$TableRow))) && $jxxcarlson$elm_markdown$Markdown$Parse$lineIsNotBlank(line))) ? A2($jxxcarlson$elm_markdown$Markdown$Parse$addLineToFSM, line, fsm) : (_Utils_eq(
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow))) && $author$project$Markdown$Parse$lineIsNotBlank(line))) ? A2($author$project$Markdown$Parse$addLineToFSM, line, fsm) : (_Utils_eq(
 				blockTypeOfLine,
-				$jxxcarlson$elm_markdown$BlockType$MarkdownBlock($jxxcarlson$elm_markdown$BlockType$TableRow)) ? A6($jxxcarlson$elm_markdown$Markdown$Parse$handleTableRow, blockTypeOfLine, level, line, state, blocks, register) : A4($jxxcarlson$elm_markdown$Markdown$Parse$addNewMarkdownBlock, option, currentBlock, line, fsm))));
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow)) ? A6($author$project$Markdown$Parse$handleTableRow, blockTypeOfLine, level, line, state, blocks, register) : A4($author$project$Markdown$Parse$addNewMarkdownBlock, option, currentBlock, line, fsm))));
 		} else {
 			return fsm;
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$nextStateInBlock = F3(
+var $author$project$Markdown$Parse$nextStateInBlock = F3(
 	function (option, line, fsm) {
 		var state_ = fsm.a;
 		var blocks_ = fsm.b;
 		var register = fsm.c;
-		var _v0 = A2($jxxcarlson$elm_markdown$BlockType$get, option, line);
+		var _v0 = A2($author$project$BlockType$get, option, line);
 		if (_v0.b.$ === 'Nothing') {
 			var _v1 = _v0.b;
 			return A3(
-				$jxxcarlson$elm_markdown$Markdown$Parse$FSM,
-				$jxxcarlson$elm_markdown$Markdown$Parse$Error,
-				$jxxcarlson$elm_markdown$Markdown$Parse$blockListOfFSM(fsm),
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$Error,
+				$author$project$Markdown$Parse$blockListOfFSM(fsm),
 				register);
 		} else {
 			var level = _v0.a;
 			var blockType = _v0.b.a;
 			return A3(
-				$jxxcarlson$elm_markdown$Markdown$Parse$isBalanced,
+				$author$project$Markdown$Parse$isBalanced,
 				line,
-				$jxxcarlson$elm_markdown$Markdown$Parse$getTopOfBlockTypeStack(fsm),
-				blockType) ? A3($jxxcarlson$elm_markdown$Markdown$Parse$processBalancedBlock, blockType, line, fsm) : ($jxxcarlson$elm_markdown$BlockType$isMarkDown(blockType) ? A5($jxxcarlson$elm_markdown$Markdown$Parse$processMarkDownBlock, option, level, blockType, line, fsm) : fsm);
+				$author$project$Markdown$Parse$getTopOfBlockTypeStack(fsm),
+				blockType) ? A3($author$project$Markdown$Parse$processBalancedBlock, blockType, line, fsm) : ($author$project$BlockType$isMarkDown(blockType) ? A5($author$project$Markdown$Parse$processMarkDownBlock, option, level, blockType, line, fsm) : fsm);
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$nextState = F3(
+var $author$project$Markdown$Parse$nextState = F3(
 	function (option, line, fsm_) {
 		var state = fsm_.a;
 		var blocks = fsm_.b;
 		var register = fsm_.c;
-		var fsm = $jxxcarlson$elm_markdown$Markdown$Parse$handleRegister(fsm_);
-		var _v0 = $jxxcarlson$elm_markdown$Markdown$Parse$stateOfFSM(fsm);
+		var fsm = $author$project$Markdown$Parse$handleRegister(fsm_);
+		var _v0 = $author$project$Markdown$Parse$stateOfFSM(fsm);
 		switch (_v0.$) {
 			case 'Start':
-				return A3($jxxcarlson$elm_markdown$Markdown$Parse$nextStateAtStart, option, line, fsm);
+				return A3($author$project$Markdown$Parse$nextStateAtStart, option, line, fsm);
 			case 'InBlock':
-				return A3($jxxcarlson$elm_markdown$Markdown$Parse$nextStateInBlock, option, line, fsm);
+				return A3($author$project$Markdown$Parse$nextStateInBlock, option, line, fsm);
 			default:
 				return fsm;
 		}
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$runFSM = F2(
+var $author$project$Markdown$Parse$runFSM = F2(
 	function (option, lines) {
 		var folder = F2(
 			function (line, fsm) {
-				return A3($jxxcarlson$elm_markdown$Markdown$Parse$nextState, option, line, fsm);
+				return A3($author$project$Markdown$Parse$nextState, option, line, fsm);
 			});
-		return A3($elm$core$List$foldl, folder, $jxxcarlson$elm_markdown$Markdown$Parse$initialFSM, lines);
+		return A3($elm$core$List$foldl, folder, $author$project$Markdown$Parse$initialFSM, lines);
 	});
 var $elm$core$String$lines = _String_lines;
-var $jxxcarlson$elm_markdown$Markdown$Parse$splitIntoLines = function (str) {
+var $author$project$Markdown$Parse$splitIntoLines = function (str) {
 	return A2(
 		$elm$core$List$map,
 		function (l) {
@@ -15608,44 +15608,44 @@ var $jxxcarlson$elm_markdown$Markdown$Parse$splitIntoLines = function (str) {
 		},
 		$elm$core$String$lines(str));
 };
-var $jxxcarlson$elm_markdown$Markdown$Parse$toBlockTree = F2(
+var $author$project$Markdown$Parse$toBlockTree = F2(
 	function (option, document) {
 		return A3(
 			$jxxcarlson$htree$HTree$fromList,
-			$jxxcarlson$elm_markdown$Markdown$Parse$rootBlock,
-			$jxxcarlson$elm_markdown$Markdown$Parse$blockLevel,
+			$author$project$Markdown$Parse$rootBlock,
+			$author$project$Markdown$Parse$blockLevel,
 			A2(
 				$elm$core$List$map,
-				$jxxcarlson$elm_markdown$Markdown$Parse$changeLevel(1),
-				$jxxcarlson$elm_markdown$Markdown$Parse$flush(
+				$author$project$Markdown$Parse$changeLevel(1),
+				$author$project$Markdown$Parse$flush(
 					A2(
-						$jxxcarlson$elm_markdown$Markdown$Parse$runFSM,
+						$author$project$Markdown$Parse$runFSM,
 						option,
-						$jxxcarlson$elm_markdown$Markdown$Parse$splitIntoLines(document)))));
+						$author$project$Markdown$Parse$splitIntoLines(document)))));
 	});
-var $jxxcarlson$elm_markdown$Markdown$Parse$toMDBlockTree = F3(
+var $author$project$Markdown$Parse$toMDBlockTree = F3(
 	function (version, option, document) {
 		return A2(
 			$zwilias$elm_rosetree$Tree$indexedMap,
 			F2(
 				function (idx, block) {
-					return A3($jxxcarlson$elm_markdown$Markdown$Parse$setBlockIndex, version, idx, block);
+					return A3($author$project$Markdown$Parse$setBlockIndex, version, idx, block);
 				}),
 			A2(
 				$zwilias$elm_rosetree$Tree$map,
-				$jxxcarlson$elm_markdown$Markdown$Parse$selectParser(option),
-				A2($jxxcarlson$elm_markdown$Markdown$Parse$toBlockTree, option, document)));
+				$author$project$Markdown$Parse$selectParser(option),
+				A2($author$project$Markdown$Parse$toBlockTree, option, document)));
 	});
-var $jxxcarlson$elm_markdown$Markdown$Elm$toHtmlWithExternaTOC = F2(
+var $author$project$Markdown$Elm$toHtmlWithExternaTOC = F2(
 	function (option, str) {
 		return A3(
-			$jxxcarlson$elm_markdown$Markdown$ElmWithId$renderHtmlWithExternalTOC,
+			$author$project$Markdown$Render$renderHtmlWithExternalTOC,
 			_Utils_Tuple2(0, 0),
 			'Contents',
-			A3($jxxcarlson$elm_markdown$Markdown$Parse$toMDBlockTree, 0, option, str));
+			A3($author$project$Markdown$Parse$toMDBlockTree, 0, option, str));
 	});
 var $author$project$Demo$display = function (model) {
-	var rt = A2($jxxcarlson$elm_markdown$Markdown$Elm$toHtmlWithExternaTOC, model.option, model.sourceText);
+	var rt = A2($author$project$Markdown$Elm$toHtmlWithExternaTOC, model.option, model.sourceText);
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,

@@ -5654,12 +5654,12 @@ var $zwilias$elm_rosetree$Tree$foldr = F3(
 var $zwilias$elm_rosetree$Tree$flatten = function (t) {
 	return A3($zwilias$elm_rosetree$Tree$foldr, $elm$core$List$cons, _List_Nil, t);
 };
-var $author$project$Markdown$ElmWithId$typeOfMDBlockWithId = function (_v0) {
+var $author$project$Markdown$Render$typeOfMDBlockWithId = function (_v0) {
 	var bt = _v0.b;
 	return bt;
 };
-var $author$project$Markdown$ElmWithId$isMathWithId = function (block) {
-	var _v0 = $author$project$Markdown$ElmWithId$typeOfMDBlockWithId(block);
+var $author$project$Markdown$Render$isMathWithId = function (block) {
+	var _v0 = $author$project$Markdown$Render$typeOfMDBlockWithId(block);
 	if ((_v0.$ === 'BalancedBlock') && (_v0.a.$ === 'DisplayMath')) {
 		var _v1 = _v0.a;
 		return true;
@@ -5667,11 +5667,11 @@ var $author$project$Markdown$ElmWithId$isMathWithId = function (block) {
 		return false;
 	}
 };
-var $author$project$Markdown$ElmWithId$numberOfMathElements = function (blockTree) {
+var $author$project$Markdown$Render$numberOfMathElements = function (blockTree) {
 	return $elm$core$List$length(
 		A2(
 			$elm$core$List$filter,
-			$author$project$Markdown$ElmWithId$isMathWithId,
+			$author$project$Markdown$Render$isMathWithId,
 			$zwilias$elm_rosetree$Tree$flatten(blockTree)));
 };
 var $zwilias$elm_rosetree$Tree$children = function (_v0) {
@@ -5834,7 +5834,7 @@ var $zwilias$elm_rosetree$Tree$map = F2(
 			_Utils_Tuple0,
 			t).b;
 	});
-var $author$project$Markdown$ElmWithId$IDClicked = function (a) {
+var $author$project$Markdown$Render$IDClicked = function (a) {
 	return {$: 'IDClicked', a: a};
 };
 var $author$project$Markdown$Parse$MDBlock = F3(
@@ -5855,7 +5855,7 @@ var $elm$virtual_dom$VirtualDom$property = F2(
 			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $elm$html$Html$Attributes$property = $elm$virtual_dom$VirtualDom$property;
-var $author$project$Markdown$ElmWithId$mathText = function (content) {
+var $author$project$Markdown$Render$mathText = function (content) {
 	return A3(
 		$elm$html$Html$node,
 		'math-text',
@@ -5870,16 +5870,16 @@ var $author$project$Markdown$ElmWithId$mathText = function (content) {
 		_List_Nil);
 };
 var $elm$core$String$trim = _String_trim;
-var $author$project$Markdown$ElmWithId$displayMathText = function (str) {
+var $author$project$Markdown$Render$displayMathText = function (str) {
 	var str2 = $elm$core$String$trim(str);
-	return $author$project$Markdown$ElmWithId$mathText('$$\n' + (str2 + '\n$$'));
+	return $author$project$Markdown$Render$mathText('$$\n' + (str2 + '\n$$'));
 };
 var $author$project$Markdown$Parse$stringFromId = function (_v0) {
 	var id = _v0.a;
 	var version = _v0.b;
 	return 'i' + ($elm$core$String$fromInt(id) + ('v' + $elm$core$String$fromInt(version)));
 };
-var $author$project$Markdown$ElmWithId$idAttr = function (id) {
+var $author$project$Markdown$Render$idAttr = function (id) {
 	return $elm$html$Html$Attributes$id(
 		$author$project$Markdown$Parse$stringFromId(id));
 };
@@ -5924,7 +5924,7 @@ var $author$project$Markdown$Parse$projectedStringOfBlockContent = function (blo
 		return str;
 	}
 };
-var $author$project$Markdown$ElmWithId$blockLevelClass = function (k) {
+var $author$project$Markdown$Render$blockLevelClass = function (k) {
 	return $elm$html$Html$Attributes$class(
 		'mm-block-' + $elm$core$String$fromInt(k));
 };
@@ -5968,7 +5968,7 @@ var $elm$core$Result$map = F2(
 	});
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
-var $author$project$Markdown$ElmWithId$marginOfLevel = function (level) {
+var $author$project$Markdown$Render$marginOfLevel = function (level) {
 	return A2(
 		$elm$html$Html$Attributes$style,
 		'margin-left',
@@ -11455,7 +11455,7 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$xml = A2(
 	$elm$core$Basics$composeR,
 	$pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Xml$toLines,
 	$elm$core$Result$map($pablohirafuji$elm_syntax_highlight$SyntaxHighlight$HCode));
-var $author$project$Markdown$ElmWithId$parserOfLanguage = function (lang_) {
+var $author$project$Markdown$Render$parserOfLanguage = function (lang_) {
 	switch (lang_.$) {
 		case 'ElmLang':
 			return $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$elm;
@@ -11483,34 +11483,34 @@ var $elm$html$Html$Attributes$href = function (url) {
 		_VirtualDom_noJavaScriptUri(url));
 };
 var $elm$html$Html$img = _VirtualDom_node('img');
-var $author$project$Markdown$ElmWithId$idAttrWithLabel = F2(
+var $author$project$Markdown$Render$idAttrWithLabel = F2(
 	function (id, label) {
 		return $elm$html$Html$Attributes$id(
 			_Utils_ap(
 				$author$project$Markdown$Parse$stringFromId(id),
 				label));
 	});
-var $author$project$Markdown$ElmWithId$inlineMathText = F2(
+var $author$project$Markdown$Render$inlineMathText = F2(
 	function (id, str) {
 		return A3(
 			$elm$html$Html$Keyed$node,
 			'span',
 			_List_fromArray(
 				[
-					A2($author$project$Markdown$ElmWithId$idAttrWithLabel, id, 'm')
+					A2($author$project$Markdown$Render$idAttrWithLabel, id, 'm')
 				]),
 			_List_fromArray(
 				[
 					_Utils_Tuple2(
 					$author$project$Markdown$Parse$stringFromId(id) + 'm',
-					$author$project$Markdown$ElmWithId$mathText(
+					$author$project$Markdown$Render$mathText(
 						'$ ' + ($elm$core$String$trim(str) + ' $ ')))
 				]));
 	});
 var $elm$html$Html$p = _VirtualDom_node('p');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Markdown$ElmWithId$renderStanza = F2(
+var $author$project$Markdown$Render$renderStanza = F2(
 	function (id, arg) {
 		var poetryLine = function (line) {
 			return A2(
@@ -11526,12 +11526,12 @@ var $author$project$Markdown$ElmWithId$renderStanza = F2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					$author$project$Markdown$ElmWithId$idAttr(id),
+					$author$project$Markdown$Render$idAttr(id),
 					$elm$html$Html$Attributes$class('mm-poetry')
 				]),
 			A2($elm$core$List$map, poetryLine, lines));
 	});
-var $author$project$Markdown$ElmWithId$selectedStyle_ = F2(
+var $author$project$Markdown$Render$selectedStyle_ = F2(
 	function (targetId, currentId) {
 		var _v0 = _Utils_eq(targetId, currentId);
 		if (_v0) {
@@ -11547,7 +11547,7 @@ var $elm$html$Html$Attributes$src = function (url) {
 		'src',
 		_VirtualDom_noJavaScriptOrHtmlUri(url));
 };
-var $author$project$Markdown$ElmWithId$strikethrough = function (str) {
+var $author$project$Markdown$Render$strikethrough = function (str) {
 	return A2(
 		$elm$html$Html$span,
 		_List_fromArray(
@@ -11686,7 +11686,7 @@ var $elm$core$List$take = F2(
 	function (n, list) {
 		return A3($elm$core$List$takeFast, 0, n, list);
 	});
-var $author$project$Markdown$ElmWithId$joinLine = F4(
+var $author$project$Markdown$Render$joinLine = F4(
 	function (selectedId, id, level, items) {
 		var folder = F2(
 			function (item, _v6) {
@@ -11714,14 +11714,14 @@ var $author$project$Markdown$ElmWithId$joinLine = F4(
 							_List_Nil,
 							A2(
 								$elm$core$List$cons,
-								A4($author$project$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level, item),
+								A4($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level, item),
 								A2($elm$core$List$cons, span, accElement)));
 					} else {
 						return _Utils_Tuple2(
 							_List_Nil,
 							A2(
 								$elm$core$List$cons,
-								A4($author$project$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level, item),
+								A4($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level, item),
 								accElement));
 					}
 				}
@@ -11751,7 +11751,7 @@ var $author$project$Markdown$ElmWithId$joinLine = F4(
 					_Utils_Tuple2(_List_Nil, _List_Nil),
 					items)));
 	});
-var $author$project$Markdown$ElmWithId$renderToHtmlMsg = F4(
+var $author$project$Markdown$Render$renderToHtmlMsg = F4(
 	function (selectedId, id, level, mmInline) {
 		switch (mmInline.$) {
 			case 'OrdinaryText':
@@ -11760,9 +11760,9 @@ var $author$project$Markdown$ElmWithId$renderToHtmlMsg = F4(
 					$elm$html$Html$span,
 					_List_fromArray(
 						[
-							$author$project$Markdown$ElmWithId$idAttr(id),
+							$author$project$Markdown$Render$idAttr(id),
 							$elm$html$Html$Attributes$class('ordinary'),
-							$author$project$Markdown$ElmWithId$marginOfLevel(level)
+							$author$project$Markdown$Render$marginOfLevel(level)
 						]),
 					_List_fromArray(
 						[
@@ -11792,7 +11792,7 @@ var $author$project$Markdown$ElmWithId$renderToHtmlMsg = F4(
 					$elm$html$Html$code,
 					_List_fromArray(
 						[
-							$author$project$Markdown$ElmWithId$idAttr(id)
+							$author$project$Markdown$Render$idAttr(id)
 						]),
 					_List_fromArray(
 						[
@@ -11800,10 +11800,10 @@ var $author$project$Markdown$ElmWithId$renderToHtmlMsg = F4(
 						]));
 			case 'InlineMath':
 				var str = mmInline.a;
-				return A2($author$project$Markdown$ElmWithId$inlineMathText, id, str);
+				return A2($author$project$Markdown$Render$inlineMathText, id, str);
 			case 'StrikeThroughText':
 				var str = mmInline.a;
-				return $author$project$Markdown$ElmWithId$strikethrough(str);
+				return $author$project$Markdown$Render$strikethrough(str);
 			case 'BracketedText':
 				var str = mmInline.a;
 				return A2(
@@ -11861,7 +11861,7 @@ var $author$project$Markdown$ElmWithId$renderToHtmlMsg = F4(
 					$elm$html$Html$img,
 					_List_fromArray(
 						[
-							$author$project$Markdown$ElmWithId$idAttr(id),
+							$author$project$Markdown$Render$idAttr(id),
 							$elm$html$Html$Attributes$src(url),
 							$elm$html$Html$Attributes$class(_class)
 						]),
@@ -11871,7 +11871,7 @@ var $author$project$Markdown$ElmWithId$renderToHtmlMsg = F4(
 						]));
 			case 'Line':
 				var arg = mmInline.a;
-				var joined = A4($author$project$Markdown$ElmWithId$joinLine, selectedId, id, level, arg);
+				var joined = A4($author$project$Markdown$Render$joinLine, selectedId, id, level, arg);
 				return ($elm$core$List$length(joined) === 1) ? A2(
 					$elm$core$Maybe$withDefault,
 					A2(
@@ -11893,22 +11893,22 @@ var $author$project$Markdown$ElmWithId$renderToHtmlMsg = F4(
 				var mapper = function (m) {
 					return _Utils_Tuple2(
 						$author$project$Markdown$Parse$stringFromId(id),
-						A4($author$project$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level, m));
+						A4($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level, m));
 				};
 				return A3(
 					$elm$html$Html$Keyed$node,
 					'p',
 					_List_fromArray(
 						[
-							$author$project$Markdown$ElmWithId$idAttr(id),
-							A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id),
+							$author$project$Markdown$Render$idAttr(id),
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id),
 							$elm$html$Html$Attributes$class('mm-paragraph'),
-							$author$project$Markdown$ElmWithId$blockLevelClass(level - 1)
+							$author$project$Markdown$Render$blockLevelClass(level - 1)
 						]),
 					A2($elm$core$List$map, mapper, arg));
 			case 'Stanza':
 				var arg = mmInline.a;
-				return A2($author$project$Markdown$ElmWithId$renderStanza, id, arg);
+				return A2($author$project$Markdown$Render$renderStanza, id, arg);
 			default:
 				var arg = mmInline.a;
 				return A2(
@@ -11916,24 +11916,24 @@ var $author$project$Markdown$ElmWithId$renderToHtmlMsg = F4(
 					_List_Nil,
 					A2(
 						$elm$core$List$map,
-						A3($author$project$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level),
+						A3($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level),
 						arg));
 		}
 	});
-var $author$project$Markdown$ElmWithId$renderBlockContent = F4(
+var $author$project$Markdown$Render$renderBlockContent = F4(
 	function (selectedId, id, level, blockContent) {
 		if (blockContent.$ === 'M') {
 			var mmInline = blockContent.a;
-			return A4($author$project$Markdown$ElmWithId$renderToHtmlMsg, selectedId, id, level, mmInline);
+			return A4($author$project$Markdown$Render$renderToHtmlMsg, selectedId, id, level, mmInline);
 		} else {
 			var str = blockContent.a;
 			return A2(
 				$elm$html$Html$span,
 				_List_fromArray(
 					[
-						$author$project$Markdown$ElmWithId$idAttr(id),
-						$author$project$Markdown$ElmWithId$blockLevelClass(level - 1),
-						A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+						$author$project$Markdown$Render$idAttr(id),
+						$author$project$Markdown$Render$blockLevelClass(level - 1),
+						A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 					]),
 				_List_fromArray(
 					[
@@ -11946,7 +11946,7 @@ var $elm$html$Html$h2 = _VirtualDom_node('h2');
 var $elm$html$Html$h3 = _VirtualDom_node('h3');
 var $elm$html$Html$h4 = _VirtualDom_node('h4');
 var $elm$html$Html$h5 = _VirtualDom_node('h5');
-var $author$project$Markdown$ElmWithId$nameFromBlockContent = function (blockContent) {
+var $author$project$Markdown$Render$nameFromBlockContent = function (blockContent) {
 	if ((((((((blockContent.$ === 'M') && (blockContent.a.$ === 'Paragraph')) && blockContent.a.a.b) && (blockContent.a.a.a.$ === 'Line')) && blockContent.a.a.a.a.b) && (blockContent.a.a.a.a.a.$ === 'OrdinaryText')) && (!blockContent.a.a.a.a.b.b)) && (!blockContent.a.a.b.b)) {
 		var _v1 = blockContent.a.a;
 		var _v2 = _v1.a.a;
@@ -11956,9 +11956,9 @@ var $author$project$Markdown$ElmWithId$nameFromBlockContent = function (blockCon
 		return '';
 	}
 };
-var $author$project$Markdown$ElmWithId$renderHeading = F5(
+var $author$project$Markdown$Render$renderHeading = F5(
 	function (selectedId, id, k, level, blockContent) {
-		var name = $author$project$Markdown$ElmWithId$nameFromBlockContent(blockContent);
+		var name = $author$project$Markdown$Render$nameFromBlockContent(blockContent);
 		switch (k) {
 			case 1:
 				return A2(
@@ -11967,11 +11967,11 @@ var $author$project$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h1'),
-							A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 2:
 				return A2(
@@ -11980,11 +11980,11 @@ var $author$project$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h2'),
-							A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 3:
 				return A2(
@@ -11993,11 +11993,11 @@ var $author$project$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h3'),
-							A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 4:
 				return A2(
@@ -12006,11 +12006,11 @@ var $author$project$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h4'),
-							A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			default:
 				return A2(
@@ -12019,18 +12019,18 @@ var $author$project$Markdown$ElmWithId$renderHeading = F5(
 						[
 							$elm$html$Html$Attributes$id(name),
 							$elm$html$Html$Attributes$class('mm-h5'),
-							A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+							A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 		}
 	});
 var $author$project$MDInline$OrdinaryText = function (a) {
 	return {$: 'OrdinaryText', a: a};
 };
-var $author$project$Markdown$ElmWithId$alphabet = function (k) {
+var $author$project$Markdown$Render$alphabet = function (k) {
 	var alpha = _List_fromArray(
 		['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']);
 	return A2(
@@ -12046,7 +12046,7 @@ var $author$project$Markdown$Parse$M = function (a) {
 var $author$project$MDInline$Paragraph = function (a) {
 	return {$: 'Paragraph', a: a};
 };
-var $author$project$Markdown$ElmWithId$prependToParagraph = F2(
+var $author$project$Markdown$Render$prependToParagraph = F2(
 	function (head, tail) {
 		if (tail.$ === 'T') {
 			return tail;
@@ -12062,7 +12062,7 @@ var $author$project$Markdown$ElmWithId$prependToParagraph = F2(
 			}
 		}
 	});
-var $author$project$Markdown$ElmWithId$romanNumeral = function (k) {
+var $author$project$Markdown$Render$romanNumeral = function (k) {
 	var alpha = _List_fromArray(
 		['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'xiii', 'xiv', 'xv', 'xvi', 'xvii', 'xviii', 'xix', 'xx', 'xxi', 'xxii', 'xxiii', 'xiv', 'xv', 'xvi']);
 	return A2(
@@ -12071,16 +12071,16 @@ var $author$project$Markdown$ElmWithId$romanNumeral = function (k) {
 		$elm$core$List$head(
 			A2($elm$core$List$drop, k - 1, alpha)));
 };
-var $author$project$Markdown$ElmWithId$renderOListItem = F5(
+var $author$project$Markdown$Render$renderOListItem = F5(
 	function (selectedId, id, index, level, blockContent) {
 		var label = function () {
 			switch (level) {
 				case 1:
 					return $elm$core$String$fromInt(index) + '. ';
 				case 2:
-					return $author$project$Markdown$ElmWithId$alphabet(index) + '. ';
+					return $author$project$Markdown$Render$alphabet(index) + '. ';
 				case 3:
-					return $author$project$Markdown$ElmWithId$romanNumeral(index) + '. ';
+					return $author$project$Markdown$Render$romanNumeral(index) + '. ';
 				case 4:
 					return $elm$core$String$fromInt(index) + '. ';
 				default:
@@ -12092,54 +12092,54 @@ var $author$project$Markdown$ElmWithId$renderOListItem = F5(
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('mm-olist-item'),
-					$author$project$Markdown$ElmWithId$blockLevelClass(level - 1),
-					$author$project$Markdown$ElmWithId$idAttr(id),
-					A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+					$author$project$Markdown$Render$blockLevelClass(level - 1),
+					$author$project$Markdown$Render$idAttr(id),
+					A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 				]),
 			_List_fromArray(
 				[
 					A4(
-					$author$project$Markdown$ElmWithId$renderBlockContent,
+					$author$project$Markdown$Render$renderBlockContent,
 					selectedId,
 					id,
 					level,
 					A2(
-						$author$project$Markdown$ElmWithId$prependToParagraph,
+						$author$project$Markdown$Render$prependToParagraph,
 						$author$project$MDInline$OrdinaryText(label),
 						blockContent))
 				]));
 	});
-var $author$project$Markdown$ElmWithId$renderPoetry = F4(
+var $author$project$Markdown$Render$renderPoetry = F4(
 	function (selectedId, id, level, blockContent) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('mm-poetry'),
-					$author$project$Markdown$ElmWithId$marginOfLevel(level),
-					A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+					$author$project$Markdown$Render$marginOfLevel(level),
+					A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 				]),
 			_List_fromArray(
 				[
-					A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+					A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 				]));
 	});
-var $author$project$Markdown$ElmWithId$renderQuotation = F4(
+var $author$project$Markdown$Render$renderQuotation = F4(
 	function (selectedId, id, level, blockContent) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('mm-quotation'),
-					$author$project$Markdown$ElmWithId$blockLevelClass(level),
-					A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+					$author$project$Markdown$Render$blockLevelClass(level),
+					A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 				]),
 			_List_fromArray(
 				[
-					A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+					A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 				]));
 	});
-var $author$project$Markdown$ElmWithId$renderUListItem = F4(
+var $author$project$Markdown$Render$renderUListItem = F4(
 	function (selectedId, id, level, blockContent) {
 		var label = function () {
 			switch (level) {
@@ -12160,19 +12160,19 @@ var $author$project$Markdown$ElmWithId$renderUListItem = F4(
 			_List_fromArray(
 				[
 					$elm$html$Html$Attributes$class('mm-ulist-item'),
-					$author$project$Markdown$ElmWithId$blockLevelClass(level - 1),
-					$author$project$Markdown$ElmWithId$idAttr(id),
-					A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+					$author$project$Markdown$Render$blockLevelClass(level - 1),
+					$author$project$Markdown$Render$idAttr(id),
+					A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 				]),
 			_List_fromArray(
 				[
 					A4(
-					$author$project$Markdown$ElmWithId$renderBlockContent,
+					$author$project$Markdown$Render$renderBlockContent,
 					selectedId,
 					id,
 					level,
 					A2(
-						$author$project$Markdown$ElmWithId$prependToParagraph,
+						$author$project$Markdown$Render$prependToParagraph,
 						$author$project$MDInline$OrdinaryText(label),
 						blockContent))
 				]));
@@ -12394,7 +12394,7 @@ var $elm$core$Result$withDefault = F2(
 			return def;
 		}
 	});
-var $author$project$Markdown$ElmWithId$renderBlock = F3(
+var $author$project$Markdown$Render$renderBlock = F3(
 	function (selectedId, id, block) {
 		if (block.a.$ === 'BalancedBlock') {
 			switch (block.a.a.$) {
@@ -12408,16 +12408,16 @@ var $author$project$Markdown$ElmWithId$renderBlock = F3(
 							$elm$html$Html$div,
 							_List_fromArray(
 								[
-									$author$project$Markdown$ElmWithId$idAttr(id),
-									$author$project$Markdown$ElmWithId$marginOfLevel(level),
-									A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									$author$project$Markdown$Render$idAttr(id),
+									$author$project$Markdown$Render$marginOfLevel(level),
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
-									$author$project$Markdown$ElmWithId$displayMathText(str)
+									$author$project$Markdown$Render$displayMathText(str)
 								]));
 					} else {
-						return $author$project$Markdown$ElmWithId$displayMathText('');
+						return $author$project$Markdown$Render$displayMathText('');
 					}
 				case 'Verbatim':
 					var _v11 = block.a.a;
@@ -12429,16 +12429,16 @@ var $author$project$Markdown$ElmWithId$renderBlock = F3(
 							$elm$html$Html$pre,
 							_List_fromArray(
 								[
-									$author$project$Markdown$ElmWithId$idAttr(id),
-									$author$project$Markdown$ElmWithId$marginOfLevel(level),
-									A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									$author$project$Markdown$Render$idAttr(id),
+									$author$project$Markdown$Render$marginOfLevel(level),
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
 									$elm$html$Html$text(str)
 								]));
 					} else {
-						return $author$project$Markdown$ElmWithId$displayMathText('');
+						return $author$project$Markdown$Render$displayMathText('');
 					}
 				default:
 					var lang = block.a.a.a;
@@ -12450,7 +12450,7 @@ var $author$project$Markdown$ElmWithId$renderBlock = F3(
 							$elm$html$Html$div,
 							_List_fromArray(
 								[
-									$author$project$Markdown$ElmWithId$blockLevelClass(level - 1)
+									$author$project$Markdown$Render$blockLevelClass(level - 1)
 								]),
 							_List_fromArray(
 								[
@@ -12475,13 +12475,13 @@ var $author$project$Markdown$ElmWithId$renderBlock = F3(
 										$pablohirafuji$elm_syntax_highlight$SyntaxHighlight$toBlockHtml(
 											$elm$core$Maybe$Just(1)),
 										A2(
-											$author$project$Markdown$ElmWithId$parserOfLanguage,
+											$author$project$Markdown$Render$parserOfLanguage,
 											lang,
 											$elm$core$String$trimLeft(
 												A2($author$project$BlockType$deleteLangPrefix, lang, str)))))
 								]));
 					} else {
-						return $author$project$Markdown$ElmWithId$displayMathText('');
+						return $author$project$Markdown$Render$displayMathText('');
 					}
 			}
 		} else {
@@ -12492,45 +12492,45 @@ var $author$project$Markdown$ElmWithId$renderBlock = F3(
 						$elm$html$Html$div,
 						_List_fromArray(
 							[
-								$author$project$Markdown$ElmWithId$idAttr(id),
-								A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+								$author$project$Markdown$Render$idAttr(id),
+								A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 							]),
 						_List_Nil);
 				case 'Plain':
 					var _v2 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent);
 				case 'Blank':
 					var _v3 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent);
 				case 'Heading':
 					var k = block.a.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A5($author$project$Markdown$ElmWithId$renderHeading, selectedId, id, k, level, blockContent);
+					return A5($author$project$Markdown$Render$renderHeading, selectedId, id, k, level, blockContent);
 				case 'Quotation':
 					var _v4 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($author$project$Markdown$ElmWithId$renderQuotation, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderQuotation, selectedId, id, level, blockContent);
 				case 'Poetry':
 					var _v5 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($author$project$Markdown$ElmWithId$renderPoetry, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderPoetry, selectedId, id, level, blockContent);
 				case 'UListItem':
 					var _v6 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($author$project$Markdown$ElmWithId$renderUListItem, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderUListItem, selectedId, id, level, blockContent);
 				case 'OListItem':
 					var index = block.a.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A5($author$project$Markdown$ElmWithId$renderOListItem, selectedId, id, index, level, blockContent);
+					return A5($author$project$Markdown$Render$renderOListItem, selectedId, id, index, level, blockContent);
 				case 'HorizontalRule':
 					var _v7 = block.a.a;
 					var level = block.b;
@@ -12539,16 +12539,16 @@ var $author$project$Markdown$ElmWithId$renderBlock = F3(
 						$elm$html$Html$hr,
 						_List_fromArray(
 							[
-								$author$project$Markdown$ElmWithId$idAttr(id),
+								$author$project$Markdown$Render$idAttr(id),
 								$elm$html$Html$Attributes$class('mm-thematic-break'),
-								A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+								A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 							]),
 						_List_Nil);
 				case 'Image':
 					var _v8 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
-					return A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent);
+					return A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent);
 				case 'TableCell':
 					var _v14 = block.a.a;
 					var level = block.b;
@@ -12561,7 +12561,7 @@ var $author$project$Markdown$ElmWithId$renderBlock = F3(
 							]),
 						_List_fromArray(
 							[
-								A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+								A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 							]));
 				case 'TableRow':
 					var _v15 = block.a.a;
@@ -12575,7 +12575,7 @@ var $author$project$Markdown$ElmWithId$renderBlock = F3(
 							]),
 						_List_fromArray(
 							[
-								A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+								A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 							]));
 				default:
 					var _v16 = block.a.a;
@@ -12586,29 +12586,29 @@ var $author$project$Markdown$ElmWithId$renderBlock = F3(
 						_List_fromArray(
 							[
 								$elm$html$Html$Attributes$class('mm-table'),
-								$author$project$Markdown$ElmWithId$marginOfLevel(level)
+								$author$project$Markdown$Render$marginOfLevel(level)
 							]),
 						_List_fromArray(
 							[
-								A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+								A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 							]));
 			}
 		}
 	});
-var $author$project$Markdown$ElmWithId$highlightColor = '#8d9ffe';
-var $author$project$Markdown$ElmWithId$selectedStyle = F2(
+var $author$project$Markdown$Render$highlightColor = '#8d9ffe';
+var $author$project$Markdown$Render$selectedStyle = F2(
 	function (targetId, currentId) {
 		var _v0 = _Utils_eq(targetId, currentId);
 		if (_v0) {
 			return _List_fromArray(
 				[
-					A2($elm$html$Html$Attributes$style, 'background-color', $author$project$Markdown$ElmWithId$highlightColor)
+					A2($elm$html$Html$Attributes$style, 'background-color', $author$project$Markdown$Render$highlightColor)
 				]);
 		} else {
 			return _List_Nil;
 		}
 	});
-var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
+var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 	function (selectedId, tree) {
 		if (_Utils_eq(
 			$zwilias$elm_rosetree$Tree$children(tree),
@@ -12624,11 +12624,11 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 					$elm$html$Html$Keyed$node,
 					'spanXXX',
 					_Utils_ap(
-						A2($author$project$Markdown$ElmWithId$selectedStyle, selectedId, id),
+						A2($author$project$Markdown$Render$selectedStyle, selectedId, id),
 						_List_fromArray(
 							[
 								$elm$html$Html$Events$onClick(
-								$author$project$Markdown$ElmWithId$IDClicked(
+								$author$project$Markdown$Render$IDClicked(
 									$author$project$Markdown$Parse$stringFromId(id)))
 							])),
 					_List_fromArray(
@@ -12636,7 +12636,7 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 							_Utils_Tuple2(
 							$author$project$Markdown$Parse$stringFromId(id),
 							A3(
-								$author$project$Markdown$ElmWithId$renderBlock,
+								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
 								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
@@ -12646,11 +12646,11 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 					$elm$html$Html$Keyed$node,
 					'span',
 					_Utils_ap(
-						A2($author$project$Markdown$ElmWithId$selectedStyle, selectedId, id),
+						A2($author$project$Markdown$Render$selectedStyle, selectedId, id),
 						_List_fromArray(
 							[
 								$elm$html$Html$Events$onClick(
-								$author$project$Markdown$ElmWithId$IDClicked(
+								$author$project$Markdown$Render$IDClicked(
 									$author$project$Markdown$Parse$stringFromId(id)))
 							])),
 					_List_fromArray(
@@ -12658,7 +12658,7 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 							_Utils_Tuple2(
 							$author$project$Markdown$Parse$stringFromId(id),
 							A3(
-								$author$project$Markdown$ElmWithId$renderBlock,
+								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
 								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
@@ -12676,11 +12676,11 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 							_List_fromArray(
 								[
 									$elm$html$Html$Attributes$class('mm-table-row'),
-									A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							A2(
 								$elm$core$List$map,
-								$author$project$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+								$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 								$zwilias$elm_rosetree$Tree$children(tree)));
 					case 'Table':
 						var id = _v3.a;
@@ -12694,9 +12694,9 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 									$elm$html$Html$Attributes$id(
 									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$author$project$Markdown$ElmWithId$IDClicked(
+									$author$project$Markdown$Render$IDClicked(
 										$author$project$Markdown$Parse$stringFromId(id))),
-									A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
@@ -12707,7 +12707,7 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 										_List_Nil,
 										A2(
 											$elm$core$List$map,
-											$author$project$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+											$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 											$zwilias$elm_rosetree$Tree$children(tree))))
 								]));
 					case 'Plain':
@@ -12721,13 +12721,13 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 									$elm$html$Html$Attributes$id(
 									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$author$project$Markdown$ElmWithId$IDClicked(
+									$author$project$Markdown$Render$IDClicked(
 										$author$project$Markdown$Parse$stringFromId(id))),
-									A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							A2(
 								$elm$core$List$map,
-								$author$project$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+								$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 								$zwilias$elm_rosetree$Tree$children(tree)));
 					default:
 						var id = _v3.a;
@@ -12736,7 +12736,7 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 							'div',
 							_List_fromArray(
 								[
-									A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
@@ -12749,13 +12749,13 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 												$elm$html$Html$Attributes$id(
 												$author$project$Markdown$Parse$stringFromId(id)),
 												$elm$html$Html$Events$onClick(
-												$author$project$Markdown$ElmWithId$IDClicked(
+												$author$project$Markdown$Render$IDClicked(
 													$author$project$Markdown$Parse$stringFromId(id)))
 											]),
 										_List_fromArray(
 											[
 												A3(
-												$author$project$Markdown$ElmWithId$renderBlock,
+												$author$project$Markdown$Render$renderBlock,
 												selectedId,
 												id,
 												$author$project$Markdown$Parse$project(
@@ -12764,11 +12764,11 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 												$elm$html$Html$div,
 												_List_fromArray(
 													[
-														$author$project$Markdown$ElmWithId$idAttr(id)
+														$author$project$Markdown$Render$idAttr(id)
 													]),
 												A2(
 													$elm$core$List$map,
-													$author$project$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+													$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 													$zwilias$elm_rosetree$Tree$children(tree)))
 											])))
 								]));
@@ -12788,15 +12788,15 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 									$elm$html$Html$Attributes$id(
 									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$author$project$Markdown$ElmWithId$IDClicked(
+									$author$project$Markdown$Render$IDClicked(
 										$author$project$Markdown$Parse$stringFromId(id))),
-									A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
 									_Utils_Tuple2(
 									$author$project$Markdown$Parse$stringFromId(id),
-									$author$project$Markdown$ElmWithId$displayMathText(
+									$author$project$Markdown$Render$displayMathText(
 										$author$project$Markdown$Parse$projectedStringOfBlockContent(content)))
 								]));
 					case 'Verbatim':
@@ -12810,9 +12810,9 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 									$elm$html$Html$Attributes$id(
 									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$author$project$Markdown$ElmWithId$IDClicked(
+									$author$project$Markdown$Render$IDClicked(
 										$author$project$Markdown$Parse$stringFromId(id))),
-									A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
@@ -12830,9 +12830,9 @@ var $author$project$Markdown$ElmWithId$mmBlockTreeToHtml = F2(
 									$elm$html$Html$Attributes$id(
 									$author$project$Markdown$Parse$stringFromId(id)),
 									$elm$html$Html$Events$onClick(
-									$author$project$Markdown$ElmWithId$IDClicked(
+									$author$project$Markdown$Render$IDClicked(
 										$author$project$Markdown$Parse$stringFromId(id))),
-									A2($author$project$Markdown$ElmWithId$selectedStyle_, selectedId, id)
+									A2($author$project$Markdown$Render$selectedStyle_, selectedId, id)
 								]),
 							_List_fromArray(
 								[
@@ -12851,10 +12851,10 @@ var $author$project$MDInline$Line = function (a) {
 var $author$project$BlockType$MarkdownBlock = function (a) {
 	return {$: 'MarkdownBlock', a: a};
 };
-var $author$project$Markdown$ElmWithId$id0 = _Utils_Tuple2(-1, -1);
-var $author$project$Markdown$ElmWithId$renderTOCHeading = F5(
+var $author$project$Markdown$Render$id0 = _Utils_Tuple2(-1, -1);
+var $author$project$Markdown$Render$renderTOCHeading = F5(
 	function (selectedId, id, k, level, blockContent) {
-		var name = '#' + $author$project$Markdown$ElmWithId$nameFromBlockContent(blockContent);
+		var name = '#' + $author$project$Markdown$Render$nameFromBlockContent(blockContent);
 		switch (k) {
 			case 1:
 				return A2(
@@ -12866,7 +12866,7 @@ var $author$project$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 2:
 				return A2(
@@ -12879,7 +12879,7 @@ var $author$project$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 3:
 				return A2(
@@ -12892,7 +12892,7 @@ var $author$project$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			case 4:
 				return A2(
@@ -12905,7 +12905,7 @@ var $author$project$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 			default:
 				return A2(
@@ -12918,19 +12918,19 @@ var $author$project$Markdown$ElmWithId$renderTOCHeading = F5(
 						]),
 					_List_fromArray(
 						[
-							A4($author$project$Markdown$ElmWithId$renderBlockContent, selectedId, id, level, blockContent)
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 						]));
 		}
 	});
-var $author$project$Markdown$ElmWithId$renderHeadingForTOC = function (heading) {
+var $author$project$Markdown$Render$renderHeadingForTOC = function (heading) {
 	if ((heading.a.$ === 'MarkdownBlock') && (heading.a.a.$ === 'Heading')) {
 		var k = heading.a.a.a;
 		var level = heading.b;
 		var blockContent = heading.c;
 		return A5(
-			$author$project$Markdown$ElmWithId$renderTOCHeading,
+			$author$project$Markdown$Render$renderTOCHeading,
 			_Utils_Tuple2(0, 0),
-			$author$project$Markdown$ElmWithId$id0,
+			$author$project$Markdown$Render$id0,
 			k,
 			level,
 			blockContent);
@@ -12938,14 +12938,14 @@ var $author$project$Markdown$ElmWithId$renderHeadingForTOC = function (heading) 
 		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
 	}
 };
-var $author$project$Markdown$ElmWithId$tocStyle = _List_fromArray(
+var $author$project$Markdown$Render$tocStyle = _List_fromArray(
 	[
 		A2($elm$html$Html$Attributes$style, 'font-size', 'x-small'),
 		A2($elm$html$Html$Attributes$style, 'margin-left', '15px'),
 		A2($elm$html$Html$Attributes$style, 'color', '#555'),
 		$elm$html$Html$Attributes$id('toc')
 	]);
-var $author$project$Markdown$ElmWithId$renderTableOfContents = F2(
+var $author$project$Markdown$Render$renderTableOfContents = F2(
 	function (heading, blockList) {
 		var contentHeading = A3(
 			$author$project$Markdown$Parse$MDBlock,
@@ -12963,45 +12963,45 @@ var $author$project$Markdown$ElmWithId$renderTableOfContents = F2(
 								]))
 						]))));
 		return function (x) {
-			return A2($elm$html$Html$div, $author$project$Markdown$ElmWithId$tocStyle, x);
+			return A2($elm$html$Html$div, $author$project$Markdown$Render$tocStyle, x);
 		}(
 			A2(
 				$elm$core$List$map,
-				$author$project$Markdown$ElmWithId$renderHeadingForTOC,
+				$author$project$Markdown$Render$renderHeadingForTOC,
 				function (x) {
 					return A2($elm$core$List$cons, contentHeading, x);
 				}(
 					A2($elm$core$List$drop, 1, blockList))));
 	});
-var $author$project$Markdown$ElmWithId$typeOfMDBlock = function (_v0) {
+var $author$project$Markdown$Render$typeOfMDBlock = function (_v0) {
 	var bt = _v0.a;
 	return bt;
 };
-var $author$project$Markdown$ElmWithId$isHeading = function (block) {
-	var _v0 = $author$project$Markdown$ElmWithId$typeOfMDBlock(block);
+var $author$project$Markdown$Render$isHeading = function (block) {
+	var _v0 = $author$project$Markdown$Render$typeOfMDBlock(block);
 	if ((_v0.$ === 'MarkdownBlock') && (_v0.a.$ === 'Heading')) {
 		return true;
 	} else {
 		return false;
 	}
 };
-var $author$project$Markdown$ElmWithId$tableOfContentsAsBlocks = function (blockTree) {
+var $author$project$Markdown$Render$tableOfContentsAsBlocks = function (blockTree) {
 	return A2(
 		$elm$core$List$filter,
-		$author$project$Markdown$ElmWithId$isHeading,
+		$author$project$Markdown$Render$isHeading,
 		$zwilias$elm_rosetree$Tree$flatten(blockTree));
 };
-var $author$project$Markdown$ElmWithId$tableOfContentsAsHtml = F2(
+var $author$project$Markdown$Render$tableOfContentsAsHtml = F2(
 	function (heading, blockTree) {
 		return A2(
-			$author$project$Markdown$ElmWithId$renderTableOfContents,
+			$author$project$Markdown$Render$renderTableOfContents,
 			heading,
-			$author$project$Markdown$ElmWithId$tableOfContentsAsBlocks(blockTree));
+			$author$project$Markdown$Render$tableOfContentsAsBlocks(blockTree));
 	});
-var $author$project$Markdown$ElmWithId$renderHtmlWithExternalTOC = F3(
+var $author$project$Markdown$Render$renderHtmlWithExternalTOC = F3(
 	function (selectedId, heading, ast) {
 		var toc = A2(
-			$author$project$Markdown$ElmWithId$tableOfContentsAsHtml,
+			$author$project$Markdown$Render$tableOfContentsAsHtml,
 			heading,
 			A2($zwilias$elm_rosetree$Tree$map, $author$project$Markdown$Parse$project, ast));
 		var spacing = A2(
@@ -13023,7 +13023,7 @@ var $author$project$Markdown$ElmWithId$renderHtmlWithExternalTOC = F3(
 		var bodyAST = $zwilias$elm_rosetree$Tree$children(ast);
 		var html = A2(
 			$elm$core$List$map,
-			$author$project$Markdown$ElmWithId$mmBlockTreeToHtml(selectedId),
+			$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 			bodyAST);
 		var title = A2(
 			$elm$core$Maybe$withDefault,
@@ -15308,7 +15308,7 @@ var $author$project$Main$renderAstFor = F2(
 							return $elm$core$Task$succeed(
 								_Utils_Tuple2(
 									newAst,
-									A3($author$project$Markdown$ElmWithId$renderHtmlWithExternalTOC, model.selectedId, 'Contents', newAst)));
+									A3($author$project$Markdown$Render$renderHtmlWithExternalTOC, model.selectedId, 'Contents', newAst)));
 						},
 						$elm$core$Process$sleep(100));
 				},
@@ -15360,7 +15360,7 @@ var $author$project$Main$doInit = function (flags) {
 		0,
 		$author$project$Markdown$Option$ExtendedMath,
 		$jxxcarlson$elm_text_editor$Editor$getSource(editor));
-	var nMath = $author$project$Markdown$ElmWithId$numberOfMathElements(lastAst);
+	var nMath = $author$project$Markdown$Render$numberOfMathElements(lastAst);
 	var firstAst = (nMath > 10) ? A3(
 		$author$project$Markdown$Parse$toMDBlockTree,
 		1,
@@ -15375,7 +15375,7 @@ var $author$project$Main$doInit = function (flags) {
 		message: 'Click ctrl-shift-I in editor to toggle info panel, ctrl-h to toggle help',
 		option: $author$project$Markdown$Option$ExtendedMath,
 		renderedText: A3(
-			$author$project$Markdown$ElmWithId$renderHtmlWithExternalTOC,
+			$author$project$Markdown$Render$renderHtmlWithExternalTOC,
 			_Utils_Tuple2(0, 0),
 			'Contents',
 			firstAst),
@@ -15656,7 +15656,7 @@ var $author$project$Main$load = F2(
 					text),
 				lastAst: A3($author$project$Markdown$Parse$toMDBlockTree, model.counter, $author$project$Markdown$Option$ExtendedMath, text),
 				message: 'Loaded new text',
-				renderedText: A3($author$project$Markdown$ElmWithId$renderHtmlWithExternalTOC, model.selectedId, 'Contents', firstAst),
+				renderedText: A3($author$project$Markdown$Render$renderHtmlWithExternalTOC, model.selectedId, 'Contents', firstAst),
 				sourceText: text
 			});
 		return _Utils_Tuple2(
@@ -16966,7 +16966,7 @@ var $author$project$Main$processContent = F2(
 			{
 				counter: model.counter + 1,
 				lastAst: newAst,
-				renderedText: A3($author$project$Markdown$ElmWithId$renderHtmlWithExternalTOC, model.selectedId, 'Contents', newAst),
+				renderedText: A3($author$project$Markdown$Render$renderHtmlWithExternalTOC, model.selectedId, 'Contents', newAst),
 				sourceText: str
 			});
 	});
@@ -17357,7 +17357,7 @@ var $author$project$Main$processContentForHighlighting = F2(
 			{
 				counter: model.counter + 1,
 				lastAst: newAst,
-				renderedText: A3($author$project$Markdown$ElmWithId$renderHtmlWithExternalTOC, model.selectedId, 'Contents', newAst),
+				renderedText: A3($author$project$Markdown$Render$renderHtmlWithExternalTOC, model.selectedId, 'Contents', newAst),
 				sourceText: str
 			});
 	});
@@ -17395,7 +17395,7 @@ var $author$project$Main$updateRenderingData = F2(
 	function (model, text_) {
 		var newAst_ = A3($author$project$Markdown$Parse$toMDBlockTree, model.counter, model.option, text_);
 		var newAst__ = A3($zwilias$elm_rosetree$Tree$Diff$mergeWith, $author$project$Markdown$Parse$equalContent, model.lastAst, newAst_);
-		var renderedText__ = A3($author$project$Markdown$ElmWithId$renderHtmlWithExternalTOC, model.selectedId, 'Contents', newAst__);
+		var renderedText__ = A3($author$project$Markdown$Render$renderHtmlWithExternalTOC, model.selectedId, 'Contents', newAst__);
 		return _Utils_Tuple2(newAst__, renderedText__);
 	});
 var $author$project$Main$syncWithEditor = F3(

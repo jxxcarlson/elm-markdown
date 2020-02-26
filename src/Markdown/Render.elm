@@ -1,4 +1,4 @@
-module Markdown.ElmWithId exposing
+module Markdown.Render exposing
     ( renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg(..)
     , numberOfMathElements
     )

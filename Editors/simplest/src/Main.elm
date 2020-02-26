@@ -6,8 +6,8 @@ import Html.Attributes as HA exposing (..)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
 import Markdown.Elm
-import Markdown.ElmWithId
 import Markdown.Option exposing (..)
+import Markdown.Render
 import Random
 import Strings
 import Style exposing (..)
@@ -37,7 +37,7 @@ type Msg
     | NewSeed Int
     | RestoreText
     | ExampleText
-    | MarkdownMsg Markdown.ElmWithId.MarkdownMsg
+    | MarkdownMsg Markdown.Render.MarkdownMsg
 
 
 type alias Flags =

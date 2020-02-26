@@ -5,9 +5,9 @@ import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
-import Markdown.Elm
-import Markdown.ElmWithId exposing (MarkdownMsg)
 import Markdown.Option exposing (Option(..))
+import Markdown.Render exposing (MarkdownMsg)
+import Markdown.SimperRender
 import Random
 import Strings
 import Style exposing (..)
@@ -153,7 +153,7 @@ display model =
     let
         rt : RenderedText
         rt =
-            Markdown.Elm.toHtmlWithExternaTOC model.option model.sourceText
+            Markdown.SimperRender.toHtmlWithExternaTOC model.option model.sourceText
     in
     div []
         [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]

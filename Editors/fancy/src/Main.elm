@@ -12,7 +12,7 @@ import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Json.Encode as E
-import Markdown.ElmWithId exposing (MarkdownMsg(..))
+import Markdown.Render exposing (MarkdownMsg(..))
 import Markdown.Option exposing (Option(..))
 import Markdown.Parse as Parse
 import Outside
@@ -45,7 +45,7 @@ not re-render mathematical text that is unchanged.
 
 To see where these optimizations are applied,
 look for the places where functions in the modules
-`Parse` and `Markdown.ElmWithId` are called.
+`Parse` and `Markdown.Render` are called.
 
 -}
 main : Program Flags Model Msg
@@ -90,7 +90,7 @@ emptyAst =
 
 emptyRenderedText : RenderedText
 emptyRenderedText =
-    Markdown.ElmWithId.renderHtmlWithExternalTOC ( 0, 0 ) "Contents" emptyAst
+    Markdown.Render.renderHtmlWithExternalTOC ( 0, 0 ) "Contents" emptyAst
 
 
 
@@ -163,7 +163,7 @@ doInit flags =
             Parse.toMDBlockTree 0 ExtendedMath (Editor.getSource editor)
 
         nMath =
-            Markdown.ElmWithId.numberOfMathElements lastAst
+            Markdown.Render.numberOfMathElements lastAst
 
         firstAst =
             if nMath > 10 then
@@ -178,7 +178,7 @@ doInit flags =
             , option = ExtendedMath
             , sourceText = initialText
             , lastAst = lastAst
-            , renderedText = Markdown.ElmWithId.renderHtmlWithExternalTOC ( 0, 0 ) "Contents" <| firstAst
+            , renderedText = Markdown.Render.renderHtmlWithExternalTOC ( 0, 0 ) "Contents" <| firstAst
             , message = "Click ctrl-shift-I in editor to toggle info panel, ctrl-h to toggle help"
             , editor = editor
             , clipboard = ""
@@ -376,7 +376,7 @@ load model text =
 
                 -- , firstAst =  firstAst
                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath text
-                , renderedText = Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" <| firstAst
+                , renderedText = Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" <| firstAst
                 , editor = Editor.init (config <| getFlags model) text
             }
     in
@@ -433,7 +433,7 @@ updateRenderingData model text_ =
 
         renderedText__ : { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
         renderedText__ =
-            Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" newAst__
+            Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" newAst__
     in
     ( newAst__, renderedText__ )
 
@@ -469,7 +469,7 @@ processContent str model =
 
         -- rendering
         , lastAst = newAst
-        , renderedText = Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" newAst
+        , renderedText = Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" newAst
         , counter = model.counter + 1
     }
 
@@ -488,7 +488,7 @@ processContentForHighlighting str model =
 
         -- rendering
         , lastAst = newAst
-        , renderedText = Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" newAst
+        , renderedText = Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" newAst
         , counter = model.counter + 1
     }
 
@@ -548,7 +548,7 @@ renderAstFor model text =
             (\_ ->
                 Process.sleep 100
                     |> Task.andThen
-                        (\_ -> Task.succeed ( newAst, Markdown.ElmWithId.renderHtmlWithExternalTOC model.selectedId "Contents" newAst ))
+                        (\_ -> Task.succeed ( newAst, Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" newAst ))
             )
         |> Task.perform GotSecondPart
 
