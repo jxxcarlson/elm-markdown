@@ -5,9 +5,8 @@ import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
-import Markdown.Option exposing (MarkdownOption(..))
-import Markdown.Render exposing (MarkdownMsg)
-import Markdown.SimperRender
+import Markdown.Option exposing (MarkdownOption(..), OutputOption(..))
+import Markdown.Render exposing (MarkdownMsg, MarkdownOutput)
 import Random
 import Strings
 import Style exposing (..)
@@ -144,16 +143,12 @@ view model =
         ]
 
 
-type alias RenderedText =
-    { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
-
-
 display : Model -> Html Msg
 display model =
     let
-        rt : RenderedText
+        rt : MarkdownOutput
         rt =
-            Markdown.SimperRender.toHtmlWithExternaTOC model.option model.sourceText
+            Markdown.Render.withSimplOptions model.option (ExternalTOC "Contents") model.sourceText
     in
     div []
         [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
@@ -175,7 +170,7 @@ editor model =
     textarea (editorTextStyle ++ [ onInput GetContent, HA.value model.sourceText ]) []
 
 
-renderedSource : RenderedText -> Model -> Html Msg
+renderedSource : MarkdownOutput -> Model -> Html Msg
 renderedSource rt model =
     let
         token =
@@ -186,11 +181,11 @@ renderedSource rt model =
             renderedSourceStyle
             [ ( token ++ "-xx"
               , h1 [ style "font-size" "14px" ]
-                    [ rt.title ]
+                    [ Markdown.Render.title rt ]
               )
-            , ( token, rt.document )
+            , ( token, Markdown.Render.document rt )
             ]
-        , div tocStyle [ rt.toc ]
+        , div tocStyle [ Markdown.Render.toc rt ]
         ]
         |> Html.map MarkdownMsg
 

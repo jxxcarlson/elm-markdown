@@ -5689,6 +5689,9 @@ var $author$project$Demo$update = F2(
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$Markdown$Option$ExternalTOC = function (a) {
+	return {$: 'ExternalTOC', a: a};
+};
 var $elm$html$Html$a = _VirtualDom_node('a');
 var $author$project$Demo$Clear = {$: 'Clear'};
 var $elm$html$Html$button = _VirtualDom_node('button');
@@ -5899,6 +5902,15 @@ var $elm$html$Html$p = _VirtualDom_node('p');
 var $author$project$Demo$MarkdownMsg = function (a) {
 	return {$: 'MarkdownMsg', a: a};
 };
+var $elm$html$Html$span = _VirtualDom_node('span');
+var $author$project$Markdown$Render$document = function (markdownOutput) {
+	if (markdownOutput.$ === 'Simple') {
+		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
+	} else {
+		var docParts = markdownOutput.a;
+		return docParts.document;
+	}
+};
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
@@ -5908,6 +5920,22 @@ var $elm$virtual_dom$VirtualDom$keyedNode = function (tag) {
 };
 var $elm$html$Html$Keyed$node = $elm$virtual_dom$VirtualDom$keyedNode;
 var $author$project$Style$renderedSourceStyle = A3($author$project$Style$textStyle, '400px', '500px', '#fff');
+var $author$project$Markdown$Render$title = function (markdownOutput) {
+	if (markdownOutput.$ === 'Simple') {
+		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
+	} else {
+		var docParts = markdownOutput.a;
+		return docParts.title;
+	}
+};
+var $author$project$Markdown$Render$toc = function (markdownOutput) {
+	if (markdownOutput.$ === 'Simple') {
+		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
+	} else {
+		var docParts = markdownOutput.a;
+		return docParts.toc;
+	}
+};
 var $author$project$Style$tocStyle = _Utils_ap(
 	A3($author$project$Style$textStyle, '200px', '500px', '#fff'),
 	_List_fromArray(
@@ -5940,14 +5968,20 @@ var $author$project$Demo$renderedSource = F2(
 											A2($elm$html$Html$Attributes$style, 'font-size', '14px')
 										]),
 									_List_fromArray(
-										[rt.title]))),
-								_Utils_Tuple2(token, rt.document)
+										[
+											$author$project$Markdown$Render$title(rt)
+										]))),
+								_Utils_Tuple2(
+								token,
+								$author$project$Markdown$Render$document(rt))
 							])),
 						A2(
 						$elm$html$Html$div,
 						$author$project$Style$tocStyle,
 						_List_fromArray(
-							[rt.toc]))
+							[
+								$author$project$Markdown$Render$toc(rt)
+							]))
 					])));
 	});
 var $author$project$Demo$RestoreText = {$: 'RestoreText'};
@@ -5965,7 +5999,6 @@ var $author$project$Demo$restoreTextButton = function (width) {
 				$elm$html$Html$text('Restore')
 			]));
 };
-var $elm$html$Html$span = _VirtualDom_node('span');
 var $author$project$Demo$SelectStandard = {$: 'SelectStandard'};
 var $author$project$Demo$standardMarkdownButton = F2(
 	function (model, width) {
@@ -5987,6 +6020,12 @@ var $author$project$Demo$standardMarkdownButton = F2(
 					$elm$html$Html$text('Standard')
 				]));
 	});
+var $author$project$Markdown$Render$Composite = function (a) {
+	return {$: 'Composite', a: a};
+};
+var $author$project$Markdown$Render$Simple = function (a) {
+	return {$: 'Simple', a: a};
+};
 var $zwilias$elm_rosetree$Tree$children = function (_v0) {
 	var c = _v0.b;
 	return c;
@@ -13348,7 +13387,7 @@ var $author$project$Markdown$Render$tableOfContentsAsHtml = F2(
 	});
 var $author$project$Markdown$Render$renderHtmlWithExternalTOC = F3(
 	function (selectedId, heading, ast) {
-		var toc = A2(
+		var toc_ = A2(
 			$author$project$Markdown$Render$tableOfContentsAsHtml,
 			heading,
 			A2($zwilias$elm_rosetree$Tree$map, $author$project$Markdown$Parse$project, ast));
@@ -13373,7 +13412,7 @@ var $author$project$Markdown$Render$renderHtmlWithExternalTOC = F3(
 			$elm$core$List$map,
 			$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 			bodyAST);
-		var title = A2(
+		var title_ = A2(
 			$elm$core$Maybe$withDefault,
 			A2($elm$html$Html$div, _List_Nil, _List_Nil),
 			$elm$core$List$head(html));
@@ -13390,13 +13429,116 @@ var $author$project$Markdown$Render$renderHtmlWithExternalTOC = F3(
 				$elm$html$Html$div,
 				_List_Nil,
 				_List_fromArray(
-					[title])),
+					[title_])),
 			toc: A2(
 				$elm$html$Html$div,
 				_List_Nil,
 				_List_fromArray(
-					[toc]))
+					[toc_]))
 		};
+	});
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Markdown$Render$masterId = $elm$html$Html$Attributes$id('__RENDERED_TEXT__');
+var $author$project$Markdown$Render$renderHtmlWithTOC = F3(
+	function (selectedId, heading, ast) {
+		var toc_ = A2(
+			$author$project$Markdown$Render$tableOfContentsAsHtml,
+			heading,
+			A2($zwilias$elm_rosetree$Tree$map, $author$project$Markdown$Parse$project, ast));
+		var spacing = A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'padding-bottom', '40px')
+				]),
+			_List_Nil);
+		var separator = A2(
+			$elm$html$Html$hr,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'padding-bottom', '2px'),
+					A2($elm$html$Html$Attributes$style, 'background-color', '#aaa'),
+					A2($elm$html$Html$Attributes$style, 'border-width', '0')
+				]),
+			_List_Nil);
+		var bodyAST = $zwilias$elm_rosetree$Tree$children(ast);
+		var headOfBodyAST = A2(
+			$elm$core$Maybe$map,
+			$zwilias$elm_rosetree$Tree$map($author$project$Markdown$Parse$project),
+			$elm$core$List$head(bodyAST));
+		var html = A2(
+			$elm$core$List$map,
+			$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
+			bodyAST);
+		var title_ = A2(
+			$elm$core$Maybe$withDefault,
+			A2($elm$html$Html$div, _List_Nil, _List_Nil),
+			$elm$core$List$head(html));
+		var body = A2($elm$core$List$drop, 1, html);
+		var _v0 = A2(
+			$elm$core$Maybe$map,
+			A2($elm$core$Basics$composeL, $author$project$Markdown$Render$isHeading, $zwilias$elm_rosetree$Tree$label),
+			headOfBodyAST);
+		if ((_v0.$ === 'Just') && _v0.a) {
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[$author$project$Markdown$Render$masterId]),
+				A2(
+					$elm$core$List$cons,
+					title_,
+					A2(
+						$elm$core$List$cons,
+						separator,
+						A2(
+							$elm$core$List$cons,
+							toc_,
+							A2(
+								$elm$core$List$cons,
+								separator,
+								A2($elm$core$List$cons, spacing, body))))));
+		} else {
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[$author$project$Markdown$Render$masterId]),
+				A2(
+					$elm$core$List$cons,
+					separator,
+					A2(
+						$elm$core$List$cons,
+						toc_,
+						A2(
+							$elm$core$List$cons,
+							separator,
+							A2(
+								$elm$core$List$cons,
+								spacing,
+								A2($elm$core$List$cons, title_, body))))));
+		}
+	});
+var $author$project$Markdown$Render$renderHtml = F2(
+	function (selectedId, blockTreeWithId) {
+		return function (x) {
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[$author$project$Markdown$Render$masterId]),
+				x);
+		}(
+			A2(
+				$elm$core$List$map,
+				$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
+				$zwilias$elm_rosetree$Tree$children(blockTreeWithId)));
 	});
 var $zwilias$elm_rosetree$Tree$indexedMap = F2(
 	function (f, t) {
@@ -14314,16 +14456,6 @@ var $jxxcarlson$htree$HTree$manyParent = F2(
 				return A2($elm$core$Maybe$andThen, $zwilias$elm_rosetree$Tree$Zipper$parent, zi);
 			},
 			zz);
-	});
-var $elm$core$Maybe$map = F2(
-	function (f, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return $elm$core$Maybe$Just(
-				f(value));
-		} else {
-			return $elm$core$Maybe$Nothing;
-		}
 	});
 var $jxxcarlson$htree$HTree$addAtNthParent = F3(
 	function (k, s, z) {
@@ -15636,16 +15768,53 @@ var $author$project$Markdown$Parse$toMDBlockTree = F3(
 				$author$project$Markdown$Parse$selectParser(option),
 				A2($author$project$Markdown$Parse$toBlockTree, option, document)));
 	});
-var $author$project$Markdown$Elm$toHtmlWithExternaTOC = F2(
-	function (option, str) {
-		return A3(
-			$author$project$Markdown$Render$renderHtmlWithExternalTOC,
+var $author$project$Markdown$Render$toHtml = F4(
+	function (selectedId, version, option, str) {
+		return A2(
+			$author$project$Markdown$Render$renderHtml,
+			selectedId,
+			A3($author$project$Markdown$Parse$toMDBlockTree, version, option, str));
+	});
+var $author$project$Markdown$Render$withOptions = F5(
+	function (markdownOption, outputOption, selectedId, version, content) {
+		switch (outputOption.$) {
+			case 'Basic':
+				return $author$project$Markdown$Render$Simple(
+					A4($author$project$Markdown$Render$toHtml, selectedId, version, markdownOption, content));
+			case 'InternalTOC':
+				var title_ = outputOption.a;
+				return $author$project$Markdown$Render$Simple(
+					A3(
+						$author$project$Markdown$Render$renderHtmlWithTOC,
+						selectedId,
+						title_,
+						A3($author$project$Markdown$Parse$toMDBlockTree, version, markdownOption, content)));
+			default:
+				var title_ = outputOption.a;
+				return $author$project$Markdown$Render$Composite(
+					A3(
+						$author$project$Markdown$Render$renderHtmlWithExternalTOC,
+						selectedId,
+						title_,
+						A3($author$project$Markdown$Parse$toMDBlockTree, version, markdownOption, content)));
+		}
+	});
+var $author$project$Markdown$Render$withSimplOptions = F3(
+	function (markdownOption, outputOption, content) {
+		return A5(
+			$author$project$Markdown$Render$withOptions,
+			markdownOption,
+			outputOption,
 			_Utils_Tuple2(0, 0),
-			'Contents',
-			A3($author$project$Markdown$Parse$toMDBlockTree, 0, option, str));
+			0,
+			content);
 	});
 var $author$project$Demo$display = function (model) {
-	var rt = A2($author$project$Markdown$Elm$toHtmlWithExternaTOC, model.option, model.sourceText);
+	var rt = A3(
+		$author$project$Markdown$Render$withSimplOptions,
+		model.option,
+		$author$project$Markdown$Option$ExternalTOC('Contents'),
+		model.sourceText);
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
