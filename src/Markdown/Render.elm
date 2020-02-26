@@ -1,6 +1,7 @@
 module Markdown.Render exposing
-    ( renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg(..)
+    ( renderHtml, toHtml, MarkdownMsg(..)
     , numberOfMathElements
+    , MarkdownOutput(..), document, title, toc, withOptions, withOptionsFromAST, withSimplOptions
     )
 
 {-| Use this module if you need to edit math + markdown _and_
@@ -58,7 +59,7 @@ import Html.Events as HE
 import Html.Keyed as Keyed
 import Json.Encode
 import MDInline exposing (MDInline(..))
-import Markdown.Option exposing (Option(..))
+import Markdown.Option exposing (MarkdownOption(..), OutputOption(..))
 import Markdown.Parse as Parse
     exposing
         ( BlockContent(..)
@@ -79,6 +80,92 @@ import Tree exposing (Tree)
 -}
 type MarkdownMsg
     = IDClicked String
+
+
+type MarkdownOutput
+    = Simple (Html MarkdownMsg)
+    | Composite DocumentParts
+
+
+type alias DocumentParts =
+    { title : Html MarkdownMsg
+    , toc : Html MarkdownMsg
+    , document : Html MarkdownMsg
+    }
+
+
+title : MarkdownOutput -> Html MarkdownMsg
+title markdownOutput =
+    case markdownOutput of
+        Simple _ ->
+            Html.span [] []
+
+        Composite docParts ->
+            docParts.title
+
+
+toc : MarkdownOutput -> Html MarkdownMsg
+toc markdownOutput =
+    case markdownOutput of
+        Simple _ ->
+            Html.span [] []
+
+        Composite docParts ->
+            docParts.toc
+
+
+document : MarkdownOutput -> Html MarkdownMsg
+document markdownOutput =
+    case markdownOutput of
+        Simple _ ->
+            Html.span [] []
+
+        Composite docParts ->
+            docParts.document
+
+
+withSimplOptions : MarkdownOption -> OutputOption -> String -> MarkdownOutput
+withSimplOptions markdownOption outputOption content =
+    withOptions markdownOption outputOption ( 0, 0 ) 0 content
+
+
+withOptions : MarkdownOption -> OutputOption -> Id -> Int -> String -> MarkdownOutput
+withOptions markdownOption outputOption selectedId version content =
+    case
+        outputOption
+    of
+        Basic ->
+            toHtml selectedId version markdownOption content |> Simple
+
+        InternalTOC title_ ->
+            renderHtmlWithTOC selectedId title_ (Parse.toMDBlockTree version markdownOption content)
+                |> Simple
+
+        ExternalTOC title_ ->
+            renderHtmlWithExternalTOC selectedId title_ (Parse.toMDBlockTree version markdownOption content)
+                |> Composite
+
+
+withOptionsFromAST : MarkdownOption -> OutputOption -> Id -> Tree MDBlockWithId -> MarkdownOutput
+withOptionsFromAST markdownOption outputOption selectedId ast =
+    case
+        outputOption
+    of
+        Basic ->
+            renderHtml selectedId ast
+                |> Simple
+
+        InternalTOC title_ ->
+            renderHtmlWithTOC selectedId title_ ast
+                |> Simple
+
+        ExternalTOC title_ ->
+            renderHtmlWithExternalTOC selectedId title_ ast
+                |> Composite
+
+
+
+--- INTERNAL
 
 
 parserOfLanguage : Language -> (String -> Result (List Parser.DeadEnd) SyntaxHighlight.HCode)
@@ -155,7 +242,7 @@ id0 =
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Id -> Int -> Option -> String -> Html MarkdownMsg
+toHtml : Id -> Int -> MarkdownOption -> String -> Html MarkdownMsg
 toHtml selectedId version option str =
     str
         |> Parse.toMDBlockTree version option
@@ -176,15 +263,15 @@ renderHtml selectedId blockTreeWithId =
         |> (\x -> Html.div [ masterId ] x)
 
 
-toHtmlWithTOC : Id -> Int -> Option -> String -> String -> Html MarkdownMsg
+toHtmlWithTOC : Id -> Int -> MarkdownOption -> String -> String -> Html MarkdownMsg
 toHtmlWithTOC selectedId version option heading str =
     let
         ast : Tree MDBlockWithId
         ast =
             Parse.toMDBlockTree version option str
 
-        toc : Html MarkdownMsg
-        toc =
+        toc_ : Html MarkdownMsg
+        toc_ =
             tableOfContentsAsHtml heading (Tree.map project ast)
 
         bodyAST : List (Tree MDBlockWithId)
@@ -197,7 +284,7 @@ toHtmlWithTOC selectedId version option heading str =
         html =
             bodyAST |> List.map (mmBlockTreeToHtml selectedId)
 
-        title =
+        title_ =
             List.head html |> Maybe.withDefault (Html.div [] [])
 
         body =
@@ -211,10 +298,10 @@ toHtmlWithTOC selectedId version option heading str =
     in
     case Maybe.map (isHeading << Tree.label) headOfBodyAST of
         Just True ->
-            Html.div [ masterId ] (title :: separator :: toc :: separator :: spacing :: body)
+            Html.div [ masterId ] (title_ :: separator :: toc_ :: separator :: spacing :: body)
 
         _ ->
-            Html.div [ masterId ] (separator :: toc :: separator :: spacing :: title :: body)
+            Html.div [ masterId ] (separator :: toc_ :: separator :: spacing :: title_ :: body)
 
 
 {-| Like `renderHtml`, but constructs a table of contents.
@@ -222,8 +309,8 @@ toHtmlWithTOC selectedId version option heading str =
 renderHtmlWithTOC : Id -> String -> Tree MDBlockWithId -> Html MarkdownMsg
 renderHtmlWithTOC selectedId heading ast =
     let
-        toc : Html MarkdownMsg
-        toc =
+        toc_ : Html MarkdownMsg
+        toc_ =
             tableOfContentsAsHtml heading (Tree.map project ast)
 
         bodyAST : List (Tree MDBlockWithId)
@@ -236,7 +323,7 @@ renderHtmlWithTOC selectedId heading ast =
         html =
             bodyAST |> List.map (mmBlockTreeToHtml selectedId)
 
-        title =
+        title_ =
             List.head html |> Maybe.withDefault (Html.div [] [])
 
         body =
@@ -250,21 +337,21 @@ renderHtmlWithTOC selectedId heading ast =
     in
     case Maybe.map (isHeading << Tree.label) headOfBodyAST of
         Just True ->
-            Html.div [ masterId ] (title :: separator :: toc :: separator :: spacing :: body)
+            Html.div [ masterId ] (title_ :: separator :: toc_ :: separator :: spacing :: body)
 
         _ ->
-            Html.div [ masterId ] (separator :: toc :: separator :: spacing :: title :: body)
+            Html.div [ masterId ] (separator :: toc_ :: separator :: spacing :: title_ :: body)
 
 
 {-| Like `renderHtmlWithTOC`, but transforms a parser tree into a record,
 with fields for the document title, the table of contents, and the body
 of the document.
 -}
-renderHtmlWithExternalTOC : Id -> String -> Tree MDBlockWithId -> { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
+renderHtmlWithExternalTOC : Id -> String -> Tree MDBlockWithId -> DocumentParts
 renderHtmlWithExternalTOC selectedId heading ast =
     let
-        toc : Html MarkdownMsg
-        toc =
+        toc_ : Html MarkdownMsg
+        toc_ =
             tableOfContentsAsHtml heading (Tree.map project ast)
 
         bodyAST =
@@ -273,7 +360,7 @@ renderHtmlWithExternalTOC selectedId heading ast =
         html =
             bodyAST |> List.map (mmBlockTreeToHtml selectedId)
 
-        title =
+        title_ =
             List.head html |> Maybe.withDefault (Html.div [] [])
 
         body =
@@ -285,8 +372,8 @@ renderHtmlWithExternalTOC selectedId heading ast =
         spacing =
             Html.div [ HA.style "padding-bottom" "40px" ] []
     in
-    { title = Html.div [] [ title ]
-    , toc = Html.div [] [ toc ]
+    { title = Html.div [] [ title_ ]
+    , toc = Html.div [] [ toc_ ]
     , document = Html.div [ HA.id "__RENDERED_TEXT__" ] body
     }
 

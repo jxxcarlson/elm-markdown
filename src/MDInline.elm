@@ -22,7 +22,7 @@ of the BlockMMTree values.
 
 -}
 
-import Markdown.Option exposing (Option(..))
+import Markdown.Option exposing (MarkdownOption(..))
 import Parser.Advanced exposing (..)
 
 
@@ -245,7 +245,7 @@ type alias PrefixedString =
 
 {-| MDInline parser
 -}
-parse : Option -> String -> MDInline
+parse : MarkdownOption -> String -> MDInline
 parse option str =
     str
         |> String.split "\n"
@@ -285,7 +285,7 @@ endsWithPunctuation str =
     String.right 1 str == "."
 
 
-parseLine : Option -> String -> MDInline
+parseLine : MarkdownOption -> String -> MDInline
 parseLine option str =
     run (inlineList option) str
         |> resolveInlineResult
@@ -294,7 +294,7 @@ parseLine option str =
 {-| This is the dispatcher for the inline element parsers
 for the different flavors of Markdown.
 -}
-inline : Option -> Parser MDInline
+inline : MarkdownOption -> Parser MDInline
 inline option =
     case option of
         Standard ->
@@ -574,7 +574,7 @@ code =
     MMInlineList [ItalicText ("foo "),OrdinaryText ("hahaha: hohoho, "),InlineMath ("a^6 + 2")]
 
 -}
-inlineList : Option -> Parser (List MDInline)
+inlineList : MarkdownOption -> Parser (List MDInline)
 inlineList option =
     many (inline option)
 

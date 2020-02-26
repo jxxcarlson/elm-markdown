@@ -46,7 +46,7 @@ import BiDict exposing (BiDict)
 import BlockType exposing (BalancedType(..), BlockType(..), Line, MarkdownType(..))
 import HTree
 import MDInline exposing (MDInline(..))
-import Markdown.Option exposing (Option(..))
+import Markdown.Option exposing (MarkdownOption(..))
 import Parser exposing ((|.), (|=), Parser, int, succeed, symbol)
 import Prefix
 import Tree exposing (Tree)
@@ -369,7 +369,7 @@ a three of Blocks in constructed using the level information.
     -->    ]
 
 -}
-toBlockTree : Option -> Document -> Tree Block
+toBlockTree : MarkdownOption -> Document -> Tree Block
 toBlockTree option document =
     document
         |> splitIntoLines
@@ -411,7 +411,7 @@ Example:
     --> : Tree.Tree Parse.MDBlockWithId
 
 -}
-toMDBlockTree : Int -> Option -> Document -> Tree MDBlockWithId
+toMDBlockTree : Int -> MarkdownOption -> Document -> Tree MDBlockWithId
 toMDBlockTree version option document =
     document
         |> toBlockTree option
@@ -424,7 +424,7 @@ setBlockIndex version idx (MDBlockWithId id bt lev blockContent) =
     MDBlockWithId ( idx, version ) bt lev blockContent
 
 
-selectParser : Option -> (Block -> MDBlockWithId)
+selectParser : MarkdownOption -> (Block -> MDBlockWithId)
 selectParser option ((Block id bt level_ content_) as block) =
     case option of
         Standard ->
@@ -437,7 +437,7 @@ selectParser option ((Block id bt level_ content_) as block) =
             extendedMathMDParser option block
 
 
-extendedMathMDParser : Option -> Block -> MDBlockWithId
+extendedMathMDParser : MarkdownOption -> Block -> MDBlockWithId
 extendedMathMDParser option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
@@ -458,7 +458,7 @@ extendedMathMDParser option_ (Block id bt level_ content_) =
             MDBlockWithId id (BalancedBlock DisplayMath) level_ (T content_)
 
 
-extendedMDParser : Option -> Block -> MDBlockWithId
+extendedMDParser : MarkdownOption -> Block -> MDBlockWithId
 extendedMDParser option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
@@ -479,7 +479,7 @@ extendedMDParser option_ (Block id bt level_ content_) =
             MDBlockWithId id (MarkdownBlock Plain) level_ (M (MDInline.parse option_ content_))
 
 
-standardMDParser : Option -> Block -> MDBlockWithId
+standardMDParser : MarkdownOption -> Block -> MDBlockWithId
 standardMDParser option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
@@ -518,7 +518,7 @@ Recall that
     -->   { itemIndex1 = 2, itemIndex2 = 0, itemIndex3 = 0, itemIndex4 = 0 }
 
 -}
-runFSM : Option -> List Line -> FSM
+runFSM : MarkdownOption -> List Line -> FSM
 runFSM option lines =
     let
         folder : String -> FSM -> FSM
@@ -532,7 +532,7 @@ runFSM option lines =
 -- FINITE STATE MACHINE: NEXT STATE FUNCTION --
 
 
-nextState : Option -> Line -> FSM -> FSM
+nextState : MarkdownOption -> Line -> FSM -> FSM
 nextState option line ((FSM state blocks register) as fsm_) =
     let
         fsm =
@@ -594,7 +594,7 @@ editBlock ((Block id bt lev content) as block) =
         block
 
 
-nextStateAtStart : Option -> Line -> FSM -> FSM
+nextStateAtStart : MarkdownOption -> Line -> FSM -> FSM
 nextStateAtStart option line ((FSM state blocks register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
@@ -640,7 +640,7 @@ newBlockTypeIsDifferent blockType state =
             False
 
 
-nextStateInBlock : Option -> Line -> FSM -> FSM
+nextStateInBlock : MarkdownOption -> Line -> FSM -> FSM
 nextStateInBlock option line ((FSM state_ blocks_ register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
@@ -688,7 +688,7 @@ isBalanced str mbt bt2 =
                     False
 
 
-processMarkDownBlock : Option -> Level -> BlockType -> Line -> FSM -> FSM
+processMarkDownBlock : MarkdownOption -> Level -> BlockType -> Line -> FSM -> FSM
 processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks register) as fsm) =
     case state of
         -- add current block to block list and
@@ -849,7 +849,7 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
     current line and use that line to update the register
 
 -}
-addNewMarkdownBlock : Option -> Block -> Line -> FSM -> FSM
+addNewMarkdownBlock : MarkdownOption -> Block -> Line -> FSM -> FSM
 addNewMarkdownBlock option ((Block id typeOfCurrentBlock levelOfCurrentBlock _) as currentBlock) line ((FSM state blocks register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->

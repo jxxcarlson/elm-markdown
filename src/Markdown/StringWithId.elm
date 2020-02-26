@@ -16,7 +16,7 @@ import Html.String.Attributes as HA exposing (style)
 import Html.String.Keyed as Keyed
 import Json.Encode
 import MDInline exposing (MDInline(..))
-import Markdown.Option exposing (Option(..))
+import Markdown.Option exposing (MarkdownOption(..))
 import Markdown.Parse as Parse
     exposing
         ( BlockContent(..)
@@ -107,7 +107,7 @@ id0 =
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Int -> Option -> String -> Html msg
+toHtml : Int -> MarkdownOption -> String -> Html msg
 toHtml version option str =
     str
         |> Parse.toMDBlockTree version option
@@ -128,7 +128,7 @@ renderHtml blockTreeWithId =
         |> (\x -> Html.div [ masterId ] x)
 
 
-toHtmlWithTOC : Int -> Option -> String -> String -> Html msg
+toHtmlWithTOC : Int -> MarkdownOption -> String -> String -> Html msg
 toHtmlWithTOC version option heading str =
     let
         ast : Tree MDBlockWithId

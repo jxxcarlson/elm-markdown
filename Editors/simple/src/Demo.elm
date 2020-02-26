@@ -5,7 +5,7 @@ import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
-import Markdown.Option exposing (Option(..))
+import Markdown.Option exposing (MarkdownOption(..))
 import Markdown.Render exposing (MarkdownMsg)
 import Markdown.SimperRender
 import Random
@@ -27,7 +27,7 @@ type alias Model =
     { sourceText : String
     , counter : Int
     , seed : Int
-    , option : Option
+    , option : MarkdownOption
     }
 
 

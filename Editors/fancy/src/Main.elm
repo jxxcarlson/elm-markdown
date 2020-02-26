@@ -6,15 +6,14 @@ import Browser
 import Browser.Dom as Dom
 import Editor exposing (Editor, EditorConfig, EditorMsg)
 import Editor.Config exposing (WrapOption(..))
-import Editor.Strings
 import Editor.Update as E
 import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Json.Encode as E
-import Markdown.Render exposing (MarkdownMsg(..))
-import Markdown.Option exposing (Option(..))
+import Markdown.Option exposing (MarkdownOption(..), OutputOption(..))
 import Markdown.Parse as Parse
+import Markdown.Render exposing (MarkdownMsg(..), MarkdownOutput(..))
 import Outside
 import Process
 import Random
@@ -65,10 +64,10 @@ main =
 type alias Model =
     { counter : Int
     , seed : Int
-    , option : Option
+    , option : MarkdownOption
     , sourceText : String
     , lastAst : Tree Parse.MDBlockWithId
-    , renderedText : RenderedText
+    , renderedText : MarkdownOutput
     , message : String
     , editor : Editor
     , clipboard : String
@@ -88,9 +87,9 @@ emptyAst =
     Parse.toMDBlockTree -1 ExtendedMath ""
 
 
-emptyRenderedText : RenderedText
+emptyRenderedText : MarkdownOutput
 emptyRenderedText =
-    Markdown.Render.renderHtmlWithExternalTOC ( 0, 0 ) "Contents" emptyAst
+    Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) emptyAst
 
 
 
@@ -114,7 +113,7 @@ type Msg
     | SelectStandard
     | SelectExtended
     | SelectExtendedMath
-    | GotSecondPart ( Tree Parse.MDBlockWithId, RenderedText )
+    | GotSecondPart ( Tree Parse.MDBlockWithId, MarkdownOutput )
     | MarkdownMsg MarkdownMsg
 
 
@@ -178,7 +177,7 @@ doInit flags =
             , option = ExtendedMath
             , sourceText = initialText
             , lastAst = lastAst
-            , renderedText = Markdown.Render.renderHtmlWithExternalTOC ( 0, 0 ) "Contents" <| firstAst
+            , renderedText = Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) firstAst
             , message = "Click ctrl-shift-I in editor to toggle info panel, ctrl-h to toggle help"
             , editor = editor
             , clipboard = ""
@@ -376,7 +375,7 @@ load model text =
 
                 -- , firstAst =  firstAst
                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath text
-                , renderedText = Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" <| firstAst
+                , renderedText = Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) firstAst
                 , editor = Editor.init (config <| getFlags model) text
             }
     in
@@ -422,7 +421,7 @@ updateEditor model editor_ cmd_ =
     ( { model | editor = editor_ }, Cmd.map EditorMsg cmd_ )
 
 
-updateRenderingData : Model -> String -> ( Tree Parse.MDBlockWithId, RenderedText )
+updateRenderingData : Model -> String -> ( Tree Parse.MDBlockWithId, MarkdownOutput )
 updateRenderingData model text_ =
     let
         newAst_ =
@@ -431,9 +430,9 @@ updateRenderingData model text_ =
         newAst__ =
             Diff.mergeWith Parse.equalContent model.lastAst newAst_
 
-        renderedText__ : { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
+        renderedText__ : MarkdownOutput
         renderedText__ =
-            Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" newAst__
+            Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) newAst__
     in
     ( newAst__, renderedText__ )
 
@@ -469,7 +468,7 @@ processContent str model =
 
         -- rendering
         , lastAst = newAst
-        , renderedText = Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" newAst
+        , renderedText = Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") model.selectedId newAst
         , counter = model.counter + 1
     }
 
@@ -488,7 +487,7 @@ processContentForHighlighting str model =
 
         -- rendering
         , lastAst = newAst
-        , renderedText = Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" newAst
+        , renderedText = Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") model.selectedId newAst
         , counter = model.counter + 1
     }
 
@@ -548,7 +547,7 @@ renderAstFor model text =
             (\_ ->
                 Process.sleep 100
                     |> Task.andThen
-                        (\_ -> Task.succeed ( newAst, Markdown.Render.renderHtmlWithExternalTOC model.selectedId "Contents" newAst ))
+                        (\_ -> Task.succeed ( newAst, Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") model.selectedId newAst ))
             )
         |> Task.perform GotSecondPart
 
@@ -579,10 +578,6 @@ view model =
         , footer1 model
         , footer2 model
         ]
-
-
-type alias RenderedText =
-    { title : Html MarkdownMsg, toc : Html MarkdownMsg, document : Html MarkdownMsg }
 
 
 getFlags : Model -> Flags
@@ -621,7 +616,7 @@ px p =
 
 titleView : Model -> Html Msg
 titleView model =
-    span [] [ model.renderedText.title |> Html.map MarkdownMsg ]
+    span [] [ Markdown.Render.title model.renderedText |> Html.map MarkdownMsg ]
 
 
 renderedSource : Model -> Html Msg
@@ -644,7 +639,7 @@ renderedSource model =
         , style "border-width" "thin"
         , style "border-color" "#999"
         ]
-        [ model.renderedText.document |> Html.map MarkdownMsg ]
+        [ Markdown.Render.document model.renderedText |> Html.map MarkdownMsg ]
 
 
 tocView : Model -> Html Msg
@@ -661,7 +656,7 @@ tocView model =
         , style "overflow" "scroll "
         , style "background-color" "#eee"
         ]
-        [ model.renderedText.toc |> Html.map MarkdownMsg ]
+        [ Markdown.Render.toc model.renderedText |> Html.map MarkdownMsg ]
 
 
 footer1 : Model -> Html Msg

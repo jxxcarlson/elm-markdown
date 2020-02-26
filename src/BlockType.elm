@@ -33,7 +33,7 @@ by 4, where division is integer division.
 
 -}
 
-import Markdown.Option exposing (Option(..))
+import Markdown.Option exposing (MarkdownOption(..))
 import Parser.Advanced exposing (..)
 
 
@@ -126,7 +126,7 @@ type MarkdownType
     | Table
 
 
-get : Option -> Line -> ( Level, Maybe BlockType )
+get : MarkdownOption -> Line -> ( Level, Maybe BlockType )
 get option str =
     if str == "\n" then
         ( 0, Just (MarkdownBlock Blank) )
@@ -148,7 +148,7 @@ get option str =
 work to parserStandard or parseExtended
 according to the given option
 -}
-parse : Option -> Parser BlockType
+parse : MarkdownOption -> Parser BlockType
 parse option =
     case option of
         Standard ->

@@ -1,4 +1,7 @@
-module Markdown.Option exposing (Option(..))
+module Markdown.Option exposing
+    ( MarkdownOption(..)
+    , OutputOption(..)
+    )
 
 {-| The Option module defines the flavors of Markdown that can be
 parsed and rendered
@@ -15,7 +18,13 @@ parsed and rendered
   - ExtendMath: like Extended, but TeX formulas are rendered
 
 -}
-type Option
+type MarkdownOption
     = Standard
     | Extended
     | ExtendedMath
+
+
+type OutputOption
+    = Basic
+    | InternalTOC String
+    | ExternalTOC String
