@@ -13,6 +13,10 @@ import Markdown.Option exposing (Option(..))
 import Markdown.Parse
 
 
+type MarkdownMsg
+    = IDClicked String
+
+
 {-| Parse the input and render it to Html, e.g.,
 
 toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."

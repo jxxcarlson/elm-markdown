@@ -42,8 +42,8 @@ the rationale for this module.
 
 -}
 
+import BiDict exposing (BiDict)
 import BlockType exposing (BalancedType(..), BlockType(..), Line, MarkdownType(..))
-import Dict exposing (Dict)
 import HTree
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (Option(..))
@@ -1189,29 +1189,29 @@ getLeadingTextFromAST ast =
 are text strings and whose values
 ids of the corresponding elements in the DOM
 -}
-sourceMap : Tree MDBlockWithId -> Dict String String
+sourceMap : Tree MDBlockWithId -> BiDict String String
 sourceMap ast =
     let
         list =
             ast
                 |> Tree.flatten
-                |> List.map (\b -> ( (String.trim << stringContentFromBlock) b, (stringFromId << idOfBlock) b ))
+                |> List.map (\b -> ( (stringFromId << idOfBlock) b, (String.trim << stringContentFromBlock) b ))
     in
-    Dict.fromList list
+    BiDict.fromList list
 
 
 {-| Given a string s, return (ss, id), where ss is a string containing s
 and id a Maybe value representing the id of the corresponding element
 in the rendered text.
 -}
-getId : String -> Dict String String -> ( String, Maybe String )
+getId : String -> BiDict String String -> ( String, Maybe String )
 getId str_ sourceMapDict =
     let
         str =
             toMDBlockTree 0 ExtendedMath str_ |> getLeadingTextFromAST |> String.trim
 
         id =
-            List.filter (\( k, _ ) -> String.contains str k) (Dict.toList sourceMapDict)
+            List.filter (\( k, _ ) -> String.contains str k) (BiDict.toList sourceMapDict)
                 |> List.map (\( _, id_ ) -> id_)
                 |> List.head
     in

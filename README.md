@@ -135,9 +135,11 @@ this library towards the Commonmark spec to the greatest
 extent possible by the method of successive approximations
 
 
-## Changes
+## Recent Changes
 
-See `CHANGELOG.md`
+- Added `sourceMap : Tree MDBlockWithId -> BiDict String String` in the 
+`Markdown.Parse` module as a hook for host programs to implement 
+bidrectional sync of source and rendered text. 
 
 
 ## Thanks
