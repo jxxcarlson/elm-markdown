@@ -1,16 +1,49 @@
 module Markdown.Render exposing
-    ( renderHtml, toHtml, MarkdownMsg(..)
-    , numberOfMathElements
-    , MarkdownOutput(..), document, title, toc, withOptions, withOptionsFromAST, withSimplOptions
+    ( MarkdownMsg(..), MarkdownOutput(..), DocumentParts
+    , withOptions, withOptionsFromAST, withSimpleOptions
+    , content, title, toc
+    , renderHtml, toHtml, numberOfMathElements
     )
 
-{-| Use this module if you need to edit math + markdown _and_
-require optimizations for speed and a smooth editing experience.
+{-|
 
-The
-function `parse` yields a syntax tree (AST: abstract syntax tree). The functions `renderHtml`,
+
+## Simple Applications
+
+When there is no interaction between the Markdown text and and an
+on-the-fly editor, use the `withSimpleOptions` function:
+
+    withSimpleOptions :
+        MarkdownOption
+        -> OutputOption
+        -> String
+        -> MarkdownOutput
+
+For example:
+
+    withSimpleOptions Extended Basic "This is *italic text.*"
+        |> content
+        |> Html.map MarkdownMsg
+
+where one has
+
+    import Markdown.Render exposing(withSimpleOptions, MarkdownMsg(..))
+    import Markdown.Options expsosing(..)
+
+    type Msg = MarkdownMsg MarkdownMsg | ...
+
+
+## Editor interaction
+
+Use the `withOptions` and `withOptionsFromAST` functions if you need
+more control over the editing process (see the `./Editor` folder
+for examples).
+
+The function `parse` yields a syntax tree (AST: abstract syntax tree). The functions `renderHtml`,
 `renderHtmlWithTOC`, and `renderHtmlWithExternaTOC` render the
 AST in various forms, as described below.
+
+This library
 
 
 ## Optimizations
@@ -41,14 +74,24 @@ where functions in the modules
 `ParseWithId` and `Markdown.ElmWithId` are called.
 
 
+## Types
+
+@docs MarkdownMsg, MarkdownOutput, DocumentParts
+
+
 ## Rendering
 
-@docs renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg
+@docs withOptions, withOptionsFromAST, withSimpleOptions
+
+
+## Extracting content from a MarkdownOutput value
+
+@docs content, title, toc
 
 
 ## Utility
 
-@docs numberOfMathElements
+@docs renderHtml, toHtml, numberOfMathElements
 
 -}
 
@@ -82,11 +125,15 @@ type MarkdownMsg
     = IDClicked String
 
 
+{-| The kinds of Markdown output
+-}
 type MarkdownOutput
     = Simple (Html MarkdownMsg)
     | Composite DocumentParts
 
 
+{-| The type of a composite document
+-}
 type alias DocumentParts =
     { title : Html MarkdownMsg
     , toc : Html MarkdownMsg
@@ -94,6 +141,8 @@ type alias DocumentParts =
     }
 
 
+{-| Extract the title from a MarkdownOutput value
+-}
 title : MarkdownOutput -> Html MarkdownMsg
 title markdownOutput =
     case markdownOutput of
@@ -104,6 +153,8 @@ title markdownOutput =
             docParts.title
 
 
+{-| Extract the table of contents from a MarkdownOutput value
+-}
 toc : MarkdownOutput -> Html MarkdownMsg
 toc markdownOutput =
     case markdownOutput of
@@ -114,38 +165,46 @@ toc markdownOutput =
             docParts.toc
 
 
-document : MarkdownOutput -> Html MarkdownMsg
-document markdownOutput =
+{-| Extract the content from a MarkdownOutput value
+-}
+content : MarkdownOutput -> Html MarkdownMsg
+content markdownOutput =
     case markdownOutput of
-        Simple _ ->
-            Html.span [] []
+        Simple html ->
+            html
 
         Composite docParts ->
             docParts.document
 
 
-withSimplOptions : MarkdownOption -> OutputOption -> String -> MarkdownOutput
-withSimplOptions markdownOption outputOption content =
-    withOptions markdownOption outputOption ( 0, 0 ) 0 content
+{-| Render source text with simplified opptions
+-}
+withSimpleOptions : MarkdownOption -> OutputOption -> String -> MarkdownOutput
+withSimpleOptions markdownOption outputOption content_ =
+    withOptions markdownOption outputOption ( 0, 0 ) 0 content_
 
 
+{-| Render source text
+-}
 withOptions : MarkdownOption -> OutputOption -> Id -> Int -> String -> MarkdownOutput
-withOptions markdownOption outputOption selectedId version content =
+withOptions markdownOption outputOption selectedId version content_ =
     case
         outputOption
     of
         Basic ->
-            toHtml selectedId version markdownOption content |> Simple
+            toHtml selectedId version markdownOption content_ |> Simple
 
         InternalTOC title_ ->
-            renderHtmlWithTOC selectedId title_ (Parse.toMDBlockTree version markdownOption content)
+            renderHtmlWithTOC selectedId title_ (Parse.toMDBlockTree version markdownOption content_)
                 |> Simple
 
         ExternalTOC title_ ->
-            renderHtmlWithExternalTOC selectedId title_ (Parse.toMDBlockTree version markdownOption content)
+            renderHtmlWithExternalTOC selectedId title_ (Parse.toMDBlockTree version markdownOption content_)
                 |> Composite
 
 
+{-| Render from an AST
+-}
 withOptionsFromAST : MarkdownOption -> OutputOption -> Id -> Tree MDBlockWithId -> MarkdownOutput
 withOptionsFromAST markdownOption outputOption selectedId ast =
     case
@@ -412,17 +471,17 @@ mmBlockTreeToHtml selectedId tree =
     if Tree.children tree == [] then
         -- Render leaf blocks
         let
-            (MDBlockWithId id bt lev content) =
+            (MDBlockWithId id bt lev content_) =
                 Tree.label tree
         in
         case bt of
             BalancedBlock DisplayMath ->
                 Keyed.node "spanXXX"
                     (selectedStyle selectedId id ++ [ HE.onClick (IDClicked (stringFromId id)) ])
-                    [ ( stringFromId id, renderBlock selectedId id (MDBlock bt lev content) ) ]
+                    [ ( stringFromId id, renderBlock selectedId id (MDBlock bt lev content_) ) ]
 
             _ ->
-                Keyed.node "span" (selectedStyle selectedId id ++ [ HE.onClick (IDClicked (stringFromId id)) ]) [ ( stringFromId id, renderBlock selectedId id (MDBlock bt lev content) ) ]
+                Keyed.node "span" (selectedStyle selectedId id ++ [ HE.onClick (IDClicked (stringFromId id)) ]) [ ( stringFromId id, renderBlock selectedId id (MDBlock bt lev content_) ) ]
 
     else
         case Tree.label tree of
@@ -449,10 +508,10 @@ mmBlockTreeToHtml selectedId tree =
                       )
                     ]
 
-            MDBlockWithId id (BalancedBlock DisplayMath) level content ->
+            MDBlockWithId id (BalancedBlock DisplayMath) level content_ ->
                 Keyed.node "div"
                     [ HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ]
-                    [ ( stringFromId id, displayMathText (projectedStringOfBlockContent content) ) ]
+                    [ ( stringFromId id, displayMathText (projectedStringOfBlockContent content_) ) ]
 
             MDBlockWithId id (BalancedBlock Verbatim) _ _ ->
                 Keyed.node "pre" [ HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ] [ ( stringFromId id, Html.text "OUF: Verbatim!" ) ]
@@ -867,11 +926,11 @@ joinLine selectedId id level items =
                 _ ->
                     if accString /= [] then
                         let
-                            content =
+                            content_ =
                                 String.join "" accString
 
                             span =
-                                Html.span [ HA.class "innerJoin" ] [ Html.text content ]
+                                Html.span [ HA.class "innerJoin" ] [ Html.text content_ ]
                         in
                         ( [], renderToHtmlMsg selectedId id level item :: span :: accElement )
 
@@ -882,11 +941,11 @@ joinLine selectedId id level items =
         flush ( accString, accElement ) =
             if accString /= [] then
                 let
-                    content =
+                    content_ =
                         String.join "" accString
 
                     span =
-                        Html.span [] [ Html.text content ]
+                        Html.span [] [ Html.text content_ ]
                 in
                 span :: accElement
 
@@ -913,9 +972,9 @@ strikethrough str =
 
 
 mathText : String -> Html MarkdownMsg
-mathText content =
+mathText content_ =
     Html.node "math-text"
-        [ HA.class "mm-math", HA.property "content" (Json.Encode.string content) ]
+        [ HA.class "mm-math", HA.property "content_" (Json.Encode.string content_) ]
         []
 
 

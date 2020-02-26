@@ -5817,9 +5817,19 @@ var $author$project$Main$label = function (text_) {
 				$elm$html$Html$text(text_)
 			]));
 };
+var $author$project$Markdown$Option$Basic = {$: 'Basic'};
 var $author$project$Markdown$Option$ExtendedMath = {$: 'ExtendedMath'};
 var $author$project$Main$MarkdownMsg = function (a) {
 	return {$: 'MarkdownMsg', a: a};
+};
+var $author$project$Markdown$Render$content = function (markdownOutput) {
+	if (markdownOutput.$ === 'Simple') {
+		var html = markdownOutput.a;
+		return html;
+	} else {
+		var docParts = markdownOutput.a;
+		return docParts.document;
+	}
 };
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
@@ -5829,12 +5839,163 @@ var $elm$virtual_dom$VirtualDom$keyedNode = function (tag) {
 };
 var $elm$html$Html$Keyed$node = $elm$virtual_dom$VirtualDom$keyedNode;
 var $author$project$Style$renderedSourceStyle = A3($author$project$Style$textStyle, '400px', '450px', '#fff');
+var $author$project$Markdown$Render$Composite = function (a) {
+	return {$: 'Composite', a: a};
+};
+var $author$project$Markdown$Render$Simple = function (a) {
+	return {$: 'Simple', a: a};
+};
 var $zwilias$elm_rosetree$Tree$children = function (_v0) {
 	var c = _v0.b;
 	return c;
 };
+var $elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $elm$html$Html$hr = _VirtualDom_node('hr');
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
-var $author$project$Markdown$Render$masterId = $elm$html$Html$Attributes$id('__RENDERED_TEXT__');
+var $zwilias$elm_rosetree$Tree$Tree = F2(
+	function (a, b) {
+		return {$: 'Tree', a: a, b: b};
+	});
+var $zwilias$elm_rosetree$Tree$mapAccumulateHelp = F4(
+	function (f, state, acc, stack) {
+		mapAccumulateHelp:
+		while (true) {
+			var _v0 = acc.todo;
+			if (!_v0.b) {
+				var node = A2(
+					$zwilias$elm_rosetree$Tree$Tree,
+					acc.label,
+					$elm$core$List$reverse(acc.done));
+				if (!stack.b) {
+					return _Utils_Tuple2(state, node);
+				} else {
+					var top = stack.a;
+					var rest = stack.b;
+					var $temp$f = f,
+						$temp$state = state,
+						$temp$acc = _Utils_update(
+						top,
+						{
+							done: A2($elm$core$List$cons, node, top.done)
+						}),
+						$temp$stack = rest;
+					f = $temp$f;
+					state = $temp$state;
+					acc = $temp$acc;
+					stack = $temp$stack;
+					continue mapAccumulateHelp;
+				}
+			} else {
+				if (!_v0.a.b.b) {
+					var _v2 = _v0.a;
+					var d = _v2.a;
+					var rest = _v0.b;
+					var _v3 = A2(f, state, d);
+					var state_ = _v3.a;
+					var label_ = _v3.b;
+					var $temp$f = f,
+						$temp$state = state_,
+						$temp$acc = _Utils_update(
+						acc,
+						{
+							done: A2(
+								$elm$core$List$cons,
+								A2($zwilias$elm_rosetree$Tree$Tree, label_, _List_Nil),
+								acc.done),
+							todo: rest
+						}),
+						$temp$stack = stack;
+					f = $temp$f;
+					state = $temp$state;
+					acc = $temp$acc;
+					stack = $temp$stack;
+					continue mapAccumulateHelp;
+				} else {
+					var _v4 = _v0.a;
+					var d = _v4.a;
+					var cs = _v4.b;
+					var rest = _v0.b;
+					var _v5 = A2(f, state, d);
+					var state_ = _v5.a;
+					var label_ = _v5.b;
+					var $temp$f = f,
+						$temp$state = state_,
+						$temp$acc = {done: _List_Nil, label: label_, todo: cs},
+						$temp$stack = A2(
+						$elm$core$List$cons,
+						_Utils_update(
+							acc,
+							{todo: rest}),
+						stack);
+					f = $temp$f;
+					state = $temp$state;
+					acc = $temp$acc;
+					stack = $temp$stack;
+					continue mapAccumulateHelp;
+				}
+			}
+		}
+	});
+var $zwilias$elm_rosetree$Tree$mapAccumulate = F3(
+	function (f, s, _v0) {
+		var d = _v0.a;
+		var cs = _v0.b;
+		var _v1 = A2(f, s, d);
+		var s_ = _v1.a;
+		var d_ = _v1.b;
+		return A4(
+			$zwilias$elm_rosetree$Tree$mapAccumulateHelp,
+			f,
+			s_,
+			{done: _List_Nil, label: d_, todo: cs},
+			_List_Nil);
+	});
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
+var $zwilias$elm_rosetree$Tree$map = F2(
+	function (f, t) {
+		return A3(
+			$zwilias$elm_rosetree$Tree$mapAccumulate,
+			F2(
+				function (_v0, e) {
+					return _Utils_Tuple2(
+						_Utils_Tuple0,
+						f(e));
+				}),
+			_Utils_Tuple0,
+			t).b;
+	});
 var $author$project$Markdown$Render$IDClicked = function (a) {
 	return {$: 'IDClicked', a: a};
 };
@@ -5856,7 +6017,7 @@ var $elm$virtual_dom$VirtualDom$property = F2(
 			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $elm$html$Html$Attributes$property = $elm$virtual_dom$VirtualDom$property;
-var $author$project$Markdown$Render$mathText = function (content) {
+var $author$project$Markdown$Render$mathText = function (content_) {
 	return A3(
 		$elm$html$Html$node,
 		'math-text',
@@ -5865,8 +6026,8 @@ var $author$project$Markdown$Render$mathText = function (content) {
 				$elm$html$Html$Attributes$class('mm-math'),
 				A2(
 				$elm$html$Html$Attributes$property,
-				'content',
-				$elm$json$Json$Encode$string(content))
+				'content_',
+				$elm$json$Json$Encode$string(content_))
 			]),
 		_List_Nil);
 };
@@ -5934,7 +6095,6 @@ var $author$project$BlockType$deleteLangPrefix = F2(
 				$author$project$BlockType$stringOfLanguage(lang)) + 1,
 			str);
 	});
-var $elm$html$Html$hr = _VirtualDom_node('hr');
 var $elm$core$Result$map = F2(
 	function (func, ra) {
 		if (ra.$ === 'Ok') {
@@ -6086,10 +6246,6 @@ var $elm$core$List$intersperse = F2(
 			return A2($elm$core$List$cons, hd, spersed);
 		}
 	});
-var $elm$core$Tuple$second = function (_v0) {
-	var y = _v0.b;
-	return y;
-};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Style$Style1 = {$: 'Style1'};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Style$Style2 = {$: 'Style2'};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Style$Style3 = {$: 'Style3'};
@@ -11454,37 +11610,7 @@ var $author$project$Markdown$Render$parserOfLanguage = function (lang_) {
 };
 var $elm$html$Html$pre = _VirtualDom_node('pre');
 var $elm$html$Html$a = _VirtualDom_node('a');
-var $elm$core$List$drop = F2(
-	function (n, list) {
-		drop:
-		while (true) {
-			if (n <= 0) {
-				return list;
-			} else {
-				if (!list.b) {
-					return list;
-				} else {
-					var x = list.a;
-					var xs = list.b;
-					var $temp$n = n - 1,
-						$temp$list = xs;
-					n = $temp$n;
-					list = $temp$list;
-					continue drop;
-				}
-			}
-		}
-	});
 var $elm$html$Html$em = _VirtualDom_node('em');
-var $elm$core$List$head = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(x);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
 var $elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -11705,7 +11831,7 @@ var $author$project$Markdown$Render$joinLine = F4(
 						accElement);
 				} else {
 					if (!_Utils_eq(accString, _List_Nil)) {
-						var content = A2($elm$core$String$join, '', accString);
+						var content_ = A2($elm$core$String$join, '', accString);
 						var span = A2(
 							$elm$html$Html$span,
 							_List_fromArray(
@@ -11714,7 +11840,7 @@ var $author$project$Markdown$Render$joinLine = F4(
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text(content)
+									$elm$html$Html$text(content_)
 								]));
 						return _Utils_Tuple2(
 							_List_Nil,
@@ -11736,13 +11862,13 @@ var $author$project$Markdown$Render$joinLine = F4(
 			var accString = _v4.a;
 			var accElement = _v4.b;
 			if (!_Utils_eq(accString, _List_Nil)) {
-				var content = A2($elm$core$String$join, '', accString);
+				var content_ = A2($elm$core$String$join, '', accString);
 				var span = A2(
 					$elm$html$Html$span,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text(content)
+							$elm$html$Html$text(content_)
 						]));
 				return A2($elm$core$List$cons, span, accElement);
 			} else {
@@ -12633,7 +12759,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 			var id = _v0.a;
 			var bt = _v0.b;
 			var lev = _v0.c;
-			var content = _v0.d;
+			var content_ = _v0.d;
 			if ((bt.$ === 'BalancedBlock') && (bt.a.$ === 'DisplayMath')) {
 				var _v2 = bt.a;
 				return A3(
@@ -12655,7 +12781,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
-								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
+								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content_)))
 						]));
 			} else {
 				return A3(
@@ -12677,7 +12803,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
-								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
+								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content_)))
 						]));
 			}
 		} else {
@@ -12795,7 +12921,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 						var id = _v3.a;
 						var _v7 = _v3.b.a;
 						var level = _v3.c;
-						var content = _v3.d;
+						var content_ = _v3.d;
 						return A3(
 							$elm$html$Html$Keyed$node,
 							'div',
@@ -12813,7 +12939,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 									_Utils_Tuple2(
 									$author$project$Markdown$Parse$stringFromId(id),
 									$author$project$Markdown$Render$displayMathText(
-										$author$project$Markdown$Parse$projectedStringOfBlockContent(content)))
+										$author$project$Markdown$Parse$projectedStringOfBlockContent(content_)))
 								]));
 					case 'Verbatim':
 						var id = _v3.a;
@@ -12858,6 +12984,376 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 			}
 		}
 	});
+var $author$project$BlockType$Heading = function (a) {
+	return {$: 'Heading', a: a};
+};
+var $author$project$MDInline$Line = function (a) {
+	return {$: 'Line', a: a};
+};
+var $author$project$BlockType$MarkdownBlock = function (a) {
+	return {$: 'MarkdownBlock', a: a};
+};
+var $author$project$Markdown$Render$id0 = _Utils_Tuple2(-1, -1);
+var $author$project$Markdown$Render$renderTOCHeading = F5(
+	function (selectedId, id, k, level, blockContent) {
+		var name = '#' + $author$project$Markdown$Render$nameFromBlockContent(blockContent);
+		switch (k) {
+			case 1:
+				return A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href(name),
+							A2($elm$html$Html$Attributes$style, 'font-size', '13pt')
+						]),
+					_List_fromArray(
+						[
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
+						]));
+			case 2:
+				return A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href(name),
+							$elm$html$Html$Attributes$class('toc-level-0'),
+							A2($elm$html$Html$Attributes$style, 'display', 'block')
+						]),
+					_List_fromArray(
+						[
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
+						]));
+			case 3:
+				return A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href(name),
+							$elm$html$Html$Attributes$class('toc-level-1'),
+							A2($elm$html$Html$Attributes$style, 'display', 'block')
+						]),
+					_List_fromArray(
+						[
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
+						]));
+			case 4:
+				return A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href(name),
+							$elm$html$Html$Attributes$class('toc-level-2'),
+							A2($elm$html$Html$Attributes$style, 'display', 'block')
+						]),
+					_List_fromArray(
+						[
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
+						]));
+			default:
+				return A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href(name),
+							$elm$html$Html$Attributes$class('toc-level-3'),
+							A2($elm$html$Html$Attributes$style, 'display', 'block')
+						]),
+					_List_fromArray(
+						[
+							A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
+						]));
+		}
+	});
+var $author$project$Markdown$Render$renderHeadingForTOC = function (heading) {
+	if ((heading.a.$ === 'MarkdownBlock') && (heading.a.a.$ === 'Heading')) {
+		var k = heading.a.a.a;
+		var level = heading.b;
+		var blockContent = heading.c;
+		return A5(
+			$author$project$Markdown$Render$renderTOCHeading,
+			_Utils_Tuple2(0, 0),
+			$author$project$Markdown$Render$id0,
+			k,
+			level,
+			blockContent);
+	} else {
+		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
+	}
+};
+var $author$project$Markdown$Render$tocStyle = _List_fromArray(
+	[
+		A2($elm$html$Html$Attributes$style, 'font-size', 'x-small'),
+		A2($elm$html$Html$Attributes$style, 'margin-left', '15px'),
+		A2($elm$html$Html$Attributes$style, 'color', '#555'),
+		$elm$html$Html$Attributes$id('toc')
+	]);
+var $author$project$Markdown$Render$renderTableOfContents = F2(
+	function (heading, blockList) {
+		var contentHeading = A3(
+			$author$project$Markdown$Parse$MDBlock,
+			$author$project$BlockType$MarkdownBlock(
+				$author$project$BlockType$Heading(1)),
+			1,
+			$author$project$Markdown$Parse$M(
+				$author$project$MDInline$Paragraph(
+					_List_fromArray(
+						[
+							$author$project$MDInline$Line(
+							_List_fromArray(
+								[
+									$author$project$MDInline$OrdinaryText(heading)
+								]))
+						]))));
+		return function (x) {
+			return A2($elm$html$Html$div, $author$project$Markdown$Render$tocStyle, x);
+		}(
+			A2(
+				$elm$core$List$map,
+				$author$project$Markdown$Render$renderHeadingForTOC,
+				function (x) {
+					return A2($elm$core$List$cons, contentHeading, x);
+				}(
+					A2($elm$core$List$drop, 1, blockList))));
+	});
+var $zwilias$elm_rosetree$Tree$foldlHelp = F4(
+	function (f, acc, trees, nextSets) {
+		foldlHelp:
+		while (true) {
+			if (!trees.b) {
+				if (nextSets.b) {
+					var set = nextSets.a;
+					var sets = nextSets.b;
+					var $temp$f = f,
+						$temp$acc = acc,
+						$temp$trees = set,
+						$temp$nextSets = sets;
+					f = $temp$f;
+					acc = $temp$acc;
+					trees = $temp$trees;
+					nextSets = $temp$nextSets;
+					continue foldlHelp;
+				} else {
+					return acc;
+				}
+			} else {
+				if (!trees.a.b.b) {
+					var _v2 = trees.a;
+					var d = _v2.a;
+					var rest = trees.b;
+					var $temp$f = f,
+						$temp$acc = A2(f, d, acc),
+						$temp$trees = rest,
+						$temp$nextSets = nextSets;
+					f = $temp$f;
+					acc = $temp$acc;
+					trees = $temp$trees;
+					nextSets = $temp$nextSets;
+					continue foldlHelp;
+				} else {
+					var _v3 = trees.a;
+					var d = _v3.a;
+					var xs = _v3.b;
+					var rest = trees.b;
+					var $temp$f = f,
+						$temp$acc = A2(f, d, acc),
+						$temp$trees = xs,
+						$temp$nextSets = A2($elm$core$List$cons, rest, nextSets);
+					f = $temp$f;
+					acc = $temp$acc;
+					trees = $temp$trees;
+					nextSets = $temp$nextSets;
+					continue foldlHelp;
+				}
+			}
+		}
+	});
+var $zwilias$elm_rosetree$Tree$foldl = F3(
+	function (f, acc, t) {
+		return A4(
+			$zwilias$elm_rosetree$Tree$foldlHelp,
+			f,
+			acc,
+			_List_fromArray(
+				[t]),
+			_List_Nil);
+	});
+var $zwilias$elm_rosetree$Tree$foldr = F3(
+	function (f, acc, t) {
+		return A3(
+			$elm$core$List$foldl,
+			f,
+			acc,
+			A3($zwilias$elm_rosetree$Tree$foldl, $elm$core$List$cons, _List_Nil, t));
+	});
+var $zwilias$elm_rosetree$Tree$flatten = function (t) {
+	return A3($zwilias$elm_rosetree$Tree$foldr, $elm$core$List$cons, _List_Nil, t);
+};
+var $author$project$Markdown$Render$typeOfMDBlock = function (_v0) {
+	var bt = _v0.a;
+	return bt;
+};
+var $author$project$Markdown$Render$isHeading = function (block) {
+	var _v0 = $author$project$Markdown$Render$typeOfMDBlock(block);
+	if ((_v0.$ === 'MarkdownBlock') && (_v0.a.$ === 'Heading')) {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $author$project$Markdown$Render$tableOfContentsAsBlocks = function (blockTree) {
+	return A2(
+		$elm$core$List$filter,
+		$author$project$Markdown$Render$isHeading,
+		$zwilias$elm_rosetree$Tree$flatten(blockTree));
+};
+var $author$project$Markdown$Render$tableOfContentsAsHtml = F2(
+	function (heading, blockTree) {
+		return A2(
+			$author$project$Markdown$Render$renderTableOfContents,
+			heading,
+			$author$project$Markdown$Render$tableOfContentsAsBlocks(blockTree));
+	});
+var $author$project$Markdown$Render$renderHtmlWithExternalTOC = F3(
+	function (selectedId, heading, ast) {
+		var toc_ = A2(
+			$author$project$Markdown$Render$tableOfContentsAsHtml,
+			heading,
+			A2($zwilias$elm_rosetree$Tree$map, $author$project$Markdown$Parse$project, ast));
+		var spacing = A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'padding-bottom', '40px')
+				]),
+			_List_Nil);
+		var separator = A2(
+			$elm$html$Html$hr,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'padding-bottom', '2px'),
+					A2($elm$html$Html$Attributes$style, 'background-color', '#aaa'),
+					A2($elm$html$Html$Attributes$style, 'border-width', '0')
+				]),
+			_List_Nil);
+		var bodyAST = $zwilias$elm_rosetree$Tree$children(ast);
+		var html = A2(
+			$elm$core$List$map,
+			$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
+			bodyAST);
+		var title_ = A2(
+			$elm$core$Maybe$withDefault,
+			A2($elm$html$Html$div, _List_Nil, _List_Nil),
+			$elm$core$List$head(html));
+		var body = A2($elm$core$List$drop, 1, html);
+		return {
+			document: A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$id('__RENDERED_TEXT__')
+					]),
+				body),
+			title: A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[title_])),
+			toc: A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				_List_fromArray(
+					[toc_]))
+		};
+	});
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $author$project$Markdown$Render$masterId = $elm$html$Html$Attributes$id('__RENDERED_TEXT__');
+var $author$project$Markdown$Render$renderHtmlWithTOC = F3(
+	function (selectedId, heading, ast) {
+		var toc_ = A2(
+			$author$project$Markdown$Render$tableOfContentsAsHtml,
+			heading,
+			A2($zwilias$elm_rosetree$Tree$map, $author$project$Markdown$Parse$project, ast));
+		var spacing = A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'padding-bottom', '40px')
+				]),
+			_List_Nil);
+		var separator = A2(
+			$elm$html$Html$hr,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'padding-bottom', '2px'),
+					A2($elm$html$Html$Attributes$style, 'background-color', '#aaa'),
+					A2($elm$html$Html$Attributes$style, 'border-width', '0')
+				]),
+			_List_Nil);
+		var bodyAST = $zwilias$elm_rosetree$Tree$children(ast);
+		var headOfBodyAST = A2(
+			$elm$core$Maybe$map,
+			$zwilias$elm_rosetree$Tree$map($author$project$Markdown$Parse$project),
+			$elm$core$List$head(bodyAST));
+		var html = A2(
+			$elm$core$List$map,
+			$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
+			bodyAST);
+		var title_ = A2(
+			$elm$core$Maybe$withDefault,
+			A2($elm$html$Html$div, _List_Nil, _List_Nil),
+			$elm$core$List$head(html));
+		var body = A2($elm$core$List$drop, 1, html);
+		var _v0 = A2(
+			$elm$core$Maybe$map,
+			A2($elm$core$Basics$composeL, $author$project$Markdown$Render$isHeading, $zwilias$elm_rosetree$Tree$label),
+			headOfBodyAST);
+		if ((_v0.$ === 'Just') && _v0.a) {
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[$author$project$Markdown$Render$masterId]),
+				A2(
+					$elm$core$List$cons,
+					title_,
+					A2(
+						$elm$core$List$cons,
+						separator,
+						A2(
+							$elm$core$List$cons,
+							toc_,
+							A2(
+								$elm$core$List$cons,
+								separator,
+								A2($elm$core$List$cons, spacing, body))))));
+		} else {
+			return A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[$author$project$Markdown$Render$masterId]),
+				A2(
+					$elm$core$List$cons,
+					separator,
+					A2(
+						$elm$core$List$cons,
+						toc_,
+						A2(
+							$elm$core$List$cons,
+							separator,
+							A2(
+								$elm$core$List$cons,
+								spacing,
+								A2($elm$core$List$cons, title_, body))))));
+		}
+	});
 var $author$project$Markdown$Render$renderHtml = F2(
 	function (selectedId, blockTreeWithId) {
 		return function (x) {
@@ -12872,104 +13368,6 @@ var $author$project$Markdown$Render$renderHtml = F2(
 				$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 				$zwilias$elm_rosetree$Tree$children(blockTreeWithId)));
 	});
-var $zwilias$elm_rosetree$Tree$Tree = F2(
-	function (a, b) {
-		return {$: 'Tree', a: a, b: b};
-	});
-var $zwilias$elm_rosetree$Tree$mapAccumulateHelp = F4(
-	function (f, state, acc, stack) {
-		mapAccumulateHelp:
-		while (true) {
-			var _v0 = acc.todo;
-			if (!_v0.b) {
-				var node = A2(
-					$zwilias$elm_rosetree$Tree$Tree,
-					acc.label,
-					$elm$core$List$reverse(acc.done));
-				if (!stack.b) {
-					return _Utils_Tuple2(state, node);
-				} else {
-					var top = stack.a;
-					var rest = stack.b;
-					var $temp$f = f,
-						$temp$state = state,
-						$temp$acc = _Utils_update(
-						top,
-						{
-							done: A2($elm$core$List$cons, node, top.done)
-						}),
-						$temp$stack = rest;
-					f = $temp$f;
-					state = $temp$state;
-					acc = $temp$acc;
-					stack = $temp$stack;
-					continue mapAccumulateHelp;
-				}
-			} else {
-				if (!_v0.a.b.b) {
-					var _v2 = _v0.a;
-					var d = _v2.a;
-					var rest = _v0.b;
-					var _v3 = A2(f, state, d);
-					var state_ = _v3.a;
-					var label_ = _v3.b;
-					var $temp$f = f,
-						$temp$state = state_,
-						$temp$acc = _Utils_update(
-						acc,
-						{
-							done: A2(
-								$elm$core$List$cons,
-								A2($zwilias$elm_rosetree$Tree$Tree, label_, _List_Nil),
-								acc.done),
-							todo: rest
-						}),
-						$temp$stack = stack;
-					f = $temp$f;
-					state = $temp$state;
-					acc = $temp$acc;
-					stack = $temp$stack;
-					continue mapAccumulateHelp;
-				} else {
-					var _v4 = _v0.a;
-					var d = _v4.a;
-					var cs = _v4.b;
-					var rest = _v0.b;
-					var _v5 = A2(f, state, d);
-					var state_ = _v5.a;
-					var label_ = _v5.b;
-					var $temp$f = f,
-						$temp$state = state_,
-						$temp$acc = {done: _List_Nil, label: label_, todo: cs},
-						$temp$stack = A2(
-						$elm$core$List$cons,
-						_Utils_update(
-							acc,
-							{todo: rest}),
-						stack);
-					f = $temp$f;
-					state = $temp$state;
-					acc = $temp$acc;
-					stack = $temp$stack;
-					continue mapAccumulateHelp;
-				}
-			}
-		}
-	});
-var $zwilias$elm_rosetree$Tree$mapAccumulate = F3(
-	function (f, s, _v0) {
-		var d = _v0.a;
-		var cs = _v0.b;
-		var _v1 = A2(f, s, d);
-		var s_ = _v1.a;
-		var d_ = _v1.b;
-		return A4(
-			$zwilias$elm_rosetree$Tree$mapAccumulateHelp,
-			f,
-			s_,
-			{done: _List_Nil, label: d_, todo: cs},
-			_List_Nil);
-	});
 var $zwilias$elm_rosetree$Tree$indexedMap = F2(
 	function (f, t) {
 		return A3(
@@ -12983,19 +13381,6 @@ var $zwilias$elm_rosetree$Tree$indexedMap = F2(
 			0,
 			t).b;
 	});
-var $zwilias$elm_rosetree$Tree$map = F2(
-	function (f, t) {
-		return A3(
-			$zwilias$elm_rosetree$Tree$mapAccumulate,
-			F2(
-				function (_v0, e) {
-					return _Utils_Tuple2(
-						_Utils_Tuple0,
-						f(e));
-				}),
-			_Utils_Tuple0,
-			t).b;
-	});
 var $author$project$BlockType$BalancedBlock = function (a) {
 	return {$: 'BalancedBlock', a: a};
 };
@@ -13006,9 +13391,6 @@ var $author$project$Markdown$Parse$MDBlockWithId = F4(
 	function (a, b, c, d) {
 		return {$: 'MDBlockWithId', a: a, b: b, c: c, d: d};
 	});
-var $author$project$BlockType$MarkdownBlock = function (a) {
-	return {$: 'MarkdownBlock', a: a};
-};
 var $author$project$BlockType$Plain = {$: 'Plain'};
 var $author$project$MDInline$Stanza = function (a) {
 	return {$: 'Stanza', a: a};
@@ -13506,9 +13888,6 @@ var $author$project$MDInline$inlineList = function (option) {
 	return $author$project$MDInline$many(
 		$author$project$MDInline$inline(option));
 };
-var $author$project$MDInline$Line = function (a) {
-	return {$: 'Line', a: a};
-};
 var $author$project$MDInline$displayDeadEnd = function (deadend) {
 	var _v0 = deadend.problem;
 	var error = _v0.a;
@@ -13905,16 +14284,6 @@ var $jxxcarlson$htree$HTree$manyParent = F2(
 				return A2($elm$core$Maybe$andThen, $zwilias$elm_rosetree$Tree$Zipper$parent, zi);
 			},
 			zz);
-	});
-var $elm$core$Maybe$map = F2(
-	function (f, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return $elm$core$Maybe$Just(
-				f(value));
-		} else {
-			return $elm$core$Maybe$Nothing;
-		}
 	});
 var $jxxcarlson$htree$HTree$addAtNthParent = F3(
 	function (k, s, z) {
@@ -14322,9 +14691,6 @@ var $author$project$BlockType$codeBlock = A2(
 		$elm$parser$Parser$Advanced$oneOf(
 			_List_fromArray(
 				[$author$project$BlockType$cssLang, $author$project$BlockType$elmLang, $author$project$BlockType$javascriptLang, $author$project$BlockType$jsonLang, $author$project$BlockType$pythonLang, $author$project$BlockType$sqlLang, $author$project$BlockType$xmlLang]))));
-var $author$project$BlockType$Heading = function (a) {
-	return {$: 'Heading', a: a};
-};
 var $author$project$BlockType$parseWhile = function (accepting) {
 	return $elm$parser$Parser$Advanced$getChompedString(
 		$elm$parser$Parser$Advanced$chompWhile(accepting));
@@ -15237,14 +15603,39 @@ var $author$project$Markdown$Render$toHtml = F4(
 			selectedId,
 			A3($author$project$Markdown$Parse$toMDBlockTree, version, option, str));
 	});
-var $author$project$Markdown$Elm$toHtml = F2(
-	function (option, str) {
-		return A4(
-			$author$project$Markdown$Render$toHtml,
+var $author$project$Markdown$Render$withOptions = F5(
+	function (markdownOption, outputOption, selectedId, version, content_) {
+		switch (outputOption.$) {
+			case 'Basic':
+				return $author$project$Markdown$Render$Simple(
+					A4($author$project$Markdown$Render$toHtml, selectedId, version, markdownOption, content_));
+			case 'InternalTOC':
+				var title_ = outputOption.a;
+				return $author$project$Markdown$Render$Simple(
+					A3(
+						$author$project$Markdown$Render$renderHtmlWithTOC,
+						selectedId,
+						title_,
+						A3($author$project$Markdown$Parse$toMDBlockTree, version, markdownOption, content_)));
+			default:
+				var title_ = outputOption.a;
+				return $author$project$Markdown$Render$Composite(
+					A3(
+						$author$project$Markdown$Render$renderHtmlWithExternalTOC,
+						selectedId,
+						title_,
+						A3($author$project$Markdown$Parse$toMDBlockTree, version, markdownOption, content_)));
+		}
+	});
+var $author$project$Markdown$Render$withSimpleOptions = F3(
+	function (markdownOption, outputOption, content_) {
+		return A5(
+			$author$project$Markdown$Render$withOptions,
+			markdownOption,
+			outputOption,
 			_Utils_Tuple2(0, 0),
 			0,
-			option,
-			str);
+			content_);
 	});
 var $author$project$Main$renderedSource = function (model) {
 	return A3(
@@ -15258,7 +15649,8 @@ var $author$project$Main$renderedSource = function (model) {
 				A2(
 					$elm$html$Html$map,
 					$author$project$Main$MarkdownMsg,
-					A2($author$project$Markdown$Elm$toHtml, $author$project$Markdown$Option$ExtendedMath, model.sourceText)))
+					$author$project$Markdown$Render$content(
+						A3($author$project$Markdown$Render$withSimpleOptions, $author$project$Markdown$Option$ExtendedMath, $author$project$Markdown$Option$Basic, model.sourceText))))
 			]));
 };
 var $author$project$Main$RestoreText = {$: 'RestoreText'};

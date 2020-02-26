@@ -639,7 +639,7 @@ renderedSource model =
         , style "border-width" "thin"
         , style "border-color" "#999"
         ]
-        [ Markdown.Render.document model.renderedText |> Html.map MarkdownMsg ]
+        [ Markdown.Render.content model.renderedText |> Html.map MarkdownMsg ]
 
 
 tocView : Model -> Html Msg

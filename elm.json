@@ -5,8 +5,7 @@
     "license": "BSD-3-Clause",
     "version": "7.0.0",
     "exposed-modules": [
-        "Markdown.Elm",
-        "Markdown.ElmWithId",
+        "Markdown.Render",
         "Markdown.Option",
         "Markdown.Parse"
     ],

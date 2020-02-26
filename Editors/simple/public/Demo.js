@@ -5902,10 +5902,10 @@ var $elm$html$Html$p = _VirtualDom_node('p');
 var $author$project$Demo$MarkdownMsg = function (a) {
 	return {$: 'MarkdownMsg', a: a};
 };
-var $elm$html$Html$span = _VirtualDom_node('span');
-var $author$project$Markdown$Render$document = function (markdownOutput) {
+var $author$project$Markdown$Render$content = function (markdownOutput) {
 	if (markdownOutput.$ === 'Simple') {
-		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
+		var html = markdownOutput.a;
+		return html;
 	} else {
 		var docParts = markdownOutput.a;
 		return docParts.document;
@@ -5920,6 +5920,7 @@ var $elm$virtual_dom$VirtualDom$keyedNode = function (tag) {
 };
 var $elm$html$Html$Keyed$node = $elm$virtual_dom$VirtualDom$keyedNode;
 var $author$project$Style$renderedSourceStyle = A3($author$project$Style$textStyle, '400px', '500px', '#fff');
+var $elm$html$Html$span = _VirtualDom_node('span');
 var $author$project$Markdown$Render$title = function (markdownOutput) {
 	if (markdownOutput.$ === 'Simple') {
 		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
@@ -5973,7 +5974,7 @@ var $author$project$Demo$renderedSource = F2(
 										]))),
 								_Utils_Tuple2(
 								token,
-								$author$project$Markdown$Render$document(rt))
+								$author$project$Markdown$Render$content(rt))
 							])),
 						A2(
 						$elm$html$Html$div,
@@ -6198,7 +6199,7 @@ var $elm$virtual_dom$VirtualDom$property = F2(
 			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $elm$html$Html$Attributes$property = $elm$virtual_dom$VirtualDom$property;
-var $author$project$Markdown$Render$mathText = function (content) {
+var $author$project$Markdown$Render$mathText = function (content_) {
 	return A3(
 		$elm$html$Html$node,
 		'math-text',
@@ -6207,8 +6208,8 @@ var $author$project$Markdown$Render$mathText = function (content) {
 				$elm$html$Html$Attributes$class('mm-math'),
 				A2(
 				$elm$html$Html$Attributes$property,
-				'content',
-				$elm$json$Json$Encode$string(content))
+				'content_',
+				$elm$json$Json$Encode$string(content_))
 			]),
 		_List_Nil);
 };
@@ -12004,7 +12005,7 @@ var $author$project$Markdown$Render$joinLine = F4(
 						accElement);
 				} else {
 					if (!_Utils_eq(accString, _List_Nil)) {
-						var content = A2($elm$core$String$join, '', accString);
+						var content_ = A2($elm$core$String$join, '', accString);
 						var span = A2(
 							$elm$html$Html$span,
 							_List_fromArray(
@@ -12013,7 +12014,7 @@ var $author$project$Markdown$Render$joinLine = F4(
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text(content)
+									$elm$html$Html$text(content_)
 								]));
 						return _Utils_Tuple2(
 							_List_Nil,
@@ -12035,13 +12036,13 @@ var $author$project$Markdown$Render$joinLine = F4(
 			var accString = _v4.a;
 			var accElement = _v4.b;
 			if (!_Utils_eq(accString, _List_Nil)) {
-				var content = A2($elm$core$String$join, '', accString);
+				var content_ = A2($elm$core$String$join, '', accString);
 				var span = A2(
 					$elm$html$Html$span,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text(content)
+							$elm$html$Html$text(content_)
 						]));
 				return A2($elm$core$List$cons, span, accElement);
 			} else {
@@ -12931,7 +12932,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 			var id = _v0.a;
 			var bt = _v0.b;
 			var lev = _v0.c;
-			var content = _v0.d;
+			var content_ = _v0.d;
 			if ((bt.$ === 'BalancedBlock') && (bt.a.$ === 'DisplayMath')) {
 				var _v2 = bt.a;
 				return A3(
@@ -12953,7 +12954,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
-								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
+								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content_)))
 						]));
 			} else {
 				return A3(
@@ -12975,7 +12976,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
-								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
+								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content_)))
 						]));
 			}
 		} else {
@@ -13093,7 +13094,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 						var id = _v3.a;
 						var _v7 = _v3.b.a;
 						var level = _v3.c;
-						var content = _v3.d;
+						var content_ = _v3.d;
 						return A3(
 							$elm$html$Html$Keyed$node,
 							'div',
@@ -13111,7 +13112,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 									_Utils_Tuple2(
 									$author$project$Markdown$Parse$stringFromId(id),
 									$author$project$Markdown$Render$displayMathText(
-										$author$project$Markdown$Parse$projectedStringOfBlockContent(content)))
+										$author$project$Markdown$Parse$projectedStringOfBlockContent(content_)))
 								]));
 					case 'Verbatim':
 						var id = _v3.a;
@@ -15776,11 +15777,11 @@ var $author$project$Markdown$Render$toHtml = F4(
 			A3($author$project$Markdown$Parse$toMDBlockTree, version, option, str));
 	});
 var $author$project$Markdown$Render$withOptions = F5(
-	function (markdownOption, outputOption, selectedId, version, content) {
+	function (markdownOption, outputOption, selectedId, version, content_) {
 		switch (outputOption.$) {
 			case 'Basic':
 				return $author$project$Markdown$Render$Simple(
-					A4($author$project$Markdown$Render$toHtml, selectedId, version, markdownOption, content));
+					A4($author$project$Markdown$Render$toHtml, selectedId, version, markdownOption, content_));
 			case 'InternalTOC':
 				var title_ = outputOption.a;
 				return $author$project$Markdown$Render$Simple(
@@ -15788,7 +15789,7 @@ var $author$project$Markdown$Render$withOptions = F5(
 						$author$project$Markdown$Render$renderHtmlWithTOC,
 						selectedId,
 						title_,
-						A3($author$project$Markdown$Parse$toMDBlockTree, version, markdownOption, content)));
+						A3($author$project$Markdown$Parse$toMDBlockTree, version, markdownOption, content_)));
 			default:
 				var title_ = outputOption.a;
 				return $author$project$Markdown$Render$Composite(
@@ -15796,22 +15797,22 @@ var $author$project$Markdown$Render$withOptions = F5(
 						$author$project$Markdown$Render$renderHtmlWithExternalTOC,
 						selectedId,
 						title_,
-						A3($author$project$Markdown$Parse$toMDBlockTree, version, markdownOption, content)));
+						A3($author$project$Markdown$Parse$toMDBlockTree, version, markdownOption, content_)));
 		}
 	});
-var $author$project$Markdown$Render$withSimplOptions = F3(
-	function (markdownOption, outputOption, content) {
+var $author$project$Markdown$Render$withSimpleOptions = F3(
+	function (markdownOption, outputOption, content_) {
 		return A5(
 			$author$project$Markdown$Render$withOptions,
 			markdownOption,
 			outputOption,
 			_Utils_Tuple2(0, 0),
 			0,
-			content);
+			content_);
 	});
 var $author$project$Demo$display = function (model) {
 	var rt = A3(
-		$author$project$Markdown$Render$withSimplOptions,
+		$author$project$Markdown$Render$withSimpleOptions,
 		model.option,
 		$author$project$Markdown$Option$ExternalTOC('Contents'),
 		model.sourceText);

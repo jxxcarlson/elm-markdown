@@ -148,7 +148,7 @@ display model =
     let
         rt : MarkdownOutput
         rt =
-            Markdown.Render.withSimplOptions model.option (ExternalTOC "Contents") model.sourceText
+            Markdown.Render.withSimpleOptions model.option (ExternalTOC "Contents") model.sourceText
     in
     div []
         [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
@@ -183,7 +183,7 @@ renderedSource rt model =
               , h1 [ style "font-size" "14px" ]
                     [ Markdown.Render.title rt ]
               )
-            , ( token, Markdown.Render.document rt )
+            , ( token, Markdown.Render.content rt )
             ]
         , div tocStyle [ Markdown.Render.toc rt ]
         ]

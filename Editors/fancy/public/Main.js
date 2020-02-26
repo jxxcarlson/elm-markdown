@@ -8509,7 +8509,7 @@ var $elm$virtual_dom$VirtualDom$property = F2(
 			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $elm$html$Html$Attributes$property = $elm$virtual_dom$VirtualDom$property;
-var $author$project$Markdown$Render$mathText = function (content) {
+var $author$project$Markdown$Render$mathText = function (content_) {
 	return A3(
 		$elm$html$Html$node,
 		'math-text',
@@ -8518,8 +8518,8 @@ var $author$project$Markdown$Render$mathText = function (content) {
 				$elm$html$Html$Attributes$class('mm-math'),
 				A2(
 				$elm$html$Html$Attributes$property,
-				'content',
-				$elm$json$Json$Encode$string(content))
+				'content_',
+				$elm$json$Json$Encode$string(content_))
 			]),
 		_List_Nil);
 };
@@ -13971,7 +13971,7 @@ var $author$project$Markdown$Render$joinLine = F4(
 						accElement);
 				} else {
 					if (!_Utils_eq(accString, _List_Nil)) {
-						var content = A2($elm$core$String$join, '', accString);
+						var content_ = A2($elm$core$String$join, '', accString);
 						var span = A2(
 							$elm$html$Html$span,
 							_List_fromArray(
@@ -13980,7 +13980,7 @@ var $author$project$Markdown$Render$joinLine = F4(
 								]),
 							_List_fromArray(
 								[
-									$elm$html$Html$text(content)
+									$elm$html$Html$text(content_)
 								]));
 						return _Utils_Tuple2(
 							_List_Nil,
@@ -14002,13 +14002,13 @@ var $author$project$Markdown$Render$joinLine = F4(
 			var accString = _v4.a;
 			var accElement = _v4.b;
 			if (!_Utils_eq(accString, _List_Nil)) {
-				var content = A2($elm$core$String$join, '', accString);
+				var content_ = A2($elm$core$String$join, '', accString);
 				var span = A2(
 					$elm$html$Html$span,
 					_List_Nil,
 					_List_fromArray(
 						[
-							$elm$html$Html$text(content)
+							$elm$html$Html$text(content_)
 						]));
 				return A2($elm$core$List$cons, span, accElement);
 			} else {
@@ -14879,7 +14879,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 			var id = _v0.a;
 			var bt = _v0.b;
 			var lev = _v0.c;
-			var content = _v0.d;
+			var content_ = _v0.d;
 			if ((bt.$ === 'BalancedBlock') && (bt.a.$ === 'DisplayMath')) {
 				var _v2 = bt.a;
 				return A3(
@@ -14901,7 +14901,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
-								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
+								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content_)))
 						]));
 			} else {
 				return A3(
@@ -14923,7 +14923,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 								$author$project$Markdown$Render$renderBlock,
 								selectedId,
 								id,
-								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content)))
+								A3($author$project$Markdown$Parse$MDBlock, bt, lev, content_)))
 						]));
 			}
 		} else {
@@ -15041,7 +15041,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 						var id = _v3.a;
 						var _v7 = _v3.b.a;
 						var level = _v3.c;
-						var content = _v3.d;
+						var content_ = _v3.d;
 						return A3(
 							$elm$html$Html$Keyed$node,
 							'div',
@@ -15059,7 +15059,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 									_Utils_Tuple2(
 									$author$project$Markdown$Parse$stringFromId(id),
 									$author$project$Markdown$Render$displayMathText(
-										$author$project$Markdown$Parse$projectedStringOfBlockContent(content)))
+										$author$project$Markdown$Parse$projectedStringOfBlockContent(content_)))
 								]));
 					case 'Verbatim':
 						var id = _v3.a;
@@ -21990,9 +21990,10 @@ var $author$project$Main$heading = function (model) {
 				_List_Nil)
 			]));
 };
-var $author$project$Markdown$Render$document = function (markdownOutput) {
+var $author$project$Markdown$Render$content = function (markdownOutput) {
 	if (markdownOutput.$ === 'Simple') {
-		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
+		var html = markdownOutput.a;
+		return html;
 	} else {
 		var docParts = markdownOutput.a;
 		return docParts.document;
@@ -22029,7 +22030,7 @@ var $author$project$Main$renderedSource = function (model) {
 				A2(
 				$elm$html$Html$map,
 				$author$project$Main$MarkdownMsg,
-				$author$project$Markdown$Render$document(model.renderedText))
+				$author$project$Markdown$Render$content(model.renderedText))
 			]));
 };
 var $author$project$Markdown$Render$toc = function (markdownOutput) {
