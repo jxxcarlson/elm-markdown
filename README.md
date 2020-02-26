@@ -10,44 +10,43 @@ which offers a small set of optional extensions:
 - Extended: strike-though text, tables, and Poetry and Verbatim blocks, 
 better image handling
 - ExtendedMath: like Extended, but math formulas written in
-TeX/LaTeX, eg.,
-```
-This **is** a test: $a^2 + b^2 = c^2$.
-```
+TeX/LaTeX, eg., `This **is** a test: $a^2 + b^2 = c^2$`
 are properly rendered.
 
 
 ## How to use it
 
 
-For simple applications, use the `Madrkown.Elm` and `Markdown.Option` modules,
-as in these examples:
+For simple applications, use the `Markdown.Elm` and `Markdown.Option` modules,
+as in this example:
 
 ```
-Markdown.Elm.toHtml Extended "This **is** a test." |> Html.map MarkdownMsg
-
-Markdown.Elm.toHtml ExtendedMath "Use $a^2 + b^2 = c^2$." |> Html.map MarkdownMsg
+sourceText = "This **is** a test."
+Markdown.Render.toHtml Standard sourceText
+    |> Html.map MarkdownMsg
 ```
 
-where in `Markdown.Option` one has
+To render mathematical text, do something like this:
 
 ```
-type Option
-    = Standard
-    | Extended
-    | ExtendedMath
+sourceText = "Use $a^2 + b^2 = c^2$."
+Markdown.Render.toHtml ExtendedMath sourceText 
+    |> Html.map MarkdownMsg
 ```
 
-For the `ExtendedMath` option, take a look at `./app-demo/index.html` in the 
+The `Markdown.Option` module exports `ExtendedMath` while `Markdown.Render`
+exposes `MarkdownMsg`.
+For the `ExtendedMath` option, take a look at `./Editor/simplest/` in the 
 [source code](https://github.com/jxxcarlson/elm-markdown) to see what to do.
-You will need some Javascript, incuding MathJax 3.
+You will need some Javascript, incuding MathJax 3.  Here is a 
+[direct linkd](https://jxxcarlson.github.io/app/miniLatexLive/index.html) .
 
-## Demo
+
+## Editor demos
 
 There are three versions
-of the demo, a basic one in  `./app-demo-simple/`, 
- `./app-demo-simple/`, and`app-demo-fancy`.  Best
-to look at the first one first.  The second and third
+of the demo: `./editor/simplest/`, 
+ `./editor/simple/`, and `editor/fancy`.  The second and third
 include extra bells, whistles and optimizations
 that are useful for interactive editing environments
 and documents with a lot of mathematics.
@@ -136,6 +135,10 @@ extent possible by the method of successive approximations
 
 
 ## Recent Changes
+
+- Greatly simplified the API. Now there are just three exported
+modules, `Markdown.Option`, `Markdown.Render`, and `Markdown.Parse`.
+The latter is needed only in advanced applications.
 
 
 - Changed the return type of the rendering functions, e.g.,
