@@ -144,8 +144,7 @@ renderedSource model =
     Keyed.node "div"
         renderedSourceStyle
         [ ( String.fromInt model.counter
-          , Markdown.Render.withSimpleOptions ExtendedMath Basic model.sourceText
-                |> Markdown.Render.content
+          , Markdown.Render.toHtml ExtendedMath model.sourceText
                 |> Html.map MarkdownMsg
           )
         ]

@@ -1,8 +1,8 @@
 module Markdown.Render exposing
     ( MarkdownMsg(..), MarkdownOutput(..), DocumentParts
-    , withOptions, withOptionsFromAST, withSimpleOptions
+    , toHtml, withOptions, withOptionsFromAST, withSimpleOptions
     , content, title, toc
-    , renderHtml, toHtml, numberOfMathElements
+    , renderHtml, toHtmlWithId, numberOfMathElements
     )
 
 {-|
@@ -81,7 +81,7 @@ where functions in the modules
 
 ## Rendering
 
-@docs withOptions, withOptionsFromAST, withSimpleOptions
+@docs toHtml, withOptions, withOptionsFromAST, withSimpleOptions
 
 
 ## Extracting content from a MarkdownOutput value
@@ -91,7 +91,7 @@ where functions in the modules
 
 ## Utility
 
-@docs renderHtml, toHtml, numberOfMathElements
+@docs renderHtml, toHtmlWithId, numberOfMathElements
 
 -}
 
@@ -192,7 +192,7 @@ withOptions markdownOption outputOption selectedId version content_ =
         outputOption
     of
         Basic ->
-            toHtml selectedId version markdownOption content_ |> Simple
+            toHtmlWithId selectedId version markdownOption content_ |> Simple
 
         InternalTOC title_ ->
             renderHtmlWithTOC selectedId title_ (Parse.toMDBlockTree version markdownOption content_)
@@ -298,14 +298,24 @@ id0 =
 
 {-| Parse the input and render it to Html, e.g.,
 
-toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
+    toHtmlWithId ( 0, 0 ) 0 ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Id -> Int -> MarkdownOption -> String -> Html MarkdownMsg
-toHtml selectedId version option str =
+toHtmlWithId : Id -> Int -> MarkdownOption -> String -> Html MarkdownMsg
+toHtmlWithId selectedId version option str =
     str
         |> Parse.toMDBlockTree version option
         |> renderHtml selectedId
+
+
+{-| Parse the input and render it to Html, e.g.,
+
+    toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
+
+-}
+toHtml : MarkdownOption -> String -> Html MarkdownMsg
+toHtml option str =
+    toHtmlWithId ( 0, 0 ) 0 option str
 
 
 masterId =
