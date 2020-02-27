@@ -20,27 +20,15 @@ are properly rendered.
 ## How to use it
 
 
-For simple applications, use the `Madrkown.Elm` and `Markdown.Option` modules,
-as in these examples:
+For simple applications, follow the code in `/example/src`, e.g,
 
 ```
-Markdown.Elm.toHtml Extended "This **is** a test." |> Html.map MarkdownMsg
-
-Markdown.Elm.toHtml ExtendedMath "Use $a^2 + b^2 = c^2$." |> Html.map MarkdownMsg
+view model =
+    Html.div []
+        [ Markdown.Render.toHtml ExtendedMath model.sourceText
+            |> Html.map MarkdownMsg
+        ]
 ```
-
-where in `Markdown.Option` one has
-
-```
-type Option
-    = Standard
-    | Extended
-    | ExtendedMath
-```
-
-For the `ExtendedMath` option, take a look at `./app-demo/index.html` in the 
-[source code](https://github.com/jxxcarlson/elm-markdown) to see what to do.
-You will need some Javascript, incuding MathJax 3.
 
 ## Demo
 

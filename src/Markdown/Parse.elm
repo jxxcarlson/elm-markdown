@@ -411,7 +411,11 @@ Example:
     --> : Tree.Tree Parse.MDBlockWithId
 
 -}
-toMDBlockTree : Int -> MarkdownOption -> Document -> Tree MDBlockWithId
+toMDBlockTree :
+    Int
+    -> MarkdownOption
+    -> Document
+    -> Tree MDBlockWithId
 toMDBlockTree version option document =
     document
         |> toBlockTree option
