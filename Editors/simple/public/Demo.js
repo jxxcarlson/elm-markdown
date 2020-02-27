@@ -13526,7 +13526,7 @@ var $author$project$Markdown$Render$renderHtmlWithTOC = F3(
 								A2($elm$core$List$cons, title_, body))))));
 		}
 	});
-var $author$project$Markdown$Render$renderHtml = F2(
+var $author$project$Markdown$Render$fromAST = F2(
 	function (selectedId, blockTreeWithId) {
 		return function (x) {
 			return A2(
@@ -15768,10 +15768,10 @@ var $author$project$Markdown$Parse$toMDBlockTree = F3(
 				$author$project$Markdown$Parse$selectParser(option),
 				A2($author$project$Markdown$Parse$toBlockTree, option, document)));
 	});
-var $author$project$Markdown$Render$toHtml = F4(
+var $author$project$Markdown$Render$toHtmlWithId = F4(
 	function (selectedId, version, option, str) {
 		return A2(
-			$author$project$Markdown$Render$renderHtml,
+			$author$project$Markdown$Render$fromAST,
 			selectedId,
 			A3($author$project$Markdown$Parse$toMDBlockTree, version, option, str));
 	});
@@ -15780,7 +15780,7 @@ var $author$project$Markdown$Render$withOptions = F5(
 		switch (outputOption.$) {
 			case 'Basic':
 				return $author$project$Markdown$Render$Simple(
-					A4($author$project$Markdown$Render$toHtml, selectedId, version, markdownOption, content));
+					A4($author$project$Markdown$Render$toHtmlWithId, selectedId, version, markdownOption, content));
 			case 'InternalTOC':
 				var title_ = outputOption.a;
 				return $author$project$Markdown$Render$Simple(
@@ -15799,21 +15799,13 @@ var $author$project$Markdown$Render$withOptions = F5(
 						A3($author$project$Markdown$Parse$toMDBlockTree, version, markdownOption, content)));
 		}
 	});
-var $author$project$Markdown$Render$withSimplOptions = F3(
-	function (markdownOption, outputOption, content) {
-		return A5(
-			$author$project$Markdown$Render$withOptions,
-			markdownOption,
-			outputOption,
-			_Utils_Tuple2(0, 0),
-			0,
-			content);
-	});
 var $author$project$Demo$display = function (model) {
-	var rt = A3(
-		$author$project$Markdown$Render$withSimplOptions,
+	var rt = A5(
+		$author$project$Markdown$Render$withOptions,
 		model.option,
 		$author$project$Markdown$Option$ExternalTOC('Contents'),
+		_Utils_Tuple2(0, 0),
+		0,
 		model.sourceText);
 	return A2(
 		$elm$html$Html$div,

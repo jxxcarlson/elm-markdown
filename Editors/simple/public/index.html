@@ -16,6 +16,7 @@
   <!-- Style -->
   <link rel="stylesheet" href="assets/style.css">
 
+
   <!-- Load app -->
   <script src="Demo.js" charset="utf-8"></script>
 
@@ -28,9 +29,15 @@
 <script>
 
 		var root = document.getElementById('main');
-		var app = Elm.Demo.init({node: root, flags:  { width:  1200, height: 900 }});
+		var app = Elm.Demo.init({node: root, flags:  {
+          width : window.innerWidth,
+          height : window.innerHeight
+        }}
+        )
+
 
 	 </script>
+
 
 </body>
 </html>

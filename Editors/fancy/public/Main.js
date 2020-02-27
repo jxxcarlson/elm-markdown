@@ -4487,43 +4487,6 @@ var _Parser_findSubString = F5(function(smallString, offset, row, col, bigString
 });
 
 
-
-var _Bitwise_and = F2(function(a, b)
-{
-	return a & b;
-});
-
-var _Bitwise_or = F2(function(a, b)
-{
-	return a | b;
-});
-
-var _Bitwise_xor = F2(function(a, b)
-{
-	return a ^ b;
-});
-
-function _Bitwise_complement(a)
-{
-	return ~a;
-};
-
-var _Bitwise_shiftLeftBy = F2(function(offset, a)
-{
-	return a << offset;
-});
-
-var _Bitwise_shiftRightBy = F2(function(offset, a)
-{
-	return a >> offset;
-});
-
-var _Bitwise_shiftRightZfBy = F2(function(offset, a)
-{
-	return a >>> offset;
-});
-
-
 // CREATE
 
 var _Regex_never = /.^/;
@@ -4623,6 +4586,43 @@ var _Regex_splitAtMost = F3(function(n, re, str)
 });
 
 var _Regex_infinity = Infinity;
+
+
+
+var _Bitwise_and = F2(function(a, b)
+{
+	return a & b;
+});
+
+var _Bitwise_or = F2(function(a, b)
+{
+	return a | b;
+});
+
+var _Bitwise_xor = F2(function(a, b)
+{
+	return a ^ b;
+});
+
+function _Bitwise_complement(a)
+{
+	return ~a;
+};
+
+var _Bitwise_shiftLeftBy = F2(function(offset, a)
+{
+	return a << offset;
+});
+
+var _Bitwise_shiftRightBy = F2(function(offset, a)
+{
+	return a >> offset;
+});
+
+var _Bitwise_shiftRightZfBy = F2(function(offset, a)
+{
+	return a >>> offset;
+});
 
 
 
@@ -5484,2998 +5484,15 @@ var $author$project$Main$config = function (flags) {
 		wrapParams: {maximumWidth: 45, optimalWidth: 40, stringWidth: $elm$core$String$length}
 	};
 };
-var $author$project$Main$getFirstPart = function (str) {
-	return A2($elm$core$String$left, 1500, str);
-};
-var $jxxcarlson$elm_text_editor$Buffer$toString = function (_v0) {
-	var buffer = _v0.a;
-	return buffer;
-};
-var $jxxcarlson$elm_text_editor$Editor$getSource = function (_v0) {
-	var data = _v0.a;
-	return $jxxcarlson$elm_text_editor$Buffer$toString(data.buffer);
-};
-var $jxxcarlson$elm_text_editor$Editor$Editor = function (a) {
-	return {$: 'Editor', a: a};
-};
-var $jxxcarlson$elm_text_editor$Position$Position = F2(
-	function (line, column) {
-		return {column: column, line: line};
-	});
-var $jxxcarlson$elm_text_editor$Editor$History$History = function (a) {
-	return {$: 'History', a: a};
-};
-var $jxxcarlson$elm_text_editor$Editor$History$empty = $jxxcarlson$elm_text_editor$Editor$History$History(
-	{future: _List_Nil, past: _List_Nil});
-var $lovasoa$elm_rolling_list$RollingList$fromList = function (l) {
-	return {next: l, previous: _List_Nil};
-};
-var $jxxcarlson$elm_text_editor$Buffer$Buffer = function (a) {
-	return {$: 'Buffer', a: a};
-};
-var $jxxcarlson$elm_text_editor$Buffer$fromString = function (str) {
-	return $jxxcarlson$elm_text_editor$Buffer$Buffer(str);
-};
-var $jxxcarlson$elm_text_editor$Buffer$init = function (content) {
-	return $jxxcarlson$elm_text_editor$Buffer$Buffer(content);
-};
-var $jinjor$elm_debounce$Debounce$Debounce = function (a) {
-	return {$: 'Debounce', a: a};
-};
-var $jinjor$elm_debounce$Debounce$init = $jinjor$elm_debounce$Debounce$Debounce(
-	{input: _List_Nil, locked: false});
-var $jxxcarlson$elm_text_editor$Editor$transformConfig = function (c) {
-	var multiplier = 1.64;
-	var fontWidth = c.fontProportion * c.lineHeight;
-	return {
-		fontProportion: c.fontProportion,
-		height: c.height,
-		lineHeight: c.lineHeight,
-		lineHeightFactor: c.lineHeightFactor,
-		showInfoPanel: c.showInfoPanel,
-		width: c.width,
-		wrapOption: c.wrapOption,
-		wrapParams: {
-			maximumWidth: $elm$core$Basics$floor(((multiplier * c.width) / fontWidth) - 5),
-			optimalWidth: $elm$core$Basics$floor(((multiplier * c.width) / fontWidth) - 10),
-			stringWidth: $elm$core$String$length
-		}
-	};
-};
-var $jxxcarlson$elm_text_editor$Editor$init = F2(
-	function (editorConfig, text) {
-		return $jxxcarlson$elm_text_editor$Editor$Editor(
-			{
-				buffer: $jxxcarlson$elm_text_editor$Buffer$init(text),
-				state: {
-					canReplace: false,
-					clipboard: '',
-					config: $jxxcarlson$elm_text_editor$Editor$transformConfig(editorConfig),
-					currentLine: $elm$core$Maybe$Nothing,
-					cursor: A2($jxxcarlson$elm_text_editor$Position$Position, 0, 0),
-					debounce: $jinjor$elm_debounce$Debounce$init,
-					dragging: false,
-					history: $jxxcarlson$elm_text_editor$Editor$History$empty,
-					replacementText: '',
-					savedBuffer: $jxxcarlson$elm_text_editor$Buffer$fromString(''),
-					searchHitIndex: 0,
-					searchResults: $lovasoa$elm_rolling_list$RollingList$fromList(_List_Nil),
-					searchTerm: '',
-					selectedText: $elm$core$Maybe$Nothing,
-					selection: $elm$core$Maybe$Nothing,
-					showGoToLinePanel: false,
-					showHelp: true,
-					showInfoPanel: editorConfig.showInfoPanel,
-					showSearchPanel: false,
-					topLine: 0
-				}
-			});
-	});
-var $author$project$Strings$text1 = '# A Pure Elm Markdown Parser\n\n\n## Introduction\n\n![Hummingbird::left](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)\nThis project\ngrew out of the need to have a\npure Elm Markdown parser-renderer\nthat could also handle mathematical\ntext.  Mathematical text is rendered by\nMathJax.  The project now includes\na pure Elm text editor (work in progress!)\n\n The Markdown used here offers\nthree options: *Standard*, *Extended* and\n *ExtendedMath*. The Extended option\nprovides for strike-through\ntext, verbatim blocks, poetry blocks,\nand tables.  ExtendedMath handles\nformulas written in TeX/LaTeX:\n\n$$\n\\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi\n$$\n\nNote also that there is an automatically\ngenerated active table of contents.\nIt can be placed inside the document\nat the top, to one side, as it is\nhere, or it can be absent.\n\n\nThe [library](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)\nwith which this demo app is built\nis suitable for light-weight writing\ntasks that require mathematical notation\n— problem sets, short class notes, etc.\n\n\nThis project is a work in progress: there is more\n to do make it adhere as closely as\npossible to the CommonMark spec and to root out\nthe bugs and shortcomings in the user interface\ndesign.  Please write me at\njxxcarlson@gmail.com with comments and bug\nreports, or (better yet) post an issue on the\n[GitHub repo](https://github.com/jxxcarlson/elm-markdown).\n\nFor installation, see the notes\nat the end. This Markdown package\nis written in pure Elm. It uses MathJax.js\nto render math formulas.  New in this release\nis syntax highlighting using\n[pablohirafuji/elm-syntax-highlight](https://package.elm-lang.org/packages/pablohirafuji/elm-syntax-highlight/latest/).\nLanguage support at this time: elm,\njavascript, xml, css, python, sql, json.\n\n## Demo\n\nBelow we illustrate some typical Markdown\nelements: images, links, headings, etc.\n\n![Hummingbird](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)\nHummingbird (Meditation)\n\nLink: [New York Times](http://nytimes.com)\n\nText styles: **bold** *italic* ~~strike it out~~\n\n\n## Inline Math\n\nThis is a test: $a^2 + b^2 = c^2$.\n\n## Display Math\n\nSo is this:\n\n$$\n\\int_0^1 x^n dx = \\frac{1}{n+1}\n$$\n\n\n## Code\n\nHe said that `a := 0` is an initialization\nstatement.\n\n```python\n# Partial sum of the harmonic series:\n\nsum = 0\nfor n in range(1..100):\n  sum = sum + 1.0/n\nsum\n```\n\n## Verbatim and Tables (Extensions)\n\nA verbatim block begins and ends\nwith four tick marks. It is just\nlike a code block, except that there is no\nsyntax highlighting.  Verbatim blocks\nare an extension of normal Markdown.\n\n````\nVerbatim text has many uses:\n\n   Element    |    Z\n   --------------------\n   Altium     |    4/5\n   Brazilium  |    7/5\n   Certium    |    9/5\n````\n\nBut better is to use Markdown tables:\n\n|  Element  | Symbol |  Z | A |\n| Hydrogen  | H      |  1 | 1.008   |\n| Helium    | He     |  2 |  4.0026 |\n| Lithium   | Li     |  3 |  6.94   |\n| Beryllium | Be     |  4 |  9.0122 |\n| Boron     | B      |  5 | 10.81   |\n| Carbon    | C      |  6 | 12.011  |\n| Nitrogen  | N      |  7 | 14.007  |\n| Oxygen    | O      |  8 | 15.999  |\n| Flourine  | F      |  9 | 18.998  |\n| Neon      | Ne     | 10 | 20.180  |\n\n\n## Lists\n\nIndent by four spaces for each level.  List items\nare separated by blank lines.\n\n- Solids\n\n    - Iron *(metal)*\n\n        - Iron disulfide (Pyrite): $FeS_2$, crystalline\n\n        - Iron(II) sulfed $FeS$, not stable, amorphous\n\n    - Selenium *(use for solar cells)*\n\n- Liquids\n\n    - Alcohol *(careful!)*\n\n    - Water *(Ok to drink)*\n\n## Numbered lists\n\n### Problem Set 18\n\n1. Compute the coefficient of $a^5b^2$\nin $(a + b)^7$.\n\n    1. Do also: coefficient of $a^5b^5$\n    in $(a + 2b)^{10}$\n\n    2. Do also: coefficient of $a^7b^5$\n    in $(a - b)^{12}$\n\n4. If $f\'(2) = 0$, what can you say about\nthe graph of $f$ at $x = 2$?\n\n6. Suppose that in addition, $f\'\'(2) > 0$.\n What else can say about the graph?\n\n\n### Problem Set 19\n\n4. Show that $u(x,t) = f(x - ct)$ is a solution to\nthe equation\n$\\partial u(x,t)/\\partial x + c^{-1} \\partial u(x,t)/\\partial t = 0$.\n\n3. State the wave equation and show that\n$u(x,t)$ as above is a solution to it.\n\n2. In what direction does the wave\ndefined by $u(x,t) = f(x - ct)$ move?\n\n4.  Find a solution of the wave\nequation that represents a pulse\nmoving in the opposite direction.\n\n\n\n## Quotations\n\n\nQuotations are offset:\n\n> Four score and seven years ago our\nfathers brought forth on this continent,\na new nation, conceived in Liberty,\nand dedicated to the proposition\nthat all men are created equal.\n\n> Now we are engaged in a great c\nivil war, testing whether that\nnation, or any nation so\nconceived and so dedicated,\ncan long endure. We are met o\nIn a great battle-field of that war.\nWe have come to dedicate a portion\nof that field, as a final resting\nplace for those who here gave their\nlives that that nation might live.\nIt is altogether fitting and proper\nthat we should do this.\n\n> But, in a larger sense, we can not\ndedicate — we can not consecrate —\nwe can not hallow—this ground. The brave men,\nliving and dead, who struggled here,\nhave consecrated it, far above our poor\npower to add or detract. The world will\nlittle note, nor long remember what we say\nhere, but it can never forget what they d\nid here. It is for us the living, rather,\nto be dedicated here to the unfinished\nwork which they who fought here have thus\nfar so nobly advanced. It is rather for\nus to be here dedicated to the great task\nremaining before us—that from these\nhonored dead we take increased devotion\nto that cause for which they gave the\nlast full measure of devotion—that we\nhere highly resolve that these dead\nshall not have died in vain—that\nthis nation, under God, shall have\na new birth of freedom—and that\ngovernment of the people, by the people,\nfor the people, shall not perish\nfrom the earth.\n\n— Abraham Lincoln, *Gettysbug Address*\n\n## Poetry (Extension)\n\nPoetry blocks, an extension of normal Markdown,\n begin with ">>"; line endings are respected.\n\n>> Twas brillig, and the slithy toves\nDid gyre and gimble in the wabe:\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n\n>> Beware the Jabberwock, my son!\nThe jaws that bite, the claws that catch!\nBeware the Jubjub bird, and shun\nThe frumious Bandersnatch!\n\n\nEtcetera!\n\n___\n\n\nNOTE: this Markdown implementation is\nan option for writing documents on\n[knode.io](https://knode.io).\nKnode also offers MiniLaTeX,\na web-friendly subset of TeX/LaTex.\nTo see how it works without a sign-in, please\nsee [demo.minilatex.app](https://demo.minilatex.app).\n\n\n___\n\n## Installation\n\n\nTo compile, use\n\n```elm\nelm make --output=Main.js\n```\n\nThen open `index.html` to run the app.\n\n\n';
-var $author$project$Main$initialText = $author$project$Strings$text1;
-var $elm$core$List$filter = F2(
-	function (isGood, list) {
-		return A3(
-			$elm$core$List$foldr,
-			F2(
-				function (x, xs) {
-					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
-				}),
-			_List_Nil,
-			list);
-	});
-var $zwilias$elm_rosetree$Tree$foldlHelp = F4(
-	function (f, acc, trees, nextSets) {
-		foldlHelp:
-		while (true) {
-			if (!trees.b) {
-				if (nextSets.b) {
-					var set = nextSets.a;
-					var sets = nextSets.b;
-					var $temp$f = f,
-						$temp$acc = acc,
-						$temp$trees = set,
-						$temp$nextSets = sets;
-					f = $temp$f;
-					acc = $temp$acc;
-					trees = $temp$trees;
-					nextSets = $temp$nextSets;
-					continue foldlHelp;
-				} else {
-					return acc;
-				}
-			} else {
-				if (!trees.a.b.b) {
-					var _v2 = trees.a;
-					var d = _v2.a;
-					var rest = trees.b;
-					var $temp$f = f,
-						$temp$acc = A2(f, d, acc),
-						$temp$trees = rest,
-						$temp$nextSets = nextSets;
-					f = $temp$f;
-					acc = $temp$acc;
-					trees = $temp$trees;
-					nextSets = $temp$nextSets;
-					continue foldlHelp;
-				} else {
-					var _v3 = trees.a;
-					var d = _v3.a;
-					var xs = _v3.b;
-					var rest = trees.b;
-					var $temp$f = f,
-						$temp$acc = A2(f, d, acc),
-						$temp$trees = xs,
-						$temp$nextSets = A2($elm$core$List$cons, rest, nextSets);
-					f = $temp$f;
-					acc = $temp$acc;
-					trees = $temp$trees;
-					nextSets = $temp$nextSets;
-					continue foldlHelp;
-				}
-			}
-		}
-	});
-var $zwilias$elm_rosetree$Tree$foldl = F3(
-	function (f, acc, t) {
-		return A4(
-			$zwilias$elm_rosetree$Tree$foldlHelp,
-			f,
-			acc,
-			_List_fromArray(
-				[t]),
-			_List_Nil);
-	});
-var $zwilias$elm_rosetree$Tree$foldr = F3(
-	function (f, acc, t) {
-		return A3(
-			$elm$core$List$foldl,
-			f,
-			acc,
-			A3($zwilias$elm_rosetree$Tree$foldl, $elm$core$List$cons, _List_Nil, t));
-	});
-var $zwilias$elm_rosetree$Tree$flatten = function (t) {
-	return A3($zwilias$elm_rosetree$Tree$foldr, $elm$core$List$cons, _List_Nil, t);
-};
-var $author$project$Markdown$Render$typeOfMDBlockWithId = function (_v0) {
-	var bt = _v0.b;
-	return bt;
-};
-var $author$project$Markdown$Render$isMathWithId = function (block) {
-	var _v0 = $author$project$Markdown$Render$typeOfMDBlockWithId(block);
-	if ((_v0.$ === 'BalancedBlock') && (_v0.a.$ === 'DisplayMath')) {
-		var _v1 = _v0.a;
-		return true;
-	} else {
-		return false;
-	}
-};
-var $author$project$Markdown$Render$numberOfMathElements = function (blockTree) {
-	return $elm$core$List$length(
-		A2(
-			$elm$core$List$filter,
-			$author$project$Markdown$Render$isMathWithId,
-			$zwilias$elm_rosetree$Tree$flatten(blockTree)));
-};
-var $author$project$Main$GotSecondPart = function (a) {
-	return {$: 'GotSecondPart', a: a};
-};
-var $elm$core$Process$sleep = _Process_sleep;
-var $zwilias$elm_rosetree$Tree$Tree = F2(
-	function (a, b) {
-		return {$: 'Tree', a: a, b: b};
-	});
-var $zwilias$elm_rosetree$Tree$mapAccumulateHelp = F4(
-	function (f, state, acc, stack) {
-		mapAccumulateHelp:
-		while (true) {
-			var _v0 = acc.todo;
-			if (!_v0.b) {
-				var node = A2(
-					$zwilias$elm_rosetree$Tree$Tree,
-					acc.label,
-					$elm$core$List$reverse(acc.done));
-				if (!stack.b) {
-					return _Utils_Tuple2(state, node);
-				} else {
-					var top = stack.a;
-					var rest = stack.b;
-					var $temp$f = f,
-						$temp$state = state,
-						$temp$acc = _Utils_update(
-						top,
-						{
-							done: A2($elm$core$List$cons, node, top.done)
-						}),
-						$temp$stack = rest;
-					f = $temp$f;
-					state = $temp$state;
-					acc = $temp$acc;
-					stack = $temp$stack;
-					continue mapAccumulateHelp;
-				}
-			} else {
-				if (!_v0.a.b.b) {
-					var _v2 = _v0.a;
-					var d = _v2.a;
-					var rest = _v0.b;
-					var _v3 = A2(f, state, d);
-					var state_ = _v3.a;
-					var label_ = _v3.b;
-					var $temp$f = f,
-						$temp$state = state_,
-						$temp$acc = _Utils_update(
-						acc,
-						{
-							done: A2(
-								$elm$core$List$cons,
-								A2($zwilias$elm_rosetree$Tree$Tree, label_, _List_Nil),
-								acc.done),
-							todo: rest
-						}),
-						$temp$stack = stack;
-					f = $temp$f;
-					state = $temp$state;
-					acc = $temp$acc;
-					stack = $temp$stack;
-					continue mapAccumulateHelp;
-				} else {
-					var _v4 = _v0.a;
-					var d = _v4.a;
-					var cs = _v4.b;
-					var rest = _v0.b;
-					var _v5 = A2(f, state, d);
-					var state_ = _v5.a;
-					var label_ = _v5.b;
-					var $temp$f = f,
-						$temp$state = state_,
-						$temp$acc = {done: _List_Nil, label: label_, todo: cs},
-						$temp$stack = A2(
-						$elm$core$List$cons,
-						_Utils_update(
-							acc,
-							{todo: rest}),
-						stack);
-					f = $temp$f;
-					state = $temp$state;
-					acc = $temp$acc;
-					stack = $temp$stack;
-					continue mapAccumulateHelp;
-				}
-			}
-		}
-	});
-var $zwilias$elm_rosetree$Tree$mapAccumulate = F3(
-	function (f, s, _v0) {
-		var d = _v0.a;
-		var cs = _v0.b;
-		var _v1 = A2(f, s, d);
-		var s_ = _v1.a;
-		var d_ = _v1.b;
-		return A4(
-			$zwilias$elm_rosetree$Tree$mapAccumulateHelp,
-			f,
-			s_,
-			{done: _List_Nil, label: d_, todo: cs},
-			_List_Nil);
-	});
-var $elm$core$Tuple$second = function (_v0) {
-	var y = _v0.b;
-	return y;
-};
-var $zwilias$elm_rosetree$Tree$indexedMap = F2(
-	function (f, t) {
-		return A3(
-			$zwilias$elm_rosetree$Tree$mapAccumulate,
-			F2(
-				function (idx, elem) {
-					return _Utils_Tuple2(
-						idx + 1,
-						A2(f, idx, elem));
-				}),
-			0,
-			t).b;
-	});
-var $zwilias$elm_rosetree$Tree$map = F2(
-	function (f, t) {
-		return A3(
-			$zwilias$elm_rosetree$Tree$mapAccumulate,
-			F2(
-				function (_v0, e) {
-					return _Utils_Tuple2(
-						_Utils_Tuple0,
-						f(e));
-				}),
-			_Utils_Tuple0,
-			t).b;
-	});
-var $author$project$BlockType$BalancedBlock = function (a) {
-	return {$: 'BalancedBlock', a: a};
-};
-var $author$project$BlockType$DisplayCode = function (a) {
-	return {$: 'DisplayCode', a: a};
-};
-var $author$project$Markdown$Parse$M = function (a) {
-	return {$: 'M', a: a};
-};
-var $author$project$Markdown$Parse$MDBlockWithId = F4(
-	function (a, b, c, d) {
-		return {$: 'MDBlockWithId', a: a, b: b, c: c, d: d};
-	});
-var $author$project$BlockType$MarkdownBlock = function (a) {
-	return {$: 'MarkdownBlock', a: a};
-};
-var $author$project$BlockType$Plain = {$: 'Plain'};
-var $author$project$MDInline$Stanza = function (a) {
-	return {$: 'Stanza', a: a};
-};
-var $author$project$Markdown$Parse$T = function (a) {
-	return {$: 'T', a: a};
-};
-var $author$project$BlockType$Verbatim = {$: 'Verbatim'};
-var $author$project$MDInline$Paragraph = function (a) {
-	return {$: 'Paragraph', a: a};
-};
-var $author$project$MDInline$BoldText = function (a) {
-	return {$: 'BoldText', a: a};
-};
-var $author$project$MDInline$Expecting = function (a) {
-	return {$: 'Expecting', a: a};
-};
-var $elm$parser$Parser$Advanced$Token = F2(
-	function (a, b) {
-		return {$: 'Token', a: a, b: b};
-	});
-var $elm$parser$Parser$Advanced$Parser = function (a) {
-	return {$: 'Parser', a: a};
-};
-var $elm$parser$Parser$Advanced$Good = F3(
-	function (a, b, c) {
-		return {$: 'Good', a: a, b: b, c: c};
-	});
-var $elm$parser$Parser$Advanced$isSubChar = _Parser_isSubChar;
-var $elm$core$Basics$negate = function (n) {
-	return -n;
-};
-var $elm$parser$Parser$Advanced$chompWhileHelp = F5(
-	function (isGood, offset, row, col, s0) {
-		chompWhileHelp:
-		while (true) {
-			var newOffset = A3($elm$parser$Parser$Advanced$isSubChar, isGood, offset, s0.src);
-			if (_Utils_eq(newOffset, -1)) {
-				return A3(
-					$elm$parser$Parser$Advanced$Good,
-					_Utils_cmp(s0.offset, offset) < 0,
-					_Utils_Tuple0,
-					{col: col, context: s0.context, indent: s0.indent, offset: offset, row: row, src: s0.src});
-			} else {
-				if (_Utils_eq(newOffset, -2)) {
-					var $temp$isGood = isGood,
-						$temp$offset = offset + 1,
-						$temp$row = row + 1,
-						$temp$col = 1,
-						$temp$s0 = s0;
-					isGood = $temp$isGood;
-					offset = $temp$offset;
-					row = $temp$row;
-					col = $temp$col;
-					s0 = $temp$s0;
-					continue chompWhileHelp;
-				} else {
-					var $temp$isGood = isGood,
-						$temp$offset = newOffset,
-						$temp$row = row,
-						$temp$col = col + 1,
-						$temp$s0 = s0;
-					isGood = $temp$isGood;
-					offset = $temp$offset;
-					row = $temp$row;
-					col = $temp$col;
-					s0 = $temp$s0;
-					continue chompWhileHelp;
-				}
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$chompWhile = function (isGood) {
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			return A5($elm$parser$Parser$Advanced$chompWhileHelp, isGood, s.offset, s.row, s.col, s);
-		});
-};
-var $elm$core$Basics$always = F2(
-	function (a, _v0) {
-		return a;
-	});
-var $elm$parser$Parser$Advanced$Bad = F2(
-	function (a, b) {
-		return {$: 'Bad', a: a, b: b};
-	});
-var $elm$parser$Parser$Advanced$mapChompedString = F2(
-	function (func, _v0) {
-		var parse = _v0.a;
-		return $elm$parser$Parser$Advanced$Parser(
-			function (s0) {
-				var _v1 = parse(s0);
-				if (_v1.$ === 'Bad') {
-					var p = _v1.a;
-					var x = _v1.b;
-					return A2($elm$parser$Parser$Advanced$Bad, p, x);
-				} else {
-					var p = _v1.a;
-					var a = _v1.b;
-					var s1 = _v1.c;
-					return A3(
-						$elm$parser$Parser$Advanced$Good,
-						p,
-						A2(
-							func,
-							A3($elm$core$String$slice, s0.offset, s1.offset, s0.src),
-							a),
-						s1);
-				}
-			});
-	});
-var $elm$parser$Parser$Advanced$getChompedString = function (parser) {
-	return A2($elm$parser$Parser$Advanced$mapChompedString, $elm$core$Basics$always, parser);
-};
-var $elm$parser$Parser$Advanced$map2 = F3(
-	function (func, _v0, _v1) {
-		var parseA = _v0.a;
-		var parseB = _v1.a;
-		return $elm$parser$Parser$Advanced$Parser(
-			function (s0) {
-				var _v2 = parseA(s0);
-				if (_v2.$ === 'Bad') {
-					var p = _v2.a;
-					var x = _v2.b;
-					return A2($elm$parser$Parser$Advanced$Bad, p, x);
-				} else {
-					var p1 = _v2.a;
-					var a = _v2.b;
-					var s1 = _v2.c;
-					var _v3 = parseB(s1);
-					if (_v3.$ === 'Bad') {
-						var p2 = _v3.a;
-						var x = _v3.b;
-						return A2($elm$parser$Parser$Advanced$Bad, p1 || p2, x);
-					} else {
-						var p2 = _v3.a;
-						var b = _v3.b;
-						var s2 = _v3.c;
-						return A3(
-							$elm$parser$Parser$Advanced$Good,
-							p1 || p2,
-							A2(func, a, b),
-							s2);
-					}
-				}
-			});
-	});
-var $elm$parser$Parser$Advanced$ignorer = F2(
-	function (keepParser, ignoreParser) {
-		return A3($elm$parser$Parser$Advanced$map2, $elm$core$Basics$always, keepParser, ignoreParser);
-	});
-var $elm$parser$Parser$Advanced$map = F2(
-	function (func, _v0) {
-		var parse = _v0.a;
-		return $elm$parser$Parser$Advanced$Parser(
-			function (s0) {
-				var _v1 = parse(s0);
-				if (_v1.$ === 'Good') {
-					var p = _v1.a;
-					var a = _v1.b;
-					var s1 = _v1.c;
-					return A3(
-						$elm$parser$Parser$Advanced$Good,
-						p,
-						func(a),
-						s1);
-				} else {
-					var p = _v1.a;
-					var x = _v1.b;
-					return A2($elm$parser$Parser$Advanced$Bad, p, x);
-				}
-			});
-	});
-var $elm$core$Basics$neq = _Utils_notEqual;
-var $elm$core$String$replace = F3(
-	function (before, after, string) {
-		return A2(
-			$elm$core$String$join,
-			after,
-			A2($elm$core$String$split, before, string));
-	});
-var $elm$parser$Parser$Advanced$spaces = $elm$parser$Parser$Advanced$chompWhile(
-	function (c) {
-		return _Utils_eq(
-			c,
-			_Utils_chr(' ')) || (_Utils_eq(
-			c,
-			_Utils_chr('\n')) || _Utils_eq(
-			c,
-			_Utils_chr('\r')));
-	});
-var $elm$parser$Parser$Advanced$succeed = function (a) {
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			return A3($elm$parser$Parser$Advanced$Good, false, a, s);
-		});
-};
-var $elm$parser$Parser$Advanced$AddRight = F2(
-	function (a, b) {
-		return {$: 'AddRight', a: a, b: b};
-	});
-var $elm$parser$Parser$Advanced$DeadEnd = F4(
-	function (row, col, problem, contextStack) {
-		return {col: col, contextStack: contextStack, problem: problem, row: row};
-	});
-var $elm$parser$Parser$Advanced$Empty = {$: 'Empty'};
-var $elm$parser$Parser$Advanced$fromState = F2(
-	function (s, x) {
-		return A2(
-			$elm$parser$Parser$Advanced$AddRight,
-			$elm$parser$Parser$Advanced$Empty,
-			A4($elm$parser$Parser$Advanced$DeadEnd, s.row, s.col, x, s.context));
-	});
-var $elm$parser$Parser$Advanced$isSubString = _Parser_isSubString;
-var $elm$core$Basics$not = _Basics_not;
-var $elm$parser$Parser$Advanced$token = function (_v0) {
-	var str = _v0.a;
-	var expecting = _v0.b;
-	var progress = !$elm$core$String$isEmpty(str);
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			var _v1 = A5($elm$parser$Parser$Advanced$isSubString, str, s.offset, s.row, s.col, s.src);
-			var newOffset = _v1.a;
-			var newRow = _v1.b;
-			var newCol = _v1.c;
-			return _Utils_eq(newOffset, -1) ? A2(
-				$elm$parser$Parser$Advanced$Bad,
-				false,
-				A2($elm$parser$Parser$Advanced$fromState, s, expecting)) : A3(
-				$elm$parser$Parser$Advanced$Good,
-				progress,
-				_Utils_Tuple0,
-				{col: newCol, context: s.context, indent: s.indent, offset: newOffset, row: newRow, src: s.src});
-		});
-};
-var $elm$parser$Parser$Advanced$symbol = $elm$parser$Parser$Advanced$token;
-var $author$project$MDInline$boldText = A2(
-	$elm$parser$Parser$Advanced$map,
-	$author$project$MDInline$BoldText,
-	A2(
-		$elm$parser$Parser$Advanced$map,
-		A2($elm$core$String$replace, '**', ''),
-		A2(
-			$elm$parser$Parser$Advanced$map,
-			$elm$core$String$dropLeft(2),
-			$elm$parser$Parser$Advanced$getChompedString(
-				A2(
-					$elm$parser$Parser$Advanced$ignorer,
-					A2(
-						$elm$parser$Parser$Advanced$ignorer,
-						A2(
-							$elm$parser$Parser$Advanced$ignorer,
-							A2(
-								$elm$parser$Parser$Advanced$ignorer,
-								$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-								$elm$parser$Parser$Advanced$symbol(
-									A2(
-										$elm$parser$Parser$Advanced$Token,
-										'**',
-										$author$project$MDInline$Expecting('expecting \'**\' to begin bold text')))),
-							$elm$parser$Parser$Advanced$chompWhile(
-								function (c) {
-									return !_Utils_eq(
-										c,
-										_Utils_chr('*'));
-								})),
-						$elm$parser$Parser$Advanced$symbol(
-							A2(
-								$elm$parser$Parser$Advanced$Token,
-								'**',
-								$author$project$MDInline$Expecting('expecting \'**\' to end bold text')))),
-					$elm$parser$Parser$Advanced$spaces)))));
-var $author$project$MDInline$Code = function (a) {
-	return {$: 'Code', a: a};
-};
-var $elm$core$String$dropRight = F2(
-	function (n, string) {
-		return (n < 1) ? string : A3($elm$core$String$slice, 0, -n, string);
-	});
-var $elm$core$String$trim = _String_trim;
-var $author$project$MDInline$code = A2(
-	$elm$parser$Parser$Advanced$map,
-	$author$project$MDInline$Code,
-	A2(
-		$elm$parser$Parser$Advanced$map,
-		$elm$core$String$dropRight(1),
-		A2(
-			$elm$parser$Parser$Advanced$map,
-			$elm$core$String$dropLeft(1),
-			A2(
-				$elm$parser$Parser$Advanced$map,
-				$elm$core$String$trim,
-				$elm$parser$Parser$Advanced$getChompedString(
-					A2(
-						$elm$parser$Parser$Advanced$ignorer,
-						A2(
-							$elm$parser$Parser$Advanced$ignorer,
-							A2(
-								$elm$parser$Parser$Advanced$ignorer,
-								A2(
-									$elm$parser$Parser$Advanced$ignorer,
-									$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-									$elm$parser$Parser$Advanced$symbol(
-										A2(
-											$elm$parser$Parser$Advanced$Token,
-											'`',
-											$author$project$MDInline$Expecting('Expecting \'``\' to begin inline code')))),
-								$elm$parser$Parser$Advanced$chompWhile(
-									function (c) {
-										return !_Utils_eq(
-											c,
-											_Utils_chr('`'));
-									})),
-							$elm$parser$Parser$Advanced$symbol(
-								A2(
-									$elm$parser$Parser$Advanced$Token,
-									'`',
-									$author$project$MDInline$Expecting('Expecting \'``\' to end inline code')))),
-						$elm$parser$Parser$Advanced$chompWhile(
-							function (c) {
-								return !_Utils_eq(
-									c,
-									_Utils_chr(' '));
-							})))))));
-var $author$project$MDInline$Image = F2(
-	function (a, b) {
-		return {$: 'Image', a: a, b: b};
-	});
-var $author$project$MDInline$PrefixedString = F2(
-	function (prefix, text) {
-		return {prefix: prefix, text: text};
-	});
-var $elm$parser$Parser$Advanced$keeper = F2(
-	function (parseFunc, parseArg) {
-		return A3($elm$parser$Parser$Advanced$map2, $elm$core$Basics$apL, parseFunc, parseArg);
-	});
-var $author$project$MDInline$parseWhile = function (accepting) {
-	return $elm$parser$Parser$Advanced$getChompedString(
-		$elm$parser$Parser$Advanced$chompWhile(accepting));
-};
-var $author$project$MDInline$image = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (ps) {
-		return A2($author$project$MDInline$Image, ps.prefix, ps.text);
-	},
-	A2(
-		$elm$parser$Parser$Advanced$keeper,
-		A2(
-			$elm$parser$Parser$Advanced$keeper,
-			A2(
-				$elm$parser$Parser$Advanced$ignorer,
-				$elm$parser$Parser$Advanced$succeed($author$project$MDInline$PrefixedString),
-				$elm$parser$Parser$Advanced$symbol(
-					A2(
-						$elm$parser$Parser$Advanced$Token,
-						'![',
-						$author$project$MDInline$Expecting('Expecting \'![\' to begin image block')))),
-			A2(
-				$elm$parser$Parser$Advanced$ignorer,
-				$author$project$MDInline$parseWhile(
-					function (c) {
-						return !_Utils_eq(
-							c,
-							_Utils_chr(']'));
-					}),
-				$elm$parser$Parser$Advanced$symbol(
-					A2(
-						$elm$parser$Parser$Advanced$Token,
-						'](',
-						$author$project$MDInline$Expecting('Expecting \'](\' in image block'))))),
-		A2(
-			$elm$parser$Parser$Advanced$ignorer,
-			A2(
-				$elm$parser$Parser$Advanced$ignorer,
-				$author$project$MDInline$parseWhile(
-					function (c) {
-						return !_Utils_eq(
-							c,
-							_Utils_chr(')'));
-					}),
-				$elm$parser$Parser$Advanced$symbol(
-					A2(
-						$elm$parser$Parser$Advanced$Token,
-						')',
-						$author$project$MDInline$Expecting('Expecting \')\' to end image block')))),
-			$elm$parser$Parser$Advanced$chompWhile(
-				function (c) {
-					return _Utils_eq(
-						c,
-						_Utils_chr('\n'));
-				}))));
-var $author$project$MDInline$ItalicText = function (a) {
-	return {$: 'ItalicText', a: a};
-};
-var $author$project$MDInline$italicText = A2(
-	$elm$parser$Parser$Advanced$map,
-	$author$project$MDInline$ItalicText,
-	A2(
-		$elm$parser$Parser$Advanced$map,
-		A2($elm$core$String$replace, '*', ''),
-		$elm$parser$Parser$Advanced$getChompedString(
-			A2(
-				$elm$parser$Parser$Advanced$ignorer,
-				A2(
-					$elm$parser$Parser$Advanced$ignorer,
-					A2(
-						$elm$parser$Parser$Advanced$ignorer,
-						A2(
-							$elm$parser$Parser$Advanced$ignorer,
-							$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-							$elm$parser$Parser$Advanced$symbol(
-								A2(
-									$elm$parser$Parser$Advanced$Token,
-									'*',
-									$author$project$MDInline$Expecting('Expecting \'*\' to begin italic text')))),
-						$elm$parser$Parser$Advanced$chompWhile(
-							function (c) {
-								return !_Utils_eq(
-									c,
-									_Utils_chr('*'));
-							})),
-					$elm$parser$Parser$Advanced$symbol(
-						A2(
-							$elm$parser$Parser$Advanced$Token,
-							'*',
-							$author$project$MDInline$Expecting('Expecting \'*\' to end italic text')))),
-				$elm$parser$Parser$Advanced$spaces))));
-var $author$project$MDInline$BracketedText = function (a) {
-	return {$: 'BracketedText', a: a};
-};
-var $author$project$MDInline$Link = F2(
-	function (a, b) {
-		return {$: 'Link', a: a, b: b};
-	});
-var $author$project$MDInline$linkOrBracket = function (ps) {
-	var _v0 = ps.text;
-	if (_v0 === ' ') {
-		return $author$project$MDInline$BracketedText(ps.prefix);
-	} else {
-		return A2($author$project$MDInline$Link, ps.text, ps.prefix);
-	}
-};
-var $author$project$MDInline$linkUrl = A2(
-	$elm$parser$Parser$Advanced$keeper,
-	A2(
-		$elm$parser$Parser$Advanced$ignorer,
-		$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
-		$elm$parser$Parser$Advanced$symbol(
-			A2(
-				$elm$parser$Parser$Advanced$Token,
-				'(',
-				$author$project$MDInline$Expecting('expecting \'(\' to begin link url')))),
-	A2(
-		$elm$parser$Parser$Advanced$ignorer,
-		A2(
-			$elm$parser$Parser$Advanced$ignorer,
-			$author$project$MDInline$parseWhile(
-				function (c) {
-					return !_Utils_eq(
-						c,
-						_Utils_chr(')'));
-				}),
-			$elm$parser$Parser$Advanced$symbol(
-				A2(
-					$elm$parser$Parser$Advanced$Token,
-					')',
-					$author$project$MDInline$Expecting('expecting \')\' to end link url')))),
-		$elm$parser$Parser$Advanced$spaces));
-var $elm$parser$Parser$Advanced$Append = F2(
-	function (a, b) {
-		return {$: 'Append', a: a, b: b};
-	});
-var $elm$parser$Parser$Advanced$oneOfHelp = F3(
-	function (s0, bag, parsers) {
-		oneOfHelp:
-		while (true) {
-			if (!parsers.b) {
-				return A2($elm$parser$Parser$Advanced$Bad, false, bag);
-			} else {
-				var parse = parsers.a.a;
-				var remainingParsers = parsers.b;
-				var _v1 = parse(s0);
-				if (_v1.$ === 'Good') {
-					var step = _v1;
-					return step;
-				} else {
-					var step = _v1;
-					var p = step.a;
-					var x = step.b;
-					if (p) {
-						return step;
-					} else {
-						var $temp$s0 = s0,
-							$temp$bag = A2($elm$parser$Parser$Advanced$Append, bag, x),
-							$temp$parsers = remainingParsers;
-						s0 = $temp$s0;
-						bag = $temp$bag;
-						parsers = $temp$parsers;
-						continue oneOfHelp;
-					}
-				}
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$oneOf = function (parsers) {
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			return A3($elm$parser$Parser$Advanced$oneOfHelp, s, $elm$parser$Parser$Advanced$Empty, parsers);
-		});
-};
-var $author$project$MDInline$terminateBracket = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (_v0) {
-		return ' ';
-	},
-	$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0));
-var $author$project$MDInline$link = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (ps) {
-		return $author$project$MDInline$linkOrBracket(ps);
-	},
-	A2(
-		$elm$parser$Parser$Advanced$keeper,
-		A2(
-			$elm$parser$Parser$Advanced$keeper,
-			A2(
-				$elm$parser$Parser$Advanced$ignorer,
-				$elm$parser$Parser$Advanced$succeed($author$project$MDInline$PrefixedString),
-				$elm$parser$Parser$Advanced$symbol(
-					A2(
-						$elm$parser$Parser$Advanced$Token,
-						'[',
-						$author$project$MDInline$Expecting('expecting \'[\' to begin label')))),
-			A2(
-				$elm$parser$Parser$Advanced$ignorer,
-				$author$project$MDInline$parseWhile(
-					function (c) {
-						return !_Utils_eq(
-							c,
-							_Utils_chr(']'));
-					}),
-				$elm$parser$Parser$Advanced$symbol(
-					A2(
-						$elm$parser$Parser$Advanced$Token,
-						']',
-						$author$project$MDInline$Expecting('expecting \']\' to end first part of label'))))),
-		A2(
-			$elm$parser$Parser$Advanced$ignorer,
-			$elm$parser$Parser$Advanced$oneOf(
-				_List_fromArray(
-					[$author$project$MDInline$linkUrl, $author$project$MDInline$terminateBracket])),
-			$elm$parser$Parser$Advanced$spaces)));
-var $author$project$MDInline$isSpecialCharacter = function (c) {
-	switch (c.valueOf()) {
-		case '`':
-			return true;
-		case '[':
-			return true;
-		case '*':
-			return true;
-		case '\n':
-			return true;
-		default:
-			return false;
-	}
-};
-var $author$project$MDInline$OrdinaryText = function (a) {
-	return {$: 'OrdinaryText', a: a};
-};
-var $elm$parser$Parser$Advanced$chompIf = F2(
-	function (isGood, expecting) {
-		return $elm$parser$Parser$Advanced$Parser(
-			function (s) {
-				var newOffset = A3($elm$parser$Parser$Advanced$isSubChar, isGood, s.offset, s.src);
-				return _Utils_eq(newOffset, -1) ? A2(
-					$elm$parser$Parser$Advanced$Bad,
-					false,
-					A2($elm$parser$Parser$Advanced$fromState, s, expecting)) : (_Utils_eq(newOffset, -2) ? A3(
-					$elm$parser$Parser$Advanced$Good,
-					true,
-					_Utils_Tuple0,
-					{col: 1, context: s.context, indent: s.indent, offset: s.offset + 1, row: s.row + 1, src: s.src}) : A3(
-					$elm$parser$Parser$Advanced$Good,
-					true,
-					_Utils_Tuple0,
-					{col: s.col + 1, context: s.context, indent: s.indent, offset: newOffset, row: s.row, src: s.src}));
-			});
-	});
-var $author$project$MDInline$ordinaryTextParser = function (validStart) {
-	var isRegular = function (c) {
-		return (!_Utils_eq(
-			c,
-			_Utils_chr(']'))) && validStart(c);
-	};
-	return A2(
-		$elm$parser$Parser$Advanced$mapChompedString,
-		F2(
-			function (s, _v0) {
-				return $author$project$MDInline$OrdinaryText(s);
-			}),
-		A2(
-			$elm$parser$Parser$Advanced$ignorer,
-			A2(
-				$elm$parser$Parser$Advanced$chompIf,
-				validStart,
-				$author$project$MDInline$Expecting('expecting regular character to begin ordinary text line')),
-			$elm$parser$Parser$Advanced$chompWhile(isRegular)));
-};
-var $author$project$MDInline$ordinaryTextExtended = function () {
-	var validStart = function (c) {
-		return !(_Utils_eq(
-			c,
-			_Utils_chr('~')) || $author$project$MDInline$isSpecialCharacter(c));
-	};
-	return $author$project$MDInline$ordinaryTextParser(validStart);
-}();
-var $author$project$MDInline$StrikeThroughText = function (a) {
-	return {$: 'StrikeThroughText', a: a};
-};
-var $author$project$MDInline$strikeThroughText = A2(
-	$elm$parser$Parser$Advanced$map,
-	$author$project$MDInline$StrikeThroughText,
-	A2(
-		$elm$parser$Parser$Advanced$map,
-		A2($elm$core$String$replace, '~~', ''),
-		A2(
-			$elm$parser$Parser$Advanced$map,
-			$elm$core$String$dropLeft(2),
-			$elm$parser$Parser$Advanced$getChompedString(
-				A2(
-					$elm$parser$Parser$Advanced$ignorer,
-					A2(
-						$elm$parser$Parser$Advanced$ignorer,
-						A2(
-							$elm$parser$Parser$Advanced$ignorer,
-							A2(
-								$elm$parser$Parser$Advanced$ignorer,
-								$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-								$elm$parser$Parser$Advanced$symbol(
-									A2(
-										$elm$parser$Parser$Advanced$Token,
-										'~~',
-										$author$project$MDInline$Expecting('expecting \'~~\' to begin strikethrough')))),
-							$elm$parser$Parser$Advanced$chompWhile(
-								function (c) {
-									return !_Utils_eq(
-										c,
-										_Utils_chr('~'));
-								})),
-						$elm$parser$Parser$Advanced$symbol(
-							A2(
-								$elm$parser$Parser$Advanced$Token,
-								'~~',
-								$author$project$MDInline$Expecting('expecting \'~~\' to end strikethrough')))),
-					$elm$parser$Parser$Advanced$spaces)))));
-var $author$project$MDInline$inlineExtended = $elm$parser$Parser$Advanced$oneOf(
-	_List_fromArray(
-		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$ordinaryTextExtended]));
-var $author$project$MDInline$InlineMath = function (a) {
-	return {$: 'InlineMath', a: a};
-};
-var $author$project$MDInline$inlineMath = A2(
-	$elm$parser$Parser$Advanced$map,
-	$author$project$MDInline$InlineMath,
-	A2(
-		$elm$parser$Parser$Advanced$map,
-		$elm$core$String$dropRight(1),
-		A2(
-			$elm$parser$Parser$Advanced$map,
-			$elm$core$String$dropLeft(1),
-			A2(
-				$elm$parser$Parser$Advanced$map,
-				$elm$core$String$trim,
-				$elm$parser$Parser$Advanced$getChompedString(
-					A2(
-						$elm$parser$Parser$Advanced$ignorer,
-						A2(
-							$elm$parser$Parser$Advanced$ignorer,
-							A2(
-								$elm$parser$Parser$Advanced$ignorer,
-								A2(
-									$elm$parser$Parser$Advanced$ignorer,
-									$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-									$elm$parser$Parser$Advanced$symbol(
-										A2(
-											$elm$parser$Parser$Advanced$Token,
-											'$',
-											$author$project$MDInline$Expecting('Expecting \'$\' to begin inline math')))),
-								$elm$parser$Parser$Advanced$chompWhile(
-									function (c) {
-										return !_Utils_eq(
-											c,
-											_Utils_chr('$'));
-									})),
-							$elm$parser$Parser$Advanced$symbol(
-								A2(
-									$elm$parser$Parser$Advanced$Token,
-									'$',
-									$author$project$MDInline$Expecting('Expecting \'$\' to end inline math')))),
-						$elm$parser$Parser$Advanced$chompWhile(
-							function (c) {
-								return _Utils_eq(
-									c,
-									_Utils_chr(' '));
-							})))))));
-var $author$project$MDInline$ordinaryTextExtendedMath = function () {
-	var validStart = function (c) {
-		return !(_Utils_eq(
-			c,
-			_Utils_chr('~')) || (_Utils_eq(
-			c,
-			_Utils_chr('$')) || $author$project$MDInline$isSpecialCharacter(c)));
-	};
-	return $author$project$MDInline$ordinaryTextParser(validStart);
-}();
-var $author$project$MDInline$inlineExtendedMath = $elm$parser$Parser$Advanced$oneOf(
-	_List_fromArray(
-		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$inlineMath, $author$project$MDInline$ordinaryTextExtendedMath]));
-var $elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
-	});
-var $author$project$MDInline$ordinaryTextStandard = function () {
-	var validStart = A2($elm$core$Basics$composeL, $elm$core$Basics$not, $author$project$MDInline$isSpecialCharacter);
-	return $author$project$MDInline$ordinaryTextParser(validStart);
-}();
-var $author$project$MDInline$inlineStandard = $elm$parser$Parser$Advanced$oneOf(
-	_List_fromArray(
-		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$ordinaryTextStandard]));
-var $author$project$MDInline$inline = function (option) {
-	switch (option.$) {
-		case 'Standard':
-			return $author$project$MDInline$inlineStandard;
-		case 'Extended':
-			return $author$project$MDInline$inlineExtended;
-		default:
-			return $author$project$MDInline$inlineExtendedMath;
-	}
-};
-var $elm$parser$Parser$Advanced$loopHelp = F4(
-	function (p, state, callback, s0) {
-		loopHelp:
-		while (true) {
-			var _v0 = callback(state);
-			var parse = _v0.a;
-			var _v1 = parse(s0);
-			if (_v1.$ === 'Good') {
-				var p1 = _v1.a;
-				var step = _v1.b;
-				var s1 = _v1.c;
-				if (step.$ === 'Loop') {
-					var newState = step.a;
-					var $temp$p = p || p1,
-						$temp$state = newState,
-						$temp$callback = callback,
-						$temp$s0 = s1;
-					p = $temp$p;
-					state = $temp$state;
-					callback = $temp$callback;
-					s0 = $temp$s0;
-					continue loopHelp;
-				} else {
-					var result = step.a;
-					return A3($elm$parser$Parser$Advanced$Good, p || p1, result, s1);
-				}
-			} else {
-				var p1 = _v1.a;
-				var x = _v1.b;
-				return A2($elm$parser$Parser$Advanced$Bad, p || p1, x);
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$loop = F2(
-	function (state, callback) {
-		return $elm$parser$Parser$Advanced$Parser(
-			function (s) {
-				return A4($elm$parser$Parser$Advanced$loopHelp, false, state, callback, s);
-			});
-	});
-var $elm$parser$Parser$Advanced$Done = function (a) {
-	return {$: 'Done', a: a};
-};
-var $elm$parser$Parser$Advanced$Loop = function (a) {
-	return {$: 'Loop', a: a};
-};
-var $author$project$MDInline$manyHelp = F2(
-	function (p, vs) {
-		return $elm$parser$Parser$Advanced$oneOf(
-			_List_fromArray(
-				[
-					A2(
-					$elm$parser$Parser$Advanced$keeper,
-					$elm$parser$Parser$Advanced$succeed(
-						function (v) {
-							return $elm$parser$Parser$Advanced$Loop(
-								A2($elm$core$List$cons, v, vs));
-						}),
-					p),
-					A2(
-					$elm$parser$Parser$Advanced$map,
-					function (_v0) {
-						return $elm$parser$Parser$Advanced$Done(
-							$elm$core$List$reverse(vs));
-					},
-					$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0))
-				]));
-	});
-var $author$project$MDInline$many = function (p) {
-	return A2(
-		$elm$parser$Parser$Advanced$loop,
-		_List_Nil,
-		$author$project$MDInline$manyHelp(p));
-};
-var $author$project$MDInline$inlineList = function (option) {
-	return $author$project$MDInline$many(
-		$author$project$MDInline$inline(option));
-};
-var $author$project$MDInline$Line = function (a) {
-	return {$: 'Line', a: a};
-};
-var $author$project$MDInline$displayDeadEnd = function (deadend) {
-	var _v0 = deadend.problem;
-	var error = _v0.a;
-	return error;
-};
-var $author$project$MDInline$decodeInlineError = function (errorList) {
-	var errorMessage = A2(
-		$elm$core$String$join,
-		';;\n\n',
-		A2($elm$core$List$map, $author$project$MDInline$displayDeadEnd, errorList));
-	return $author$project$MDInline$OrdinaryText(errorMessage);
-};
-var $author$project$MDInline$resolveInlineResult = function (result) {
-	if (result.$ === 'Ok') {
-		var res_ = result.a;
-		return $author$project$MDInline$Line(res_);
-	} else {
-		var list = result.a;
-		return $author$project$MDInline$decodeInlineError(list);
-	}
-};
-var $elm$parser$Parser$Advanced$bagToList = F2(
-	function (bag, list) {
-		bagToList:
-		while (true) {
-			switch (bag.$) {
-				case 'Empty':
-					return list;
-				case 'AddRight':
-					var bag1 = bag.a;
-					var x = bag.b;
-					var $temp$bag = bag1,
-						$temp$list = A2($elm$core$List$cons, x, list);
-					bag = $temp$bag;
-					list = $temp$list;
-					continue bagToList;
-				default:
-					var bag1 = bag.a;
-					var bag2 = bag.b;
-					var $temp$bag = bag1,
-						$temp$list = A2($elm$parser$Parser$Advanced$bagToList, bag2, list);
-					bag = $temp$bag;
-					list = $temp$list;
-					continue bagToList;
-			}
-		}
-	});
-var $elm$parser$Parser$Advanced$run = F2(
-	function (_v0, src) {
-		var parse = _v0.a;
-		var _v1 = parse(
-			{col: 1, context: _List_Nil, indent: 1, offset: 0, row: 1, src: src});
-		if (_v1.$ === 'Good') {
-			var value = _v1.b;
-			return $elm$core$Result$Ok(value);
-		} else {
-			var bag = _v1.b;
-			return $elm$core$Result$Err(
-				A2($elm$parser$Parser$Advanced$bagToList, bag, _List_Nil));
-		}
-	});
-var $author$project$MDInline$parseLine = F2(
-	function (option, str) {
-		return $author$project$MDInline$resolveInlineResult(
-			A2(
-				$elm$parser$Parser$Advanced$run,
-				$author$project$MDInline$inlineList(option),
-				str));
-	});
-var $elm$core$String$right = F2(
-	function (n, string) {
-		return (n < 1) ? '' : A3(
-			$elm$core$String$slice,
-			-n,
-			$elm$core$String$length(string),
-			string);
-	});
-var $author$project$MDInline$endsWithPunctuation = function (str) {
-	return A2($elm$core$String$right, 1, str) === '.';
-};
-var $author$project$MDInline$wrapper = F2(
-	function (str, acc) {
-		return (acc.currentString === '') ? {currentString: str, lst: _List_Nil} : ($author$project$MDInline$endsWithPunctuation(acc.currentString) ? {
-			currentString: str,
-			lst: A2($elm$core$List$cons, acc.currentString, acc.lst)
-		} : _Utils_update(
-			acc,
-			{currentString: acc.currentString + (' ' + str)}));
-	});
-var $author$project$MDInline$wrap = function (strList) {
-	return $elm$core$List$reverse(
-		function (acc) {
-			return A2($elm$core$List$cons, acc.currentString, acc.lst);
-		}(
-			A3(
-				$elm$core$List$foldl,
-				$author$project$MDInline$wrapper,
-				{currentString: '', lst: _List_Nil},
-				strList)));
-};
-var $author$project$MDInline$parse = F2(
-	function (option, str) {
-		return $author$project$MDInline$Paragraph(
-			A2(
-				$elm$core$List$map,
-				$author$project$MDInline$parseLine(option),
-				$author$project$MDInline$wrap(
-					A2($elm$core$String$split, '\n', str))));
-	});
-var $author$project$Markdown$Parse$extendedMDParser = F2(
-	function (option_, _v0) {
-		var id = _v0.a;
-		var bt = _v0.b;
-		var level_ = _v0.c;
-		var content_ = _v0.d;
-		if (bt.$ === 'MarkdownBlock') {
-			var mt = bt.a;
-			if (mt.$ === 'Poetry') {
-				return A4(
-					$author$project$Markdown$Parse$MDBlockWithId,
-					id,
-					$author$project$BlockType$MarkdownBlock(mt),
-					level_,
-					$author$project$Markdown$Parse$M(
-						$author$project$MDInline$Stanza(content_)));
-			} else {
-				return A4(
-					$author$project$Markdown$Parse$MDBlockWithId,
-					id,
-					$author$project$BlockType$MarkdownBlock(mt),
-					level_,
-					$author$project$Markdown$Parse$M(
-						A2($author$project$MDInline$parse, option_, content_)));
-			}
-		} else {
-			switch (bt.a.$) {
-				case 'DisplayCode':
-					var lang = bt.a.a;
-					return A4(
-						$author$project$Markdown$Parse$MDBlockWithId,
-						id,
-						$author$project$BlockType$BalancedBlock(
-							$author$project$BlockType$DisplayCode(lang)),
-						level_,
-						$author$project$Markdown$Parse$T(content_));
-				case 'Verbatim':
-					var _v3 = bt.a;
-					return A4(
-						$author$project$Markdown$Parse$MDBlockWithId,
-						id,
-						$author$project$BlockType$BalancedBlock($author$project$BlockType$Verbatim),
-						level_,
-						$author$project$Markdown$Parse$T(content_));
-				default:
-					return A4(
-						$author$project$Markdown$Parse$MDBlockWithId,
-						id,
-						$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain),
-						level_,
-						$author$project$Markdown$Parse$M(
-							A2($author$project$MDInline$parse, option_, content_)));
-			}
-		}
-	});
-var $author$project$BlockType$DisplayMath = {$: 'DisplayMath'};
-var $author$project$Markdown$Parse$extendedMathMDParser = F2(
-	function (option_, _v0) {
-		var id = _v0.a;
-		var bt = _v0.b;
-		var level_ = _v0.c;
-		var content_ = _v0.d;
-		if (bt.$ === 'MarkdownBlock') {
-			var mt = bt.a;
-			if (mt.$ === 'Poetry') {
-				return A4(
-					$author$project$Markdown$Parse$MDBlockWithId,
-					id,
-					$author$project$BlockType$MarkdownBlock(mt),
-					level_,
-					$author$project$Markdown$Parse$M(
-						$author$project$MDInline$Stanza(content_)));
-			} else {
-				return A4(
-					$author$project$Markdown$Parse$MDBlockWithId,
-					id,
-					$author$project$BlockType$MarkdownBlock(mt),
-					level_,
-					$author$project$Markdown$Parse$M(
-						A2($author$project$MDInline$parse, option_, content_)));
-			}
-		} else {
-			switch (bt.a.$) {
-				case 'DisplayCode':
-					var lang = bt.a.a;
-					return A4(
-						$author$project$Markdown$Parse$MDBlockWithId,
-						id,
-						$author$project$BlockType$BalancedBlock(
-							$author$project$BlockType$DisplayCode(lang)),
-						level_,
-						$author$project$Markdown$Parse$T(content_));
-				case 'Verbatim':
-					var _v3 = bt.a;
-					return A4(
-						$author$project$Markdown$Parse$MDBlockWithId,
-						id,
-						$author$project$BlockType$BalancedBlock($author$project$BlockType$Verbatim),
-						level_,
-						$author$project$Markdown$Parse$T(content_));
-				default:
-					var _v4 = bt.a;
-					return A4(
-						$author$project$Markdown$Parse$MDBlockWithId,
-						id,
-						$author$project$BlockType$BalancedBlock($author$project$BlockType$DisplayMath),
-						level_,
-						$author$project$Markdown$Parse$T(content_));
-			}
-		}
-	});
-var $author$project$Markdown$Parse$standardMDParser = F2(
-	function (option_, _v0) {
-		var id = _v0.a;
-		var bt = _v0.b;
-		var level_ = _v0.c;
-		var content_ = _v0.d;
-		if (bt.$ === 'MarkdownBlock') {
-			var mt = bt.a;
-			return A4(
-				$author$project$Markdown$Parse$MDBlockWithId,
-				id,
-				$author$project$BlockType$MarkdownBlock(mt),
-				level_,
-				$author$project$Markdown$Parse$M(
-					A2($author$project$MDInline$parse, option_, content_)));
-		} else {
-			if (bt.a.$ === 'DisplayCode') {
-				var lang = bt.a.a;
-				return A4(
-					$author$project$Markdown$Parse$MDBlockWithId,
-					id,
-					$author$project$BlockType$BalancedBlock(
-						$author$project$BlockType$DisplayCode(lang)),
-					level_,
-					$author$project$Markdown$Parse$T(content_));
-			} else {
-				return A4(
-					$author$project$Markdown$Parse$MDBlockWithId,
-					id,
-					$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain),
-					level_,
-					$author$project$Markdown$Parse$M(
-						A2($author$project$MDInline$parse, option_, content_)));
-			}
-		}
-	});
-var $author$project$Markdown$Parse$selectParser = F2(
-	function (option, block) {
-		var id = block.a;
-		var bt = block.b;
-		var level_ = block.c;
-		var content_ = block.d;
-		switch (option.$) {
-			case 'Standard':
-				return A2($author$project$Markdown$Parse$standardMDParser, option, block);
-			case 'Extended':
-				return A2($author$project$Markdown$Parse$extendedMDParser, option, block);
-			default:
-				return A2($author$project$Markdown$Parse$extendedMathMDParser, option, block);
-		}
-	});
-var $author$project$Markdown$Parse$setBlockIndex = F3(
-	function (version, idx, _v0) {
-		var id = _v0.a;
-		var bt = _v0.b;
-		var lev = _v0.c;
-		var blockContent = _v0.d;
-		return A4(
-			$author$project$Markdown$Parse$MDBlockWithId,
-			_Utils_Tuple2(idx, version),
-			bt,
-			lev,
-			blockContent);
-	});
-var $author$project$Markdown$Parse$blockLevel = function (_v0) {
-	var k = _v0.c;
-	return k;
-};
-var $author$project$Markdown$Parse$Block = F4(
-	function (a, b, c, d) {
-		return {$: 'Block', a: a, b: b, c: c, d: d};
-	});
-var $author$project$Markdown$Parse$changeLevel = F2(
-	function (k, _v0) {
-		var id_ = _v0.a;
-		var bt_ = _v0.b;
-		var level_ = _v0.c;
-		var content_ = _v0.d;
-		return A4($author$project$Markdown$Parse$Block, id_, bt_, level_ + k, content_);
-	});
-var $author$project$Markdown$Parse$blockListOfFSM = function (_v0) {
-	var blockList_ = _v0.b;
-	return blockList_;
-};
-var $author$project$Markdown$Parse$stateOfFSM = function (_v0) {
-	var state_ = _v0.a;
-	return state_;
-};
-var $author$project$Markdown$Parse$flush = function (fsm) {
-	var _v0 = $author$project$Markdown$Parse$stateOfFSM(fsm);
-	switch (_v0.$) {
-		case 'Start':
-			return $elm$core$List$reverse(
-				$author$project$Markdown$Parse$blockListOfFSM(fsm));
-		case 'Error':
-			return $elm$core$List$reverse(
-				$author$project$Markdown$Parse$blockListOfFSM(fsm));
-		default:
-			var b = _v0.a;
-			return $elm$core$List$reverse(
-				A2(
-					$elm$core$List$cons,
-					b,
-					$author$project$Markdown$Parse$blockListOfFSM(fsm)));
-	}
-};
-var $zwilias$elm_rosetree$Tree$Zipper$Zipper = function (a) {
-	return {$: 'Zipper', a: a};
-};
-var $zwilias$elm_rosetree$Tree$Zipper$fromTree = function (t) {
-	return $zwilias$elm_rosetree$Tree$Zipper$Zipper(
-		{after: _List_Nil, before: _List_Nil, crumbs: _List_Nil, focus: t});
-};
-var $zwilias$elm_rosetree$Tree$singleton = function (v) {
-	return A2($zwilias$elm_rosetree$Tree$Tree, v, _List_Nil);
-};
-var $zwilias$elm_rosetree$Tree$appendChild = F2(
-	function (c, _v0) {
-		var v = _v0.a;
-		var cs = _v0.b;
-		return A2(
-			$zwilias$elm_rosetree$Tree$Tree,
-			v,
-			_Utils_ap(
-				cs,
-				_List_fromArray(
-					[c])));
-	});
-var $zwilias$elm_rosetree$Tree$Zipper$replaceTree = F2(
-	function (t, _v0) {
-		var zipper = _v0.a;
-		return $zwilias$elm_rosetree$Tree$Zipper$Zipper(
-			_Utils_update(
-				zipper,
-				{focus: t}));
-	});
-var $zwilias$elm_rosetree$Tree$Zipper$tree = function (_v0) {
-	var focus = _v0.a.focus;
-	return focus;
-};
-var $jxxcarlson$htree$HTree$appendAtFocus = F2(
-	function (s, z) {
-		var t = $zwilias$elm_rosetree$Tree$Zipper$tree(z);
-		var newTree = A2(
-			$zwilias$elm_rosetree$Tree$appendChild,
-			$zwilias$elm_rosetree$Tree$singleton(s),
-			t);
-		return A2($zwilias$elm_rosetree$Tree$Zipper$replaceTree, newTree, z);
-	});
-var $elm$core$Maybe$andThen = F2(
-	function (callback, maybeValue) {
-		if (maybeValue.$ === 'Just') {
-			var value = maybeValue.a;
-			return callback(value);
-		} else {
-			return $elm$core$Maybe$Nothing;
-		}
-	});
-var $jxxcarlson$htree$HTree$iterate = F3(
-	function (remaining, f, accumulator) {
-		iterate:
-		while (true) {
-			if (remaining > 0) {
-				var $temp$remaining = remaining - 1,
-					$temp$f = f,
-					$temp$accumulator = f(accumulator);
-				remaining = $temp$remaining;
-				f = $temp$f;
-				accumulator = $temp$accumulator;
-				continue iterate;
-			} else {
-				return accumulator;
-			}
-		}
-	});
-var $zwilias$elm_rosetree$Tree$tree = $zwilias$elm_rosetree$Tree$Tree;
-var $zwilias$elm_rosetree$Tree$Zipper$reconstruct = F4(
-	function (focus, before, after, l) {
-		return A2(
-			$zwilias$elm_rosetree$Tree$tree,
-			l,
-			_Utils_ap(
-				$elm$core$List$reverse(before),
-				_Utils_ap(
-					_List_fromArray(
-						[focus]),
-					after)));
-	});
-var $zwilias$elm_rosetree$Tree$Zipper$parent = function (_v0) {
-	var zipper = _v0.a;
-	var _v1 = zipper.crumbs;
-	if (!_v1.b) {
-		return $elm$core$Maybe$Nothing;
-	} else {
-		var crumb = _v1.a;
-		var rest = _v1.b;
-		return $elm$core$Maybe$Just(
-			$zwilias$elm_rosetree$Tree$Zipper$Zipper(
-				{
-					after: crumb.after,
-					before: crumb.before,
-					crumbs: rest,
-					focus: A4($zwilias$elm_rosetree$Tree$Zipper$reconstruct, zipper.focus, zipper.before, zipper.after, crumb.label)
-				}));
-	}
-};
-var $jxxcarlson$htree$HTree$manyParent = F2(
-	function (k, z) {
-		var zz = $zwilias$elm_rosetree$Tree$Zipper$parent(z);
-		return A3(
-			$jxxcarlson$htree$HTree$iterate,
-			k - 1,
-			function (zi) {
-				return A2($elm$core$Maybe$andThen, $zwilias$elm_rosetree$Tree$Zipper$parent, zi);
-			},
-			zz);
-	});
-var $elm$core$Maybe$map = F2(
-	function (f, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return $elm$core$Maybe$Just(
-				f(value));
-		} else {
-			return $elm$core$Maybe$Nothing;
-		}
-	});
-var $elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
-var $jxxcarlson$htree$HTree$addAtNthParent = F3(
-	function (k, s, z) {
-		return A2(
-			$elm$core$Maybe$withDefault,
-			z,
-			A2(
-				$elm$core$Maybe$map,
-				$jxxcarlson$htree$HTree$appendAtFocus(s),
-				A2($jxxcarlson$htree$HTree$manyParent, k, z)));
-	});
-var $zwilias$elm_rosetree$Tree$children = function (_v0) {
-	var c = _v0.b;
-	return c;
-};
-var $zwilias$elm_rosetree$Tree$label = function (_v0) {
-	var v = _v0.a;
-	return v;
-};
-var $zwilias$elm_rosetree$Tree$Zipper$lastChild = function (_v0) {
-	var zipper = _v0.a;
-	var _v1 = $elm$core$List$reverse(
-		$zwilias$elm_rosetree$Tree$children(zipper.focus));
-	if (!_v1.b) {
-		return $elm$core$Maybe$Nothing;
-	} else {
-		var c = _v1.a;
-		var rest = _v1.b;
-		return $elm$core$Maybe$Just(
-			$zwilias$elm_rosetree$Tree$Zipper$Zipper(
-				{
-					after: _List_Nil,
-					before: rest,
-					crumbs: A2(
-						$elm$core$List$cons,
-						{
-							after: zipper.after,
-							before: zipper.before,
-							label: $zwilias$elm_rosetree$Tree$label(zipper.focus)
-						},
-						zipper.crumbs),
-					focus: c
-				}));
-	}
-};
-var $jxxcarlson$htree$HTree$addChildAtFocus = F2(
-	function (s, z) {
-		return A2(
-			$elm$core$Maybe$withDefault,
-			z,
-			A2(
-				$elm$core$Maybe$map,
-				$jxxcarlson$htree$HTree$appendAtFocus(s),
-				$zwilias$elm_rosetree$Tree$Zipper$lastChild(z)));
-	});
-var $jxxcarlson$htree$HTree$levelOfLastChild = F2(
-	function (level, z) {
-		return A2(
-			$elm$core$Maybe$map,
-			level,
-			A2(
-				$elm$core$Maybe$map,
-				$zwilias$elm_rosetree$Tree$label,
-				A2(
-					$elm$core$Maybe$map,
-					$zwilias$elm_rosetree$Tree$Zipper$tree,
-					$zwilias$elm_rosetree$Tree$Zipper$lastChild(z))));
-	});
-var $elm$core$Maybe$map2 = F3(
-	function (func, ma, mb) {
-		if (ma.$ === 'Nothing') {
-			return $elm$core$Maybe$Nothing;
-		} else {
-			var a = ma.a;
-			if (mb.$ === 'Nothing') {
-				return $elm$core$Maybe$Nothing;
-			} else {
-				var b = mb.a;
-				return $elm$core$Maybe$Just(
-					A2(func, a, b));
-			}
-		}
-	});
-var $jxxcarlson$htree$HTree$levelDifference = F3(
-	function (level, s, z) {
-		return A3(
-			$elm$core$Maybe$map2,
-			$elm$core$Basics$sub,
-			$elm$core$Maybe$Just(
-				level(s)),
-			A2($jxxcarlson$htree$HTree$levelOfLastChild, level, z));
-	});
-var $jxxcarlson$htree$HTree$step = F3(
-	function (level, s, z) {
-		var ld = A3($jxxcarlson$htree$HTree$levelDifference, level, s, z);
-		if (ld.$ === 'Nothing') {
-			return A2($jxxcarlson$htree$HTree$appendAtFocus, s, z);
-		} else {
-			switch (ld.a) {
-				case 0:
-					return A2($jxxcarlson$htree$HTree$appendAtFocus, s, z);
-				case 1:
-					return A2($jxxcarlson$htree$HTree$addChildAtFocus, s, z);
-				default:
-					var levelsBack = -A2($elm$core$Maybe$withDefault, 0, ld);
-					return A3($jxxcarlson$htree$HTree$addAtNthParent, levelsBack, s, z);
-			}
-		}
-	});
-var $zwilias$elm_rosetree$Tree$Zipper$previousSibling = function (_v0) {
-	var zipper = _v0.a;
-	var _v1 = zipper.before;
-	if (!_v1.b) {
-		return $elm$core$Maybe$Nothing;
-	} else {
-		var previous = _v1.a;
-		var rest = _v1.b;
-		return $elm$core$Maybe$Just(
-			$zwilias$elm_rosetree$Tree$Zipper$Zipper(
-				{
-					after: A2($elm$core$List$cons, zipper.focus, zipper.after),
-					before: rest,
-					crumbs: zipper.crumbs,
-					focus: previous
-				}));
-	}
-};
-var $zwilias$elm_rosetree$Tree$Zipper$firstSibling = function (zipper) {
-	firstSibling:
-	while (true) {
-		var _v0 = $zwilias$elm_rosetree$Tree$Zipper$previousSibling(zipper);
-		if (_v0.$ === 'Nothing') {
-			return zipper;
-		} else {
-			var z = _v0.a;
-			var $temp$zipper = z;
-			zipper = $temp$zipper;
-			continue firstSibling;
-		}
-	}
-};
-var $zwilias$elm_rosetree$Tree$Zipper$root = function (zipper) {
-	root:
-	while (true) {
-		var _v0 = $zwilias$elm_rosetree$Tree$Zipper$parent(zipper);
-		if (_v0.$ === 'Nothing') {
-			return $zwilias$elm_rosetree$Tree$Zipper$firstSibling(zipper);
-		} else {
-			var z = _v0.a;
-			var $temp$zipper = z;
-			zipper = $temp$zipper;
-			continue root;
-		}
-	}
-};
-var $zwilias$elm_rosetree$Tree$Zipper$toTree = A2($elm$core$Basics$composeL, $zwilias$elm_rosetree$Tree$Zipper$tree, $zwilias$elm_rosetree$Tree$Zipper$root);
-var $jxxcarlson$htree$HTree$fromList = F3(
-	function (rootLabel, level, lst) {
-		return $zwilias$elm_rosetree$Tree$Zipper$toTree(
-			A3(
-				$elm$core$List$foldl,
-				F2(
-					function (s, z) {
-						return A3($jxxcarlson$htree$HTree$step, level, s, z);
-					}),
-				$zwilias$elm_rosetree$Tree$Zipper$fromTree(
-					$zwilias$elm_rosetree$Tree$singleton(rootLabel)),
-				lst));
-	});
-var $author$project$BlockType$Root = {$: 'Root'};
-var $author$project$Markdown$Parse$rootBlock = A4(
-	$author$project$Markdown$Parse$Block,
-	_Utils_Tuple2(0, 0),
-	$author$project$BlockType$MarkdownBlock($author$project$BlockType$Root),
-	0,
-	'DOCUMENT');
-var $author$project$Markdown$Parse$FSM = F3(
-	function (a, b, c) {
-		return {$: 'FSM', a: a, b: b, c: c};
-	});
-var $author$project$Markdown$Parse$Start = {$: 'Start'};
-var $author$project$Markdown$Parse$emptyRegister = {
-	blockStack: _List_Nil,
-	blockTypeStack: _List_Nil,
-	id: _Utils_Tuple2(0, 0),
-	itemIndex1: 0,
-	itemIndex2: 0,
-	itemIndex3: 0,
-	itemIndex4: 0,
-	level: 0
-};
-var $author$project$Markdown$Parse$initialFSM = A3($author$project$Markdown$Parse$FSM, $author$project$Markdown$Parse$Start, _List_Nil, $author$project$Markdown$Parse$emptyRegister);
-var $author$project$BlockType$Table = {$: 'Table'};
-var $author$project$BlockType$TableRow = {$: 'TableRow'};
-var $author$project$Markdown$Parse$clearBlockStack = function (register) {
-	return _Utils_update(
-		register,
-		{blockStack: _List_Nil});
-};
-var $author$project$Markdown$Parse$editBlock = function (block) {
-	var id = block.a;
-	var bt = block.b;
-	var lev = block.c;
-	var content = block.d;
-	return (_Utils_eq(
-		bt,
-		$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow)) && (content === 'row')) ? A4($author$project$Markdown$Parse$Block, id, bt, lev, '') : block;
-};
-var $elm$core$List$head = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(x);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $author$project$Markdown$Parse$topOfBlockStack = function (register) {
-	return $elm$core$List$head(register.blockStack);
-};
-var $author$project$Markdown$Parse$typeOfBlock = function (_v0) {
-	var bt = _v0.b;
-	return bt;
-};
-var $author$project$Markdown$Parse$typeOfState = function (s) {
-	switch (s.$) {
-		case 'Start':
-			return $elm$core$Maybe$Nothing;
-		case 'InBlock':
-			var b = s.a;
-			return $elm$core$Maybe$Just(
-				$author$project$Markdown$Parse$typeOfBlock(b));
-		default:
-			return $elm$core$Maybe$Nothing;
-	}
-};
-var $author$project$Markdown$Parse$handleRegister = function (fsm) {
-	var state = fsm.a;
-	var blocks = fsm.b;
-	var register = fsm.c;
-	var _v0 = $author$project$Markdown$Parse$topOfBlockStack(register);
-	if (_v0.$ === 'Nothing') {
-		return fsm;
-	} else {
-		var block = _v0.a;
-		var _v1 = $author$project$Markdown$Parse$typeOfState(state);
-		if (((_v1.$ === 'Just') && (_v1.a.$ === 'MarkdownBlock')) && (_v1.a.a.$ === 'TableRow')) {
-			var _v2 = _v1.a.a;
-			return fsm;
-		} else {
-			var tableBlock = A4(
-				$author$project$Markdown$Parse$Block,
-				_Utils_Tuple2(-1, -1),
-				$author$project$BlockType$MarkdownBlock($author$project$BlockType$Table),
-				0,
-				'tableRoot');
-			var rowBlock = A4(
-				$author$project$Markdown$Parse$Block,
-				_Utils_Tuple2(-1, -1),
-				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow),
-				1,
-				'row');
-			var tableData = A2(
-				$elm$core$List$map,
-				$author$project$Markdown$Parse$editBlock,
-				function (x) {
-					return _Utils_ap(
-						x,
-						_List_fromArray(
-							[rowBlock, tableBlock]));
-				}(
-					$elm$core$List$reverse(register.blockStack)));
-			var newBlocks = A2(
-				$elm$core$List$filter,
-				function (_v3) {
-					var content = _v3.d;
-					return content !== 'deleteMe';
-				},
-				blocks);
-			return A3(
-				$author$project$Markdown$Parse$FSM,
-				$author$project$Markdown$Parse$Start,
-				_Utils_ap(tableData, newBlocks),
-				$author$project$Markdown$Parse$clearBlockStack(register));
-		}
-	}
-};
-var $author$project$Markdown$Parse$Error = {$: 'Error'};
-var $author$project$Markdown$Parse$InBlock = function (a) {
-	return {$: 'InBlock', a: a};
-};
-var $author$project$BlockType$Blank = {$: 'Blank'};
-var $author$project$BlockType$numberOfLeadingBlanks = A2(
-	$elm$parser$Parser$Advanced$map,
-	$elm$core$String$length,
-	$elm$parser$Parser$Advanced$getChompedString(
-		A2(
-			$elm$parser$Parser$Advanced$ignorer,
-			$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-			$elm$parser$Parser$Advanced$chompWhile(
-				function (c) {
-					return _Utils_eq(
-						c,
-						_Utils_chr(' '));
-				}))));
-var $elm$core$Result$toMaybe = function (result) {
-	if (result.$ === 'Ok') {
-		var v = result.a;
-		return $elm$core$Maybe$Just(v);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $author$project$BlockType$getNumberOfLeadingBlanks = function (str) {
-	return A2(
-		$elm$core$Maybe$withDefault,
-		0,
-		$elm$core$Result$toMaybe(
-			A2($elm$parser$Parser$Advanced$run, $author$project$BlockType$numberOfLeadingBlanks, str)));
-};
-var $author$project$BlockType$dropLeadingBlanks = function (str) {
-	return A2(
-		$elm$core$String$dropLeft,
-		$author$project$BlockType$getNumberOfLeadingBlanks(str),
-		str);
-};
-var $author$project$BlockType$levelIndentation = 4;
-var $author$project$BlockType$level = function (ln) {
-	return A2(
-		$elm$core$Maybe$withDefault,
-		0,
-		A2(
-			$elm$core$Maybe$map,
-			function (l) {
-				return (l / $author$project$BlockType$levelIndentation) | 0;
-			},
-			$elm$core$Result$toMaybe(
-				A2($elm$parser$Parser$Advanced$run, $author$project$BlockType$numberOfLeadingBlanks, ln))));
-};
-var $elm$parser$Parser$Advanced$backtrackable = function (_v0) {
-	var parse = _v0.a;
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s0) {
-			var _v1 = parse(s0);
-			if (_v1.$ === 'Bad') {
-				var x = _v1.b;
-				return A2($elm$parser$Parser$Advanced$Bad, false, x);
-			} else {
-				var a = _v1.b;
-				var s1 = _v1.c;
-				return A3($elm$parser$Parser$Advanced$Good, false, a, s1);
-			}
-		});
-};
-var $author$project$BlockType$Expecting = function (a) {
-	return {$: 'Expecting', a: a};
-};
-var $author$project$BlockType$CssLang = {$: 'CssLang'};
-var $author$project$BlockType$cssLang = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$CssLang),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'css',
-			$author$project$BlockType$Expecting('Expecting string for language'))));
-var $author$project$BlockType$ElmLang = {$: 'ElmLang'};
-var $author$project$BlockType$elmLang = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$ElmLang),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'elm',
-			$author$project$BlockType$Expecting('Expecting string for language'))));
-var $author$project$BlockType$JavascriptLang = {$: 'JavascriptLang'};
-var $author$project$BlockType$javascriptLang = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$JavascriptLang),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'javascript',
-			$author$project$BlockType$Expecting('Expecting string for language'))));
-var $author$project$BlockType$JsonLang = {$: 'JsonLang'};
-var $author$project$BlockType$jsonLang = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$JsonLang),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'json',
-			$author$project$BlockType$Expecting('Expecting string for language'))));
-var $author$project$BlockType$PythonLang = {$: 'PythonLang'};
-var $author$project$BlockType$pythonLang = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$PythonLang),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'python',
-			$author$project$BlockType$Expecting('Expecting string for language'))));
-var $author$project$BlockType$SqlLang = {$: 'SqlLang'};
-var $author$project$BlockType$sqlLang = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$SqlLang),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'sql',
-			$author$project$BlockType$Expecting('Expecting string for language'))));
-var $author$project$BlockType$XmlLang = {$: 'XmlLang'};
-var $author$project$BlockType$xmlLang = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$XmlLang),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'xml',
-			$author$project$BlockType$Expecting('Expecting string for language'))));
-var $author$project$BlockType$codeBlock = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (lang) {
-		return $author$project$BlockType$BalancedBlock(
-			$author$project$BlockType$DisplayCode(lang));
-	},
-	A2(
-		$elm$parser$Parser$Advanced$keeper,
-		A2(
-			$elm$parser$Parser$Advanced$ignorer,
-			$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
-			$elm$parser$Parser$Advanced$symbol(
-				A2(
-					$elm$parser$Parser$Advanced$Token,
-					'```',
-					$author$project$BlockType$Expecting('Expecting three ticks to begin code block')))),
-		$elm$parser$Parser$Advanced$oneOf(
-			_List_fromArray(
-				[$author$project$BlockType$cssLang, $author$project$BlockType$elmLang, $author$project$BlockType$javascriptLang, $author$project$BlockType$jsonLang, $author$project$BlockType$pythonLang, $author$project$BlockType$sqlLang, $author$project$BlockType$xmlLang]))));
-var $author$project$BlockType$Heading = function (a) {
-	return {$: 'Heading', a: a};
-};
-var $author$project$BlockType$parseWhile = function (accepting) {
-	return $elm$parser$Parser$Advanced$getChompedString(
-		$elm$parser$Parser$Advanced$chompWhile(accepting));
-};
-var $author$project$BlockType$headingBlock = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (s) {
-		return $author$project$BlockType$MarkdownBlock(
-			$author$project$BlockType$Heading(
-				$elm$core$String$length(s) + 1));
-	},
-	A2(
-		$elm$parser$Parser$Advanced$keeper,
-		A2(
-			$elm$parser$Parser$Advanced$ignorer,
-			A2(
-				$elm$parser$Parser$Advanced$ignorer,
-				$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
-				$elm$parser$Parser$Advanced$spaces),
-			$elm$parser$Parser$Advanced$symbol(
-				A2(
-					$elm$parser$Parser$Advanced$Token,
-					'#',
-					$author$project$BlockType$Expecting('Expecting \'#\' to begin heading block')))),
-		$author$project$BlockType$parseWhile(
-			function (c) {
-				return _Utils_eq(
-					c,
-					_Utils_chr('#'));
-			})));
-var $author$project$BlockType$HorizontalRule = {$: 'HorizontalRule'};
-var $author$project$BlockType$horizontalRuleBlock = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (x) {
-		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$HorizontalRule);
-	},
-	A2(
-		$elm$parser$Parser$Advanced$ignorer,
-		A2(
-			$elm$parser$Parser$Advanced$ignorer,
-			$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-			$elm$parser$Parser$Advanced$spaces),
-		$elm$parser$Parser$Advanced$symbol(
-			A2(
-				$elm$parser$Parser$Advanced$Token,
-				'___',
-				$author$project$BlockType$Expecting('Expecting at least three underscores to begin thematic break')))));
-var $author$project$BlockType$Image = {$: 'Image'};
-var $author$project$BlockType$imageBlock = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed(
-		$author$project$BlockType$MarkdownBlock($author$project$BlockType$Image)),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'![',
-			$author$project$BlockType$Expecting('Expecting \'![\' to begin image block'))));
-var $author$project$BlockType$mathBlock = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed(
-		$author$project$BlockType$BalancedBlock($author$project$BlockType$DisplayMath)),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'$$',
-			$author$project$BlockType$Expecting('Expecting four ticks to begin verbatim block'))));
-var $author$project$BlockType$OListItem = function (a) {
-	return {$: 'OListItem', a: a};
-};
-var $author$project$BlockType$orderedListItemBlock = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (_v0) {
-		return $author$project$BlockType$MarkdownBlock(
-			$author$project$BlockType$OListItem(0));
-	},
-	A2(
-		$elm$parser$Parser$Advanced$ignorer,
-		A2(
-			$elm$parser$Parser$Advanced$ignorer,
-			A2(
-				$elm$parser$Parser$Advanced$ignorer,
-				A2(
-					$elm$parser$Parser$Advanced$ignorer,
-					$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-					$author$project$BlockType$parseWhile(
-						function (c) {
-							return _Utils_eq(
-								c,
-								_Utils_chr(' '));
-						})),
-				A2(
-					$elm$parser$Parser$Advanced$chompIf,
-					function (c) {
-						return $elm$core$Char$isDigit(c);
-					},
-					$author$project$BlockType$Expecting('Expecting digit to begin ordered list item'))),
-			$elm$parser$Parser$Advanced$chompWhile(
-				function (c) {
-					return $elm$core$Char$isDigit(c);
-				})),
-		$elm$parser$Parser$Advanced$symbol(
-			A2(
-				$elm$parser$Parser$Advanced$Token,
-				'. ',
-				$author$project$BlockType$Expecting('expecting period')))));
-var $author$project$BlockType$Poetry = {$: 'Poetry'};
-var $author$project$BlockType$poetryBlock = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (_v0) {
-		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$Poetry);
-	},
-	A2(
-		$elm$parser$Parser$Advanced$ignorer,
-		$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-		$elm$parser$Parser$Advanced$symbol(
-			A2(
-				$elm$parser$Parser$Advanced$Token,
-				'>> ',
-				$author$project$BlockType$Expecting('expecting \'>> \' to begin poetry block')))));
-var $author$project$BlockType$Quotation = {$: 'Quotation'};
-var $author$project$BlockType$quotationBlock = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (_v0) {
-		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$Quotation);
-	},
-	A2(
-		$elm$parser$Parser$Advanced$ignorer,
-		$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-		$elm$parser$Parser$Advanced$symbol(
-			A2(
-				$elm$parser$Parser$Advanced$Token,
-				'> ',
-				$author$project$BlockType$Expecting('expecting \'> \' to begin quotation')))));
-var $author$project$BlockType$tableBlock = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (_v0) {
-		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow);
-	},
-	A2(
-		$elm$parser$Parser$Advanced$ignorer,
-		$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
-		$elm$parser$Parser$Advanced$symbol(
-			A2(
-				$elm$parser$Parser$Advanced$Token,
-				'| ',
-				$author$project$BlockType$Expecting('expecting \'| \' to begin poetry block')))));
-var $author$project$BlockType$UListItem = {$: 'UListItem'};
-var $author$project$BlockType$unorderedListItemBlock = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed(
-		$author$project$BlockType$MarkdownBlock($author$project$BlockType$UListItem)),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'- ',
-			$author$project$BlockType$Expecting('Expecting \'-\' to begin list item'))));
-var $author$project$BlockType$verbatimBlock = A2(
-	$elm$parser$Parser$Advanced$ignorer,
-	$elm$parser$Parser$Advanced$succeed(
-		$author$project$BlockType$BalancedBlock($author$project$BlockType$Verbatim)),
-	$elm$parser$Parser$Advanced$symbol(
-		A2(
-			$elm$parser$Parser$Advanced$Token,
-			'````',
-			$author$project$BlockType$Expecting('Expecting four ticks to begin verbatim block'))));
-var $author$project$BlockType$parseExtended = $elm$parser$Parser$Advanced$oneOf(
-	_List_fromArray(
-		[
-			$author$project$BlockType$imageBlock,
-			$author$project$BlockType$mathBlock,
-			$author$project$BlockType$unorderedListItemBlock,
-			$author$project$BlockType$orderedListItemBlock,
-			$author$project$BlockType$quotationBlock,
-			$author$project$BlockType$poetryBlock,
-			$elm$parser$Parser$Advanced$backtrackable($author$project$BlockType$verbatimBlock),
-			$author$project$BlockType$codeBlock,
-			$author$project$BlockType$tableBlock,
-			$author$project$BlockType$headingBlock,
-			$author$project$BlockType$horizontalRuleBlock
-		]));
-var $author$project$BlockType$parseStandard = $elm$parser$Parser$Advanced$oneOf(
-	_List_fromArray(
-		[$author$project$BlockType$tableBlock, $author$project$BlockType$imageBlock, $author$project$BlockType$unorderedListItemBlock, $author$project$BlockType$orderedListItemBlock, $author$project$BlockType$quotationBlock, $author$project$BlockType$codeBlock, $author$project$BlockType$headingBlock, $author$project$BlockType$horizontalRuleBlock]));
-var $author$project$BlockType$parse = function (option) {
-	if (option.$ === 'Standard') {
-		return $author$project$BlockType$parseStandard;
-	} else {
-		return $author$project$BlockType$parseExtended;
-	}
-};
-var $author$project$BlockType$get = F2(
-	function (option, str) {
-		if (str === '\n') {
-			return _Utils_Tuple2(
-				0,
-				$elm$core$Maybe$Just(
-					$author$project$BlockType$MarkdownBlock($author$project$BlockType$Blank)));
-		} else {
-			var _v0 = A2(
-				$elm$parser$Parser$Advanced$run,
-				$author$project$BlockType$parse(option),
-				$author$project$BlockType$dropLeadingBlanks(str));
-			if (_v0.$ === 'Ok') {
-				var result = _v0.a;
-				return _Utils_Tuple2(
-					$author$project$BlockType$level(str),
-					$elm$core$Maybe$Just(result));
-			} else {
-				return _Utils_Tuple2(
-					$author$project$BlockType$level(str),
-					$elm$core$Maybe$Just(
-						$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain)));
-			}
-		}
-	});
-var $author$project$BlockType$TableCell = {$: 'TableCell'};
-var $author$project$Markdown$Parse$parseTableRow = F2(
-	function (level, line) {
-		return A2(
-			$elm$core$List$map,
-			function (s) {
-				return A4(
-					$author$project$Markdown$Parse$Block,
-					_Utils_Tuple2(-1, -1),
-					$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableCell),
-					level,
-					s);
-			},
-			A2(
-				$elm$core$List$filter,
-				function (s) {
-					return s !== '';
-				},
-				A2(
-					$elm$core$List$map,
-					$elm$core$String$trim,
-					A2($elm$core$String$split, '|', line))));
-	});
-var $author$project$Markdown$Parse$handleTableStart = F6(
-	function (blockTypeOfLine, level, line, state, blocks, register) {
-		switch (state.$) {
-			case 'Start':
-				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
-			case 'Error':
-				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
-			default:
-				var currentBlock = state.a;
-				var tableBlock = A4(
-					$author$project$Markdown$Parse$Block,
-					_Utils_Tuple2(-1, -1),
-					$author$project$BlockType$MarkdownBlock($author$project$BlockType$Table),
-					level,
-					'tableRoot');
-				var rowBlock = A4(
-					$author$project$Markdown$Parse$Block,
-					_Utils_Tuple2(-1, -1),
-					blockTypeOfLine,
-					level + 1,
-					'row');
-				var childrenOfNewBlock = A2($author$project$Markdown$Parse$parseTableRow, level + 2, line);
-				var newRow = _Utils_ap(
-					childrenOfNewBlock,
-					_List_fromArray(
-						[rowBlock]));
-				return A3(
-					$author$project$Markdown$Parse$FSM,
-					$author$project$Markdown$Parse$InBlock(rowBlock),
-					blocks,
-					_Utils_update(
-						register,
-						{blockStack: newRow, level: register.level + 0}));
-		}
-	});
-var $author$project$Markdown$Parse$lineIsNotBlank = function (line) {
-	return $elm$core$String$trim(line) !== '';
-};
-var $author$project$Markdown$Parse$newBlockTypeIsDifferent = F2(
-	function (blockType, state) {
-		if (state.$ === 'InBlock') {
-			var currentBlock = state.a;
-			return !_Utils_eq(
-				$author$project$Markdown$Parse$typeOfBlock(currentBlock),
-				blockType);
-		} else {
-			return false;
-		}
-	});
-var $author$project$BlockType$prefixOfBalancedType = function (bt) {
-	switch (bt.$) {
-		case 'DisplayCode':
-			return '```';
-		case 'Verbatim':
-			return '````';
-		default:
-			return '$$';
-	}
-};
-var $elm$parser$Parser$Advanced$findSubString = _Parser_findSubString;
-var $elm$parser$Parser$Advanced$fromInfo = F4(
-	function (row, col, x, context) {
-		return A2(
-			$elm$parser$Parser$Advanced$AddRight,
-			$elm$parser$Parser$Advanced$Empty,
-			A4($elm$parser$Parser$Advanced$DeadEnd, row, col, x, context));
-	});
-var $elm$parser$Parser$Advanced$chompUntil = function (_v0) {
-	var str = _v0.a;
-	var expecting = _v0.b;
-	return $elm$parser$Parser$Advanced$Parser(
-		function (s) {
-			var _v1 = A5($elm$parser$Parser$Advanced$findSubString, str, s.offset, s.row, s.col, s.src);
-			var newOffset = _v1.a;
-			var newRow = _v1.b;
-			var newCol = _v1.c;
-			return _Utils_eq(newOffset, -1) ? A2(
-				$elm$parser$Parser$Advanced$Bad,
-				false,
-				A4($elm$parser$Parser$Advanced$fromInfo, newRow, newCol, expecting, s.context)) : A3(
-				$elm$parser$Parser$Advanced$Good,
-				_Utils_cmp(s.offset, newOffset) < 0,
-				_Utils_Tuple0,
-				{col: newCol, context: s.context, indent: s.indent, offset: newOffset, row: newRow, src: s.src});
-		});
-};
-var $author$project$BlockType$oListPrefix = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (x) {
-		return x + '. ';
-	},
-	$elm$parser$Parser$Advanced$getChompedString(
-		A2(
-			$elm$parser$Parser$Advanced$keeper,
-			$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
-			$elm$parser$Parser$Advanced$chompUntil(
-				A2(
-					$elm$parser$Parser$Advanced$Token,
-					'.',
-					$author$project$BlockType$Expecting('expecting \'.\' to begin OListItem block'))))));
-var $elm$core$Bitwise$and = _Bitwise_and;
-var $elm$core$Bitwise$shiftRightBy = _Bitwise_shiftRightBy;
-var $elm$core$String$repeatHelp = F3(
-	function (n, chunk, result) {
-		return (n <= 0) ? result : A3(
-			$elm$core$String$repeatHelp,
-			n >> 1,
-			_Utils_ap(chunk, chunk),
-			(!(n & 1)) ? result : _Utils_ap(result, chunk));
-	});
-var $elm$core$String$repeat = F2(
-	function (n, chunk) {
-		return A3($elm$core$String$repeatHelp, n, chunk, '');
-	});
-var $author$project$BlockType$uListPrefix = A2(
-	$elm$parser$Parser$Advanced$map,
-	function (s) {
-		return s + '- ';
-	},
-	$elm$parser$Parser$Advanced$getChompedString(
-		A2(
-			$elm$parser$Parser$Advanced$keeper,
-			$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
-			$elm$parser$Parser$Advanced$chompUntil(
-				A2(
-					$elm$parser$Parser$Advanced$Token,
-					'-',
-					$author$project$BlockType$Expecting('expecting \'-\' to begin UListItem block'))))));
-var $author$project$BlockType$prefixOfMarkdownType = F2(
-	function (mdt, line) {
-		var runPrefix = F2(
-			function (prefixParser, str) {
-				var _v1 = A2($elm$parser$Parser$Advanced$run, prefixParser, str);
-				if (_v1.$ === 'Ok') {
-					var prefix = _v1.a;
-					return prefix;
-				} else {
-					return '';
-				}
-			});
-		switch (mdt.$) {
-			case 'Root':
-				return '';
-			case 'UListItem':
-				return A2(runPrefix, $author$project$BlockType$uListPrefix, line);
-			case 'OListItem':
-				return A2(runPrefix, $author$project$BlockType$oListPrefix, line);
-			case 'Heading':
-				var k = mdt.a;
-				return A2($elm$core$String$repeat, k, '#') + ' ';
-			case 'HorizontalRule':
-				return '___';
-			case 'Quotation':
-				return '> ';
-			case 'Poetry':
-				return '>> ';
-			case 'Plain':
-				return '';
-			case 'Image':
-				return '';
-			case 'TableCell':
-				return '';
-			case 'TableRow':
-				return '';
-			case 'Table':
-				return '';
-			default:
-				return '';
-		}
-	});
-var $author$project$BlockType$prefixOfBlockType = F2(
-	function (bt, line) {
-		if (bt.$ === 'BalancedBlock') {
-			var bb = bt.a;
-			return $author$project$BlockType$prefixOfBalancedType(bb);
-		} else {
-			var mdb = bt.a;
-			return A2($author$project$BlockType$prefixOfMarkdownType, mdb, line);
-		}
-	});
-var $author$project$Markdown$Parse$removePrefix = F2(
-	function (blockType, line_) {
-		var p = A2($author$project$BlockType$prefixOfBlockType, blockType, line_);
-		return A3($elm$core$String$replace, p, '', line_);
-	});
-var $author$project$Markdown$Parse$incrementRegisterLevel = F2(
-	function (level, register) {
-		var _v0 = level + 1;
-		switch (_v0) {
-			case 1:
-				return _Utils_Tuple2(
-					register.itemIndex1 + 1,
-					_Utils_update(
-						register,
-						{itemIndex1: register.itemIndex1 + 1, itemIndex2: 0, itemIndex3: 0, itemIndex4: 0}));
-			case 2:
-				return _Utils_Tuple2(
-					register.itemIndex2 + 1,
-					_Utils_update(
-						register,
-						{itemIndex2: register.itemIndex2 + 1, itemIndex3: 0, itemIndex4: 0}));
-			case 3:
-				return _Utils_Tuple2(
-					register.itemIndex3 + 1,
-					_Utils_update(
-						register,
-						{itemIndex3: register.itemIndex3 + 1, itemIndex4: 0}));
-			case 4:
-				return _Utils_Tuple2(
-					register.itemIndex4 + 1,
-					_Utils_update(
-						register,
-						{itemIndex4: register.itemIndex4 + 1}));
-			default:
-				return _Utils_Tuple2(0, register);
-		}
-	});
-var $author$project$BlockType$isCode = function (bt) {
-	if ((bt.$ === 'BalancedBlock') && (bt.a.$ === 'DisplayCode')) {
-		return true;
-	} else {
-		return false;
-	}
-};
-var $author$project$BlockType$isOListItem = function (blockType) {
-	if ((blockType.$ === 'MarkdownBlock') && (blockType.a.$ === 'OListItem')) {
-		return true;
-	} else {
-		return false;
-	}
-};
-var $author$project$Markdown$Parse$updateRegisterAndBlockType = F3(
-	function (blockType, level_, register) {
-		if ($author$project$BlockType$isOListItem(blockType)) {
-			var _v0 = A2($author$project$Markdown$Parse$incrementRegisterLevel, level_, register);
-			var index = _v0.a;
-			var newRegister = _v0.b;
-			var newBlockType = $author$project$BlockType$MarkdownBlock(
-				$author$project$BlockType$OListItem(index));
-			return _Utils_Tuple2(newBlockType, newRegister);
-		} else {
-			if ($author$project$BlockType$isCode(blockType)) {
-				return _Utils_Tuple2(
-					blockType,
-					_Utils_update(
-						register,
-						{
-							blockTypeStack: A2($elm$core$List$cons, blockType, register.blockTypeStack)
-						}));
-			} else {
-				return _Utils_Tuple2(blockType, $author$project$Markdown$Parse$emptyRegister);
-			}
-		}
-	});
-var $author$project$Markdown$Parse$nextStateAtStart = F3(
-	function (option, line, fsm) {
-		var state = fsm.a;
-		var blocks = fsm.b;
-		var register = fsm.c;
-		var _v0 = A2($author$project$BlockType$get, option, line);
-		if (_v0.b.$ === 'Nothing') {
-			var _v1 = _v0.b;
-			return A3($author$project$Markdown$Parse$FSM, $author$project$Markdown$Parse$Error, blocks, register);
-		} else {
-			var level = _v0.a;
-			var blockType = _v0.b.a;
-			var newLine = A2($author$project$Markdown$Parse$removePrefix, blockType, line);
-			var _v2 = A3($author$project$Markdown$Parse$updateRegisterAndBlockType, blockType, level, register);
-			var newBlockType = _v2.a;
-			var newRegister = _v2.b;
-			return (_Utils_eq(
-				newBlockType,
-				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow)) && A2($author$project$Markdown$Parse$newBlockTypeIsDifferent, newBlockType, state)) ? A6($author$project$Markdown$Parse$handleTableStart, blockType, level, line, state, blocks, register) : ($author$project$Markdown$Parse$lineIsNotBlank(line) ? A3(
-				$author$project$Markdown$Parse$FSM,
-				$author$project$Markdown$Parse$InBlock(
-					A4(
-						$author$project$Markdown$Parse$Block,
-						_Utils_Tuple2(-1, -1),
-						newBlockType,
-						level,
-						newLine)),
-				blocks,
-				newRegister) : fsm);
-		}
-	});
-var $author$project$Markdown$Parse$getTopOfBlockTypeStack = function (_v0) {
-	var register = _v0.c;
-	return $elm$core$List$head(register.blockTypeStack);
-};
-var $elm$core$String$trimLeft = _String_trimLeft;
-var $author$project$Markdown$Parse$isBalanced = F3(
-	function (str, mbt, bt2) {
-		if (mbt.$ === 'Nothing') {
-			if (bt2.$ === 'BalancedBlock') {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			var bt1 = mbt.a;
-			var _v2 = _Utils_Tuple3(
-				bt1,
-				bt2,
-				$elm$core$String$trimLeft(str) === '```\n');
-			if (_v2.b.$ === 'BalancedBlock') {
-				if ((_v2.a.$ === 'BalancedBlock') && (_v2.a.a.$ === 'DisplayCode')) {
-					return false;
-				} else {
-					return true;
-				}
-			} else {
-				if ((_v2.a.$ === 'BalancedBlock') && (_v2.a.a.$ === 'DisplayCode')) {
-					if (!_v2.c) {
-						return false;
-					} else {
-						return true;
-					}
-				} else {
-					return false;
-				}
-			}
-		}
-	});
-var $author$project$BlockType$isMarkDown = function (bt) {
-	if (bt.$ === 'BalancedBlock') {
-		return false;
-	} else {
-		return true;
-	}
-};
-var $author$project$Markdown$Parse$addLineToBlock = F2(
-	function (line, _v0) {
-		var id = _v0.a;
-		var blockType_ = _v0.b;
-		var level_ = _v0.c;
-		var content_ = _v0.d;
-		return A4(
-			$author$project$Markdown$Parse$Block,
-			id,
-			blockType_,
-			level_,
-			_Utils_ap(content_, line));
-	});
-var $elm$core$List$drop = F2(
-	function (n, list) {
-		drop:
-		while (true) {
-			if (n <= 0) {
-				return list;
-			} else {
-				if (!list.b) {
-					return list;
-				} else {
-					var x = list.a;
-					var xs = list.b;
-					var $temp$n = n - 1,
-						$temp$list = xs;
-					n = $temp$n;
-					list = $temp$list;
-					continue drop;
-				}
-			}
-		}
-	});
-var $author$project$Markdown$Parse$trimBalancedBlock = function (_v0) {
-	var id = _v0.a;
-	var bt = _v0.b;
-	var lev = _v0.c;
-	var content = _v0.d;
-	return A4(
-		$author$project$Markdown$Parse$Block,
-		id,
-		bt,
-		lev,
-		$elm$core$String$trim(content));
-};
-var $author$project$Markdown$Parse$processBalancedBlock = F3(
-	function (blockType, line, fsm) {
-		var state_ = fsm.a;
-		var blocks_ = fsm.b;
-		var register = fsm.c;
-		if (_Utils_eq(
-			$elm$core$Maybe$Just(blockType),
-			$author$project$Markdown$Parse$typeOfState(
-				$author$project$Markdown$Parse$stateOfFSM(fsm)))) {
-			var _v0 = $author$project$Markdown$Parse$stateOfFSM(fsm);
-			if (_v0.$ === 'InBlock') {
-				var block_ = _v0.a;
-				var line_ = A2($author$project$Markdown$Parse$removePrefix, blockType, line);
-				var block__ = function () {
-					if ((blockType.$ === 'BalancedBlock') && (blockType.a.$ === 'Verbatim')) {
-						var _v2 = blockType.a;
-						return block_;
-					} else {
-						return $author$project$Markdown$Parse$trimBalancedBlock(block_);
-					}
-				}();
-				return A3(
-					$author$project$Markdown$Parse$FSM,
-					$author$project$Markdown$Parse$Start,
-					A2(
-						$elm$core$List$cons,
-						A2($author$project$Markdown$Parse$addLineToBlock, line_, block__),
-						blocks_),
-					register);
-			} else {
-				return fsm;
-			}
-		} else {
-			var _v3 = $author$project$Markdown$Parse$stateOfFSM(fsm);
-			if (_v3.$ === 'InBlock') {
-				var block_ = _v3.a;
-				var line_ = ($elm$core$String$trimLeft(line) === '```\n') ? '\n' : line;
-				var block__ = $author$project$Markdown$Parse$trimBalancedBlock(block_);
-				return A3(
-					$author$project$Markdown$Parse$FSM,
-					$author$project$Markdown$Parse$InBlock(
-						A4(
-							$author$project$Markdown$Parse$Block,
-							register.id,
-							blockType,
-							$author$project$BlockType$level(line_),
-							line_)),
-					A2($elm$core$List$cons, block__, blocks_),
-					_Utils_update(
-						register,
-						{
-							blockTypeStack: A2($elm$core$List$drop, 1, register.blockTypeStack)
-						}));
-			} else {
-				return fsm;
-			}
-		}
-	});
-var $author$project$Markdown$Parse$addLineToState = F2(
-	function (line, state_) {
-		switch (state_.$) {
-			case 'Start':
-				return $author$project$Markdown$Parse$Start;
-			case 'Error':
-				return $author$project$Markdown$Parse$Error;
-			default:
-				var block_ = state_.a;
-				return $author$project$Markdown$Parse$InBlock(
-					A2($author$project$Markdown$Parse$addLineToBlock, line, block_));
-		}
-	});
-var $author$project$Markdown$Parse$addLineToFSM = F2(
-	function (line, _v0) {
-		var state_ = _v0.a;
-		var blocks_ = _v0.b;
-		var register = _v0.c;
-		switch (state_.$) {
-			case 'Start':
-				return A3($author$project$Markdown$Parse$FSM, state_, blocks_, register);
-			case 'Error':
-				return A3($author$project$Markdown$Parse$FSM, state_, blocks_, register);
-			default:
-				var _v2 = $elm$core$List$head(register.blockStack);
-				if (_v2.$ === 'Nothing') {
-					return A3(
-						$author$project$Markdown$Parse$FSM,
-						A2($author$project$Markdown$Parse$addLineToState, line, state_),
-						blocks_,
-						register);
-				} else {
-					var block = _v2.a;
-					return A3(
-						$author$project$Markdown$Parse$FSM,
-						A2($author$project$Markdown$Parse$addLineToState, line, state_),
-						A2($elm$core$List$cons, block, blocks_),
-						_Utils_update(
-							register,
-							{
-								blockStack: A2($elm$core$List$drop, 1, register.blockStack)
-							}));
-				}
-		}
-	});
-var $author$project$Markdown$Parse$adjustLevel = function (block) {
-	var id = block.a;
-	var blockType = block.b;
-	var level = block.c;
-	var content = block.d;
-	if (_Utils_eq(
-		blockType,
-		$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain))) {
-		var newLevel = $author$project$BlockType$level(content);
-		return A4($author$project$Markdown$Parse$Block, id, blockType, newLevel, content);
-	} else {
-		return block;
-	}
-};
-var $author$project$Markdown$Parse$addNewMarkdownBlock = F4(
-	function (option, currentBlock, line, fsm) {
-		var id = currentBlock.a;
-		var typeOfCurrentBlock = currentBlock.b;
-		var levelOfCurrentBlock = currentBlock.c;
-		var state = fsm.a;
-		var blocks = fsm.b;
-		var register = fsm.c;
-		var _v0 = A2($author$project$BlockType$get, option, line);
-		if (_v0.b.$ === 'Nothing') {
-			var _v1 = _v0.b;
-			return fsm;
-		} else {
-			var level = _v0.a;
-			var newBlockType_ = _v0.b.a;
-			var newLine = A2($author$project$Markdown$Parse$removePrefix, typeOfCurrentBlock, line);
-			var _v2 = A3($author$project$Markdown$Parse$updateRegisterAndBlockType, newBlockType_, level, register);
-			var newBlockType = _v2.a;
-			var newRegister = _v2.b;
-			var newBlock = A4(
-				$author$project$Markdown$Parse$Block,
-				id,
-				newBlockType,
-				level,
-				A2($author$project$Markdown$Parse$removePrefix, newBlockType, newLine));
-			return A3(
-				$author$project$Markdown$Parse$FSM,
-				$author$project$Markdown$Parse$InBlock(newBlock),
-				A2(
-					$elm$core$List$cons,
-					$author$project$Markdown$Parse$adjustLevel(currentBlock),
-					blocks),
-				newRegister);
-		}
-	});
-var $author$project$Markdown$Parse$handleInnerTableRow = F6(
-	function (blockTypeOfLine, level, line, state, blocks, register) {
-		switch (state.$) {
-			case 'Start':
-				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
-			case 'Error':
-				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
-			default:
-				var currentBlock = state.a;
-				var tableMarker = A4(
-					$author$project$Markdown$Parse$Block,
-					_Utils_Tuple2(-1, -1),
-					$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow),
-					level + 1,
-					'deleteMe');
-				var rowBlock = A4(
-					$author$project$Markdown$Parse$Block,
-					_Utils_Tuple2(-1, -1),
-					blockTypeOfLine,
-					level + 1,
-					'row');
-				var childrenOfNewBlock = A2($author$project$Markdown$Parse$parseTableRow, level + 2, line);
-				var newRow = _Utils_ap(
-					childrenOfNewBlock,
-					_List_fromArray(
-						[rowBlock]));
-				return A3(
-					$author$project$Markdown$Parse$FSM,
-					$author$project$Markdown$Parse$InBlock(tableMarker),
-					blocks,
-					_Utils_update(
-						register,
-						{
-							blockStack: _Utils_ap(register.blockStack, newRow)
-						}));
-		}
-	});
-var $author$project$Markdown$Parse$handleTableRow = F6(
-	function (blockTypeOfLine, level, line, state, blocks, register) {
-		return A2($author$project$Markdown$Parse$newBlockTypeIsDifferent, blockTypeOfLine, state) ? A6($author$project$Markdown$Parse$handleTableStart, blockTypeOfLine, level, line, state, blocks, register) : A6($author$project$Markdown$Parse$handleInnerTableRow, blockTypeOfLine, level, line, state, blocks, register);
-	});
-var $author$project$BlockType$isBalanced = function (bt) {
-	if (bt.$ === 'BalancedBlock') {
-		return true;
-	} else {
-		return false;
-	}
-};
-var $author$project$Markdown$Parse$processMarkDownBlock = F5(
-	function (option, level, blockTypeOfLine, line, fsm) {
-		var state = fsm.a;
-		var blocks = fsm.b;
-		var register = fsm.c;
-		if (state.$ === 'InBlock') {
-			var currentBlock = state.a;
-			var id = currentBlock.a;
-			var typeOfCurrentBlock = currentBlock.b;
-			var levelOfCurrentBlock = currentBlock.c;
-			return $author$project$BlockType$isBalanced(typeOfCurrentBlock) ? A2($author$project$Markdown$Parse$addLineToFSM, line, fsm) : (_Utils_eq(
-				blockTypeOfLine,
-				$author$project$BlockType$MarkdownBlock($author$project$BlockType$Blank)) ? A3(
-				$author$project$Markdown$Parse$FSM,
-				$author$project$Markdown$Parse$Start,
-				A2(
-					$elm$core$List$cons,
-					$author$project$Markdown$Parse$adjustLevel(currentBlock),
-					blocks),
-				register) : ((_Utils_eq(
-				blockTypeOfLine,
-				$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain)) && ((!_Utils_eq(
-				typeOfCurrentBlock,
-				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow))) && $author$project$Markdown$Parse$lineIsNotBlank(line))) ? A2($author$project$Markdown$Parse$addLineToFSM, line, fsm) : (_Utils_eq(
-				blockTypeOfLine,
-				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow)) ? A6($author$project$Markdown$Parse$handleTableRow, blockTypeOfLine, level, line, state, blocks, register) : A4($author$project$Markdown$Parse$addNewMarkdownBlock, option, currentBlock, line, fsm))));
-		} else {
-			return fsm;
-		}
-	});
-var $author$project$Markdown$Parse$nextStateInBlock = F3(
-	function (option, line, fsm) {
-		var state_ = fsm.a;
-		var blocks_ = fsm.b;
-		var register = fsm.c;
-		var _v0 = A2($author$project$BlockType$get, option, line);
-		if (_v0.b.$ === 'Nothing') {
-			var _v1 = _v0.b;
-			return A3(
-				$author$project$Markdown$Parse$FSM,
-				$author$project$Markdown$Parse$Error,
-				$author$project$Markdown$Parse$blockListOfFSM(fsm),
-				register);
-		} else {
-			var level = _v0.a;
-			var blockType = _v0.b.a;
-			return A3(
-				$author$project$Markdown$Parse$isBalanced,
-				line,
-				$author$project$Markdown$Parse$getTopOfBlockTypeStack(fsm),
-				blockType) ? A3($author$project$Markdown$Parse$processBalancedBlock, blockType, line, fsm) : ($author$project$BlockType$isMarkDown(blockType) ? A5($author$project$Markdown$Parse$processMarkDownBlock, option, level, blockType, line, fsm) : fsm);
-		}
-	});
-var $author$project$Markdown$Parse$nextState = F3(
-	function (option, line, fsm_) {
-		var state = fsm_.a;
-		var blocks = fsm_.b;
-		var register = fsm_.c;
-		var fsm = $author$project$Markdown$Parse$handleRegister(fsm_);
-		var _v0 = $author$project$Markdown$Parse$stateOfFSM(fsm);
-		switch (_v0.$) {
-			case 'Start':
-				return A3($author$project$Markdown$Parse$nextStateAtStart, option, line, fsm);
-			case 'InBlock':
-				return A3($author$project$Markdown$Parse$nextStateInBlock, option, line, fsm);
-			default:
-				return fsm;
-		}
-	});
-var $author$project$Markdown$Parse$runFSM = F2(
-	function (option, lines) {
-		var folder = F2(
-			function (line, fsm) {
-				return A3($author$project$Markdown$Parse$nextState, option, line, fsm);
-			});
-		return A3($elm$core$List$foldl, folder, $author$project$Markdown$Parse$initialFSM, lines);
-	});
-var $elm$core$String$lines = _String_lines;
-var $author$project$Markdown$Parse$splitIntoLines = function (str) {
-	return A2(
-		$elm$core$List$map,
-		function (l) {
-			return l + '\n';
-		},
-		$elm$core$String$lines(str));
-};
-var $author$project$Markdown$Parse$toBlockTree = F2(
-	function (option, document) {
-		return A3(
-			$jxxcarlson$htree$HTree$fromList,
-			$author$project$Markdown$Parse$rootBlock,
-			$author$project$Markdown$Parse$blockLevel,
-			A2(
-				$elm$core$List$map,
-				$author$project$Markdown$Parse$changeLevel(1),
-				$author$project$Markdown$Parse$flush(
-					A2(
-						$author$project$Markdown$Parse$runFSM,
-						option,
-						$author$project$Markdown$Parse$splitIntoLines(document)))));
-	});
-var $author$project$Markdown$Parse$toMDBlockTree = F3(
-	function (version, option, document) {
-		return A2(
-			$zwilias$elm_rosetree$Tree$indexedMap,
-			F2(
-				function (idx, block) {
-					return A3($author$project$Markdown$Parse$setBlockIndex, version, idx, block);
-				}),
-			A2(
-				$zwilias$elm_rosetree$Tree$map,
-				$author$project$Markdown$Parse$selectParser(option),
-				A2($author$project$Markdown$Parse$toBlockTree, option, document)));
-	});
 var $author$project$Markdown$Render$Composite = function (a) {
 	return {$: 'Composite', a: a};
 };
 var $author$project$Markdown$Render$Simple = function (a) {
 	return {$: 'Simple', a: a};
+};
+var $zwilias$elm_rosetree$Tree$children = function (_v0) {
+	var c = _v0.b;
+	return c;
 };
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$json$Json$Encode$string = _Json_wrap;
@@ -8523,6 +5540,7 @@ var $author$project$Markdown$Render$mathText = function (content) {
 			]),
 		_List_Nil);
 };
+var $elm$core$String$trim = _String_trim;
 var $author$project$Markdown$Render$displayMathText = function (str) {
 	var str2 = $elm$core$String$trim(str);
 	return $author$project$Markdown$Render$mathText('$$\n' + (str2 + '\n$$'));
@@ -8535,6 +5553,10 @@ var $author$project$Markdown$Parse$stringFromId = function (_v0) {
 var $author$project$Markdown$Render$idAttr = function (id) {
 	return $elm$html$Html$Attributes$id(
 		$author$project$Markdown$Parse$stringFromId(id));
+};
+var $zwilias$elm_rosetree$Tree$label = function (_v0) {
+	var v = _v0.a;
+	return v;
 };
 var $elm$virtual_dom$VirtualDom$keyedNode = function (tag) {
 	return _VirtualDom_keyedNode(
@@ -8758,6 +5780,10 @@ var $elm$core$List$intersperse = F2(
 			return A2($elm$core$List$cons, hd, spersed);
 		}
 	});
+var $elm$core$Tuple$second = function (_v0) {
+	var y = _v0.b;
+	return y;
+};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Style$Style1 = {$: 'Style1'};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Style$Style2 = {$: 'Style2'};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Style$Style3 = {$: 'Style3'};
@@ -9069,6 +6095,46 @@ var $elm$parser$Parser$DeadEnd = F3(
 var $elm$parser$Parser$problemToDeadEnd = function (p) {
 	return A3($elm$parser$Parser$DeadEnd, p.row, p.col, p.problem);
 };
+var $elm$parser$Parser$Advanced$bagToList = F2(
+	function (bag, list) {
+		bagToList:
+		while (true) {
+			switch (bag.$) {
+				case 'Empty':
+					return list;
+				case 'AddRight':
+					var bag1 = bag.a;
+					var x = bag.b;
+					var $temp$bag = bag1,
+						$temp$list = A2($elm$core$List$cons, x, list);
+					bag = $temp$bag;
+					list = $temp$list;
+					continue bagToList;
+				default:
+					var bag1 = bag.a;
+					var bag2 = bag.b;
+					var $temp$bag = bag1,
+						$temp$list = A2($elm$parser$Parser$Advanced$bagToList, bag2, list);
+					bag = $temp$bag;
+					list = $temp$list;
+					continue bagToList;
+			}
+		}
+	});
+var $elm$parser$Parser$Advanced$run = F2(
+	function (_v0, src) {
+		var parse = _v0.a;
+		var _v1 = parse(
+			{col: 1, context: _List_Nil, indent: 1, offset: 0, row: 1, src: src});
+		if (_v1.$ === 'Good') {
+			var value = _v1.b;
+			return $elm$core$Result$Ok(value);
+		} else {
+			var bag = _v1.b;
+			return $elm$core$Result$Err(
+				A2($elm$parser$Parser$Advanced$bagToList, bag, _List_Nil));
+		}
+	});
 var $elm$parser$Parser$run = F2(
 	function (parser, source) {
 		var _v0 = A2($elm$parser$Parser$Advanced$run, parser, source);
@@ -9186,7 +6252,86 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Line$Helpers$toLines = F
 				_Utils_Tuple3(_List_Nil, _List_Nil, $elm$core$Maybe$Nothing),
 				revTokens));
 	});
+var $elm$parser$Parser$Advanced$Parser = function (a) {
+	return {$: 'Parser', a: a};
+};
+var $elm$parser$Parser$Advanced$Bad = F2(
+	function (a, b) {
+		return {$: 'Bad', a: a, b: b};
+	});
+var $elm$parser$Parser$Advanced$Good = F3(
+	function (a, b, c) {
+		return {$: 'Good', a: a, b: b, c: c};
+	});
+var $elm$parser$Parser$Advanced$loopHelp = F4(
+	function (p, state, callback, s0) {
+		loopHelp:
+		while (true) {
+			var _v0 = callback(state);
+			var parse = _v0.a;
+			var _v1 = parse(s0);
+			if (_v1.$ === 'Good') {
+				var p1 = _v1.a;
+				var step = _v1.b;
+				var s1 = _v1.c;
+				if (step.$ === 'Loop') {
+					var newState = step.a;
+					var $temp$p = p || p1,
+						$temp$state = newState,
+						$temp$callback = callback,
+						$temp$s0 = s1;
+					p = $temp$p;
+					state = $temp$state;
+					callback = $temp$callback;
+					s0 = $temp$s0;
+					continue loopHelp;
+				} else {
+					var result = step.a;
+					return A3($elm$parser$Parser$Advanced$Good, p || p1, result, s1);
+				}
+			} else {
+				var p1 = _v1.a;
+				var x = _v1.b;
+				return A2($elm$parser$Parser$Advanced$Bad, p || p1, x);
+			}
+		}
+	});
+var $elm$parser$Parser$Advanced$loop = F2(
+	function (state, callback) {
+		return $elm$parser$Parser$Advanced$Parser(
+			function (s) {
+				return A4($elm$parser$Parser$Advanced$loopHelp, false, state, callback, s);
+			});
+	});
+var $elm$parser$Parser$Advanced$map = F2(
+	function (func, _v0) {
+		var parse = _v0.a;
+		return $elm$parser$Parser$Advanced$Parser(
+			function (s0) {
+				var _v1 = parse(s0);
+				if (_v1.$ === 'Good') {
+					var p = _v1.a;
+					var a = _v1.b;
+					var s1 = _v1.c;
+					return A3(
+						$elm$parser$Parser$Advanced$Good,
+						p,
+						func(a),
+						s1);
+				} else {
+					var p = _v1.a;
+					var x = _v1.b;
+					return A2($elm$parser$Parser$Advanced$Bad, p, x);
+				}
+			});
+	});
 var $elm$parser$Parser$map = $elm$parser$Parser$Advanced$map;
+var $elm$parser$Parser$Advanced$Done = function (a) {
+	return {$: 'Done', a: a};
+};
+var $elm$parser$Parser$Advanced$Loop = function (a) {
+	return {$: 'Loop', a: a};
+};
 var $elm$parser$Parser$toAdvancedStep = function (step) {
 	if (step.$ === 'Loop') {
 		var s = step.a;
@@ -9215,6 +6360,10 @@ var $elm$parser$Parser$Loop = function (a) {
 	return {$: 'Loop', a: a};
 };
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Type$Normal = {$: 'Normal'};
+var $elm$core$Basics$always = F2(
+	function (a, _v0) {
+		return a;
+	});
 var $elm$parser$Parser$Advanced$andThen = F2(
 	function (callback, _v0) {
 		var parseA = _v0.a;
@@ -9254,11 +6403,139 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Css$String = {$
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Css$AtRuleValue = {$: 'AtRuleValue'};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Css$Keyword = {$: 'Keyword'};
 var $elm$parser$Parser$UnexpectedChar = {$: 'UnexpectedChar'};
+var $elm$parser$Parser$Advanced$AddRight = F2(
+	function (a, b) {
+		return {$: 'AddRight', a: a, b: b};
+	});
+var $elm$parser$Parser$Advanced$DeadEnd = F4(
+	function (row, col, problem, contextStack) {
+		return {col: col, contextStack: contextStack, problem: problem, row: row};
+	});
+var $elm$parser$Parser$Advanced$Empty = {$: 'Empty'};
+var $elm$parser$Parser$Advanced$fromState = F2(
+	function (s, x) {
+		return A2(
+			$elm$parser$Parser$Advanced$AddRight,
+			$elm$parser$Parser$Advanced$Empty,
+			A4($elm$parser$Parser$Advanced$DeadEnd, s.row, s.col, x, s.context));
+	});
+var $elm$parser$Parser$Advanced$isSubChar = _Parser_isSubChar;
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $elm$parser$Parser$Advanced$chompIf = F2(
+	function (isGood, expecting) {
+		return $elm$parser$Parser$Advanced$Parser(
+			function (s) {
+				var newOffset = A3($elm$parser$Parser$Advanced$isSubChar, isGood, s.offset, s.src);
+				return _Utils_eq(newOffset, -1) ? A2(
+					$elm$parser$Parser$Advanced$Bad,
+					false,
+					A2($elm$parser$Parser$Advanced$fromState, s, expecting)) : (_Utils_eq(newOffset, -2) ? A3(
+					$elm$parser$Parser$Advanced$Good,
+					true,
+					_Utils_Tuple0,
+					{col: 1, context: s.context, indent: s.indent, offset: s.offset + 1, row: s.row + 1, src: s.src}) : A3(
+					$elm$parser$Parser$Advanced$Good,
+					true,
+					_Utils_Tuple0,
+					{col: s.col + 1, context: s.context, indent: s.indent, offset: newOffset, row: s.row, src: s.src}));
+			});
+	});
 var $elm$parser$Parser$chompIf = function (isGood) {
 	return A2($elm$parser$Parser$Advanced$chompIf, isGood, $elm$parser$Parser$UnexpectedChar);
 };
+var $elm$parser$Parser$Advanced$chompWhileHelp = F5(
+	function (isGood, offset, row, col, s0) {
+		chompWhileHelp:
+		while (true) {
+			var newOffset = A3($elm$parser$Parser$Advanced$isSubChar, isGood, offset, s0.src);
+			if (_Utils_eq(newOffset, -1)) {
+				return A3(
+					$elm$parser$Parser$Advanced$Good,
+					_Utils_cmp(s0.offset, offset) < 0,
+					_Utils_Tuple0,
+					{col: col, context: s0.context, indent: s0.indent, offset: offset, row: row, src: s0.src});
+			} else {
+				if (_Utils_eq(newOffset, -2)) {
+					var $temp$isGood = isGood,
+						$temp$offset = offset + 1,
+						$temp$row = row + 1,
+						$temp$col = 1,
+						$temp$s0 = s0;
+					isGood = $temp$isGood;
+					offset = $temp$offset;
+					row = $temp$row;
+					col = $temp$col;
+					s0 = $temp$s0;
+					continue chompWhileHelp;
+				} else {
+					var $temp$isGood = isGood,
+						$temp$offset = newOffset,
+						$temp$row = row,
+						$temp$col = col + 1,
+						$temp$s0 = s0;
+					isGood = $temp$isGood;
+					offset = $temp$offset;
+					row = $temp$row;
+					col = $temp$col;
+					s0 = $temp$s0;
+					continue chompWhileHelp;
+				}
+			}
+		}
+	});
+var $elm$parser$Parser$Advanced$chompWhile = function (isGood) {
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s) {
+			return A5($elm$parser$Parser$Advanced$chompWhileHelp, isGood, s.offset, s.row, s.col, s);
+		});
+};
 var $elm$parser$Parser$chompWhile = $elm$parser$Parser$Advanced$chompWhile;
+var $elm$parser$Parser$Advanced$map2 = F3(
+	function (func, _v0, _v1) {
+		var parseA = _v0.a;
+		var parseB = _v1.a;
+		return $elm$parser$Parser$Advanced$Parser(
+			function (s0) {
+				var _v2 = parseA(s0);
+				if (_v2.$ === 'Bad') {
+					var p = _v2.a;
+					var x = _v2.b;
+					return A2($elm$parser$Parser$Advanced$Bad, p, x);
+				} else {
+					var p1 = _v2.a;
+					var a = _v2.b;
+					var s1 = _v2.c;
+					var _v3 = parseB(s1);
+					if (_v3.$ === 'Bad') {
+						var p2 = _v3.a;
+						var x = _v3.b;
+						return A2($elm$parser$Parser$Advanced$Bad, p1 || p2, x);
+					} else {
+						var p2 = _v3.a;
+						var b = _v3.b;
+						var s2 = _v3.c;
+						return A3(
+							$elm$parser$Parser$Advanced$Good,
+							p1 || p2,
+							A2(func, a, b),
+							s2);
+					}
+				}
+			});
+	});
+var $elm$parser$Parser$Advanced$ignorer = F2(
+	function (keepParser, ignoreParser) {
+		return A3($elm$parser$Parser$Advanced$map2, $elm$core$Basics$always, keepParser, ignoreParser);
+	});
 var $elm$parser$Parser$ignorer = $elm$parser$Parser$Advanced$ignorer;
+var $elm$parser$Parser$Advanced$succeed = function (a) {
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s) {
+			return A3($elm$parser$Parser$Advanced$Good, false, a, s);
+		});
+};
 var $elm$parser$Parser$succeed = $elm$parser$Parser$Advanced$succeed;
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Helpers$chompIfThenWhile = function (isNotRelevant) {
 	return A2(
@@ -9268,6 +6545,34 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Helpers$chompIf
 			$elm$parser$Parser$succeed(_Utils_Tuple0),
 			$elm$parser$Parser$chompIf(isNotRelevant)),
 		$elm$parser$Parser$chompWhile(isNotRelevant));
+};
+var $elm$parser$Parser$Advanced$mapChompedString = F2(
+	function (func, _v0) {
+		var parse = _v0.a;
+		return $elm$parser$Parser$Advanced$Parser(
+			function (s0) {
+				var _v1 = parse(s0);
+				if (_v1.$ === 'Bad') {
+					var p = _v1.a;
+					var x = _v1.b;
+					return A2($elm$parser$Parser$Advanced$Bad, p, x);
+				} else {
+					var p = _v1.a;
+					var a = _v1.b;
+					var s1 = _v1.c;
+					return A3(
+						$elm$parser$Parser$Advanced$Good,
+						p,
+						A2(
+							func,
+							A3($elm$core$String$slice, s0.offset, s1.offset, s0.src),
+							a),
+						s1);
+				}
+			});
+	});
+var $elm$parser$Parser$Advanced$getChompedString = function (parser) {
+	return A2($elm$parser$Parser$Advanced$mapChompedString, $elm$core$Basics$always, parser);
 };
 var $elm$parser$Parser$getChompedString = $elm$parser$Parser$Advanced$getChompedString;
 var $elm$core$Set$Set_elm_builtin = function (a) {
@@ -9465,6 +6770,7 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Helpers$isSpace
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Helpers$isWhitespace = function (c) {
 	return $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Helpers$isSpace(c) || $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Helpers$isLineBreak(c);
 };
+var $elm$core$Basics$not = _Basics_not;
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Css$selectorNameInvalidCharSet = $elm$core$Set$fromList(
 	_List_fromArray(
 		[
@@ -9512,6 +6818,49 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Css$atRuleKeywo
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Css$atRuleSet = $elm$core$Set$fromList(
 	_List_fromArray(
 		['@page', '@font-face', '@swash', '@annotation', '@ornaments', '@stylistic', '@styleset', '@character-variant']));
+var $elm$core$Basics$neq = _Utils_notEqual;
+var $elm$parser$Parser$Advanced$Append = F2(
+	function (a, b) {
+		return {$: 'Append', a: a, b: b};
+	});
+var $elm$parser$Parser$Advanced$oneOfHelp = F3(
+	function (s0, bag, parsers) {
+		oneOfHelp:
+		while (true) {
+			if (!parsers.b) {
+				return A2($elm$parser$Parser$Advanced$Bad, false, bag);
+			} else {
+				var parse = parsers.a.a;
+				var remainingParsers = parsers.b;
+				var _v1 = parse(s0);
+				if (_v1.$ === 'Good') {
+					var step = _v1;
+					return step;
+				} else {
+					var step = _v1;
+					var p = step.a;
+					var x = step.b;
+					if (p) {
+						return step;
+					} else {
+						var $temp$s0 = s0,
+							$temp$bag = A2($elm$parser$Parser$Advanced$Append, bag, x),
+							$temp$parsers = remainingParsers;
+						s0 = $temp$s0;
+						bag = $temp$bag;
+						parsers = $temp$parsers;
+						continue oneOfHelp;
+					}
+				}
+			}
+		}
+	});
+var $elm$parser$Parser$Advanced$oneOf = function (parsers) {
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s) {
+			return A3($elm$parser$Parser$Advanced$oneOfHelp, s, $elm$parser$Parser$Advanced$Empty, parsers);
+		});
+};
 var $elm$parser$Parser$oneOf = $elm$parser$Parser$Advanced$oneOf;
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Type$Comment = {$: 'Comment'};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Helpers$addThen = F3(
@@ -9550,6 +6899,32 @@ var $elm$parser$Parser$end = $elm$parser$Parser$Advanced$end($elm$parser$Parser$
 var $elm$parser$Parser$ExpectingSymbol = function (a) {
 	return {$: 'ExpectingSymbol', a: a};
 };
+var $elm$parser$Parser$Advanced$Token = F2(
+	function (a, b) {
+		return {$: 'Token', a: a, b: b};
+	});
+var $elm$parser$Parser$Advanced$isSubString = _Parser_isSubString;
+var $elm$parser$Parser$Advanced$token = function (_v0) {
+	var str = _v0.a;
+	var expecting = _v0.b;
+	var progress = !$elm$core$String$isEmpty(str);
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s) {
+			var _v1 = A5($elm$parser$Parser$Advanced$isSubString, str, s.offset, s.row, s.col, s.src);
+			var newOffset = _v1.a;
+			var newRow = _v1.b;
+			var newCol = _v1.c;
+			return _Utils_eq(newOffset, -1) ? A2(
+				$elm$parser$Parser$Advanced$Bad,
+				false,
+				A2($elm$parser$Parser$Advanced$fromState, s, expecting)) : A3(
+				$elm$parser$Parser$Advanced$Good,
+				progress,
+				_Utils_Tuple0,
+				{col: newCol, context: s.context, indent: s.indent, offset: newOffset, row: newRow, src: s.src});
+		});
+};
+var $elm$parser$Parser$Advanced$symbol = $elm$parser$Parser$Advanced$token;
 var $elm$parser$Parser$symbol = function (str) {
 	return $elm$parser$Parser$Advanced$symbol(
 		A2(
@@ -9862,6 +7237,21 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Css$nestableAtR
 			]));
 };
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Css$Number = {$: 'Number'};
+var $elm$parser$Parser$Advanced$backtrackable = function (_v0) {
+	var parse = _v0.a;
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s0) {
+			var _v1 = parse(s0);
+			if (_v1.$ === 'Bad') {
+				var x = _v1.b;
+				return A2($elm$parser$Parser$Advanced$Bad, false, x);
+			} else {
+				var a = _v1.b;
+				var s1 = _v1.c;
+				return A3($elm$parser$Parser$Advanced$Good, false, a, s1);
+			}
+		});
+};
 var $elm$parser$Parser$backtrackable = $elm$parser$Parser$Advanced$backtrackable;
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Helpers$escapableSet = $elm$core$Set$fromList(
 	_List_fromArray(
@@ -10859,6 +8249,11 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$css = A2(
 	$elm$core$Basics$composeR,
 	$pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Css$toLines,
 	$elm$core$Result$map($pablohirafuji$elm_syntax_highlight$SyntaxHighlight$HCode));
+var $elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Elm$inlineComment = A2(
 	$elm$parser$Parser$map,
 	function (b) {
@@ -13182,6 +10577,15 @@ var $elm$regex$Regex$Match = F4(
 var $elm$regex$Regex$contains = _Regex_contains;
 var $elm$regex$Regex$fromStringWith = _Regex_fromStringWith;
 var $elm$regex$Regex$never = _Regex_never;
+var $elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Language$Sql$keywordPattern = A2(
 	$elm$core$Maybe$withDefault,
 	$elm$regex$Regex$never,
@@ -13747,7 +11151,37 @@ var $author$project$Markdown$Render$parserOfLanguage = function (lang_) {
 };
 var $elm$html$Html$pre = _VirtualDom_node('pre');
 var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
 var $elm$html$Html$em = _VirtualDom_node('em');
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
 var $elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -14299,6 +11733,9 @@ var $author$project$Markdown$Render$renderHeading = F5(
 						]));
 		}
 	});
+var $author$project$MDInline$OrdinaryText = function (a) {
+	return {$: 'OrdinaryText', a: a};
+};
 var $author$project$Markdown$Render$alphabet = function (k) {
 	var alpha = _List_fromArray(
 		['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']);
@@ -14309,6 +11746,12 @@ var $author$project$Markdown$Render$alphabet = function (k) {
 			A2($elm$core$List$drop, k - 1, alpha)));
 };
 var $elm$html$Html$li = _VirtualDom_node('li');
+var $author$project$Markdown$Parse$M = function (a) {
+	return {$: 'M', a: a};
+};
+var $author$project$MDInline$Paragraph = function (a) {
+	return {$: 'Paragraph', a: a};
+};
 var $author$project$Markdown$Render$prependToParagraph = F2(
 	function (head, tail) {
 		if (tail.$ === 'T') {
@@ -14453,6 +11896,17 @@ var $elm$virtual_dom$VirtualDom$attribute = F2(
 			_VirtualDom_noJavaScriptOrHtmlUri(value));
 	});
 var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
 var $elm$html$Html$Attributes$classList = function (classes) {
 	return $elm$html$Html$Attributes$class(
 		A2(
@@ -14636,6 +12090,7 @@ var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$toBlockHtml = F2(
 		return A2($pablohirafuji$elm_syntax_highlight$SyntaxHighlight$View$toBlockHtml, maybeStart, lines);
 	});
 var $elm$html$Html$tr = _VirtualDom_node('tr');
+var $elm$core$String$trimLeft = _String_trimLeft;
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$useTheme = function (_v0) {
 	var theme = _v0.a;
 	return A3(
@@ -15104,7 +12559,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 			}
 		}
 	});
-var $author$project$Markdown$Render$renderHtml = F2(
+var $author$project$Markdown$Render$fromAST = F2(
 	function (selectedId, blockTreeWithId) {
 		return function (x) {
 			return A2(
@@ -15118,6 +12573,126 @@ var $author$project$Markdown$Render$renderHtml = F2(
 				$author$project$Markdown$Render$mmBlockTreeToHtml(selectedId),
 				$zwilias$elm_rosetree$Tree$children(blockTreeWithId)));
 	});
+var $zwilias$elm_rosetree$Tree$Tree = F2(
+	function (a, b) {
+		return {$: 'Tree', a: a, b: b};
+	});
+var $zwilias$elm_rosetree$Tree$mapAccumulateHelp = F4(
+	function (f, state, acc, stack) {
+		mapAccumulateHelp:
+		while (true) {
+			var _v0 = acc.todo;
+			if (!_v0.b) {
+				var node = A2(
+					$zwilias$elm_rosetree$Tree$Tree,
+					acc.label,
+					$elm$core$List$reverse(acc.done));
+				if (!stack.b) {
+					return _Utils_Tuple2(state, node);
+				} else {
+					var top = stack.a;
+					var rest = stack.b;
+					var $temp$f = f,
+						$temp$state = state,
+						$temp$acc = _Utils_update(
+						top,
+						{
+							done: A2($elm$core$List$cons, node, top.done)
+						}),
+						$temp$stack = rest;
+					f = $temp$f;
+					state = $temp$state;
+					acc = $temp$acc;
+					stack = $temp$stack;
+					continue mapAccumulateHelp;
+				}
+			} else {
+				if (!_v0.a.b.b) {
+					var _v2 = _v0.a;
+					var d = _v2.a;
+					var rest = _v0.b;
+					var _v3 = A2(f, state, d);
+					var state_ = _v3.a;
+					var label_ = _v3.b;
+					var $temp$f = f,
+						$temp$state = state_,
+						$temp$acc = _Utils_update(
+						acc,
+						{
+							done: A2(
+								$elm$core$List$cons,
+								A2($zwilias$elm_rosetree$Tree$Tree, label_, _List_Nil),
+								acc.done),
+							todo: rest
+						}),
+						$temp$stack = stack;
+					f = $temp$f;
+					state = $temp$state;
+					acc = $temp$acc;
+					stack = $temp$stack;
+					continue mapAccumulateHelp;
+				} else {
+					var _v4 = _v0.a;
+					var d = _v4.a;
+					var cs = _v4.b;
+					var rest = _v0.b;
+					var _v5 = A2(f, state, d);
+					var state_ = _v5.a;
+					var label_ = _v5.b;
+					var $temp$f = f,
+						$temp$state = state_,
+						$temp$acc = {done: _List_Nil, label: label_, todo: cs},
+						$temp$stack = A2(
+						$elm$core$List$cons,
+						_Utils_update(
+							acc,
+							{todo: rest}),
+						stack);
+					f = $temp$f;
+					state = $temp$state;
+					acc = $temp$acc;
+					stack = $temp$stack;
+					continue mapAccumulateHelp;
+				}
+			}
+		}
+	});
+var $zwilias$elm_rosetree$Tree$mapAccumulate = F3(
+	function (f, s, _v0) {
+		var d = _v0.a;
+		var cs = _v0.b;
+		var _v1 = A2(f, s, d);
+		var s_ = _v1.a;
+		var d_ = _v1.b;
+		return A4(
+			$zwilias$elm_rosetree$Tree$mapAccumulateHelp,
+			f,
+			s_,
+			{done: _List_Nil, label: d_, todo: cs},
+			_List_Nil);
+	});
+var $zwilias$elm_rosetree$Tree$map = F2(
+	function (f, t) {
+		return A3(
+			$zwilias$elm_rosetree$Tree$mapAccumulate,
+			F2(
+				function (_v0, e) {
+					return _Utils_Tuple2(
+						_Utils_Tuple0,
+						f(e));
+				}),
+			_Utils_Tuple0,
+			t).b;
+	});
+var $author$project$BlockType$Heading = function (a) {
+	return {$: 'Heading', a: a};
+};
+var $author$project$MDInline$Line = function (a) {
+	return {$: 'Line', a: a};
+};
+var $author$project$BlockType$MarkdownBlock = function (a) {
+	return {$: 'MarkdownBlock', a: a};
+};
 var $author$project$Markdown$Render$id0 = _Utils_Tuple2(-1, -1);
 var $author$project$Markdown$Render$renderTOCHeading = F5(
 	function (selectedId, id, k, level, blockContent) {
@@ -15240,6 +12815,79 @@ var $author$project$Markdown$Render$renderTableOfContents = F2(
 				}(
 					A2($elm$core$List$drop, 1, blockList))));
 	});
+var $zwilias$elm_rosetree$Tree$foldlHelp = F4(
+	function (f, acc, trees, nextSets) {
+		foldlHelp:
+		while (true) {
+			if (!trees.b) {
+				if (nextSets.b) {
+					var set = nextSets.a;
+					var sets = nextSets.b;
+					var $temp$f = f,
+						$temp$acc = acc,
+						$temp$trees = set,
+						$temp$nextSets = sets;
+					f = $temp$f;
+					acc = $temp$acc;
+					trees = $temp$trees;
+					nextSets = $temp$nextSets;
+					continue foldlHelp;
+				} else {
+					return acc;
+				}
+			} else {
+				if (!trees.a.b.b) {
+					var _v2 = trees.a;
+					var d = _v2.a;
+					var rest = trees.b;
+					var $temp$f = f,
+						$temp$acc = A2(f, d, acc),
+						$temp$trees = rest,
+						$temp$nextSets = nextSets;
+					f = $temp$f;
+					acc = $temp$acc;
+					trees = $temp$trees;
+					nextSets = $temp$nextSets;
+					continue foldlHelp;
+				} else {
+					var _v3 = trees.a;
+					var d = _v3.a;
+					var xs = _v3.b;
+					var rest = trees.b;
+					var $temp$f = f,
+						$temp$acc = A2(f, d, acc),
+						$temp$trees = xs,
+						$temp$nextSets = A2($elm$core$List$cons, rest, nextSets);
+					f = $temp$f;
+					acc = $temp$acc;
+					trees = $temp$trees;
+					nextSets = $temp$nextSets;
+					continue foldlHelp;
+				}
+			}
+		}
+	});
+var $zwilias$elm_rosetree$Tree$foldl = F3(
+	function (f, acc, t) {
+		return A4(
+			$zwilias$elm_rosetree$Tree$foldlHelp,
+			f,
+			acc,
+			_List_fromArray(
+				[t]),
+			_List_Nil);
+	});
+var $zwilias$elm_rosetree$Tree$foldr = F3(
+	function (f, acc, t) {
+		return A3(
+			$elm$core$List$foldl,
+			f,
+			acc,
+			A3($zwilias$elm_rosetree$Tree$foldl, $elm$core$List$cons, _List_Nil, t));
+	});
+var $zwilias$elm_rosetree$Tree$flatten = function (t) {
+	return A3($zwilias$elm_rosetree$Tree$foldr, $elm$core$List$cons, _List_Nil, t);
+};
 var $author$project$Markdown$Render$typeOfMDBlock = function (_v0) {
 	var bt = _v0.a;
 	return bt;
@@ -15316,6 +12964,16 @@ var $author$project$Markdown$Render$renderHtmlWithExternalTOC = F3(
 				_List_fromArray(
 					[toc_]))
 		};
+	});
+var $elm$core$Maybe$map = F2(
+	function (f, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return $elm$core$Maybe$Just(
+				f(value));
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
 	});
 var $author$project$Markdown$Render$renderHtmlWithTOC = F3(
 	function (selectedId, heading, ast) {
@@ -15395,12 +13053,12 @@ var $author$project$Markdown$Render$renderHtmlWithTOC = F3(
 								A2($elm$core$List$cons, title_, body))))));
 		}
 	});
-var $author$project$Markdown$Render$withOptionsFromAST = F4(
+var $author$project$Markdown$Render$fromASTWithOptions = F4(
 	function (markdownOption, outputOption, selectedId, ast) {
 		switch (outputOption.$) {
 			case 'Basic':
 				return $author$project$Markdown$Render$Simple(
-					A2($author$project$Markdown$Render$renderHtml, selectedId, ast));
+					A2($author$project$Markdown$Render$fromAST, selectedId, ast));
 			case 'InternalTOC':
 				var title_ = outputOption.a;
 				return $author$project$Markdown$Render$Simple(
@@ -15410,6 +13068,2348 @@ var $author$project$Markdown$Render$withOptionsFromAST = F4(
 				return $author$project$Markdown$Render$Composite(
 					A3($author$project$Markdown$Render$renderHtmlWithExternalTOC, selectedId, title_, ast));
 		}
+	});
+var $author$project$Main$getFirstPart = function (str) {
+	return A2($elm$core$String$left, 1500, str);
+};
+var $jxxcarlson$elm_text_editor$Buffer$toString = function (_v0) {
+	var buffer = _v0.a;
+	return buffer;
+};
+var $jxxcarlson$elm_text_editor$Editor$getSource = function (_v0) {
+	var data = _v0.a;
+	return $jxxcarlson$elm_text_editor$Buffer$toString(data.buffer);
+};
+var $jxxcarlson$elm_text_editor$Editor$Editor = function (a) {
+	return {$: 'Editor', a: a};
+};
+var $jxxcarlson$elm_text_editor$Position$Position = F2(
+	function (line, column) {
+		return {column: column, line: line};
+	});
+var $jxxcarlson$elm_text_editor$Editor$History$History = function (a) {
+	return {$: 'History', a: a};
+};
+var $jxxcarlson$elm_text_editor$Editor$History$empty = $jxxcarlson$elm_text_editor$Editor$History$History(
+	{future: _List_Nil, past: _List_Nil});
+var $lovasoa$elm_rolling_list$RollingList$fromList = function (l) {
+	return {next: l, previous: _List_Nil};
+};
+var $jxxcarlson$elm_text_editor$Buffer$Buffer = function (a) {
+	return {$: 'Buffer', a: a};
+};
+var $jxxcarlson$elm_text_editor$Buffer$fromString = function (str) {
+	return $jxxcarlson$elm_text_editor$Buffer$Buffer(str);
+};
+var $jxxcarlson$elm_text_editor$Buffer$init = function (content) {
+	return $jxxcarlson$elm_text_editor$Buffer$Buffer(content);
+};
+var $jinjor$elm_debounce$Debounce$Debounce = function (a) {
+	return {$: 'Debounce', a: a};
+};
+var $jinjor$elm_debounce$Debounce$init = $jinjor$elm_debounce$Debounce$Debounce(
+	{input: _List_Nil, locked: false});
+var $jxxcarlson$elm_text_editor$Editor$transformConfig = function (c) {
+	var multiplier = 1.64;
+	var fontWidth = c.fontProportion * c.lineHeight;
+	return {
+		fontProportion: c.fontProportion,
+		height: c.height,
+		lineHeight: c.lineHeight,
+		lineHeightFactor: c.lineHeightFactor,
+		showInfoPanel: c.showInfoPanel,
+		width: c.width,
+		wrapOption: c.wrapOption,
+		wrapParams: {
+			maximumWidth: $elm$core$Basics$floor(((multiplier * c.width) / fontWidth) - 5),
+			optimalWidth: $elm$core$Basics$floor(((multiplier * c.width) / fontWidth) - 10),
+			stringWidth: $elm$core$String$length
+		}
+	};
+};
+var $jxxcarlson$elm_text_editor$Editor$init = F2(
+	function (editorConfig, text) {
+		return $jxxcarlson$elm_text_editor$Editor$Editor(
+			{
+				buffer: $jxxcarlson$elm_text_editor$Buffer$init(text),
+				state: {
+					canReplace: false,
+					clipboard: '',
+					config: $jxxcarlson$elm_text_editor$Editor$transformConfig(editorConfig),
+					currentLine: $elm$core$Maybe$Nothing,
+					cursor: A2($jxxcarlson$elm_text_editor$Position$Position, 0, 0),
+					debounce: $jinjor$elm_debounce$Debounce$init,
+					dragging: false,
+					history: $jxxcarlson$elm_text_editor$Editor$History$empty,
+					replacementText: '',
+					savedBuffer: $jxxcarlson$elm_text_editor$Buffer$fromString(''),
+					searchHitIndex: 0,
+					searchResults: $lovasoa$elm_rolling_list$RollingList$fromList(_List_Nil),
+					searchTerm: '',
+					selectedText: $elm$core$Maybe$Nothing,
+					selection: $elm$core$Maybe$Nothing,
+					showGoToLinePanel: false,
+					showHelp: true,
+					showInfoPanel: editorConfig.showInfoPanel,
+					showSearchPanel: false,
+					topLine: 0
+				}
+			});
+	});
+var $author$project$Strings$text1 = '# A Pure Elm Markdown Parser\n\n\n## Introduction\n\n![Hummingbird::left](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)\nThis project\ngrew out of the need to have a\npure Elm Markdown parser-renderer\nthat could also handle mathematical\ntext.  Mathematical text is rendered by\nMathJax.  The project now includes\na pure Elm text editor (work in progress!)\n\n The Markdown used here offers\nthree options: *Standard*, *Extended* and\n *ExtendedMath*. The Extended option\nprovides for strike-through\ntext, verbatim blocks, poetry blocks,\nand tables.  ExtendedMath handles\nformulas written in TeX/LaTeX:\n\n$$\n\\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi\n$$\n\nNote also that there is an automatically\ngenerated active table of contents.\nIt can be placed inside the document\nat the top, to one side, as it is\nhere, or it can be absent.\n\n\nThe [library](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)\nwith which this demo app is built\nis suitable for light-weight writing\ntasks that require mathematical notation\n— problem sets, short class notes, etc.\n\n\nThis project is a work in progress: there is more\n to do make it adhere as closely as\npossible to the CommonMark spec and to root out\nthe bugs and shortcomings in the user interface\ndesign.  Please write me at\njxxcarlson@gmail.com with comments and bug\nreports, or (better yet) post an issue on the\n[GitHub repo](https://github.com/jxxcarlson/elm-markdown).\n\nFor installation, see the notes\nat the end. This Markdown package\nis written in pure Elm. It uses MathJax.js\nto render math formulas.  New in this release\nis syntax highlighting using\n[pablohirafuji/elm-syntax-highlight](https://package.elm-lang.org/packages/pablohirafuji/elm-syntax-highlight/latest/).\nLanguage support at this time: elm,\njavascript, xml, css, python, sql, json.\n\n## Demo\n\nBelow we illustrate some typical Markdown\nelements: images, links, headings, etc.\n\n![Hummingbird](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)\nHummingbird (Meditation)\n\nLink: [New York Times](http://nytimes.com)\n\nText styles: **bold** *italic* ~~strike it out~~\n\n\n## Inline Math\n\nThis is a test: $a^2 + b^2 = c^2$.\n\n## Display Math\n\nSo is this:\n\n$$\n\\int_0^1 x^n dx = \\frac{1}{n+1}\n$$\n\n\n## Code\n\nHe said that `a := 0` is an initialization\nstatement.\n\n```python\n# Partial sum of the harmonic series:\n\nsum = 0\nfor n in range(1..100):\n  sum = sum + 1.0/n\nsum\n```\n\n## Verbatim and Tables (Extensions)\n\nA verbatim block begins and ends\nwith four tick marks. It is just\nlike a code block, except that there is no\nsyntax highlighting.  Verbatim blocks\nare an extension of normal Markdown.\n\n````\nVerbatim text has many uses:\n\n   Element    |    Z\n   --------------------\n   Altium     |    4/5\n   Brazilium  |    7/5\n   Certium    |    9/5\n````\n\nBut better is to use Markdown tables:\n\n|  Element  | Symbol |  Z | A |\n| Hydrogen  | H      |  1 | 1.008   |\n| Helium    | He     |  2 |  4.0026 |\n| Lithium   | Li     |  3 |  6.94   |\n| Beryllium | Be     |  4 |  9.0122 |\n| Boron     | B      |  5 | 10.81   |\n| Carbon    | C      |  6 | 12.011  |\n| Nitrogen  | N      |  7 | 14.007  |\n| Oxygen    | O      |  8 | 15.999  |\n| Flourine  | F      |  9 | 18.998  |\n| Neon      | Ne     | 10 | 20.180  |\n\n\n## Lists\n\nIndent by four spaces for each level.  List items\nare separated by blank lines.\n\n- Solids\n\n    - Iron *(metal)*\n\n        - Iron disulfide (Pyrite): $FeS_2$, crystalline\n\n        - Iron(II) sulfed $FeS$, not stable, amorphous\n\n    - Selenium *(use for solar cells)*\n\n- Liquids\n\n    - Alcohol *(careful!)*\n\n    - Water *(Ok to drink)*\n\n## Numbered lists\n\n### Problem Set 18\n\n1. Compute the coefficient of $a^5b^2$\nin $(a + b)^7$.\n\n    1. Do also: coefficient of $a^5b^5$\n    in $(a + 2b)^{10}$\n\n    2. Do also: coefficient of $a^7b^5$\n    in $(a - b)^{12}$\n\n4. If $f\'(2) = 0$, what can you say about\nthe graph of $f$ at $x = 2$?\n\n6. Suppose that in addition, $f\'\'(2) > 0$.\n What else can say about the graph?\n\n\n### Problem Set 19\n\n4. Show that $u(x,t) = f(x - ct)$ is a solution to\nthe equation\n$\\partial u(x,t)/\\partial x + c^{-1} \\partial u(x,t)/\\partial t = 0$.\n\n3. State the wave equation and show that\n$u(x,t)$ as above is a solution to it.\n\n2. In what direction does the wave\ndefined by $u(x,t) = f(x - ct)$ move?\n\n4.  Find a solution of the wave\nequation that represents a pulse\nmoving in the opposite direction.\n\n\n\n## Quotations\n\n\nQuotations are offset:\n\n> Four score and seven years ago our\nfathers brought forth on this continent,\na new nation, conceived in Liberty,\nand dedicated to the proposition\nthat all men are created equal.\n\n> Now we are engaged in a great c\nivil war, testing whether that\nnation, or any nation so\nconceived and so dedicated,\ncan long endure. We are met o\nIn a great battle-field of that war.\nWe have come to dedicate a portion\nof that field, as a final resting\nplace for those who here gave their\nlives that that nation might live.\nIt is altogether fitting and proper\nthat we should do this.\n\n> But, in a larger sense, we can not\ndedicate — we can not consecrate —\nwe can not hallow—this ground. The brave men,\nliving and dead, who struggled here,\nhave consecrated it, far above our poor\npower to add or detract. The world will\nlittle note, nor long remember what we say\nhere, but it can never forget what they d\nid here. It is for us the living, rather,\nto be dedicated here to the unfinished\nwork which they who fought here have thus\nfar so nobly advanced. It is rather for\nus to be here dedicated to the great task\nremaining before us—that from these\nhonored dead we take increased devotion\nto that cause for which they gave the\nlast full measure of devotion—that we\nhere highly resolve that these dead\nshall not have died in vain—that\nthis nation, under God, shall have\na new birth of freedom—and that\ngovernment of the people, by the people,\nfor the people, shall not perish\nfrom the earth.\n\n— Abraham Lincoln, *Gettysbug Address*\n\n## Poetry (Extension)\n\nPoetry blocks, an extension of normal Markdown,\n begin with ">>"; line endings are respected.\n\n>> Twas brillig, and the slithy toves\nDid gyre and gimble in the wabe:\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n\n>> Beware the Jabberwock, my son!\nThe jaws that bite, the claws that catch!\nBeware the Jubjub bird, and shun\nThe frumious Bandersnatch!\n\n\nEtcetera!\n\n___\n\n\nNOTE: this Markdown implementation is\nan option for writing documents on\n[knode.io](https://knode.io).\nKnode also offers MiniLaTeX,\na web-friendly subset of TeX/LaTex.\nTo see how it works without a sign-in, please\nsee [demo.minilatex.app](https://demo.minilatex.app).\n\n\n___\n\n## Installation\n\n\nTo compile, use\n\n```elm\nelm make --output=Main.js\n```\n\nThen open `index.html` to run the app.\n\n\n';
+var $author$project$Main$initialText = $author$project$Strings$text1;
+var $author$project$Markdown$Render$typeOfMDBlockWithId = function (_v0) {
+	var bt = _v0.b;
+	return bt;
+};
+var $author$project$Markdown$Render$isMathWithId = function (block) {
+	var _v0 = $author$project$Markdown$Render$typeOfMDBlockWithId(block);
+	if ((_v0.$ === 'BalancedBlock') && (_v0.a.$ === 'DisplayMath')) {
+		var _v1 = _v0.a;
+		return true;
+	} else {
+		return false;
+	}
+};
+var $author$project$Markdown$Render$numberOfMathElements = function (blockTree) {
+	return $elm$core$List$length(
+		A2(
+			$elm$core$List$filter,
+			$author$project$Markdown$Render$isMathWithId,
+			$zwilias$elm_rosetree$Tree$flatten(blockTree)));
+};
+var $author$project$Main$GotSecondPart = function (a) {
+	return {$: 'GotSecondPart', a: a};
+};
+var $elm$core$Process$sleep = _Process_sleep;
+var $zwilias$elm_rosetree$Tree$indexedMap = F2(
+	function (f, t) {
+		return A3(
+			$zwilias$elm_rosetree$Tree$mapAccumulate,
+			F2(
+				function (idx, elem) {
+					return _Utils_Tuple2(
+						idx + 1,
+						A2(f, idx, elem));
+				}),
+			0,
+			t).b;
+	});
+var $author$project$BlockType$BalancedBlock = function (a) {
+	return {$: 'BalancedBlock', a: a};
+};
+var $author$project$BlockType$DisplayCode = function (a) {
+	return {$: 'DisplayCode', a: a};
+};
+var $author$project$Markdown$Parse$MDBlockWithId = F4(
+	function (a, b, c, d) {
+		return {$: 'MDBlockWithId', a: a, b: b, c: c, d: d};
+	});
+var $author$project$BlockType$Plain = {$: 'Plain'};
+var $author$project$MDInline$Stanza = function (a) {
+	return {$: 'Stanza', a: a};
+};
+var $author$project$Markdown$Parse$T = function (a) {
+	return {$: 'T', a: a};
+};
+var $author$project$BlockType$Verbatim = {$: 'Verbatim'};
+var $author$project$MDInline$BoldText = function (a) {
+	return {$: 'BoldText', a: a};
+};
+var $author$project$MDInline$Expecting = function (a) {
+	return {$: 'Expecting', a: a};
+};
+var $elm$core$String$replace = F3(
+	function (before, after, string) {
+		return A2(
+			$elm$core$String$join,
+			after,
+			A2($elm$core$String$split, before, string));
+	});
+var $elm$parser$Parser$Advanced$spaces = $elm$parser$Parser$Advanced$chompWhile(
+	function (c) {
+		return _Utils_eq(
+			c,
+			_Utils_chr(' ')) || (_Utils_eq(
+			c,
+			_Utils_chr('\n')) || _Utils_eq(
+			c,
+			_Utils_chr('\r')));
+	});
+var $author$project$MDInline$boldText = A2(
+	$elm$parser$Parser$Advanced$map,
+	$author$project$MDInline$BoldText,
+	A2(
+		$elm$parser$Parser$Advanced$map,
+		A2($elm$core$String$replace, '**', ''),
+		A2(
+			$elm$parser$Parser$Advanced$map,
+			$elm$core$String$dropLeft(2),
+			$elm$parser$Parser$Advanced$getChompedString(
+				A2(
+					$elm$parser$Parser$Advanced$ignorer,
+					A2(
+						$elm$parser$Parser$Advanced$ignorer,
+						A2(
+							$elm$parser$Parser$Advanced$ignorer,
+							A2(
+								$elm$parser$Parser$Advanced$ignorer,
+								$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+								$elm$parser$Parser$Advanced$symbol(
+									A2(
+										$elm$parser$Parser$Advanced$Token,
+										'**',
+										$author$project$MDInline$Expecting('expecting \'**\' to begin bold text')))),
+							$elm$parser$Parser$Advanced$chompWhile(
+								function (c) {
+									return !_Utils_eq(
+										c,
+										_Utils_chr('*'));
+								})),
+						$elm$parser$Parser$Advanced$symbol(
+							A2(
+								$elm$parser$Parser$Advanced$Token,
+								'**',
+								$author$project$MDInline$Expecting('expecting \'**\' to end bold text')))),
+					$elm$parser$Parser$Advanced$spaces)))));
+var $author$project$MDInline$Code = function (a) {
+	return {$: 'Code', a: a};
+};
+var $elm$core$String$dropRight = F2(
+	function (n, string) {
+		return (n < 1) ? string : A3($elm$core$String$slice, 0, -n, string);
+	});
+var $author$project$MDInline$code = A2(
+	$elm$parser$Parser$Advanced$map,
+	$author$project$MDInline$Code,
+	A2(
+		$elm$parser$Parser$Advanced$map,
+		$elm$core$String$dropRight(1),
+		A2(
+			$elm$parser$Parser$Advanced$map,
+			$elm$core$String$dropLeft(1),
+			A2(
+				$elm$parser$Parser$Advanced$map,
+				$elm$core$String$trim,
+				$elm$parser$Parser$Advanced$getChompedString(
+					A2(
+						$elm$parser$Parser$Advanced$ignorer,
+						A2(
+							$elm$parser$Parser$Advanced$ignorer,
+							A2(
+								$elm$parser$Parser$Advanced$ignorer,
+								A2(
+									$elm$parser$Parser$Advanced$ignorer,
+									$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+									$elm$parser$Parser$Advanced$symbol(
+										A2(
+											$elm$parser$Parser$Advanced$Token,
+											'`',
+											$author$project$MDInline$Expecting('Expecting \'``\' to begin inline code')))),
+								$elm$parser$Parser$Advanced$chompWhile(
+									function (c) {
+										return !_Utils_eq(
+											c,
+											_Utils_chr('`'));
+									})),
+							$elm$parser$Parser$Advanced$symbol(
+								A2(
+									$elm$parser$Parser$Advanced$Token,
+									'`',
+									$author$project$MDInline$Expecting('Expecting \'``\' to end inline code')))),
+						$elm$parser$Parser$Advanced$chompWhile(
+							function (c) {
+								return !_Utils_eq(
+									c,
+									_Utils_chr(' '));
+							})))))));
+var $author$project$MDInline$Image = F2(
+	function (a, b) {
+		return {$: 'Image', a: a, b: b};
+	});
+var $author$project$MDInline$PrefixedString = F2(
+	function (prefix, text) {
+		return {prefix: prefix, text: text};
+	});
+var $elm$parser$Parser$Advanced$keeper = F2(
+	function (parseFunc, parseArg) {
+		return A3($elm$parser$Parser$Advanced$map2, $elm$core$Basics$apL, parseFunc, parseArg);
+	});
+var $author$project$MDInline$parseWhile = function (accepting) {
+	return $elm$parser$Parser$Advanced$getChompedString(
+		$elm$parser$Parser$Advanced$chompWhile(accepting));
+};
+var $author$project$MDInline$image = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (ps) {
+		return A2($author$project$MDInline$Image, ps.prefix, ps.text);
+	},
+	A2(
+		$elm$parser$Parser$Advanced$keeper,
+		A2(
+			$elm$parser$Parser$Advanced$keeper,
+			A2(
+				$elm$parser$Parser$Advanced$ignorer,
+				$elm$parser$Parser$Advanced$succeed($author$project$MDInline$PrefixedString),
+				$elm$parser$Parser$Advanced$symbol(
+					A2(
+						$elm$parser$Parser$Advanced$Token,
+						'![',
+						$author$project$MDInline$Expecting('Expecting \'![\' to begin image block')))),
+			A2(
+				$elm$parser$Parser$Advanced$ignorer,
+				$author$project$MDInline$parseWhile(
+					function (c) {
+						return !_Utils_eq(
+							c,
+							_Utils_chr(']'));
+					}),
+				$elm$parser$Parser$Advanced$symbol(
+					A2(
+						$elm$parser$Parser$Advanced$Token,
+						'](',
+						$author$project$MDInline$Expecting('Expecting \'](\' in image block'))))),
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			A2(
+				$elm$parser$Parser$Advanced$ignorer,
+				$author$project$MDInline$parseWhile(
+					function (c) {
+						return !_Utils_eq(
+							c,
+							_Utils_chr(')'));
+					}),
+				$elm$parser$Parser$Advanced$symbol(
+					A2(
+						$elm$parser$Parser$Advanced$Token,
+						')',
+						$author$project$MDInline$Expecting('Expecting \')\' to end image block')))),
+			$elm$parser$Parser$Advanced$chompWhile(
+				function (c) {
+					return _Utils_eq(
+						c,
+						_Utils_chr('\n'));
+				}))));
+var $author$project$MDInline$ItalicText = function (a) {
+	return {$: 'ItalicText', a: a};
+};
+var $author$project$MDInline$italicText = A2(
+	$elm$parser$Parser$Advanced$map,
+	$author$project$MDInline$ItalicText,
+	A2(
+		$elm$parser$Parser$Advanced$map,
+		A2($elm$core$String$replace, '*', ''),
+		$elm$parser$Parser$Advanced$getChompedString(
+			A2(
+				$elm$parser$Parser$Advanced$ignorer,
+				A2(
+					$elm$parser$Parser$Advanced$ignorer,
+					A2(
+						$elm$parser$Parser$Advanced$ignorer,
+						A2(
+							$elm$parser$Parser$Advanced$ignorer,
+							$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+							$elm$parser$Parser$Advanced$symbol(
+								A2(
+									$elm$parser$Parser$Advanced$Token,
+									'*',
+									$author$project$MDInline$Expecting('Expecting \'*\' to begin italic text')))),
+						$elm$parser$Parser$Advanced$chompWhile(
+							function (c) {
+								return !_Utils_eq(
+									c,
+									_Utils_chr('*'));
+							})),
+					$elm$parser$Parser$Advanced$symbol(
+						A2(
+							$elm$parser$Parser$Advanced$Token,
+							'*',
+							$author$project$MDInline$Expecting('Expecting \'*\' to end italic text')))),
+				$elm$parser$Parser$Advanced$spaces))));
+var $author$project$MDInline$BracketedText = function (a) {
+	return {$: 'BracketedText', a: a};
+};
+var $author$project$MDInline$Link = F2(
+	function (a, b) {
+		return {$: 'Link', a: a, b: b};
+	});
+var $author$project$MDInline$linkOrBracket = function (ps) {
+	var _v0 = ps.text;
+	if (_v0 === ' ') {
+		return $author$project$MDInline$BracketedText(ps.prefix);
+	} else {
+		return A2($author$project$MDInline$Link, ps.text, ps.prefix);
+	}
+};
+var $author$project$MDInline$linkUrl = A2(
+	$elm$parser$Parser$Advanced$keeper,
+	A2(
+		$elm$parser$Parser$Advanced$ignorer,
+		$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
+		$elm$parser$Parser$Advanced$symbol(
+			A2(
+				$elm$parser$Parser$Advanced$Token,
+				'(',
+				$author$project$MDInline$Expecting('expecting \'(\' to begin link url')))),
+	A2(
+		$elm$parser$Parser$Advanced$ignorer,
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			$author$project$MDInline$parseWhile(
+				function (c) {
+					return !_Utils_eq(
+						c,
+						_Utils_chr(')'));
+				}),
+			$elm$parser$Parser$Advanced$symbol(
+				A2(
+					$elm$parser$Parser$Advanced$Token,
+					')',
+					$author$project$MDInline$Expecting('expecting \')\' to end link url')))),
+		$elm$parser$Parser$Advanced$spaces));
+var $author$project$MDInline$terminateBracket = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (_v0) {
+		return ' ';
+	},
+	$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0));
+var $author$project$MDInline$link = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (ps) {
+		return $author$project$MDInline$linkOrBracket(ps);
+	},
+	A2(
+		$elm$parser$Parser$Advanced$keeper,
+		A2(
+			$elm$parser$Parser$Advanced$keeper,
+			A2(
+				$elm$parser$Parser$Advanced$ignorer,
+				$elm$parser$Parser$Advanced$succeed($author$project$MDInline$PrefixedString),
+				$elm$parser$Parser$Advanced$symbol(
+					A2(
+						$elm$parser$Parser$Advanced$Token,
+						'[',
+						$author$project$MDInline$Expecting('expecting \'[\' to begin label')))),
+			A2(
+				$elm$parser$Parser$Advanced$ignorer,
+				$author$project$MDInline$parseWhile(
+					function (c) {
+						return !_Utils_eq(
+							c,
+							_Utils_chr(']'));
+					}),
+				$elm$parser$Parser$Advanced$symbol(
+					A2(
+						$elm$parser$Parser$Advanced$Token,
+						']',
+						$author$project$MDInline$Expecting('expecting \']\' to end first part of label'))))),
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			$elm$parser$Parser$Advanced$oneOf(
+				_List_fromArray(
+					[$author$project$MDInline$linkUrl, $author$project$MDInline$terminateBracket])),
+			$elm$parser$Parser$Advanced$spaces)));
+var $author$project$MDInline$isSpecialCharacter = function (c) {
+	switch (c.valueOf()) {
+		case '`':
+			return true;
+		case '[':
+			return true;
+		case '*':
+			return true;
+		case '\n':
+			return true;
+		default:
+			return false;
+	}
+};
+var $author$project$MDInline$ordinaryTextParser = function (validStart) {
+	var isRegular = function (c) {
+		return (!_Utils_eq(
+			c,
+			_Utils_chr(']'))) && validStart(c);
+	};
+	return A2(
+		$elm$parser$Parser$Advanced$mapChompedString,
+		F2(
+			function (s, _v0) {
+				return $author$project$MDInline$OrdinaryText(s);
+			}),
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			A2(
+				$elm$parser$Parser$Advanced$chompIf,
+				validStart,
+				$author$project$MDInline$Expecting('expecting regular character to begin ordinary text line')),
+			$elm$parser$Parser$Advanced$chompWhile(isRegular)));
+};
+var $author$project$MDInline$ordinaryTextExtended = function () {
+	var validStart = function (c) {
+		return !(_Utils_eq(
+			c,
+			_Utils_chr('~')) || $author$project$MDInline$isSpecialCharacter(c));
+	};
+	return $author$project$MDInline$ordinaryTextParser(validStart);
+}();
+var $author$project$MDInline$StrikeThroughText = function (a) {
+	return {$: 'StrikeThroughText', a: a};
+};
+var $author$project$MDInline$strikeThroughText = A2(
+	$elm$parser$Parser$Advanced$map,
+	$author$project$MDInline$StrikeThroughText,
+	A2(
+		$elm$parser$Parser$Advanced$map,
+		A2($elm$core$String$replace, '~~', ''),
+		A2(
+			$elm$parser$Parser$Advanced$map,
+			$elm$core$String$dropLeft(2),
+			$elm$parser$Parser$Advanced$getChompedString(
+				A2(
+					$elm$parser$Parser$Advanced$ignorer,
+					A2(
+						$elm$parser$Parser$Advanced$ignorer,
+						A2(
+							$elm$parser$Parser$Advanced$ignorer,
+							A2(
+								$elm$parser$Parser$Advanced$ignorer,
+								$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+								$elm$parser$Parser$Advanced$symbol(
+									A2(
+										$elm$parser$Parser$Advanced$Token,
+										'~~',
+										$author$project$MDInline$Expecting('expecting \'~~\' to begin strikethrough')))),
+							$elm$parser$Parser$Advanced$chompWhile(
+								function (c) {
+									return !_Utils_eq(
+										c,
+										_Utils_chr('~'));
+								})),
+						$elm$parser$Parser$Advanced$symbol(
+							A2(
+								$elm$parser$Parser$Advanced$Token,
+								'~~',
+								$author$project$MDInline$Expecting('expecting \'~~\' to end strikethrough')))),
+					$elm$parser$Parser$Advanced$spaces)))));
+var $author$project$MDInline$inlineExtended = $elm$parser$Parser$Advanced$oneOf(
+	_List_fromArray(
+		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$ordinaryTextExtended]));
+var $author$project$MDInline$InlineMath = function (a) {
+	return {$: 'InlineMath', a: a};
+};
+var $author$project$MDInline$inlineMath = A2(
+	$elm$parser$Parser$Advanced$map,
+	$author$project$MDInline$InlineMath,
+	A2(
+		$elm$parser$Parser$Advanced$map,
+		$elm$core$String$dropRight(1),
+		A2(
+			$elm$parser$Parser$Advanced$map,
+			$elm$core$String$dropLeft(1),
+			A2(
+				$elm$parser$Parser$Advanced$map,
+				$elm$core$String$trim,
+				$elm$parser$Parser$Advanced$getChompedString(
+					A2(
+						$elm$parser$Parser$Advanced$ignorer,
+						A2(
+							$elm$parser$Parser$Advanced$ignorer,
+							A2(
+								$elm$parser$Parser$Advanced$ignorer,
+								A2(
+									$elm$parser$Parser$Advanced$ignorer,
+									$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+									$elm$parser$Parser$Advanced$symbol(
+										A2(
+											$elm$parser$Parser$Advanced$Token,
+											'$',
+											$author$project$MDInline$Expecting('Expecting \'$\' to begin inline math')))),
+								$elm$parser$Parser$Advanced$chompWhile(
+									function (c) {
+										return !_Utils_eq(
+											c,
+											_Utils_chr('$'));
+									})),
+							$elm$parser$Parser$Advanced$symbol(
+								A2(
+									$elm$parser$Parser$Advanced$Token,
+									'$',
+									$author$project$MDInline$Expecting('Expecting \'$\' to end inline math')))),
+						$elm$parser$Parser$Advanced$chompWhile(
+							function (c) {
+								return _Utils_eq(
+									c,
+									_Utils_chr(' '));
+							})))))));
+var $author$project$MDInline$ordinaryTextExtendedMath = function () {
+	var validStart = function (c) {
+		return !(_Utils_eq(
+			c,
+			_Utils_chr('~')) || (_Utils_eq(
+			c,
+			_Utils_chr('$')) || $author$project$MDInline$isSpecialCharacter(c)));
+	};
+	return $author$project$MDInline$ordinaryTextParser(validStart);
+}();
+var $author$project$MDInline$inlineExtendedMath = $elm$parser$Parser$Advanced$oneOf(
+	_List_fromArray(
+		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$inlineMath, $author$project$MDInline$ordinaryTextExtendedMath]));
+var $author$project$MDInline$ordinaryTextStandard = function () {
+	var validStart = A2($elm$core$Basics$composeL, $elm$core$Basics$not, $author$project$MDInline$isSpecialCharacter);
+	return $author$project$MDInline$ordinaryTextParser(validStart);
+}();
+var $author$project$MDInline$inlineStandard = $elm$parser$Parser$Advanced$oneOf(
+	_List_fromArray(
+		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$ordinaryTextStandard]));
+var $author$project$MDInline$inline = function (option) {
+	switch (option.$) {
+		case 'Standard':
+			return $author$project$MDInline$inlineStandard;
+		case 'Extended':
+			return $author$project$MDInline$inlineExtended;
+		default:
+			return $author$project$MDInline$inlineExtendedMath;
+	}
+};
+var $author$project$MDInline$manyHelp = F2(
+	function (p, vs) {
+		return $elm$parser$Parser$Advanced$oneOf(
+			_List_fromArray(
+				[
+					A2(
+					$elm$parser$Parser$Advanced$keeper,
+					$elm$parser$Parser$Advanced$succeed(
+						function (v) {
+							return $elm$parser$Parser$Advanced$Loop(
+								A2($elm$core$List$cons, v, vs));
+						}),
+					p),
+					A2(
+					$elm$parser$Parser$Advanced$map,
+					function (_v0) {
+						return $elm$parser$Parser$Advanced$Done(
+							$elm$core$List$reverse(vs));
+					},
+					$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0))
+				]));
+	});
+var $author$project$MDInline$many = function (p) {
+	return A2(
+		$elm$parser$Parser$Advanced$loop,
+		_List_Nil,
+		$author$project$MDInline$manyHelp(p));
+};
+var $author$project$MDInline$inlineList = function (option) {
+	return $author$project$MDInline$many(
+		$author$project$MDInline$inline(option));
+};
+var $author$project$MDInline$displayDeadEnd = function (deadend) {
+	var _v0 = deadend.problem;
+	var error = _v0.a;
+	return error;
+};
+var $author$project$MDInline$decodeInlineError = function (errorList) {
+	var errorMessage = A2(
+		$elm$core$String$join,
+		';;\n\n',
+		A2($elm$core$List$map, $author$project$MDInline$displayDeadEnd, errorList));
+	return $author$project$MDInline$OrdinaryText(errorMessage);
+};
+var $author$project$MDInline$resolveInlineResult = function (result) {
+	if (result.$ === 'Ok') {
+		var res_ = result.a;
+		return $author$project$MDInline$Line(res_);
+	} else {
+		var list = result.a;
+		return $author$project$MDInline$decodeInlineError(list);
+	}
+};
+var $author$project$MDInline$parseLine = F2(
+	function (option, str) {
+		return $author$project$MDInline$resolveInlineResult(
+			A2(
+				$elm$parser$Parser$Advanced$run,
+				$author$project$MDInline$inlineList(option),
+				str));
+	});
+var $elm$core$String$right = F2(
+	function (n, string) {
+		return (n < 1) ? '' : A3(
+			$elm$core$String$slice,
+			-n,
+			$elm$core$String$length(string),
+			string);
+	});
+var $author$project$MDInline$endsWithPunctuation = function (str) {
+	return A2($elm$core$String$right, 1, str) === '.';
+};
+var $author$project$MDInline$wrapper = F2(
+	function (str, acc) {
+		return (acc.currentString === '') ? {currentString: str, lst: _List_Nil} : ($author$project$MDInline$endsWithPunctuation(acc.currentString) ? {
+			currentString: str,
+			lst: A2($elm$core$List$cons, acc.currentString, acc.lst)
+		} : _Utils_update(
+			acc,
+			{currentString: acc.currentString + (' ' + str)}));
+	});
+var $author$project$MDInline$wrap = function (strList) {
+	return $elm$core$List$reverse(
+		function (acc) {
+			return A2($elm$core$List$cons, acc.currentString, acc.lst);
+		}(
+			A3(
+				$elm$core$List$foldl,
+				$author$project$MDInline$wrapper,
+				{currentString: '', lst: _List_Nil},
+				strList)));
+};
+var $author$project$MDInline$parse = F2(
+	function (option, str) {
+		return $author$project$MDInline$Paragraph(
+			A2(
+				$elm$core$List$map,
+				$author$project$MDInline$parseLine(option),
+				$author$project$MDInline$wrap(
+					A2($elm$core$String$split, '\n', str))));
+	});
+var $author$project$Markdown$Parse$extendedMDParser = F2(
+	function (option_, _v0) {
+		var id = _v0.a;
+		var bt = _v0.b;
+		var level_ = _v0.c;
+		var content_ = _v0.d;
+		if (bt.$ === 'MarkdownBlock') {
+			var mt = bt.a;
+			if (mt.$ === 'Poetry') {
+				return A4(
+					$author$project$Markdown$Parse$MDBlockWithId,
+					id,
+					$author$project$BlockType$MarkdownBlock(mt),
+					level_,
+					$author$project$Markdown$Parse$M(
+						$author$project$MDInline$Stanza(content_)));
+			} else {
+				return A4(
+					$author$project$Markdown$Parse$MDBlockWithId,
+					id,
+					$author$project$BlockType$MarkdownBlock(mt),
+					level_,
+					$author$project$Markdown$Parse$M(
+						A2($author$project$MDInline$parse, option_, content_)));
+			}
+		} else {
+			switch (bt.a.$) {
+				case 'DisplayCode':
+					var lang = bt.a.a;
+					return A4(
+						$author$project$Markdown$Parse$MDBlockWithId,
+						id,
+						$author$project$BlockType$BalancedBlock(
+							$author$project$BlockType$DisplayCode(lang)),
+						level_,
+						$author$project$Markdown$Parse$T(content_));
+				case 'Verbatim':
+					var _v3 = bt.a;
+					return A4(
+						$author$project$Markdown$Parse$MDBlockWithId,
+						id,
+						$author$project$BlockType$BalancedBlock($author$project$BlockType$Verbatim),
+						level_,
+						$author$project$Markdown$Parse$T(content_));
+				default:
+					return A4(
+						$author$project$Markdown$Parse$MDBlockWithId,
+						id,
+						$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain),
+						level_,
+						$author$project$Markdown$Parse$M(
+							A2($author$project$MDInline$parse, option_, content_)));
+			}
+		}
+	});
+var $author$project$BlockType$DisplayMath = {$: 'DisplayMath'};
+var $author$project$Markdown$Parse$extendedMathMDParser = F2(
+	function (option_, _v0) {
+		var id = _v0.a;
+		var bt = _v0.b;
+		var level_ = _v0.c;
+		var content_ = _v0.d;
+		if (bt.$ === 'MarkdownBlock') {
+			var mt = bt.a;
+			if (mt.$ === 'Poetry') {
+				return A4(
+					$author$project$Markdown$Parse$MDBlockWithId,
+					id,
+					$author$project$BlockType$MarkdownBlock(mt),
+					level_,
+					$author$project$Markdown$Parse$M(
+						$author$project$MDInline$Stanza(content_)));
+			} else {
+				return A4(
+					$author$project$Markdown$Parse$MDBlockWithId,
+					id,
+					$author$project$BlockType$MarkdownBlock(mt),
+					level_,
+					$author$project$Markdown$Parse$M(
+						A2($author$project$MDInline$parse, option_, content_)));
+			}
+		} else {
+			switch (bt.a.$) {
+				case 'DisplayCode':
+					var lang = bt.a.a;
+					return A4(
+						$author$project$Markdown$Parse$MDBlockWithId,
+						id,
+						$author$project$BlockType$BalancedBlock(
+							$author$project$BlockType$DisplayCode(lang)),
+						level_,
+						$author$project$Markdown$Parse$T(content_));
+				case 'Verbatim':
+					var _v3 = bt.a;
+					return A4(
+						$author$project$Markdown$Parse$MDBlockWithId,
+						id,
+						$author$project$BlockType$BalancedBlock($author$project$BlockType$Verbatim),
+						level_,
+						$author$project$Markdown$Parse$T(content_));
+				default:
+					var _v4 = bt.a;
+					return A4(
+						$author$project$Markdown$Parse$MDBlockWithId,
+						id,
+						$author$project$BlockType$BalancedBlock($author$project$BlockType$DisplayMath),
+						level_,
+						$author$project$Markdown$Parse$T(content_));
+			}
+		}
+	});
+var $author$project$Markdown$Parse$standardMDParser = F2(
+	function (option_, _v0) {
+		var id = _v0.a;
+		var bt = _v0.b;
+		var level_ = _v0.c;
+		var content_ = _v0.d;
+		if (bt.$ === 'MarkdownBlock') {
+			var mt = bt.a;
+			return A4(
+				$author$project$Markdown$Parse$MDBlockWithId,
+				id,
+				$author$project$BlockType$MarkdownBlock(mt),
+				level_,
+				$author$project$Markdown$Parse$M(
+					A2($author$project$MDInline$parse, option_, content_)));
+		} else {
+			if (bt.a.$ === 'DisplayCode') {
+				var lang = bt.a.a;
+				return A4(
+					$author$project$Markdown$Parse$MDBlockWithId,
+					id,
+					$author$project$BlockType$BalancedBlock(
+						$author$project$BlockType$DisplayCode(lang)),
+					level_,
+					$author$project$Markdown$Parse$T(content_));
+			} else {
+				return A4(
+					$author$project$Markdown$Parse$MDBlockWithId,
+					id,
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain),
+					level_,
+					$author$project$Markdown$Parse$M(
+						A2($author$project$MDInline$parse, option_, content_)));
+			}
+		}
+	});
+var $author$project$Markdown$Parse$selectParser = F2(
+	function (option, block) {
+		var id = block.a;
+		var bt = block.b;
+		var level_ = block.c;
+		var content_ = block.d;
+		switch (option.$) {
+			case 'Standard':
+				return A2($author$project$Markdown$Parse$standardMDParser, option, block);
+			case 'Extended':
+				return A2($author$project$Markdown$Parse$extendedMDParser, option, block);
+			default:
+				return A2($author$project$Markdown$Parse$extendedMathMDParser, option, block);
+		}
+	});
+var $author$project$Markdown$Parse$setBlockIndex = F3(
+	function (version, idx, _v0) {
+		var id = _v0.a;
+		var bt = _v0.b;
+		var lev = _v0.c;
+		var blockContent = _v0.d;
+		return A4(
+			$author$project$Markdown$Parse$MDBlockWithId,
+			_Utils_Tuple2(idx, version),
+			bt,
+			lev,
+			blockContent);
+	});
+var $author$project$Markdown$Parse$blockLevel = function (_v0) {
+	var k = _v0.c;
+	return k;
+};
+var $author$project$Markdown$Parse$Block = F4(
+	function (a, b, c, d) {
+		return {$: 'Block', a: a, b: b, c: c, d: d};
+	});
+var $author$project$Markdown$Parse$changeLevel = F2(
+	function (k, _v0) {
+		var id_ = _v0.a;
+		var bt_ = _v0.b;
+		var level_ = _v0.c;
+		var content_ = _v0.d;
+		return A4($author$project$Markdown$Parse$Block, id_, bt_, level_ + k, content_);
+	});
+var $author$project$Markdown$Parse$blockListOfFSM = function (_v0) {
+	var blockList_ = _v0.b;
+	return blockList_;
+};
+var $author$project$Markdown$Parse$stateOfFSM = function (_v0) {
+	var state_ = _v0.a;
+	return state_;
+};
+var $author$project$Markdown$Parse$flush = function (fsm) {
+	var _v0 = $author$project$Markdown$Parse$stateOfFSM(fsm);
+	switch (_v0.$) {
+		case 'Start':
+			return $elm$core$List$reverse(
+				$author$project$Markdown$Parse$blockListOfFSM(fsm));
+		case 'Error':
+			return $elm$core$List$reverse(
+				$author$project$Markdown$Parse$blockListOfFSM(fsm));
+		default:
+			var b = _v0.a;
+			return $elm$core$List$reverse(
+				A2(
+					$elm$core$List$cons,
+					b,
+					$author$project$Markdown$Parse$blockListOfFSM(fsm)));
+	}
+};
+var $zwilias$elm_rosetree$Tree$Zipper$Zipper = function (a) {
+	return {$: 'Zipper', a: a};
+};
+var $zwilias$elm_rosetree$Tree$Zipper$fromTree = function (t) {
+	return $zwilias$elm_rosetree$Tree$Zipper$Zipper(
+		{after: _List_Nil, before: _List_Nil, crumbs: _List_Nil, focus: t});
+};
+var $zwilias$elm_rosetree$Tree$singleton = function (v) {
+	return A2($zwilias$elm_rosetree$Tree$Tree, v, _List_Nil);
+};
+var $zwilias$elm_rosetree$Tree$appendChild = F2(
+	function (c, _v0) {
+		var v = _v0.a;
+		var cs = _v0.b;
+		return A2(
+			$zwilias$elm_rosetree$Tree$Tree,
+			v,
+			_Utils_ap(
+				cs,
+				_List_fromArray(
+					[c])));
+	});
+var $zwilias$elm_rosetree$Tree$Zipper$replaceTree = F2(
+	function (t, _v0) {
+		var zipper = _v0.a;
+		return $zwilias$elm_rosetree$Tree$Zipper$Zipper(
+			_Utils_update(
+				zipper,
+				{focus: t}));
+	});
+var $zwilias$elm_rosetree$Tree$Zipper$tree = function (_v0) {
+	var focus = _v0.a.focus;
+	return focus;
+};
+var $jxxcarlson$htree$HTree$appendAtFocus = F2(
+	function (s, z) {
+		var t = $zwilias$elm_rosetree$Tree$Zipper$tree(z);
+		var newTree = A2(
+			$zwilias$elm_rosetree$Tree$appendChild,
+			$zwilias$elm_rosetree$Tree$singleton(s),
+			t);
+		return A2($zwilias$elm_rosetree$Tree$Zipper$replaceTree, newTree, z);
+	});
+var $elm$core$Maybe$andThen = F2(
+	function (callback, maybeValue) {
+		if (maybeValue.$ === 'Just') {
+			var value = maybeValue.a;
+			return callback(value);
+		} else {
+			return $elm$core$Maybe$Nothing;
+		}
+	});
+var $jxxcarlson$htree$HTree$iterate = F3(
+	function (remaining, f, accumulator) {
+		iterate:
+		while (true) {
+			if (remaining > 0) {
+				var $temp$remaining = remaining - 1,
+					$temp$f = f,
+					$temp$accumulator = f(accumulator);
+				remaining = $temp$remaining;
+				f = $temp$f;
+				accumulator = $temp$accumulator;
+				continue iterate;
+			} else {
+				return accumulator;
+			}
+		}
+	});
+var $zwilias$elm_rosetree$Tree$tree = $zwilias$elm_rosetree$Tree$Tree;
+var $zwilias$elm_rosetree$Tree$Zipper$reconstruct = F4(
+	function (focus, before, after, l) {
+		return A2(
+			$zwilias$elm_rosetree$Tree$tree,
+			l,
+			_Utils_ap(
+				$elm$core$List$reverse(before),
+				_Utils_ap(
+					_List_fromArray(
+						[focus]),
+					after)));
+	});
+var $zwilias$elm_rosetree$Tree$Zipper$parent = function (_v0) {
+	var zipper = _v0.a;
+	var _v1 = zipper.crumbs;
+	if (!_v1.b) {
+		return $elm$core$Maybe$Nothing;
+	} else {
+		var crumb = _v1.a;
+		var rest = _v1.b;
+		return $elm$core$Maybe$Just(
+			$zwilias$elm_rosetree$Tree$Zipper$Zipper(
+				{
+					after: crumb.after,
+					before: crumb.before,
+					crumbs: rest,
+					focus: A4($zwilias$elm_rosetree$Tree$Zipper$reconstruct, zipper.focus, zipper.before, zipper.after, crumb.label)
+				}));
+	}
+};
+var $jxxcarlson$htree$HTree$manyParent = F2(
+	function (k, z) {
+		var zz = $zwilias$elm_rosetree$Tree$Zipper$parent(z);
+		return A3(
+			$jxxcarlson$htree$HTree$iterate,
+			k - 1,
+			function (zi) {
+				return A2($elm$core$Maybe$andThen, $zwilias$elm_rosetree$Tree$Zipper$parent, zi);
+			},
+			zz);
+	});
+var $jxxcarlson$htree$HTree$addAtNthParent = F3(
+	function (k, s, z) {
+		return A2(
+			$elm$core$Maybe$withDefault,
+			z,
+			A2(
+				$elm$core$Maybe$map,
+				$jxxcarlson$htree$HTree$appendAtFocus(s),
+				A2($jxxcarlson$htree$HTree$manyParent, k, z)));
+	});
+var $zwilias$elm_rosetree$Tree$Zipper$lastChild = function (_v0) {
+	var zipper = _v0.a;
+	var _v1 = $elm$core$List$reverse(
+		$zwilias$elm_rosetree$Tree$children(zipper.focus));
+	if (!_v1.b) {
+		return $elm$core$Maybe$Nothing;
+	} else {
+		var c = _v1.a;
+		var rest = _v1.b;
+		return $elm$core$Maybe$Just(
+			$zwilias$elm_rosetree$Tree$Zipper$Zipper(
+				{
+					after: _List_Nil,
+					before: rest,
+					crumbs: A2(
+						$elm$core$List$cons,
+						{
+							after: zipper.after,
+							before: zipper.before,
+							label: $zwilias$elm_rosetree$Tree$label(zipper.focus)
+						},
+						zipper.crumbs),
+					focus: c
+				}));
+	}
+};
+var $jxxcarlson$htree$HTree$addChildAtFocus = F2(
+	function (s, z) {
+		return A2(
+			$elm$core$Maybe$withDefault,
+			z,
+			A2(
+				$elm$core$Maybe$map,
+				$jxxcarlson$htree$HTree$appendAtFocus(s),
+				$zwilias$elm_rosetree$Tree$Zipper$lastChild(z)));
+	});
+var $jxxcarlson$htree$HTree$levelOfLastChild = F2(
+	function (level, z) {
+		return A2(
+			$elm$core$Maybe$map,
+			level,
+			A2(
+				$elm$core$Maybe$map,
+				$zwilias$elm_rosetree$Tree$label,
+				A2(
+					$elm$core$Maybe$map,
+					$zwilias$elm_rosetree$Tree$Zipper$tree,
+					$zwilias$elm_rosetree$Tree$Zipper$lastChild(z))));
+	});
+var $elm$core$Maybe$map2 = F3(
+	function (func, ma, mb) {
+		if (ma.$ === 'Nothing') {
+			return $elm$core$Maybe$Nothing;
+		} else {
+			var a = ma.a;
+			if (mb.$ === 'Nothing') {
+				return $elm$core$Maybe$Nothing;
+			} else {
+				var b = mb.a;
+				return $elm$core$Maybe$Just(
+					A2(func, a, b));
+			}
+		}
+	});
+var $jxxcarlson$htree$HTree$levelDifference = F3(
+	function (level, s, z) {
+		return A3(
+			$elm$core$Maybe$map2,
+			$elm$core$Basics$sub,
+			$elm$core$Maybe$Just(
+				level(s)),
+			A2($jxxcarlson$htree$HTree$levelOfLastChild, level, z));
+	});
+var $jxxcarlson$htree$HTree$step = F3(
+	function (level, s, z) {
+		var ld = A3($jxxcarlson$htree$HTree$levelDifference, level, s, z);
+		if (ld.$ === 'Nothing') {
+			return A2($jxxcarlson$htree$HTree$appendAtFocus, s, z);
+		} else {
+			switch (ld.a) {
+				case 0:
+					return A2($jxxcarlson$htree$HTree$appendAtFocus, s, z);
+				case 1:
+					return A2($jxxcarlson$htree$HTree$addChildAtFocus, s, z);
+				default:
+					var levelsBack = -A2($elm$core$Maybe$withDefault, 0, ld);
+					return A3($jxxcarlson$htree$HTree$addAtNthParent, levelsBack, s, z);
+			}
+		}
+	});
+var $zwilias$elm_rosetree$Tree$Zipper$previousSibling = function (_v0) {
+	var zipper = _v0.a;
+	var _v1 = zipper.before;
+	if (!_v1.b) {
+		return $elm$core$Maybe$Nothing;
+	} else {
+		var previous = _v1.a;
+		var rest = _v1.b;
+		return $elm$core$Maybe$Just(
+			$zwilias$elm_rosetree$Tree$Zipper$Zipper(
+				{
+					after: A2($elm$core$List$cons, zipper.focus, zipper.after),
+					before: rest,
+					crumbs: zipper.crumbs,
+					focus: previous
+				}));
+	}
+};
+var $zwilias$elm_rosetree$Tree$Zipper$firstSibling = function (zipper) {
+	firstSibling:
+	while (true) {
+		var _v0 = $zwilias$elm_rosetree$Tree$Zipper$previousSibling(zipper);
+		if (_v0.$ === 'Nothing') {
+			return zipper;
+		} else {
+			var z = _v0.a;
+			var $temp$zipper = z;
+			zipper = $temp$zipper;
+			continue firstSibling;
+		}
+	}
+};
+var $zwilias$elm_rosetree$Tree$Zipper$root = function (zipper) {
+	root:
+	while (true) {
+		var _v0 = $zwilias$elm_rosetree$Tree$Zipper$parent(zipper);
+		if (_v0.$ === 'Nothing') {
+			return $zwilias$elm_rosetree$Tree$Zipper$firstSibling(zipper);
+		} else {
+			var z = _v0.a;
+			var $temp$zipper = z;
+			zipper = $temp$zipper;
+			continue root;
+		}
+	}
+};
+var $zwilias$elm_rosetree$Tree$Zipper$toTree = A2($elm$core$Basics$composeL, $zwilias$elm_rosetree$Tree$Zipper$tree, $zwilias$elm_rosetree$Tree$Zipper$root);
+var $jxxcarlson$htree$HTree$fromList = F3(
+	function (rootLabel, level, lst) {
+		return $zwilias$elm_rosetree$Tree$Zipper$toTree(
+			A3(
+				$elm$core$List$foldl,
+				F2(
+					function (s, z) {
+						return A3($jxxcarlson$htree$HTree$step, level, s, z);
+					}),
+				$zwilias$elm_rosetree$Tree$Zipper$fromTree(
+					$zwilias$elm_rosetree$Tree$singleton(rootLabel)),
+				lst));
+	});
+var $author$project$BlockType$Root = {$: 'Root'};
+var $author$project$Markdown$Parse$rootBlock = A4(
+	$author$project$Markdown$Parse$Block,
+	_Utils_Tuple2(0, 0),
+	$author$project$BlockType$MarkdownBlock($author$project$BlockType$Root),
+	0,
+	'DOCUMENT');
+var $author$project$Markdown$Parse$FSM = F3(
+	function (a, b, c) {
+		return {$: 'FSM', a: a, b: b, c: c};
+	});
+var $author$project$Markdown$Parse$Start = {$: 'Start'};
+var $author$project$Markdown$Parse$emptyRegister = {
+	blockStack: _List_Nil,
+	blockTypeStack: _List_Nil,
+	id: _Utils_Tuple2(0, 0),
+	itemIndex1: 0,
+	itemIndex2: 0,
+	itemIndex3: 0,
+	itemIndex4: 0,
+	level: 0
+};
+var $author$project$Markdown$Parse$initialFSM = A3($author$project$Markdown$Parse$FSM, $author$project$Markdown$Parse$Start, _List_Nil, $author$project$Markdown$Parse$emptyRegister);
+var $author$project$BlockType$Table = {$: 'Table'};
+var $author$project$BlockType$TableRow = {$: 'TableRow'};
+var $author$project$Markdown$Parse$clearBlockStack = function (register) {
+	return _Utils_update(
+		register,
+		{blockStack: _List_Nil});
+};
+var $author$project$Markdown$Parse$editBlock = function (block) {
+	var id = block.a;
+	var bt = block.b;
+	var lev = block.c;
+	var content = block.d;
+	return (_Utils_eq(
+		bt,
+		$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow)) && (content === 'row')) ? A4($author$project$Markdown$Parse$Block, id, bt, lev, '') : block;
+};
+var $author$project$Markdown$Parse$topOfBlockStack = function (register) {
+	return $elm$core$List$head(register.blockStack);
+};
+var $author$project$Markdown$Parse$typeOfBlock = function (_v0) {
+	var bt = _v0.b;
+	return bt;
+};
+var $author$project$Markdown$Parse$typeOfState = function (s) {
+	switch (s.$) {
+		case 'Start':
+			return $elm$core$Maybe$Nothing;
+		case 'InBlock':
+			var b = s.a;
+			return $elm$core$Maybe$Just(
+				$author$project$Markdown$Parse$typeOfBlock(b));
+		default:
+			return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Markdown$Parse$handleRegister = function (fsm) {
+	var state = fsm.a;
+	var blocks = fsm.b;
+	var register = fsm.c;
+	var _v0 = $author$project$Markdown$Parse$topOfBlockStack(register);
+	if (_v0.$ === 'Nothing') {
+		return fsm;
+	} else {
+		var block = _v0.a;
+		var _v1 = $author$project$Markdown$Parse$typeOfState(state);
+		if (((_v1.$ === 'Just') && (_v1.a.$ === 'MarkdownBlock')) && (_v1.a.a.$ === 'TableRow')) {
+			var _v2 = _v1.a.a;
+			return fsm;
+		} else {
+			var tableBlock = A4(
+				$author$project$Markdown$Parse$Block,
+				_Utils_Tuple2(-1, -1),
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$Table),
+				0,
+				'tableRoot');
+			var rowBlock = A4(
+				$author$project$Markdown$Parse$Block,
+				_Utils_Tuple2(-1, -1),
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow),
+				1,
+				'row');
+			var tableData = A2(
+				$elm$core$List$map,
+				$author$project$Markdown$Parse$editBlock,
+				function (x) {
+					return _Utils_ap(
+						x,
+						_List_fromArray(
+							[rowBlock, tableBlock]));
+				}(
+					$elm$core$List$reverse(register.blockStack)));
+			var newBlocks = A2(
+				$elm$core$List$filter,
+				function (_v3) {
+					var content = _v3.d;
+					return content !== 'deleteMe';
+				},
+				blocks);
+			return A3(
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$Start,
+				_Utils_ap(tableData, newBlocks),
+				$author$project$Markdown$Parse$clearBlockStack(register));
+		}
+	}
+};
+var $author$project$Markdown$Parse$Error = {$: 'Error'};
+var $author$project$Markdown$Parse$InBlock = function (a) {
+	return {$: 'InBlock', a: a};
+};
+var $author$project$BlockType$Blank = {$: 'Blank'};
+var $author$project$BlockType$numberOfLeadingBlanks = A2(
+	$elm$parser$Parser$Advanced$map,
+	$elm$core$String$length,
+	$elm$parser$Parser$Advanced$getChompedString(
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+			$elm$parser$Parser$Advanced$chompWhile(
+				function (c) {
+					return _Utils_eq(
+						c,
+						_Utils_chr(' '));
+				}))));
+var $elm$core$Result$toMaybe = function (result) {
+	if (result.$ === 'Ok') {
+		var v = result.a;
+		return $elm$core$Maybe$Just(v);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$BlockType$getNumberOfLeadingBlanks = function (str) {
+	return A2(
+		$elm$core$Maybe$withDefault,
+		0,
+		$elm$core$Result$toMaybe(
+			A2($elm$parser$Parser$Advanced$run, $author$project$BlockType$numberOfLeadingBlanks, str)));
+};
+var $author$project$BlockType$dropLeadingBlanks = function (str) {
+	return A2(
+		$elm$core$String$dropLeft,
+		$author$project$BlockType$getNumberOfLeadingBlanks(str),
+		str);
+};
+var $author$project$BlockType$levelIndentation = 4;
+var $author$project$BlockType$level = function (ln) {
+	return A2(
+		$elm$core$Maybe$withDefault,
+		0,
+		A2(
+			$elm$core$Maybe$map,
+			function (l) {
+				return (l / $author$project$BlockType$levelIndentation) | 0;
+			},
+			$elm$core$Result$toMaybe(
+				A2($elm$parser$Parser$Advanced$run, $author$project$BlockType$numberOfLeadingBlanks, ln))));
+};
+var $author$project$BlockType$Expecting = function (a) {
+	return {$: 'Expecting', a: a};
+};
+var $author$project$BlockType$CssLang = {$: 'CssLang'};
+var $author$project$BlockType$cssLang = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$CssLang),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'css',
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$ElmLang = {$: 'ElmLang'};
+var $author$project$BlockType$elmLang = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$ElmLang),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'elm',
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$JavascriptLang = {$: 'JavascriptLang'};
+var $author$project$BlockType$javascriptLang = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$JavascriptLang),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'javascript',
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$JsonLang = {$: 'JsonLang'};
+var $author$project$BlockType$jsonLang = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$JsonLang),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'json',
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$PythonLang = {$: 'PythonLang'};
+var $author$project$BlockType$pythonLang = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$PythonLang),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'python',
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$SqlLang = {$: 'SqlLang'};
+var $author$project$BlockType$sqlLang = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$SqlLang),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'sql',
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$XmlLang = {$: 'XmlLang'};
+var $author$project$BlockType$xmlLang = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed($author$project$BlockType$XmlLang),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'xml',
+			$author$project$BlockType$Expecting('Expecting string for language'))));
+var $author$project$BlockType$codeBlock = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (lang) {
+		return $author$project$BlockType$BalancedBlock(
+			$author$project$BlockType$DisplayCode(lang));
+	},
+	A2(
+		$elm$parser$Parser$Advanced$keeper,
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
+			$elm$parser$Parser$Advanced$symbol(
+				A2(
+					$elm$parser$Parser$Advanced$Token,
+					'```',
+					$author$project$BlockType$Expecting('Expecting three ticks to begin code block')))),
+		$elm$parser$Parser$Advanced$oneOf(
+			_List_fromArray(
+				[$author$project$BlockType$cssLang, $author$project$BlockType$elmLang, $author$project$BlockType$javascriptLang, $author$project$BlockType$jsonLang, $author$project$BlockType$pythonLang, $author$project$BlockType$sqlLang, $author$project$BlockType$xmlLang]))));
+var $author$project$BlockType$parseWhile = function (accepting) {
+	return $elm$parser$Parser$Advanced$getChompedString(
+		$elm$parser$Parser$Advanced$chompWhile(accepting));
+};
+var $author$project$BlockType$headingBlock = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (s) {
+		return $author$project$BlockType$MarkdownBlock(
+			$author$project$BlockType$Heading(
+				$elm$core$String$length(s) + 1));
+	},
+	A2(
+		$elm$parser$Parser$Advanced$keeper,
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			A2(
+				$elm$parser$Parser$Advanced$ignorer,
+				$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
+				$elm$parser$Parser$Advanced$spaces),
+			$elm$parser$Parser$Advanced$symbol(
+				A2(
+					$elm$parser$Parser$Advanced$Token,
+					'#',
+					$author$project$BlockType$Expecting('Expecting \'#\' to begin heading block')))),
+		$author$project$BlockType$parseWhile(
+			function (c) {
+				return _Utils_eq(
+					c,
+					_Utils_chr('#'));
+			})));
+var $author$project$BlockType$HorizontalRule = {$: 'HorizontalRule'};
+var $author$project$BlockType$horizontalRuleBlock = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (x) {
+		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$HorizontalRule);
+	},
+	A2(
+		$elm$parser$Parser$Advanced$ignorer,
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+			$elm$parser$Parser$Advanced$spaces),
+		$elm$parser$Parser$Advanced$symbol(
+			A2(
+				$elm$parser$Parser$Advanced$Token,
+				'___',
+				$author$project$BlockType$Expecting('Expecting at least three underscores to begin thematic break')))));
+var $author$project$BlockType$Image = {$: 'Image'};
+var $author$project$BlockType$imageBlock = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed(
+		$author$project$BlockType$MarkdownBlock($author$project$BlockType$Image)),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'![',
+			$author$project$BlockType$Expecting('Expecting \'![\' to begin image block'))));
+var $author$project$BlockType$mathBlock = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed(
+		$author$project$BlockType$BalancedBlock($author$project$BlockType$DisplayMath)),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'$$',
+			$author$project$BlockType$Expecting('Expecting four ticks to begin verbatim block'))));
+var $author$project$BlockType$OListItem = function (a) {
+	return {$: 'OListItem', a: a};
+};
+var $author$project$BlockType$orderedListItemBlock = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (_v0) {
+		return $author$project$BlockType$MarkdownBlock(
+			$author$project$BlockType$OListItem(0));
+	},
+	A2(
+		$elm$parser$Parser$Advanced$ignorer,
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			A2(
+				$elm$parser$Parser$Advanced$ignorer,
+				A2(
+					$elm$parser$Parser$Advanced$ignorer,
+					$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+					$author$project$BlockType$parseWhile(
+						function (c) {
+							return _Utils_eq(
+								c,
+								_Utils_chr(' '));
+						})),
+				A2(
+					$elm$parser$Parser$Advanced$chompIf,
+					function (c) {
+						return $elm$core$Char$isDigit(c);
+					},
+					$author$project$BlockType$Expecting('Expecting digit to begin ordered list item'))),
+			$elm$parser$Parser$Advanced$chompWhile(
+				function (c) {
+					return $elm$core$Char$isDigit(c);
+				})),
+		$elm$parser$Parser$Advanced$symbol(
+			A2(
+				$elm$parser$Parser$Advanced$Token,
+				'. ',
+				$author$project$BlockType$Expecting('expecting period')))));
+var $author$project$BlockType$Poetry = {$: 'Poetry'};
+var $author$project$BlockType$poetryBlock = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (_v0) {
+		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$Poetry);
+	},
+	A2(
+		$elm$parser$Parser$Advanced$ignorer,
+		$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+		$elm$parser$Parser$Advanced$symbol(
+			A2(
+				$elm$parser$Parser$Advanced$Token,
+				'>> ',
+				$author$project$BlockType$Expecting('expecting \'>> \' to begin poetry block')))));
+var $author$project$BlockType$Quotation = {$: 'Quotation'};
+var $author$project$BlockType$quotationBlock = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (_v0) {
+		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$Quotation);
+	},
+	A2(
+		$elm$parser$Parser$Advanced$ignorer,
+		$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+		$elm$parser$Parser$Advanced$symbol(
+			A2(
+				$elm$parser$Parser$Advanced$Token,
+				'> ',
+				$author$project$BlockType$Expecting('expecting \'> \' to begin quotation')))));
+var $author$project$BlockType$tableBlock = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (_v0) {
+		return $author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow);
+	},
+	A2(
+		$elm$parser$Parser$Advanced$ignorer,
+		$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+		$elm$parser$Parser$Advanced$symbol(
+			A2(
+				$elm$parser$Parser$Advanced$Token,
+				'| ',
+				$author$project$BlockType$Expecting('expecting \'| \' to begin poetry block')))));
+var $author$project$BlockType$UListItem = {$: 'UListItem'};
+var $author$project$BlockType$unorderedListItemBlock = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed(
+		$author$project$BlockType$MarkdownBlock($author$project$BlockType$UListItem)),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'- ',
+			$author$project$BlockType$Expecting('Expecting \'-\' to begin list item'))));
+var $author$project$BlockType$verbatimBlock = A2(
+	$elm$parser$Parser$Advanced$ignorer,
+	$elm$parser$Parser$Advanced$succeed(
+		$author$project$BlockType$BalancedBlock($author$project$BlockType$Verbatim)),
+	$elm$parser$Parser$Advanced$symbol(
+		A2(
+			$elm$parser$Parser$Advanced$Token,
+			'````',
+			$author$project$BlockType$Expecting('Expecting four ticks to begin verbatim block'))));
+var $author$project$BlockType$parseExtended = $elm$parser$Parser$Advanced$oneOf(
+	_List_fromArray(
+		[
+			$author$project$BlockType$imageBlock,
+			$author$project$BlockType$mathBlock,
+			$author$project$BlockType$unorderedListItemBlock,
+			$author$project$BlockType$orderedListItemBlock,
+			$author$project$BlockType$quotationBlock,
+			$author$project$BlockType$poetryBlock,
+			$elm$parser$Parser$Advanced$backtrackable($author$project$BlockType$verbatimBlock),
+			$author$project$BlockType$codeBlock,
+			$author$project$BlockType$tableBlock,
+			$author$project$BlockType$headingBlock,
+			$author$project$BlockType$horizontalRuleBlock
+		]));
+var $author$project$BlockType$parseStandard = $elm$parser$Parser$Advanced$oneOf(
+	_List_fromArray(
+		[$author$project$BlockType$tableBlock, $author$project$BlockType$imageBlock, $author$project$BlockType$unorderedListItemBlock, $author$project$BlockType$orderedListItemBlock, $author$project$BlockType$quotationBlock, $author$project$BlockType$codeBlock, $author$project$BlockType$headingBlock, $author$project$BlockType$horizontalRuleBlock]));
+var $author$project$BlockType$parse = function (option) {
+	if (option.$ === 'Standard') {
+		return $author$project$BlockType$parseStandard;
+	} else {
+		return $author$project$BlockType$parseExtended;
+	}
+};
+var $author$project$BlockType$get = F2(
+	function (option, str) {
+		if (str === '\n') {
+			return _Utils_Tuple2(
+				0,
+				$elm$core$Maybe$Just(
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$Blank)));
+		} else {
+			var _v0 = A2(
+				$elm$parser$Parser$Advanced$run,
+				$author$project$BlockType$parse(option),
+				$author$project$BlockType$dropLeadingBlanks(str));
+			if (_v0.$ === 'Ok') {
+				var result = _v0.a;
+				return _Utils_Tuple2(
+					$author$project$BlockType$level(str),
+					$elm$core$Maybe$Just(result));
+			} else {
+				return _Utils_Tuple2(
+					$author$project$BlockType$level(str),
+					$elm$core$Maybe$Just(
+						$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain)));
+			}
+		}
+	});
+var $author$project$BlockType$TableCell = {$: 'TableCell'};
+var $author$project$Markdown$Parse$parseTableRow = F2(
+	function (level, line) {
+		return A2(
+			$elm$core$List$map,
+			function (s) {
+				return A4(
+					$author$project$Markdown$Parse$Block,
+					_Utils_Tuple2(-1, -1),
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableCell),
+					level,
+					s);
+			},
+			A2(
+				$elm$core$List$filter,
+				function (s) {
+					return s !== '';
+				},
+				A2(
+					$elm$core$List$map,
+					$elm$core$String$trim,
+					A2($elm$core$String$split, '|', line))));
+	});
+var $author$project$Markdown$Parse$handleTableStart = F6(
+	function (blockTypeOfLine, level, line, state, blocks, register) {
+		switch (state.$) {
+			case 'Start':
+				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
+			case 'Error':
+				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
+			default:
+				var currentBlock = state.a;
+				var tableBlock = A4(
+					$author$project$Markdown$Parse$Block,
+					_Utils_Tuple2(-1, -1),
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$Table),
+					level,
+					'tableRoot');
+				var rowBlock = A4(
+					$author$project$Markdown$Parse$Block,
+					_Utils_Tuple2(-1, -1),
+					blockTypeOfLine,
+					level + 1,
+					'row');
+				var childrenOfNewBlock = A2($author$project$Markdown$Parse$parseTableRow, level + 2, line);
+				var newRow = _Utils_ap(
+					childrenOfNewBlock,
+					_List_fromArray(
+						[rowBlock]));
+				return A3(
+					$author$project$Markdown$Parse$FSM,
+					$author$project$Markdown$Parse$InBlock(rowBlock),
+					blocks,
+					_Utils_update(
+						register,
+						{blockStack: newRow, level: register.level + 0}));
+		}
+	});
+var $author$project$Markdown$Parse$lineIsNotBlank = function (line) {
+	return $elm$core$String$trim(line) !== '';
+};
+var $author$project$Markdown$Parse$newBlockTypeIsDifferent = F2(
+	function (blockType, state) {
+		if (state.$ === 'InBlock') {
+			var currentBlock = state.a;
+			return !_Utils_eq(
+				$author$project$Markdown$Parse$typeOfBlock(currentBlock),
+				blockType);
+		} else {
+			return false;
+		}
+	});
+var $author$project$BlockType$prefixOfBalancedType = function (bt) {
+	switch (bt.$) {
+		case 'DisplayCode':
+			return '```';
+		case 'Verbatim':
+			return '````';
+		default:
+			return '$$';
+	}
+};
+var $elm$parser$Parser$Advanced$findSubString = _Parser_findSubString;
+var $elm$parser$Parser$Advanced$fromInfo = F4(
+	function (row, col, x, context) {
+		return A2(
+			$elm$parser$Parser$Advanced$AddRight,
+			$elm$parser$Parser$Advanced$Empty,
+			A4($elm$parser$Parser$Advanced$DeadEnd, row, col, x, context));
+	});
+var $elm$parser$Parser$Advanced$chompUntil = function (_v0) {
+	var str = _v0.a;
+	var expecting = _v0.b;
+	return $elm$parser$Parser$Advanced$Parser(
+		function (s) {
+			var _v1 = A5($elm$parser$Parser$Advanced$findSubString, str, s.offset, s.row, s.col, s.src);
+			var newOffset = _v1.a;
+			var newRow = _v1.b;
+			var newCol = _v1.c;
+			return _Utils_eq(newOffset, -1) ? A2(
+				$elm$parser$Parser$Advanced$Bad,
+				false,
+				A4($elm$parser$Parser$Advanced$fromInfo, newRow, newCol, expecting, s.context)) : A3(
+				$elm$parser$Parser$Advanced$Good,
+				_Utils_cmp(s.offset, newOffset) < 0,
+				_Utils_Tuple0,
+				{col: newCol, context: s.context, indent: s.indent, offset: newOffset, row: newRow, src: s.src});
+		});
+};
+var $author$project$BlockType$oListPrefix = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (x) {
+		return x + '. ';
+	},
+	$elm$parser$Parser$Advanced$getChompedString(
+		A2(
+			$elm$parser$Parser$Advanced$keeper,
+			$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
+			$elm$parser$Parser$Advanced$chompUntil(
+				A2(
+					$elm$parser$Parser$Advanced$Token,
+					'.',
+					$author$project$BlockType$Expecting('expecting \'.\' to begin OListItem block'))))));
+var $elm$core$Bitwise$and = _Bitwise_and;
+var $elm$core$Bitwise$shiftRightBy = _Bitwise_shiftRightBy;
+var $elm$core$String$repeatHelp = F3(
+	function (n, chunk, result) {
+		return (n <= 0) ? result : A3(
+			$elm$core$String$repeatHelp,
+			n >> 1,
+			_Utils_ap(chunk, chunk),
+			(!(n & 1)) ? result : _Utils_ap(result, chunk));
+	});
+var $elm$core$String$repeat = F2(
+	function (n, chunk) {
+		return A3($elm$core$String$repeatHelp, n, chunk, '');
+	});
+var $author$project$BlockType$uListPrefix = A2(
+	$elm$parser$Parser$Advanced$map,
+	function (s) {
+		return s + '- ';
+	},
+	$elm$parser$Parser$Advanced$getChompedString(
+		A2(
+			$elm$parser$Parser$Advanced$keeper,
+			$elm$parser$Parser$Advanced$succeed($elm$core$Basics$identity),
+			$elm$parser$Parser$Advanced$chompUntil(
+				A2(
+					$elm$parser$Parser$Advanced$Token,
+					'-',
+					$author$project$BlockType$Expecting('expecting \'-\' to begin UListItem block'))))));
+var $author$project$BlockType$prefixOfMarkdownType = F2(
+	function (mdt, line) {
+		var runPrefix = F2(
+			function (prefixParser, str) {
+				var _v1 = A2($elm$parser$Parser$Advanced$run, prefixParser, str);
+				if (_v1.$ === 'Ok') {
+					var prefix = _v1.a;
+					return prefix;
+				} else {
+					return '';
+				}
+			});
+		switch (mdt.$) {
+			case 'Root':
+				return '';
+			case 'UListItem':
+				return A2(runPrefix, $author$project$BlockType$uListPrefix, line);
+			case 'OListItem':
+				return A2(runPrefix, $author$project$BlockType$oListPrefix, line);
+			case 'Heading':
+				var k = mdt.a;
+				return A2($elm$core$String$repeat, k, '#') + ' ';
+			case 'HorizontalRule':
+				return '___';
+			case 'Quotation':
+				return '> ';
+			case 'Poetry':
+				return '>> ';
+			case 'Plain':
+				return '';
+			case 'Image':
+				return '';
+			case 'TableCell':
+				return '';
+			case 'TableRow':
+				return '';
+			case 'Table':
+				return '';
+			default:
+				return '';
+		}
+	});
+var $author$project$BlockType$prefixOfBlockType = F2(
+	function (bt, line) {
+		if (bt.$ === 'BalancedBlock') {
+			var bb = bt.a;
+			return $author$project$BlockType$prefixOfBalancedType(bb);
+		} else {
+			var mdb = bt.a;
+			return A2($author$project$BlockType$prefixOfMarkdownType, mdb, line);
+		}
+	});
+var $author$project$Markdown$Parse$removePrefix = F2(
+	function (blockType, line_) {
+		var p = A2($author$project$BlockType$prefixOfBlockType, blockType, line_);
+		return A3($elm$core$String$replace, p, '', line_);
+	});
+var $author$project$Markdown$Parse$incrementRegisterLevel = F2(
+	function (level, register) {
+		var _v0 = level + 1;
+		switch (_v0) {
+			case 1:
+				return _Utils_Tuple2(
+					register.itemIndex1 + 1,
+					_Utils_update(
+						register,
+						{itemIndex1: register.itemIndex1 + 1, itemIndex2: 0, itemIndex3: 0, itemIndex4: 0}));
+			case 2:
+				return _Utils_Tuple2(
+					register.itemIndex2 + 1,
+					_Utils_update(
+						register,
+						{itemIndex2: register.itemIndex2 + 1, itemIndex3: 0, itemIndex4: 0}));
+			case 3:
+				return _Utils_Tuple2(
+					register.itemIndex3 + 1,
+					_Utils_update(
+						register,
+						{itemIndex3: register.itemIndex3 + 1, itemIndex4: 0}));
+			case 4:
+				return _Utils_Tuple2(
+					register.itemIndex4 + 1,
+					_Utils_update(
+						register,
+						{itemIndex4: register.itemIndex4 + 1}));
+			default:
+				return _Utils_Tuple2(0, register);
+		}
+	});
+var $author$project$BlockType$isCode = function (bt) {
+	if ((bt.$ === 'BalancedBlock') && (bt.a.$ === 'DisplayCode')) {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $author$project$BlockType$isOListItem = function (blockType) {
+	if ((blockType.$ === 'MarkdownBlock') && (blockType.a.$ === 'OListItem')) {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $author$project$Markdown$Parse$updateRegisterAndBlockType = F3(
+	function (blockType, level_, register) {
+		if ($author$project$BlockType$isOListItem(blockType)) {
+			var _v0 = A2($author$project$Markdown$Parse$incrementRegisterLevel, level_, register);
+			var index = _v0.a;
+			var newRegister = _v0.b;
+			var newBlockType = $author$project$BlockType$MarkdownBlock(
+				$author$project$BlockType$OListItem(index));
+			return _Utils_Tuple2(newBlockType, newRegister);
+		} else {
+			if ($author$project$BlockType$isCode(blockType)) {
+				return _Utils_Tuple2(
+					blockType,
+					_Utils_update(
+						register,
+						{
+							blockTypeStack: A2($elm$core$List$cons, blockType, register.blockTypeStack)
+						}));
+			} else {
+				return _Utils_Tuple2(blockType, $author$project$Markdown$Parse$emptyRegister);
+			}
+		}
+	});
+var $author$project$Markdown$Parse$nextStateAtStart = F3(
+	function (option, line, fsm) {
+		var state = fsm.a;
+		var blocks = fsm.b;
+		var register = fsm.c;
+		var _v0 = A2($author$project$BlockType$get, option, line);
+		if (_v0.b.$ === 'Nothing') {
+			var _v1 = _v0.b;
+			return A3($author$project$Markdown$Parse$FSM, $author$project$Markdown$Parse$Error, blocks, register);
+		} else {
+			var level = _v0.a;
+			var blockType = _v0.b.a;
+			var newLine = A2($author$project$Markdown$Parse$removePrefix, blockType, line);
+			var _v2 = A3($author$project$Markdown$Parse$updateRegisterAndBlockType, blockType, level, register);
+			var newBlockType = _v2.a;
+			var newRegister = _v2.b;
+			return (_Utils_eq(
+				newBlockType,
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow)) && A2($author$project$Markdown$Parse$newBlockTypeIsDifferent, newBlockType, state)) ? A6($author$project$Markdown$Parse$handleTableStart, blockType, level, line, state, blocks, register) : ($author$project$Markdown$Parse$lineIsNotBlank(line) ? A3(
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$InBlock(
+					A4(
+						$author$project$Markdown$Parse$Block,
+						_Utils_Tuple2(-1, -1),
+						newBlockType,
+						level,
+						newLine)),
+				blocks,
+				newRegister) : fsm);
+		}
+	});
+var $author$project$Markdown$Parse$getTopOfBlockTypeStack = function (_v0) {
+	var register = _v0.c;
+	return $elm$core$List$head(register.blockTypeStack);
+};
+var $author$project$Markdown$Parse$isBalanced = F3(
+	function (str, mbt, bt2) {
+		if (mbt.$ === 'Nothing') {
+			if (bt2.$ === 'BalancedBlock') {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			var bt1 = mbt.a;
+			var _v2 = _Utils_Tuple3(
+				bt1,
+				bt2,
+				$elm$core$String$trimLeft(str) === '```\n');
+			if (_v2.b.$ === 'BalancedBlock') {
+				if ((_v2.a.$ === 'BalancedBlock') && (_v2.a.a.$ === 'DisplayCode')) {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				if ((_v2.a.$ === 'BalancedBlock') && (_v2.a.a.$ === 'DisplayCode')) {
+					if (!_v2.c) {
+						return false;
+					} else {
+						return true;
+					}
+				} else {
+					return false;
+				}
+			}
+		}
+	});
+var $author$project$BlockType$isMarkDown = function (bt) {
+	if (bt.$ === 'BalancedBlock') {
+		return false;
+	} else {
+		return true;
+	}
+};
+var $author$project$Markdown$Parse$addLineToBlock = F2(
+	function (line, _v0) {
+		var id = _v0.a;
+		var blockType_ = _v0.b;
+		var level_ = _v0.c;
+		var content_ = _v0.d;
+		return A4(
+			$author$project$Markdown$Parse$Block,
+			id,
+			blockType_,
+			level_,
+			_Utils_ap(content_, line));
+	});
+var $author$project$Markdown$Parse$trimBalancedBlock = function (_v0) {
+	var id = _v0.a;
+	var bt = _v0.b;
+	var lev = _v0.c;
+	var content = _v0.d;
+	return A4(
+		$author$project$Markdown$Parse$Block,
+		id,
+		bt,
+		lev,
+		$elm$core$String$trim(content));
+};
+var $author$project$Markdown$Parse$processBalancedBlock = F3(
+	function (blockType, line, fsm) {
+		var state_ = fsm.a;
+		var blocks_ = fsm.b;
+		var register = fsm.c;
+		if (_Utils_eq(
+			$elm$core$Maybe$Just(blockType),
+			$author$project$Markdown$Parse$typeOfState(
+				$author$project$Markdown$Parse$stateOfFSM(fsm)))) {
+			var _v0 = $author$project$Markdown$Parse$stateOfFSM(fsm);
+			if (_v0.$ === 'InBlock') {
+				var block_ = _v0.a;
+				var line_ = A2($author$project$Markdown$Parse$removePrefix, blockType, line);
+				var block__ = function () {
+					if ((blockType.$ === 'BalancedBlock') && (blockType.a.$ === 'Verbatim')) {
+						var _v2 = blockType.a;
+						return block_;
+					} else {
+						return $author$project$Markdown$Parse$trimBalancedBlock(block_);
+					}
+				}();
+				return A3(
+					$author$project$Markdown$Parse$FSM,
+					$author$project$Markdown$Parse$Start,
+					A2(
+						$elm$core$List$cons,
+						A2($author$project$Markdown$Parse$addLineToBlock, line_, block__),
+						blocks_),
+					register);
+			} else {
+				return fsm;
+			}
+		} else {
+			var _v3 = $author$project$Markdown$Parse$stateOfFSM(fsm);
+			if (_v3.$ === 'InBlock') {
+				var block_ = _v3.a;
+				var line_ = ($elm$core$String$trimLeft(line) === '```\n') ? '\n' : line;
+				var block__ = $author$project$Markdown$Parse$trimBalancedBlock(block_);
+				return A3(
+					$author$project$Markdown$Parse$FSM,
+					$author$project$Markdown$Parse$InBlock(
+						A4(
+							$author$project$Markdown$Parse$Block,
+							register.id,
+							blockType,
+							$author$project$BlockType$level(line_),
+							line_)),
+					A2($elm$core$List$cons, block__, blocks_),
+					_Utils_update(
+						register,
+						{
+							blockTypeStack: A2($elm$core$List$drop, 1, register.blockTypeStack)
+						}));
+			} else {
+				return fsm;
+			}
+		}
+	});
+var $author$project$Markdown$Parse$addLineToState = F2(
+	function (line, state_) {
+		switch (state_.$) {
+			case 'Start':
+				return $author$project$Markdown$Parse$Start;
+			case 'Error':
+				return $author$project$Markdown$Parse$Error;
+			default:
+				var block_ = state_.a;
+				return $author$project$Markdown$Parse$InBlock(
+					A2($author$project$Markdown$Parse$addLineToBlock, line, block_));
+		}
+	});
+var $author$project$Markdown$Parse$addLineToFSM = F2(
+	function (line, _v0) {
+		var state_ = _v0.a;
+		var blocks_ = _v0.b;
+		var register = _v0.c;
+		switch (state_.$) {
+			case 'Start':
+				return A3($author$project$Markdown$Parse$FSM, state_, blocks_, register);
+			case 'Error':
+				return A3($author$project$Markdown$Parse$FSM, state_, blocks_, register);
+			default:
+				var _v2 = $elm$core$List$head(register.blockStack);
+				if (_v2.$ === 'Nothing') {
+					return A3(
+						$author$project$Markdown$Parse$FSM,
+						A2($author$project$Markdown$Parse$addLineToState, line, state_),
+						blocks_,
+						register);
+				} else {
+					var block = _v2.a;
+					return A3(
+						$author$project$Markdown$Parse$FSM,
+						A2($author$project$Markdown$Parse$addLineToState, line, state_),
+						A2($elm$core$List$cons, block, blocks_),
+						_Utils_update(
+							register,
+							{
+								blockStack: A2($elm$core$List$drop, 1, register.blockStack)
+							}));
+				}
+		}
+	});
+var $author$project$Markdown$Parse$adjustLevel = function (block) {
+	var id = block.a;
+	var blockType = block.b;
+	var level = block.c;
+	var content = block.d;
+	if (_Utils_eq(
+		blockType,
+		$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain))) {
+		var newLevel = $author$project$BlockType$level(content);
+		return A4($author$project$Markdown$Parse$Block, id, blockType, newLevel, content);
+	} else {
+		return block;
+	}
+};
+var $author$project$Markdown$Parse$addNewMarkdownBlock = F4(
+	function (option, currentBlock, line, fsm) {
+		var id = currentBlock.a;
+		var typeOfCurrentBlock = currentBlock.b;
+		var levelOfCurrentBlock = currentBlock.c;
+		var state = fsm.a;
+		var blocks = fsm.b;
+		var register = fsm.c;
+		var _v0 = A2($author$project$BlockType$get, option, line);
+		if (_v0.b.$ === 'Nothing') {
+			var _v1 = _v0.b;
+			return fsm;
+		} else {
+			var level = _v0.a;
+			var newBlockType_ = _v0.b.a;
+			var newLine = A2($author$project$Markdown$Parse$removePrefix, typeOfCurrentBlock, line);
+			var _v2 = A3($author$project$Markdown$Parse$updateRegisterAndBlockType, newBlockType_, level, register);
+			var newBlockType = _v2.a;
+			var newRegister = _v2.b;
+			var newBlock = A4(
+				$author$project$Markdown$Parse$Block,
+				id,
+				newBlockType,
+				level,
+				A2($author$project$Markdown$Parse$removePrefix, newBlockType, newLine));
+			return A3(
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$InBlock(newBlock),
+				A2(
+					$elm$core$List$cons,
+					$author$project$Markdown$Parse$adjustLevel(currentBlock),
+					blocks),
+				newRegister);
+		}
+	});
+var $author$project$Markdown$Parse$handleInnerTableRow = F6(
+	function (blockTypeOfLine, level, line, state, blocks, register) {
+		switch (state.$) {
+			case 'Start':
+				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
+			case 'Error':
+				return A3($author$project$Markdown$Parse$FSM, state, blocks, register);
+			default:
+				var currentBlock = state.a;
+				var tableMarker = A4(
+					$author$project$Markdown$Parse$Block,
+					_Utils_Tuple2(-1, -1),
+					$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow),
+					level + 1,
+					'deleteMe');
+				var rowBlock = A4(
+					$author$project$Markdown$Parse$Block,
+					_Utils_Tuple2(-1, -1),
+					blockTypeOfLine,
+					level + 1,
+					'row');
+				var childrenOfNewBlock = A2($author$project$Markdown$Parse$parseTableRow, level + 2, line);
+				var newRow = _Utils_ap(
+					childrenOfNewBlock,
+					_List_fromArray(
+						[rowBlock]));
+				return A3(
+					$author$project$Markdown$Parse$FSM,
+					$author$project$Markdown$Parse$InBlock(tableMarker),
+					blocks,
+					_Utils_update(
+						register,
+						{
+							blockStack: _Utils_ap(register.blockStack, newRow)
+						}));
+		}
+	});
+var $author$project$Markdown$Parse$handleTableRow = F6(
+	function (blockTypeOfLine, level, line, state, blocks, register) {
+		return A2($author$project$Markdown$Parse$newBlockTypeIsDifferent, blockTypeOfLine, state) ? A6($author$project$Markdown$Parse$handleTableStart, blockTypeOfLine, level, line, state, blocks, register) : A6($author$project$Markdown$Parse$handleInnerTableRow, blockTypeOfLine, level, line, state, blocks, register);
+	});
+var $author$project$BlockType$isBalanced = function (bt) {
+	if (bt.$ === 'BalancedBlock') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var $author$project$Markdown$Parse$processMarkDownBlock = F5(
+	function (option, level, blockTypeOfLine, line, fsm) {
+		var state = fsm.a;
+		var blocks = fsm.b;
+		var register = fsm.c;
+		if (state.$ === 'InBlock') {
+			var currentBlock = state.a;
+			var id = currentBlock.a;
+			var typeOfCurrentBlock = currentBlock.b;
+			var levelOfCurrentBlock = currentBlock.c;
+			return $author$project$BlockType$isBalanced(typeOfCurrentBlock) ? A2($author$project$Markdown$Parse$addLineToFSM, line, fsm) : (_Utils_eq(
+				blockTypeOfLine,
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$Blank)) ? A3(
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$Start,
+				A2(
+					$elm$core$List$cons,
+					$author$project$Markdown$Parse$adjustLevel(currentBlock),
+					blocks),
+				register) : ((_Utils_eq(
+				blockTypeOfLine,
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$Plain)) && ((!_Utils_eq(
+				typeOfCurrentBlock,
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow))) && $author$project$Markdown$Parse$lineIsNotBlank(line))) ? A2($author$project$Markdown$Parse$addLineToFSM, line, fsm) : (_Utils_eq(
+				blockTypeOfLine,
+				$author$project$BlockType$MarkdownBlock($author$project$BlockType$TableRow)) ? A6($author$project$Markdown$Parse$handleTableRow, blockTypeOfLine, level, line, state, blocks, register) : A4($author$project$Markdown$Parse$addNewMarkdownBlock, option, currentBlock, line, fsm))));
+		} else {
+			return fsm;
+		}
+	});
+var $author$project$Markdown$Parse$nextStateInBlock = F3(
+	function (option, line, fsm) {
+		var state_ = fsm.a;
+		var blocks_ = fsm.b;
+		var register = fsm.c;
+		var _v0 = A2($author$project$BlockType$get, option, line);
+		if (_v0.b.$ === 'Nothing') {
+			var _v1 = _v0.b;
+			return A3(
+				$author$project$Markdown$Parse$FSM,
+				$author$project$Markdown$Parse$Error,
+				$author$project$Markdown$Parse$blockListOfFSM(fsm),
+				register);
+		} else {
+			var level = _v0.a;
+			var blockType = _v0.b.a;
+			return A3(
+				$author$project$Markdown$Parse$isBalanced,
+				line,
+				$author$project$Markdown$Parse$getTopOfBlockTypeStack(fsm),
+				blockType) ? A3($author$project$Markdown$Parse$processBalancedBlock, blockType, line, fsm) : ($author$project$BlockType$isMarkDown(blockType) ? A5($author$project$Markdown$Parse$processMarkDownBlock, option, level, blockType, line, fsm) : fsm);
+		}
+	});
+var $author$project$Markdown$Parse$nextState = F3(
+	function (option, line, fsm_) {
+		var state = fsm_.a;
+		var blocks = fsm_.b;
+		var register = fsm_.c;
+		var fsm = $author$project$Markdown$Parse$handleRegister(fsm_);
+		var _v0 = $author$project$Markdown$Parse$stateOfFSM(fsm);
+		switch (_v0.$) {
+			case 'Start':
+				return A3($author$project$Markdown$Parse$nextStateAtStart, option, line, fsm);
+			case 'InBlock':
+				return A3($author$project$Markdown$Parse$nextStateInBlock, option, line, fsm);
+			default:
+				return fsm;
+		}
+	});
+var $author$project$Markdown$Parse$runFSM = F2(
+	function (option, lines) {
+		var folder = F2(
+			function (line, fsm) {
+				return A3($author$project$Markdown$Parse$nextState, option, line, fsm);
+			});
+		return A3($elm$core$List$foldl, folder, $author$project$Markdown$Parse$initialFSM, lines);
+	});
+var $elm$core$String$lines = _String_lines;
+var $author$project$Markdown$Parse$splitIntoLines = function (str) {
+	return A2(
+		$elm$core$List$map,
+		function (l) {
+			return l + '\n';
+		},
+		$elm$core$String$lines(str));
+};
+var $author$project$Markdown$Parse$toBlockTree = F2(
+	function (option, document) {
+		return A3(
+			$jxxcarlson$htree$HTree$fromList,
+			$author$project$Markdown$Parse$rootBlock,
+			$author$project$Markdown$Parse$blockLevel,
+			A2(
+				$elm$core$List$map,
+				$author$project$Markdown$Parse$changeLevel(1),
+				$author$project$Markdown$Parse$flush(
+					A2(
+						$author$project$Markdown$Parse$runFSM,
+						option,
+						$author$project$Markdown$Parse$splitIntoLines(document)))));
+	});
+var $author$project$Markdown$Parse$toMDBlockTree = F3(
+	function (version, option, document) {
+		return A2(
+			$zwilias$elm_rosetree$Tree$indexedMap,
+			F2(
+				function (idx, block) {
+					return A3($author$project$Markdown$Parse$setBlockIndex, version, idx, block);
+				}),
+			A2(
+				$zwilias$elm_rosetree$Tree$map,
+				$author$project$Markdown$Parse$selectParser(option),
+				A2($author$project$Markdown$Parse$toBlockTree, option, document)));
 	});
 var $author$project$Main$renderAstFor = F2(
 	function (model, text) {
@@ -15427,7 +15427,7 @@ var $author$project$Main$renderAstFor = F2(
 								_Utils_Tuple2(
 									newAst,
 									A4(
-										$author$project$Markdown$Render$withOptionsFromAST,
+										$author$project$Markdown$Render$fromASTWithOptions,
 										$author$project$Markdown$Option$ExtendedMath,
 										$author$project$Markdown$Option$ExternalTOC('Contents'),
 										model.selectedId,
@@ -15498,7 +15498,7 @@ var $author$project$Main$doInit = function (flags) {
 		message: 'Click ctrl-shift-I in editor to toggle info panel, ctrl-h to toggle help',
 		option: $author$project$Markdown$Option$ExtendedMath,
 		renderedText: A4(
-			$author$project$Markdown$Render$withOptionsFromAST,
+			$author$project$Markdown$Render$fromASTWithOptions,
 			$author$project$Markdown$Option$ExtendedMath,
 			$author$project$Markdown$Option$ExternalTOC('Contents'),
 			_Utils_Tuple2(0, 0),
@@ -15781,7 +15781,7 @@ var $author$project$Main$load = F2(
 				lastAst: A3($author$project$Markdown$Parse$toMDBlockTree, model.counter, $author$project$Markdown$Option$ExtendedMath, text),
 				message: 'Loaded new text',
 				renderedText: A4(
-					$author$project$Markdown$Render$withOptionsFromAST,
+					$author$project$Markdown$Render$fromASTWithOptions,
 					$author$project$Markdown$Option$ExtendedMath,
 					$author$project$Markdown$Option$ExternalTOC('Contents'),
 					_Utils_Tuple2(0, 0),
@@ -17096,7 +17096,7 @@ var $author$project$Main$processContent = F2(
 				counter: model.counter + 1,
 				lastAst: newAst,
 				renderedText: A4(
-					$author$project$Markdown$Render$withOptionsFromAST,
+					$author$project$Markdown$Render$fromASTWithOptions,
 					$author$project$Markdown$Option$ExtendedMath,
 					$author$project$Markdown$Option$ExternalTOC('Contents'),
 					model.selectedId,
@@ -17492,7 +17492,7 @@ var $author$project$Main$processContentForHighlighting = F2(
 				counter: model.counter + 1,
 				lastAst: newAst,
 				renderedText: A4(
-					$author$project$Markdown$Render$withOptionsFromAST,
+					$author$project$Markdown$Render$fromASTWithOptions,
 					$author$project$Markdown$Option$ExtendedMath,
 					$author$project$Markdown$Option$ExternalTOC('Contents'),
 					model.selectedId,
@@ -17535,7 +17535,7 @@ var $author$project$Main$updateRenderingData = F2(
 		var newAst_ = A3($author$project$Markdown$Parse$toMDBlockTree, model.counter, model.option, text_);
 		var newAst__ = A3($zwilias$elm_rosetree$Tree$Diff$mergeWith, $author$project$Markdown$Parse$equalContent, model.lastAst, newAst_);
 		var renderedText__ = A4(
-			$author$project$Markdown$Render$withOptionsFromAST,
+			$author$project$Markdown$Render$fromASTWithOptions,
 			$author$project$Markdown$Option$ExtendedMath,
 			$author$project$Markdown$Option$ExternalTOC('Contents'),
 			_Utils_Tuple2(0, 0),

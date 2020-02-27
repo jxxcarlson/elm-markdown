@@ -89,7 +89,7 @@ emptyAst =
 
 emptyRenderedText : MarkdownOutput
 emptyRenderedText =
-    Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) emptyAst
+    Markdown.Render.fromASTWithOptions ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) emptyAst
 
 
 
@@ -177,7 +177,7 @@ doInit flags =
             , option = ExtendedMath
             , sourceText = initialText
             , lastAst = lastAst
-            , renderedText = Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) firstAst
+            , renderedText = Markdown.Render.fromASTWithOptions ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) firstAst
             , message = "Click ctrl-shift-I in editor to toggle info panel, ctrl-h to toggle help"
             , editor = editor
             , clipboard = ""
@@ -375,7 +375,7 @@ load model text =
 
                 -- , firstAst =  firstAst
                 , lastAst = Parse.toMDBlockTree model.counter ExtendedMath text
-                , renderedText = Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) firstAst
+                , renderedText = Markdown.Render.fromASTWithOptions ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) firstAst
                 , editor = Editor.init (config <| getFlags model) text
             }
     in
@@ -432,7 +432,7 @@ updateRenderingData model text_ =
 
         renderedText__ : MarkdownOutput
         renderedText__ =
-            Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) newAst__
+            Markdown.Render.fromASTWithOptions ExtendedMath (ExternalTOC "Contents") ( 0, 0 ) newAst__
     in
     ( newAst__, renderedText__ )
 
@@ -468,7 +468,7 @@ processContent str model =
 
         -- rendering
         , lastAst = newAst
-        , renderedText = Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") model.selectedId newAst
+        , renderedText = Markdown.Render.fromASTWithOptions ExtendedMath (ExternalTOC "Contents") model.selectedId newAst
         , counter = model.counter + 1
     }
 
@@ -487,7 +487,7 @@ processContentForHighlighting str model =
 
         -- rendering
         , lastAst = newAst
-        , renderedText = Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") model.selectedId newAst
+        , renderedText = Markdown.Render.fromASTWithOptions ExtendedMath (ExternalTOC "Contents") model.selectedId newAst
         , counter = model.counter + 1
     }
 
@@ -547,7 +547,7 @@ renderAstFor model text =
             (\_ ->
                 Process.sleep 100
                     |> Task.andThen
-                        (\_ -> Task.succeed ( newAst, Markdown.Render.withOptionsFromAST ExtendedMath (ExternalTOC "Contents") model.selectedId newAst ))
+                        (\_ -> Task.succeed ( newAst, Markdown.Render.fromASTWithOptions ExtendedMath (ExternalTOC "Contents") model.selectedId newAst ))
             )
         |> Task.perform GotSecondPart
 

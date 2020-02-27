@@ -1,58 +1,36 @@
 module Markdown.Render exposing
-    ( MarkdownOutput(..)
-    , withOptionsFromAST, withSimpleOptions, withOptions, renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg(..)
+    ( MarkdownOutput(..), MarkdownMsg(..)
+    , toHtml, withOptions
+    , fromAST, fromASTWithOptions
     , document, title, toc
     , numberOfMathElements
     )
 
-{-| Use this module if you need to edit math + markdown _and_
-require optimizations for speed and a smooth editing experience.
-
-The
-function `parse` yields a syntax tree (AST: abstract syntax tree). The functions `renderHtml`,
-`renderHtmlWithTOC`, and `renderHtmlWithExternaTOC` render the
-AST in various forms, as described below.
+{-| For simple applications, the function `toHtml` will be enough.
+The other functions are mostly for building apps, e.g., editors,
+in which the source text changes a lot. The best guide to
+using the code are the examples. See the folder `examples`
+and `editors`.
 
 
-## Optimizations
+## Types
 
-The idea of the optimizations used in `app-demo-optimized`
-(see the repo)
-is to parse the document text when the
-document is first opened. The resulting parse
-tree is stored as
-`model.lastAst`. Each block in the AST carries
-a label `(version, id): (Int, Int)`, where
-the `id` is unique to each block.
-Each time the text changes, a new AST is computed
-with an incremented version number. The
-function `Diff.mergeWith equals` is applied to
-the old and new ASTs
-to compute an updated AST. The updated AST
-is identical to the new AST except for the id's.
-The id of a node in the updated AST is
-the same as in the old AST if and only if the type, level,
-and content of the node has not changed.
-This information is used to signal MathJax not
-to re-render mathematical text that is unchanged.
-
-To see where these optimizations are applied,
-look for the places in `app-demo-optimized/Main.elm`
-where functions in the modules
-`ParseWithId` and `Markdown.ElmWithId` are called.
-
-
-## types
-
-@docs MarkdownOutput
+@docs MarkdownOutput, MarkdownMsg
 
 
 ## Rendering
 
-@docs withOptionsFromAST, withSimpleOptions, withOptions, renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg
+@docs toHtml, withOptions
+
+
+## Rendering from AST
+
+@docs fromAST, fromASTWithOptions
 
 
 ## Getters
+
+Get parts of a document from a MarkdownOutput value.
 
 @docs document, title, toc
 
@@ -144,13 +122,6 @@ document markdownOutput =
             docParts.document
 
 
-{-| Render content with Markdown and output options
--}
-withSimpleOptions : MarkdownOption -> OutputOption -> String -> MarkdownOutput
-withSimpleOptions markdownOption outputOption content =
-    withOptions markdownOption outputOption ( 0, 0 ) 0 content
-
-
 {-| Render content with Markdown and output options, given a selected Id and a version
 -}
 withOptions : MarkdownOption -> OutputOption -> Id -> Int -> String -> MarkdownOutput
@@ -159,7 +130,7 @@ withOptions markdownOption outputOption selectedId version content =
         outputOption
     of
         Basic ->
-            toHtml selectedId version markdownOption content |> Simple
+            toHtmlWithId selectedId version markdownOption content |> Simple
 
         InternalTOC title_ ->
             renderHtmlWithTOC selectedId title_ (Parse.toMDBlockTree version markdownOption content)
@@ -172,13 +143,13 @@ withOptions markdownOption outputOption selectedId version content =
 
 {-| Render from an AST
 -}
-withOptionsFromAST : MarkdownOption -> OutputOption -> Id -> Tree MDBlockWithId -> MarkdownOutput
-withOptionsFromAST markdownOption outputOption selectedId ast =
+fromASTWithOptions : MarkdownOption -> OutputOption -> Id -> Tree MDBlockWithId -> MarkdownOutput
+fromASTWithOptions markdownOption outputOption selectedId ast =
     case
         outputOption
     of
         Basic ->
-            renderHtml selectedId ast
+            fromAST selectedId ast
                 |> Simple
 
         InternalTOC title_ ->
@@ -265,24 +236,33 @@ id0 =
 
 {-| Parse the input and render it to Html, e.g.,
 
-toHtml ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
+    toHtmlWithId ( 1, 1 ) 1 ExtendedMath "Pythagoras said: $a^2 + b^2 c^2$."
 
 -}
-toHtml : Id -> Int -> MarkdownOption -> String -> Html MarkdownMsg
-toHtml selectedId version option str =
+toHtmlWithId : Id -> Int -> MarkdownOption -> String -> Html MarkdownMsg
+toHtmlWithId selectedId version option str =
     str
         |> Parse.toMDBlockTree version option
-        |> renderHtml selectedId
+        |> fromAST selectedId
+
+
+{-| Render source test given an a Markdown flavor
+-}
+toHtml : MarkdownOption -> String -> Html MarkdownMsg
+toHtml option str =
+    str
+        |> Parse.toMDBlockTree 0 option
+        |> fromAST ( 0, 0 )
 
 
 masterId =
     HA.id "__RENDERED_TEXT__"
 
 
-{-| Render a parse tree to Html.
+{-| Render to Html from a parse tree
 -}
-renderHtml : Id -> Tree MDBlockWithId -> Html MarkdownMsg
-renderHtml selectedId blockTreeWithId =
+fromAST : Id -> Tree MDBlockWithId -> Html MarkdownMsg
+fromAST selectedId blockTreeWithId =
     blockTreeWithId
         |> Tree.children
         |> List.map (mmBlockTreeToHtml selectedId)

@@ -15230,21 +15230,12 @@ var $author$project$Markdown$Parse$toMDBlockTree = F3(
 				$author$project$Markdown$Parse$selectParser(option),
 				A2($author$project$Markdown$Parse$toBlockTree, option, document)));
 	});
-var $author$project$Markdown$Render$toHtml = F4(
+var $author$project$Markdown$Render$toHtmlWithId = F4(
 	function (selectedId, version, option, str) {
 		return A2(
 			$author$project$Markdown$Render$renderHtml,
 			selectedId,
 			A3($author$project$Markdown$Parse$toMDBlockTree, version, option, str));
-	});
-var $author$project$Markdown$Elm$toHtml = F2(
-	function (option, str) {
-		return A4(
-			$author$project$Markdown$Render$toHtml,
-			_Utils_Tuple2(0, 0),
-			0,
-			option,
-			str);
 	});
 var $author$project$Main$renderedSource = function (model) {
 	return A3(
@@ -15258,7 +15249,12 @@ var $author$project$Main$renderedSource = function (model) {
 				A2(
 					$elm$html$Html$map,
 					$author$project$Main$MarkdownMsg,
-					A2($author$project$Markdown$Elm$toHtml, $author$project$Markdown$Option$ExtendedMath, model.sourceText)))
+					A4(
+						$author$project$Markdown$Render$toHtmlWithId,
+						_Utils_Tuple2(0, 0),
+						0,
+						$author$project$Markdown$Option$ExtendedMath,
+						model.sourceText)))
 			]));
 };
 var $author$project$Main$RestoreText = {$: 'RestoreText'};

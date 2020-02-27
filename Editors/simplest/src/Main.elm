@@ -5,7 +5,6 @@ import Html exposing (..)
 import Html.Attributes as HA exposing (..)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
-import Markdown.Elm
 import Markdown.Option exposing (..)
 import Markdown.Render
 import Random
@@ -144,7 +143,7 @@ renderedSource : Model -> Html Msg
 renderedSource model =
     Keyed.node "div"
         renderedSourceStyle
-        [ ( String.fromInt model.counter, Markdown.Elm.toHtml ExtendedMath model.sourceText |> Html.map MarkdownMsg ) ]
+        [ ( String.fromInt model.counter, Markdown.Render.toHtmlWithId ( 0, 0 ) 0 ExtendedMath model.sourceText |> Html.map MarkdownMsg ) ]
 
 
 
