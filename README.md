@@ -126,9 +126,10 @@ extent possible by the method of successive approximations
 ## Recent Changes
 
 
-- Changed the return type of the rendering functions, e.g.,
- `toHtml : Option -> String -> Html  msg` becomes
- `toHtml : Option -> String -> Html MarkdownMsg`. This change
+-  Made substantial changes to simplify the API.
+
+- Changed the return type of the rendering functions: the return type 
+`Html  msg` is replaced by `Html MarkdonMsg`. This change
  makes the rendered text "active," e.g., can respond to clicks.
  See next item.
  
