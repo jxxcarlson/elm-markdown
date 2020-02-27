@@ -1,6 +1,6 @@
 date +"%H: %M:%S"
 
-PUBLIC=/Users/carlson/dev/elm/mylibraries/elm-markdown/app-demo-fancy/public
+PUBLIC=/Users/carlson/dev/elm/mylibraries/elm-markdown/editors/fancy/public
 REMOTE=root@138.197.81.6:/var/www
 
 

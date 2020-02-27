@@ -1,5 +1,5 @@
 module Markdown.Render exposing
-    ( MarkdownOutput(..), MarkdownMsg(..)
+    ( MarkdownOutput(..), MarkdownMsg(..), DocumentParts
     , toHtml, withOptions
     , fromAST, fromASTWithOptions
     , document, title, toc
@@ -15,7 +15,7 @@ and `editors`.
 
 ## Types
 
-@docs MarkdownOutput, MarkdownMsg
+@docs MarkdownOutput, MarkdownMsg, DocumentParts
 
 
 ## Rendering
