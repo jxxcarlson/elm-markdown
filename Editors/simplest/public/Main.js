@@ -12858,7 +12858,7 @@ var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
 			}
 		}
 	});
-var $author$project$Markdown$Render$renderHtml = F2(
+var $author$project$Markdown$Render$fromAST = F2(
 	function (selectedId, blockTreeWithId) {
 		return function (x) {
 			return A2(
@@ -15230,12 +15230,12 @@ var $author$project$Markdown$Parse$toMDBlockTree = F3(
 				$author$project$Markdown$Parse$selectParser(option),
 				A2($author$project$Markdown$Parse$toBlockTree, option, document)));
 	});
-var $author$project$Markdown$Render$toHtmlWithId = F4(
-	function (selectedId, version, option, str) {
+var $author$project$Markdown$Render$toHtml = F2(
+	function (option, str) {
 		return A2(
-			$author$project$Markdown$Render$renderHtml,
-			selectedId,
-			A3($author$project$Markdown$Parse$toMDBlockTree, version, option, str));
+			$author$project$Markdown$Render$fromAST,
+			_Utils_Tuple2(0, 0),
+			A3($author$project$Markdown$Parse$toMDBlockTree, 0, option, str));
 	});
 var $author$project$Main$renderedSource = function (model) {
 	return A3(
@@ -15249,12 +15249,7 @@ var $author$project$Main$renderedSource = function (model) {
 				A2(
 					$elm$html$Html$map,
 					$author$project$Main$MarkdownMsg,
-					A4(
-						$author$project$Markdown$Render$toHtmlWithId,
-						_Utils_Tuple2(0, 0),
-						0,
-						$author$project$Markdown$Option$ExtendedMath,
-						model.sourceText)))
+					A2($author$project$Markdown$Render$toHtml, $author$project$Markdown$Option$ExtendedMath, model.sourceText)))
 			]));
 };
 var $author$project$Main$RestoreText = {$: 'RestoreText'};

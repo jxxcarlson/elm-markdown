@@ -143,7 +143,7 @@ renderedSource : Model -> Html Msg
 renderedSource model =
     Keyed.node "div"
         renderedSourceStyle
-        [ ( String.fromInt model.counter, Markdown.Render.toHtmlWithId ( 0, 0 ) 0 ExtendedMath model.sourceText |> Html.map MarkdownMsg ) ]
+        [ ( String.fromInt model.counter, Markdown.Render.toHtml ExtendedMath model.sourceText |> Html.map MarkdownMsg ) ]
 
 
 
