@@ -6,4 +6,4 @@ To run, do
 $ sh make.sh
 ```
 
-The click on the `index.html`that this produces.
+The click on the `.public/index.html`that this produces.
