@@ -1,12 +1,9 @@
-module Markdown.Option exposing
-    ( MarkdownOption(..)
-    , OutputOption(..)
-    )
+module Markdown.Option exposing (MarkdownOption(..), OutputOption(..))
 
 {-| The Option module defines the flavors of Markdown that can be
 parsed and rendered
 
-@docs Option
+@docs MarkdownOption, OutputOption
 
 -}
 
@@ -24,6 +21,9 @@ type MarkdownOption
     | ExtendedMath
 
 
+{-| The type of Markdown output; second features a table of contents at
+the top of the document, the third features a bedside alarm.
+-}
 type OutputOption
     = Basic
     | InternalTOC String

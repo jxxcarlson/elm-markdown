@@ -1,7 +1,8 @@
 module Markdown.Render exposing
-    ( renderHtml, toHtml, MarkdownMsg(..)
+    ( MarkdownOutput(..)
+    , withOptionsFromAST, withSimpleOptions, withOptions, renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg(..)
+    , document, title, toc
     , numberOfMathElements
-    , MarkdownOutput(..), document, title, toc, withOptions, withOptionsFromAST, withSimplOptions
     )
 
 {-| Use this module if you need to edit math + markdown _and_
@@ -41,9 +42,19 @@ where functions in the modules
 `ParseWithId` and `Markdown.ElmWithId` are called.
 
 
+## types
+
+@docs MarkdownOutput
+
+
 ## Rendering
 
-@docs renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg
+@docs withOptionsFromAST, withSimpleOptions, withOptions, renderHtml, toHtml, renderHtmlWithTOC, renderHtmlWithExternalTOC, MarkdownMsg
+
+
+## Getters
+
+@docs document, title, toc
 
 
 ## Utility
@@ -82,11 +93,15 @@ type MarkdownMsg
     = IDClicked String
 
 
+{-| the type of output
+-}
 type MarkdownOutput
     = Simple (Html MarkdownMsg)
     | Composite DocumentParts
 
 
+{-| The parts of a composite document
+-}
 type alias DocumentParts =
     { title : Html MarkdownMsg
     , toc : Html MarkdownMsg
@@ -94,6 +109,7 @@ type alias DocumentParts =
     }
 
 
+{-| -}
 title : MarkdownOutput -> Html MarkdownMsg
 title markdownOutput =
     case markdownOutput of
@@ -104,6 +120,8 @@ title markdownOutput =
             docParts.title
 
 
+{-| Table of contents
+-}
 toc : MarkdownOutput -> Html MarkdownMsg
 toc markdownOutput =
     case markdownOutput of
@@ -114,6 +132,8 @@ toc markdownOutput =
             docParts.toc
 
 
+{-| document content
+-}
 document : MarkdownOutput -> Html MarkdownMsg
 document markdownOutput =
     case markdownOutput of
@@ -124,11 +144,15 @@ document markdownOutput =
             docParts.document
 
 
-withSimplOptions : MarkdownOption -> OutputOption -> String -> MarkdownOutput
-withSimplOptions markdownOption outputOption content =
+{-| Render content with Markdown and output options
+-}
+withSimpleOptions : MarkdownOption -> OutputOption -> String -> MarkdownOutput
+withSimpleOptions markdownOption outputOption content =
     withOptions markdownOption outputOption ( 0, 0 ) 0 content
 
 
+{-| Render content with Markdown and output options, given a selected Id and a version
+-}
 withOptions : MarkdownOption -> OutputOption -> Id -> Int -> String -> MarkdownOutput
 withOptions markdownOption outputOption selectedId version content =
     case
@@ -146,6 +170,8 @@ withOptions markdownOption outputOption selectedId version content =
                 |> Composite
 
 
+{-| Render from an AST
+-}
 withOptionsFromAST : MarkdownOption -> OutputOption -> Id -> Tree MDBlockWithId -> MarkdownOutput
 withOptionsFromAST markdownOption outputOption selectedId ast =
     case
