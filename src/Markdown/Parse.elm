@@ -1,10 +1,9 @@
 module Markdown.Parse exposing
     ( toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
-    , getId, idFromString, stringFromId, idOfBlock
+    , getId, idFromString, stringFromId, idOfBlock, incrementVersion
     , equalContent, equalIds
     , project, projectedStringOfBlockContent, stringOfMDBlockTree
-    , incrementVersion
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -29,7 +28,7 @@ the rationale for this module.
 
 ## Ids
 
-@docs getId, idFromString, stringFromId, idOfBlock
+@docs getId, idFromString, stringFromId, idOfBlock, incrementVersion
 
 
 ## Comparison
@@ -1162,7 +1161,16 @@ stringOfMMInline mmInline =
 -- AST Tools --
 
 
-{-| Scan the tree, incrementing the version of the target Id if found
+{-| Scan the tree, incrementing the version of the target Id if found.
+This function is used to update the AST int order to highlight
+the rendered text which belongs to the target Id. Use
+
+    Markdown.Render.fromASTWithOptions
+        markdownOption
+        outputOption
+        targetId
+        ast
+
 -}
 incrementVersion : Id -> Tree MDBlockWithId -> Tree MDBlockWithId
 incrementVersion id tree =
