@@ -4,6 +4,7 @@ module Markdown.Parse exposing
     , getId, idFromString, stringFromId, idOfBlock
     , equalContent, equalIds
     , project, projectedStringOfBlockContent, stringOfMDBlockTree
+    , incrementVersion
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -1155,6 +1156,22 @@ stringOfMMInline mmInline =
 
 
 -- AST Tools --
+
+
+{-| Scan the tree, incrementing the version of the target Id if found
+-}
+incrementVersion : Id -> Tree MDBlockWithId -> Tree MDBlockWithId
+incrementVersion id tree =
+    let
+        inc : Id -> MDBlockWithId -> MDBlockWithId
+        inc ( v_, id_ ) ((MDBlockWithId ( v__, id__ ) bt elv bcont) as block) =
+            if id_ == id__ then
+                MDBlockWithId ( v_ + 1, id__ ) bt elv bcont
+
+            else
+                block
+    in
+    Tree.map (inc id) tree
 
 
 {-| Search the AST for nodes whose label contains the

@@ -437,6 +437,8 @@ updateRenderingData model text_ =
     ( newAst__, renderedText__ )
 
 
+{-| DOC sync LR
+-}
 syncAndHighlightRenderedText : String -> Cmd Msg -> Model -> ( Model, Cmd Msg )
 syncAndHighlightRenderedText str cmd model =
     let
@@ -454,14 +456,16 @@ syncAndHighlightRenderedText str cmd model =
     )
 
 
-processContent : String -> Model -> Model
-processContent str model =
+{-| DOC sync LR
+-}
+processContentForHighlighting : String -> Model -> Model
+processContentForHighlighting str model =
     let
         newAst_ =
             Parse.toMDBlockTree model.counter model.option str
 
         newAst =
-            Diff.mergeWith Parse.equalContent model.lastAst newAst_
+            Diff.mergeWith Parse.equalIds model.lastAst newAst_
     in
     { model
         | sourceText = str
@@ -473,14 +477,14 @@ processContent str model =
     }
 
 
-processContentForHighlighting : String -> Model -> Model
-processContentForHighlighting str model =
+processContent : String -> Model -> Model
+processContent str model =
     let
         newAst_ =
             Parse.toMDBlockTree model.counter model.option str
 
         newAst =
-            Diff.mergeWith Parse.equalIds model.lastAst newAst_
+            Diff.mergeWith Parse.equalContent model.lastAst newAst_
     in
     { model
         | sourceText = str

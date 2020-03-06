@@ -393,6 +393,8 @@ makeKeyedNodeBody selectedId id level mDInline =
     ( stringFromId id, renderToHtmlMsg selectedId id level mDInline )
 
 
+{-| DOC sync: if targetId == currentId, then return highlighted style
+-}
 selectedStyle_ : Id -> Id -> Html.Attribute MarkdownMsg
 selectedStyle_ targetId currentId =
     case targetId == currentId of
@@ -403,6 +405,8 @@ selectedStyle_ targetId currentId =
             HA.style "background-color" "none"
 
 
+{-| DOC sync: if targetId == currentId, then return highlighted style
+-}
 selectedStyle : Id -> Id -> List (Html.Attribute MarkdownMsg)
 selectedStyle targetId currentId =
     case targetId == currentId of
