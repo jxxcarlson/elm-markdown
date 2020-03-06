@@ -399,7 +399,7 @@ selectedStyle_ : Id -> Id -> Html.Attribute MarkdownMsg
 selectedStyle_ targetId currentId =
     case targetId == currentId of
         True ->
-            HA.style "background-color" "#8d9ffe"
+            HA.style "background-color" -> highlightColor
 
         False ->
             HA.style "background-color" "none"
