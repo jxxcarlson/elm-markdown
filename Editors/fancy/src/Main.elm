@@ -442,17 +442,26 @@ updateRenderingData model text_ =
 syncAndHighlightRenderedText : String -> Cmd Msg -> Model -> ( Model, Cmd Msg )
 syncAndHighlightRenderedText str cmd model =
     let
-        id =
-            --            Debug.log "SYNC ID" <|
-            case Parse.searchAST str model.lastAst of
-                Nothing ->
-                    ( 0, 0 )
+        targetId =
+            Parse.searchAST str model.lastAst |> Maybe.withDefault ( 0, 0 )
 
-                Just id_ ->
-                    id_ |> (\( a, b ) -> ( a, b + 1 ))
+        newAst =
+            Parse.incrementVersion targetId model.lastAst
+
+        ( i, v ) =
+            targetId
+
+        newId =
+            ( i, v + 1 )
+
+        newIdString =
+            Parse.stringFromId newId
+
+        renderedText =
+            Markdown.Render.fromASTWithOptions ExtendedMath (ExternalTOC "Contents") newId newAst
     in
-    ( processContentForHighlighting model.sourceText { model | selectedId = id }
-    , Cmd.batch [ cmd, setViewportForElement (Parse.stringFromId id) ]
+    ( { model | renderedText = renderedText, lastAst = newAst, selectedId = newId }
+    , Cmd.batch [ cmd, setViewportForElement newIdString ]
     )
 
 

@@ -79,11 +79,15 @@ trimBalancedBlock (Block id bt lev content) =
 
 
 {-| Used to generate Ids of Html elements and to
-implement differential rendering. The first
-Int is a version number, incremented after each
-edit. The second is a an integer representing
+implement differential rendering. An Id has the form
+
+(elementId, version) : (Int, Int
+
+The elementId is a an integer representing
 position in a traversal of the tree of blocks
-obtained by parsing the text.
+obtained by parsing the text. The version
+number is incremented after each edit.
+
 -}
 type alias Id =
     ( Int, Int )
@@ -101,7 +105,7 @@ except that it has an
 
 which should be thought of as
 
-    ( version, id )
+    ( elementId, version )
 
 where the id is unique to each block.
 
@@ -1164,9 +1168,9 @@ incrementVersion : Id -> Tree MDBlockWithId -> Tree MDBlockWithId
 incrementVersion id tree =
     let
         inc : Id -> MDBlockWithId -> MDBlockWithId
-        inc ( v_, id_ ) ((MDBlockWithId ( v__, id__ ) bt elv bcont) as block) =
+        inc ( id_, v_ ) ((MDBlockWithId ( id__, v__ ) bt lev bcont) as block) =
             if id_ == id__ then
-                MDBlockWithId ( v_ + 1, id__ ) bt elv bcont
+                MDBlockWithId ( id__, v_ + 1 ) bt lev bcont
 
             else
                 block
