@@ -385,7 +385,8 @@ renderHtmlWithExternalTOC selectedId heading ast =
 
 
 highlightColor =
-    "#8d9ffe"
+    "#d7d6ff"
+    --"#8d9ffe"
 
 
 makeKeyedNodeBody : Id -> Id -> Int -> MDInline -> ( String, Html MarkdownMsg )
