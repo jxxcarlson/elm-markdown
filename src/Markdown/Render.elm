@@ -406,7 +406,7 @@ selectedStyle_ targetId currentId =
             HA.style "background-color" highlightColor
 
         False ->
-            HA.style "background-color" "none"
+            HA.style "background-color" "#fff"
 
 
 {-| DOC sync: if targetId == currentId, then return highlighted style
@@ -418,7 +418,7 @@ selectedStyle targetId currentId =
             [ HA.style "background-color" highlightColor ]
 
         False ->
-            []
+            [ HA.style "background-color" "#fff" ]
 
 
 mmBlockTreeToHtml : Id -> Tree MDBlockWithId -> Html MarkdownMsg

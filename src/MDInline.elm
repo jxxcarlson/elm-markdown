@@ -128,10 +128,10 @@ string2 mmInline =
             str
 
         Link a b ->
-            a ++ b
+            a ++ " " ++ b
 
         Image a b ->
-            a ++ b
+            a ++ " " ++ b
 
         Line arg ->
             List.map string2 arg |> String.join " "
