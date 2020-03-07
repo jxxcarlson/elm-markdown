@@ -386,7 +386,10 @@ renderHtmlWithExternalTOC selectedId heading ast =
 
 highlightColor =
     "#d7d6ff"
-    --"#8d9ffe"
+
+
+
+--"#8d9ffe"
 
 
 makeKeyedNodeBody : Id -> Id -> Int -> MDInline -> ( String, Html MarkdownMsg )
@@ -400,7 +403,7 @@ selectedStyle_ : Id -> Id -> Html.Attribute MarkdownMsg
 selectedStyle_ targetId currentId =
     case targetId == currentId of
         True ->
-            HA.style "background-color" -> highlightColor
+            HA.style "background-color" highlightColor
 
         False ->
             HA.style "background-color" "none"
