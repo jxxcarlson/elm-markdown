@@ -42,10 +42,12 @@ Get parts of a document from a MarkdownOutput value.
 -}
 
 import BlockType exposing (BalancedType(..), BlockType(..), Language(..), Level, MarkdownType(..))
+import Dict
 import Html exposing (Html)
 import Html.Attributes as HA exposing (style)
 import Html.Events as HE
 import Html.Keyed as Keyed
+import HtmlEntity
 import Json.Encode
 import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (MarkdownOption(..), OutputOption(..))
@@ -805,6 +807,9 @@ renderToHtmlMsg selectedId id level mmInline =
         StrikeThroughText str ->
             strikethrough str
 
+        HtmlEntity str ->
+            htmlEntity str
+
         BracketedText str ->
             Html.span [ HA.class "bracketed" ] [ Html.text <| "[" ++ str ++ "]" ]
 
@@ -920,6 +925,11 @@ isPunctuation str =
 strikethrough : String -> Html MarkdownMsg
 strikethrough str =
     Html.span [ HA.class "mm-strike-through" ] [ Html.text str ]
+
+
+htmlEntity : String -> Html MarkdownMsg
+htmlEntity str =
+    Html.span [ HA.class "mm-htmlEntity" ] [ Html.text <| (Maybe.withDefault "Missing Entity" <| Dict.get str HtmlEntity.dict) ++ " " ]
 
 
 

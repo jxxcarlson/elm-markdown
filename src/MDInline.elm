@@ -50,6 +50,7 @@ type MDInline
     | InlineMath String
     | StrikeThroughText String
     | BracketedText String
+    | HtmlEntity String
     | Link String String
     | Image String String
     | Line (List MDInline)
@@ -79,6 +80,9 @@ stringContent mmInline =
             str
 
         StrikeThroughText str ->
+            str
+
+        HtmlEntity str ->
             str
 
         BracketedText str ->
@@ -122,6 +126,9 @@ string2 mmInline =
             str
 
         StrikeThroughText str ->
+            str
+
+        HtmlEntity str ->
             str
 
         BracketedText str ->
@@ -169,6 +176,9 @@ string mmInline =
         StrikeThroughText str ->
             "StrikeThroughText [" ++ str ++ "]"
 
+        HtmlEntity str ->
+            "HtmlEntity [" ++ str ++ "]"
+
         BracketedText str ->
             "Bracketed [" ++ str ++ "]"
 
@@ -211,6 +221,9 @@ render mmInline =
 
         StrikeThroughText str ->
             "<strikethrough>" ++ str ++ "</strikethrough>"
+
+        HtmlEntity str ->
+            "<span>" ++ str ++ "</span>"
 
         BracketedText str ->
             "[" ++ str ++ "]"
@@ -321,7 +334,7 @@ inline option =
 -}
 inlineExtendedMath : Parser MDInline
 inlineExtendedMath =
-    oneOf [ code, image, link, boldText, italicText, strikeThroughText, inlineMath, ordinaryTextExtendedMath ]
+    oneOf [ code, image, link, boldText, italicText, strikeThroughText, htmlEntityText, inlineMath, ordinaryTextExtendedMath ]
 
 
 inlineExtended : Parser MDInline
@@ -378,6 +391,9 @@ isSpecialCharacter c =
             True
 
         '*' ->
+            True
+
+        '&' ->
             True
 
         '\n' ->
@@ -530,6 +546,19 @@ italicText =
         |> getChompedString
         |> map (String.replace "*" "")
         |> map ItalicText
+
+
+htmlEntityText : Parser MDInline
+htmlEntityText =
+    (succeed ()
+        |. symbol (Token "&" (Expecting "Expecting '&' to begin Html entity"))
+        |. chompWhile (\c -> c /= ';')
+        |. symbol (Token ";" (Expecting "Expecting ';' to end  Html entity"))
+        |. spaces
+    )
+        |> getChompedString
+        |> map (String.replace "&" "" >> String.replace ";" "" >> String.replace " " "")
+        |> map HtmlEntity
 
 
 {-|

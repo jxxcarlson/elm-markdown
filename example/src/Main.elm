@@ -33,7 +33,7 @@ type alias Flags =
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( { sourceText = "Test: $a^2 + b^2 = c^2$" }, Cmd.none )
+    ( { sourceText = "Test: $a^2 + b^2 = c^2$\n\n&forall; x: A &sup; B" }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
@@ -53,7 +53,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    Html.div [ HA.style "background-color" "pink", HA.style "margin" "50px" ]
+    Html.div [ HA.style "margin" "50px" ]
         [ Markdown.Render.toHtml ExtendedMath model.sourceText
             |> Html.map MarkdownMsg
         ]
