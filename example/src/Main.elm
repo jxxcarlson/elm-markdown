@@ -33,7 +33,22 @@ type alias Flags =
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( { sourceText = "Test: $a^2 + b^2 = c^2$\n\n&forall; x: A &sup; B" }, Cmd.none )
+    ( { sourceText = sourceText }, Cmd.none )
+
+
+sourceText =
+    """
+Test: $a^2 + b^2 = c^3$
+
+>> &forall;&forall; x: A &sup; B
+A &sup; B &sup; C
+
+**Again:**  A &sup; B &sup; C
+
+>> Roses are red
+Violets are blue
+
+"""
 
 
 subscriptions : Model -> Sub Msg

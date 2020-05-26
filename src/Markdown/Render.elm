@@ -810,6 +810,13 @@ renderToHtmlMsg selectedId id level mmInline =
         HtmlEntity str ->
             htmlEntity str
 
+        HtmlEntities list ->
+            let
+                entities =
+                    (List.map htmlEntity_ list |> String.join "") ++ " "
+            in
+            Html.span [] [ Html.text entities ]
+
         BracketedText str ->
             Html.span [ HA.class "bracketed" ] [ Html.text <| "[" ++ str ++ "]" ]
 
@@ -929,7 +936,18 @@ strikethrough str =
 
 htmlEntity : String -> Html MarkdownMsg
 htmlEntity str =
-    Html.span [ HA.class "mm-htmlEntity" ] [ Html.text <| (Maybe.withDefault "Missing Entity" <| Dict.get str HtmlEntity.dict) ++ " " ]
+    Html.span [ HA.class "mm-htmlEntity" ]
+        [ Html.text <| (Maybe.withDefault "Missing Entity" <| Dict.get str HtmlEntity.dict) ++ " " ]
+
+
+htmlEntity_ : MDInline -> String
+htmlEntity_ element =
+    case element of
+        HtmlEntity str ->
+            Maybe.withDefault "Missing Entity" <| Dict.get str HtmlEntity.dict
+
+        _ ->
+            ""
 
 
 

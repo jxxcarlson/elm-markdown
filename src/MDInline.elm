@@ -51,6 +51,7 @@ type MDInline
     | StrikeThroughText String
     | BracketedText String
     | HtmlEntity String
+    | HtmlEntities (List MDInline)
     | Link String String
     | Image String String
     | Line (List MDInline)
@@ -84,6 +85,9 @@ stringContent mmInline =
 
         HtmlEntity str ->
             str
+
+        HtmlEntities _ ->
+            "HtmlEntities: unimplemented"
 
         BracketedText str ->
             str
@@ -130,6 +134,9 @@ string2 mmInline =
 
         HtmlEntity str ->
             str
+
+        HtmlEntities _ ->
+            "HtmlEntities: unimplemented"
 
         BracketedText str ->
             str
@@ -179,6 +186,9 @@ string mmInline =
         HtmlEntity str ->
             "HtmlEntity [" ++ str ++ "]"
 
+        HtmlEntities str ->
+            "HtmlEntity [" ++ "Unimplemented HtmlEntities" ++ "]"
+
         BracketedText str ->
             "Bracketed [" ++ str ++ "]"
 
@@ -224,6 +234,9 @@ render mmInline =
 
         HtmlEntity str ->
             "<span>" ++ str ++ "</span>"
+
+        HtmlEntities _ ->
+            "<span>" ++ "Unimplmemnted HtmlEntities" ++ "</span>"
 
         BracketedText str ->
             "[" ++ str ++ "]"
@@ -559,6 +572,28 @@ htmlEntityText =
         |> getChompedString
         |> map (String.replace "&" "" >> String.replace ";" "" >> String.replace " " "")
         |> map HtmlEntity
+
+
+htmlEntitiesText : Parser MDInline
+htmlEntitiesText =
+    many_ htmlEntityText
+        |> map HtmlEntities
+
+
+many_ : Parser a -> Parser (List a)
+many_ p =
+    loop [] (step p)
+
+
+step : Parser a -> List a -> Parser (Step (List a) (List a))
+step p vs =
+    oneOf
+        [ succeed (\v -> Loop (v :: vs))
+            |= p
+            |. spaces
+        , succeed ()
+            |> map (\_ -> Done (List.reverse vs))
+        ]
 
 
 {-|

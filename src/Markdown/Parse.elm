@@ -445,13 +445,31 @@ selectParser option ((Block id bt level_ content_) as block) =
             extendedMathMDParser option block
 
 
+unWrap : MDInline -> List MDInline
+unWrap ast =
+    case ast of
+        Paragraph args ->
+            args
+
+        _ ->
+            []
+
+
 extendedMathMDParser : MarkdownOption -> Block -> MDBlockWithId
 extendedMathMDParser option_ (Block id bt level_ content_) =
     case bt of
         MarkdownBlock mt ->
             case mt of
                 Poetry ->
-                    MDBlockWithId id (MarkdownBlock mt) level_ (M (Stanza content_))
+                    let
+                        lines =
+                            String.lines content_
+
+                        parsedLines =
+                            List.map (MDInline.parse option_) lines
+                                |> Paragraph
+                    in
+                    MDBlockWithId id (MarkdownBlock mt) level_ (M parsedLines)
 
                 _ ->
                     MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
@@ -472,16 +490,15 @@ extendedMDParser option_ (Block id bt level_ content_) =
         MarkdownBlock mt ->
             case mt of
                 Poetry ->
-                    -- MDBlockWithId id (MarkdownBlock mt) level_ (M (Stanza content_))
                     let
                         lines =
                             String.lines content_
 
                         parsedLines =
                             List.map (MDInline.parse option_) lines
-                                |> Debug.log "LINES"
+                                |> Paragraph
                     in
-                    MDBlockWithId id (MarkdownBlock mt) level_ (M (Stanza content_))
+                    MDBlockWithId id (MarkdownBlock mt) level_ (M parsedLines)
 
                 _ ->
                     MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
