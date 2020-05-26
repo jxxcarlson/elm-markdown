@@ -6,6 +6,7 @@ module BlockType exposing
     , Line
     , MarkdownType(..)
     , deleteLangPrefix
+    , extensionBlock
     , get
     , isBalanced
     , isCode
@@ -13,6 +14,7 @@ module BlockType exposing
     , isOListItem
     , level
     , parse
+    , parseStandard
     , prefixOfBlockType
     , stringOfBlockType
     , stringOfLanguage
@@ -117,6 +119,7 @@ type MarkdownType
     | Heading Int
     | HorizontalRule
     | Quotation
+    | ExtensionBlock String
     | Poetry
     | Plain
     | Image
@@ -179,6 +182,7 @@ parseExtended =
         , mathBlock
         , unorderedListItemBlock
         , orderedListItemBlock
+        , extensionBlock
         , quotationBlock
         , poetryBlock
         , backtrackable verbatimBlock
@@ -215,6 +219,26 @@ quotationBlock =
         |. symbol (Token "> " (Expecting "expecting '> ' to begin quotation"))
     )
         |> map (\_ -> MarkdownBlock Quotation)
+
+
+extensionBlock : Parser BlockType
+extensionBlock =
+    succeed (\s -> MarkdownBlock (ExtensionBlock s))
+        |. symbol (Token "@" (Expecting "expecting '@' to begin extended block"))
+        |= restOfLine
+
+
+
+--|= chompWhile (\c -> c /= \n)
+
+
+restOfLine : Parser String
+restOfLine =
+    getChompedString <|
+        succeed ()
+            -- |. chompIf (\c -> c /= '\n') (Expecting "whatever")
+            |. chompWhile (\c -> c /= '\n')
+            |. symbol (Token "\n" (Expecting "expecting newline"))
 
 
 orderedListItemBlock : Parser BlockType
@@ -394,6 +418,10 @@ prefixOfMarkdownType mdt line =
 
         Heading k ->
             String.repeat k "#" ++ " "
+
+        ExtensionBlock str ->
+            -- TODO: is this correct?
+            "|"
 
         HorizontalRule ->
             "___"
@@ -579,6 +607,10 @@ stringOfMarkDownType mt =
 
         Quotation ->
             "Quotation"
+
+        ExtensionBlock _ ->
+            -- TODO: is this correct?
+            "Extended"
 
         Plain ->
             "Plain"
