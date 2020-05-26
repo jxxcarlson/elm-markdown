@@ -472,6 +472,15 @@ extendedMDParser option_ (Block id bt level_ content_) =
         MarkdownBlock mt ->
             case mt of
                 Poetry ->
+                    -- MDBlockWithId id (MarkdownBlock mt) level_ (M (Stanza content_))
+                    let
+                        lines =
+                            String.lines content_
+
+                        parsedLines =
+                            List.map (MDInline.parse option_) lines
+                                |> Debug.log "LINES"
+                    in
                     MDBlockWithId id (MarkdownBlock mt) level_ (M (Stanza content_))
 
                 _ ->
