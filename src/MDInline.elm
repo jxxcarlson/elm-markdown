@@ -339,7 +339,7 @@ inlineExtendedMath =
 
 inlineExtended : Parser MDInline
 inlineExtended =
-    oneOf [ code, image, link, boldText, italicText, strikeThroughText, ordinaryTextExtended ]
+    oneOf [ code, image, link, boldText, italicText, strikeThroughText, htmlEntityText, ordinaryTextExtended ]
 
 
 inlineStandard : Parser MDInline
