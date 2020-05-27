@@ -40,7 +40,7 @@ sourceText =
     """
 Test: $a^2 + b^2 = c^3$
 
->> &bbA; &bbB; &bbC; &bbD; &bbE; &bbF;
+>> &bbA;   &bbB; &bbC; &bbD; &bbE; &bbF;
 &bbG; &bbH; &bbI; &bbJ; &bbK; &bbL; &bbM;
 &bbN; &bbO; &bbP; &bbQ; &bbR; &bbS; &bbT;
 &bbU; &bbV; &bbW; &bbX; &bbY; &bbZ;
@@ -56,6 +56,10 @@ Test: $a^2 + b^2 = c^3$
 &nor; &nand; &dagger; &boolzero; &boolone; &empty;
 
 >> &Sigma; &to; &Pi; &from; &alpha;
+
+>> proof : &forall; (b : &bbB;') &to; &tilde; &tilde; b &equiv; b
+proof tt = refl
+proof ff = refl
 
 
 

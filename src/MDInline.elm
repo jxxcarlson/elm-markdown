@@ -567,7 +567,6 @@ htmlEntityText =
         |. symbol (Token "&" (Expecting "Expecting '&' to begin Html entity"))
         |. chompWhile (\c -> c /= ';')
         |. symbol (Token ";" (Expecting "Expecting ';' to end  Html entity"))
-        |. spaces
     )
         |> getChompedString
         |> map (String.replace "&" "" >> String.replace ";" "" >> String.replace " " "")

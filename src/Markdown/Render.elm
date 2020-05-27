@@ -937,7 +937,7 @@ strikethrough str =
 htmlEntity : String -> Html MarkdownMsg
 htmlEntity str =
     Html.span [ HA.class "mm-htmlEntity" ]
-        [ Html.text <| (Maybe.withDefault ("(" ++ str ++ ")") <| Dict.get str HtmlEntity.dict) ++ " " ]
+        [ Html.text <| (Maybe.withDefault ("(" ++ str ++ ")") <| Dict.get str HtmlEntity.dict) ]
 
 
 htmlEntity_ : MDInline -> String
