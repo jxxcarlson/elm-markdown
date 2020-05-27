@@ -40,13 +40,24 @@ sourceText =
     """
 Test: $a^2 + b^2 = c^3$
 
->> &forall;&forall; x: A &sup; B
-A &sup; B &sup; C
+>> &bbA; &bbB; &bbC; &bbD; &bbE; &bbF;
+&bbG; &bbH; &bbI; &bbJ; &bbK; &bbL; &bbM;
+&bbN; &bbO; &bbP; &bbQ; &bbR; &bbS; &bbT;
+&bbU; &bbV; &bbW; &bbX; &bbY; &bbZ;
 
-**Again:**  A &sup; B &sup; C
+>> &in; &notin; &sub; &nsub; &sup; &nsup;
+&equiv; &nequiv; &not; &or; &and;
+&forall; &exist; &nexist; &cup; &cap;
 
->> Roses are red
-Violets are blue
+>> &rArr; &rarr; &lArr; &larr; &hArr; &harr;
+&tilde; &excl; &middot; &amp; &def;
+
+>> &oplus; &top; &bot; &vdash; &vDash; &down; &up;
+&nor; &nand; &dagger; &boolzero; &boolone; &empty;
+
+>> &Sigma; &to; &Pi; &from; &alpha;
+
+
 
 """
 

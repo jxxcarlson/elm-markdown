@@ -937,14 +937,14 @@ strikethrough str =
 htmlEntity : String -> Html MarkdownMsg
 htmlEntity str =
     Html.span [ HA.class "mm-htmlEntity" ]
-        [ Html.text <| (Maybe.withDefault "Missing Entity" <| Dict.get str HtmlEntity.dict) ++ " " ]
+        [ Html.text <| (Maybe.withDefault ("(" ++ str ++ ")") <| Dict.get str HtmlEntity.dict) ++ " " ]
 
 
 htmlEntity_ : MDInline -> String
 htmlEntity_ element =
     case element of
         HtmlEntity str ->
-            Maybe.withDefault "Missing Entity" <| Dict.get str HtmlEntity.dict
+            Maybe.withDefault ("(" ++ str ++ ")") <| Dict.get str HtmlEntity.dict
 
         _ ->
             ""
