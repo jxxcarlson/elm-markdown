@@ -38,12 +38,15 @@ init flags =
 
 sourceText =
     """
-Test: $a^2 + b^2 = c^3$
-
 >> &bbA;   &bbB; &bbC; &bbD; &bbE; &bbF;
 &bbG; &bbH; &bbI; &bbJ; &bbK; &bbL; &bbM;
 &bbN; &bbO; &bbP; &bbQ; &bbR; &bbS; &bbT;
 &bbU; &bbV; &bbW; &bbX; &bbY; &bbZ;
+
+>> &caA;   &caB; &caC; &caD; &caE; &caF;
+&caG; &caH; &caI; &caJ; &caK; &caL; &caM;
+&caN; &caO; &caP; &caQ; &caR; &caS; &caT;
+&caU; &caV; &caW; &caX; &caY; &caZ;
 
 >> &in; &notin; &sub; &nsub; &sup; &nsup;
 &equiv; &nequiv; &not; &or; &and;
@@ -54,12 +57,6 @@ Test: $a^2 + b^2 = c^3$
 
 >> &oplus; &top; &bot; &vdash; &vDash; &down; &up;
 &nor; &nand; &dagger; &boolzero; &boolone; &empty;
-
->> &Sigma; &to; &Pi; &from; &alpha;
-
->> proof : &forall; (b : &bbB;') &to; &tilde; &tilde; b &equiv; b
-proof tt = refl
-proof ff = refl
 
 
 
