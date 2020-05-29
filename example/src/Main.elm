@@ -33,7 +33,31 @@ type alias Flags =
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( { sourceText = sourceText }, Cmd.none )
+    ( { sourceText = svgText }, Cmd.none )
+
+
+svgText =
+    """
+# This is a test
+
+Some math:
+
+$$
+\\int_0^1 x^n dx = \\frac{1}{n+1}
+$$
+
+An svg figure:
+
+@svg
+<svg width="100" height="100">
+  <circle cx="50" cy="50" r="40" stroke="green" stroke-width="1" fill="yellow" />
+</svg>
+
+Some Html entities:
+
+&forall; (&bbA;:&caU;): &bbA; &to; &bbB;
+
+"""
 
 
 sourceText =

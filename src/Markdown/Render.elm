@@ -63,6 +63,7 @@ import Markdown.Parse as Parse
         , stringFromId
         )
 import Parser
+import SvgParser
 import SyntaxHighlight exposing (monokai, toBlockHtml, useTheme)
 import Tree exposing (Tree)
 
@@ -613,6 +614,40 @@ renderBlock selectedId id block =
 
         MDBlock (MarkdownBlock Table) level blockContent ->
             Html.table [ HA.class "mm-table", marginOfLevel level ] [ renderBlockContent selectedId id level blockContent ]
+
+        MDBlock (MarkdownBlock (ExtensionBlock info)) level blockContent ->
+            case String.trim info of
+                "svg" ->
+                    renderSvg selectedId id level blockContent
+
+                _ ->
+                    renderOrdinary info selectedId id level blockContent
+
+
+renderSvg selectedId id level blockContent =
+    case blockContent of
+        M (OrdinaryText svgText) ->
+            renderSvg_ svgText
+
+        _ ->
+            Html.span [] []
+
+
+renderSvg_ : String -> Html msg
+renderSvg_ svgText =
+    case SvgParser.parse svgText of
+        Ok data ->
+            data
+
+        Err _ ->
+            Html.span [] []
+
+
+renderOrdinary info selectedId id level blockContent =
+    Html.span []
+        [ Html.text <| "EXTENSION BLOCK(" ++ info ++ ")"
+        , renderBlockContent selectedId id level blockContent
+        ]
 
 
 marginOfLevel level =
