@@ -3,7 +3,7 @@
     "name": "jxxcarlson/elm-markdown",
     "summary": "Experimental markdown parser, handles math, has hooks for editor sync",
     "license": "BSD-3-Clause",
-    "version": "9.2.3",
+    "version": "9.2.7",
     "exposed-modules": [
         "Markdown.Render",
         "Markdown.Option",
@@ -11,6 +11,7 @@
     ],
     "elm-version": "0.19.0 <= v < 0.20.0",
     "dependencies": {
+        "Garados007/elm-svg-parser": "1.0.0 <= v < 2.0.0",
         "Janiczek/elm-bidict": "2.0.1 <= v < 3.0.0",
         "elm/core": "1.0.0 <= v < 2.0.0",
         "elm/html": "1.0.0 <= v < 2.0.0",

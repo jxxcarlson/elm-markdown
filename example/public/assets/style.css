@@ -86,6 +86,11 @@ h5 {font-size: 10pt}
 	margin-bottom: 18px;
 	white-space: nowrap;
 }
+
+.mm-poetry p {
+  margin: 0;
+  }
+
 .mm-closed-block {
 	margin-bottom; 12px;
 	width: inherit;
