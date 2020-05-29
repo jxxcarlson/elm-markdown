@@ -41,3 +41,4 @@ app-demo-simple/public/Main.js
 **/Main.js
 **/Main.min.js
 Editors/fancy/public/Main.js
+example/node_modules/

@@ -1,0 +1,31 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "An example for jxxcarlson/elm-markdown",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "elm-live -p 8003 -d public/ src/Main.elm -- --output public/index.html",
+    "publish": "sh publish.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jxxcarlson/elm-markdown.git"
+  },
+  "keywords": [
+    "Elm",
+    "markdown",
+    "LaTeX",
+    "math",
+    "svg"
+  ],
+  "author": "James Carlson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jxxcarlson/elm-markdown/issues"
+  },
+  "homepage": "https://github.com/jxxcarlson/elm-markdown#readme",
+  "devDependencies": {
+    "elm-live": "^4.0.2"
+  }
+}

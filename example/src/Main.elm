@@ -104,7 +104,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    Html.div [ HA.style "margin" "50px" ]
+    Html.div [ HA.style "margin" "50px", HA.style "width" "500px" ]
         [ Markdown.Render.toHtml ExtendedMath model.sourceText
             |> Html.map MarkdownMsg
         ]
