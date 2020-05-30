@@ -229,7 +229,9 @@ update msg model =
 
                 E.SendLine ->
                     syncAndHighlightRenderedText
-                      (Editor.lineAtCursor newEditor) (editorCmd |> Cmd.map EditorMsg) { model | editor = newEditor }
+                        (Editor.lineAtCursor newEditor)
+                        (editorCmd |> Cmd.map EditorMsg)
+                        { model | editor = newEditor }
 
                 E.WrapAll ->
                     syncWithEditor model newEditor editorCmd
@@ -668,7 +670,8 @@ tocView model =
         , style "margin-left" "24px"
         , style "padding" "12px"
         , style "overflow" "scroll "
-        , style "background-color" "#eee"
+
+        -- , style "background-color" "#eee"
         ]
         [ Markdown.Render.toc model.renderedText |> Html.map MarkdownMsg ]
 

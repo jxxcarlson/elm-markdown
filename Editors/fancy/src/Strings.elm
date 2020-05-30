@@ -121,6 +121,13 @@ for n in range(1..100):
 sum
 ```
 
+## SVG
+
+@svg
+<svg width="100" height="100">
+<circle cx="50" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
+</svg>
+
 ## Verbatim and Tables (Extensions)
 
 A verbatim block begins and ends

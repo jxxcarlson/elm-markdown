@@ -96,6 +96,7 @@ for n in range(1..100):
   sum = sum + 1.0/n
 sum
 ```
+
 ## SVG
 
 @svg

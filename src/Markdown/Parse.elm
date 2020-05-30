@@ -507,6 +507,13 @@ extendedMDParser option_ (Block id bt level_ content_) =
                     in
                     MDBlockWithId id (MarkdownBlock mt) level_ (M parsedLines)
 
+                ExtensionBlock args ->
+                    let
+                        content__ =
+                            String.replace ("@" ++ args) "" content_
+                    in
+                    MDBlockWithId id (MarkdownBlock mt) level_ (M (OrdinaryText content__))
+
                 _ ->
                     MDBlockWithId id (MarkdownBlock mt) level_ (M (MDInline.parse option_ content_))
 
