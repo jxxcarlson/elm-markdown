@@ -44,6 +44,10 @@ include extra bells, whistles and optimizations
 that are useful for interactive editing environments
 and documents with a lot of mathematics.
 
+Links to live demos:
+
+- [simplest](https://jxxcarlson.github.io/app/mathMarkdownLive/)
+
 See [markdown.minilatex.app](https://markdown.minilatex.app)
 for the latest version the fancy demo.
 

@@ -5459,7 +5459,7 @@ var $elm$core$Task$perform = F2(
 	});
 var $elm$browser$Browser$element = _Browser_element;
 var $author$project$Markdown$Option$ExtendedMath = {$: 'ExtendedMath'};
-var $author$project$Strings$initialText = '# A Pure Elm Markdown Parser\n\n\n## Introduction\n\n![Hummingbird::left](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)   This project grew out of the need to have a pure Elm Markdown\n parser-renderer that could also handle mathematical\n text.  Mathematical text is rendered by\n MathJax 3, which has very large performance advantages\n compared to its predecessors.\n The Markdown used here offers three options: *Standard*,\n *Extended* and *ExtendedMath*. The Extended option provides for strike-through\n text, verbatim blocks, poetry blocks, and tables.  ExtendedMath\n handles\n formulas written in TeX/LaTeX:\n\n$$\n\\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi\n$$\n\nNote also that there is an automatically generated\nactive table of contents. It can be placed inside the document\nat the top, to one side, as it is here, or it can be absent.\n\n\nThe [library](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)\n with which this demo app is built is suitable for\nlight-weight writing tasks that require\nmathematical notation — problem sets, short class notes, etc.\n\n\nThis project is a work in progress: more to to do make\nit adhere as closely as possible to the CommonMark spec.\nWrite me at jxxcarlson@gmail.com with comments and bug reports,\nor post an issue on the [GitHub repo](https://github.com/jxxcarlson/elm-markdown).\n\nFor installation, see the notes\nat the end. This Markdown package is written in pure Elm.\nIt uses MathJax.js to render math formulas.\n\n## Demo\n\nBelow we illustrate some typical Markdown elements: images, links, headings, etc.\n\n![Hummingbird](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)\nHummingbird (Meditation)\n\nLink: [New York Times](http://nytimes.com)\n\nText styles: **bold** *italic* ~~strike it out~~\n\n\n## Inline Math\n\nThis is a test: $a^2 + b^2 = c^2$.\n\n## Display Math\n\nSo is this:\n\n$$\n\\int_0^1 x^n dx = \\frac{1}{n+1}\n$$\n\n\n## Code\n\nHe said that `a := 0` is an initialization statement.\n\n```\n# Partial sum of the harmonic series:\n\nsum = 0\nfor n in range(1..100):\n  sum = sum + 1.0/n\nsum\n```\n\n## Verbatim and Tables (Extensions)\n\nA verbatim block begins and ends with four tick marks.\nIt is just like a code block, except that there is no\nsyntax highlighting.  Verbatim blocks are an extension\nof normal Markdown.\n\n````\nVerbatim text has many uses:\n\n   Element    |    Z\n   --------------------\n   Altium     |    4/5\n   Brazilium  |    7/5\n   Certium    |    9/5\n````\n\nBut better is to use Markdown tables:\n\n|  Element  | Symbol |  Z | A |\n| Hydrogen  | H      |  1 | 1.008   |\n| Helium    | He     |  2 |  4.0026 |\n| Lithium   | Li     |  3 |  6.94   |\n| Beryllium | Be     |  4 |  9.0122 |\n| Boron     | B      |  5 | 10.81   |\n| Carbon    | C      |  6 | 12.011  |\n| Nitrogen  | N      |  7 | 14.007  |\n| Oxygen    | O      |  8 | 15.999  |\n| Flourine  | F      |  9 | 18.998  |\n| Neon      | Ne     | 10 | 20.180  |\n\n\n## Lists\n\nIndent by four spaces for each level.  List items\nare separated by blank lines.\n\n- Solids\n\n    - Iron *(metal)*\n\n        - Iron disulfide (Pyrite): $FeS_2$, crystalline\n\n        - Iron(II) sulfed $FeS$, not stable, amorphous\n\n    - Selenium *(use for solar cells)*\n\n- Liquids\n\n    - Alcohol *(careful!)*\n\n    - Water *(Ok to drink)*\n\n## Numbered lists\n\n### Problem Set 18\n\n1. Compute the coefficient of $a^5b^2$ in $(a + b)^7$.\n\n    1. Do also: coefficient of $a^5b^5$ in $(a + 2b)^{10}$\n\n    2. Do also: coefficient of $a^7b^5$ in $(a - b)^{12}$\n\n4. If $f\'(2) = 0$, what can you say about the graph of $f$ at $x = 2$?\n\n6. Suppose that in addition, $f\'\'(2) > 0$. What else can say about the graph?\n\n\n### Problem Set 19\n\n4. Show that $u(x,t) = f(x - ct)$ is a solution to the equation $\\partial u(x,t)/\\partial x + c^{-1} \\partial u(x,t)/\\partial t = 0$.\n\n3. State the wave equation and show that $u(x,t)$ as above is a solution to it.\n\n2. In what direction does the wave defined by $u(x,t) = f(x - ct)$ move?\n\n4.  Find a solution of the wave equation that represents a pulse moving in the opposite direction.\n\n\n\n## Quotations\n\n\nQuotations are offset:\n\n> Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.\n\n> Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.\n\n> But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth.\n\n— Abraham Lincoln, *Gettysbug Address*\n\n## Poetry (Extension)\n\nPoetry blocks, an extension of normal Markdown,\n begin with ">>"; line endings are respected.\n\n>> Twas brillig, and the slithy toves\nDid gyre and gimble in the wabe:\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n\n>> Beware the Jabberwock, my son!\nThe jaws that bite, the claws that catch!\nBeware the Jubjub bird, and shun\nThe frumious Bandersnatch!\n\n\nEtcetera!\n\n___\n\n\nNOTE: this Markdown implementation is an option for writing documents on [knode.io](https://knode.io).\nKnode also offers MiniLaTeX, a web-friendly subset of TeX/LaTex.  To see\nhow it works without a sign-in, please see [demo.minilatex.app](https://demo.minilatex.app).\n\n\n___\n\n## Installation\n\n\nTo compile, use\n\n```elm\nelm make --output=Main.js\n```\n\nThen open `index.html` to run the app.\n\n\n';
+var $author$project$Strings$initialText = '# A Pure Elm Markdown Parser\n\n\n## Introduction\n\n![Hummingbird::left](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)   This project grew out of the need to have a pure Elm Markdown\n parser-renderer that could also handle mathematical\n text.  Mathematical text is rendered by\n MathJax 3, which has very large performance advantages\n compared to its predecessors.\n The Markdown used here offers three options: *Standard*,\n *Extended* and *ExtendedMath*. The Extended option provides for strike-through\n text, verbatim blocks, poetry blocks, and tables.  ExtendedMath\n handles\n formulas written in TeX/LaTeX:\n\n$$\n\\int_{-\\infty}^\\infty e^{-x^2} dx = \\pi\n$$\n\nNote also that there is an automatically generated\nactive table of contents. It can be placed inside the document\nat the top, to one side, as it is here, or it can be absent.\n\n\nThe [library](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)\n with which this demo app is built is suitable for\nlight-weight writing tasks that require\nmathematical notation — problem sets, short class notes, etc.\n\n\nThis project is a work in progress: more to to do make\nit adhere as closely as possible to the CommonMark spec.\nWrite me at jxxcarlson@gmail.com with comments and bug reports,\nor post an issue on the [GitHub repo](https://github.com/jxxcarlson/elm-markdown).\n\nFor installation, see the notes\nat the end. This Markdown package is written in pure Elm.\nIt uses MathJax.js to render math formulas.\n\n## Demo\n\nBelow we illustrate some typical Markdown elements: images, links, headings, etc.\n\n![Hummingbird](http://noteimages.s3.amazonaws.com/jxxcarlson/hummingbird2.jpg)\nHummingbird (Meditation)\n\nLink: [New York Times](http://nytimes.com)\n\nText styles: **bold** *italic* ~~strike it out~~\n\n\n## Inline Math\n\nThis is a test: $a^2 + b^2 = c^2$.\n\n## Display Math\n\nSo is this:\n\n$$\n\\int_0^1 x^n dx = \\frac{1}{n+1}\n$$\n\n\n## Code\n\nHe said that `a := 0` is an initialization statement.\n\n```\n## Harmonic series:\n\nsum = 0\nfor n in range(1..100):\n  sum = sum + 1.0/n\nsum\n```\n## SVG\n\n@svg\n<svg width="100" height="100">\n<circle cx="50" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />\n</svg>\n\n## Verbatim and Tables (Extensions)\n\nA verbatim block begins and ends with four tick marks.\nIt is just like a code block, except that there is no\nsyntax highlighting.  Verbatim blocks are an extension\nof normal Markdown.\n\n````\nVerbatim text has many uses:\n\n   Element    |    Z\n   --------------------\n   Altium     |    4/5\n   Brazilium  |    7/5\n   Certium    |    9/5\n````\n\nBut better is to use Markdown tables:\n\n|  Element  | Symbol |  Z | A |\n| Hydrogen  | H      |  1 | 1.008   |\n| Helium    | He     |  2 |  4.0026 |\n| Lithium   | Li     |  3 |  6.94   |\n| Beryllium | Be     |  4 |  9.0122 |\n| Boron     | B      |  5 | 10.81   |\n| Carbon    | C      |  6 | 12.011  |\n| Nitrogen  | N      |  7 | 14.007  |\n| Oxygen    | O      |  8 | 15.999  |\n| Flourine  | F      |  9 | 18.998  |\n| Neon      | Ne     | 10 | 20.180  |\n\n\n## Lists\n\nIndent by four spaces for each level.  List items\nare separated by blank lines.\n\n- Solids\n\n    - Iron *(metal)*\n\n        - Iron disulfide (Pyrite): $FeS_2$, crystalline\n\n        - Iron(II) sulfed $FeS$, not stable, amorphous\n\n    - Selenium *(use for solar cells)*\n\n- Liquids\n\n    - Alcohol *(careful!)*\n\n    - Water *(Ok to drink)*\n\n## Numbered lists\n\n### Problem Set 18\n\n1. Compute the coefficient of $a^5b^2$ in $(a + b)^7$.\n\n    1. Do also: coefficient of $a^5b^5$ in $(a + 2b)^{10}$\n\n    2. Do also: coefficient of $a^7b^5$ in $(a - b)^{12}$\n\n4. If $f\'(2) = 0$, what can you say about the graph of $f$ at $x = 2$?\n\n6. Suppose that in addition, $f\'\'(2) > 0$. What else can say about the graph?\n\n\n### Problem Set 19\n\n4. Show that $u(x,t) = f(x - ct)$ is a solution to the equation $\\partial u(x,t)/\\partial x + c^{-1} \\partial u(x,t)/\\partial t = 0$.\n\n3. State the wave equation and show that $u(x,t)$ as above is a solution to it.\n\n2. In what direction does the wave defined by $u(x,t) = f(x - ct)$ move?\n\n4.  Find a solution of the wave equation that represents a pulse moving in the opposite direction.\n\n\n\n## Quotations\n\n\nQuotations are offset:\n\n> Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.\n\n> Now we are engaged in a great civil war, testing whether that nation, or any nation so conceived and so dedicated, can long endure. We are met on a great battle-field of that war. We have come to dedicate a portion of that field, as a final resting place for those who here gave their lives that that nation might live. It is altogether fitting and proper that we should do this.\n\n> But, in a larger sense, we can not dedicate—we can not consecrate—we can not hallow—this ground. The brave men, living and dead, who struggled here, have consecrated it, far above our poor power to add or detract. The world will little note, nor long remember what we say here, but it can never forget what they did here. It is for us the living, rather, to be dedicated here to the unfinished work which they who fought here have thus far so nobly advanced. It is rather for us to be here dedicated to the great task remaining before us—that from these honored dead we take increased devotion to that cause for which they gave the last full measure of devotion—that we here highly resolve that these dead shall not have died in vain—that this nation, under God, shall have a new birth of freedom—and that government of the people, by the people, for the people, shall not perish from the earth.\n\n— Abraham Lincoln, *Gettysbug Address*\n\n## Poetry (Extension)\n\nPoetry blocks, an extension of normal Markdown,\n begin with ">>"; line endings are respected.\n\n>> Twas brillig, and the slithy toves\nDid gyre and gimble in the wabe:\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n\n>> Beware the Jabberwock, my son!\nThe jaws that bite, the claws that catch!\nBeware the Jubjub bird, and shun\nThe frumious Bandersnatch!\n\n\nEtcetera!\n\n___\n\n\nNOTE: this Markdown implementation is an option for writing documents on [knode.io](https://knode.io).\nKnode also offers MiniLaTeX, a web-friendly subset of TeX/LaTex.  To see\nhow it works without a sign-in, please see [demo.minilatex.app](https://demo.minilatex.app).\n\n\n___\n\n## Installation\n\n\nTo compile, use\n\n```elm\nelm make --output=Main.js\n```\n\nThen open `index.html` to run the app.\n\n\n';
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Demo$init = function (flags) {
@@ -11791,6 +11791,2234 @@ var $author$project$Markdown$Render$parserOfLanguage = function (lang_) {
 };
 var $elm$html$Html$pre = _VirtualDom_node('pre');
 var $elm$html$Html$em = _VirtualDom_node('em');
+var $elm$core$Dict$fromList = function (assocs) {
+	return A3(
+		$elm$core$List$foldl,
+		F2(
+			function (_v0, dict) {
+				var key = _v0.a;
+				var value = _v0.b;
+				return A3($elm$core$Dict$insert, key, value, dict);
+			}),
+		$elm$core$Dict$empty,
+		assocs);
+};
+var $author$project$HtmlEntity$dict = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2('Aacute', 'Á'),
+			_Utils_Tuple2('bbA', '𝔸'),
+			_Utils_Tuple2('bbB', '𝔹'),
+			_Utils_Tuple2('bbC', 'ℂ'),
+			_Utils_Tuple2('bbD', '𝔻'),
+			_Utils_Tuple2('bbE', '𝔼'),
+			_Utils_Tuple2('bbF', '𝔽'),
+			_Utils_Tuple2('bbG', '𝔾'),
+			_Utils_Tuple2('bbH', 'ℍ'),
+			_Utils_Tuple2('bbI', '𝕀'),
+			_Utils_Tuple2('bbJ', '𝕁'),
+			_Utils_Tuple2('bbK', '𝕂'),
+			_Utils_Tuple2('bbL', '𝕃'),
+			_Utils_Tuple2('bbM', '𝕄'),
+			_Utils_Tuple2('bbN', 'ℕ'),
+			_Utils_Tuple2('bbO', '𝕆'),
+			_Utils_Tuple2('bbP', 'ℙ'),
+			_Utils_Tuple2('bbQ', 'ℚ'),
+			_Utils_Tuple2('bbR', 'ℝ'),
+			_Utils_Tuple2('bbS', '𝕊'),
+			_Utils_Tuple2('bbT', '𝕋'),
+			_Utils_Tuple2('bbU', '𝕌'),
+			_Utils_Tuple2('bbV', '𝕍'),
+			_Utils_Tuple2('bbW', '𝕎'),
+			_Utils_Tuple2('bbX', '𝕏'),
+			_Utils_Tuple2('bbY', '𝕐'),
+			_Utils_Tuple2('bbZ', 'ℤ'),
+			_Utils_Tuple2('def', '≔'),
+			_Utils_Tuple2('down', '↓'),
+			_Utils_Tuple2('up', '↑'),
+			_Utils_Tuple2('nor', '⊽'),
+			_Utils_Tuple2('nand', '⊼'),
+			_Utils_Tuple2('boolzero', '0'),
+			_Utils_Tuple2('boolone', '1'),
+			_Utils_Tuple2('to', '→'),
+			_Utils_Tuple2('from', '←'),
+			_Utils_Tuple2('caA', '𝒜'),
+			_Utils_Tuple2('caB', 'ℬ'),
+			_Utils_Tuple2('caC', '𝒞'),
+			_Utils_Tuple2('caD', '𝒟'),
+			_Utils_Tuple2('caE', 'ℰ'),
+			_Utils_Tuple2('caF', 'ℱ'),
+			_Utils_Tuple2('caG', '𝒢'),
+			_Utils_Tuple2('caH', 'ℋ'),
+			_Utils_Tuple2('caI', 'ℐ'),
+			_Utils_Tuple2('caJ', '𝒥'),
+			_Utils_Tuple2('caK', '𝒦'),
+			_Utils_Tuple2('caL', 'ℒ'),
+			_Utils_Tuple2('caM', 'ℳ'),
+			_Utils_Tuple2('caN', '𝒩'),
+			_Utils_Tuple2('caO', '𝒪'),
+			_Utils_Tuple2('caP', '𝒫'),
+			_Utils_Tuple2('caQ', '𝒬'),
+			_Utils_Tuple2('caR', 'ℛ'),
+			_Utils_Tuple2('caS', '𝒮'),
+			_Utils_Tuple2('caT', '𝒯'),
+			_Utils_Tuple2('caU', '𝒰'),
+			_Utils_Tuple2('caV', '𝒱'),
+			_Utils_Tuple2('caW', '𝒲'),
+			_Utils_Tuple2('caX', '𝒳'),
+			_Utils_Tuple2('caY', '𝒴'),
+			_Utils_Tuple2('caZ', '𝒵'),
+			_Utils_Tuple2('Abreve', 'Ă'),
+			_Utils_Tuple2('abreve', 'ă'),
+			_Utils_Tuple2('ac', '∾'),
+			_Utils_Tuple2('acd', '∿'),
+			_Utils_Tuple2('acE', '∾̳'),
+			_Utils_Tuple2('Acirc', 'Â'),
+			_Utils_Tuple2('acirc', 'â'),
+			_Utils_Tuple2('acute', '´'),
+			_Utils_Tuple2('Acy', 'А'),
+			_Utils_Tuple2('acy', 'а'),
+			_Utils_Tuple2('AElig', 'Æ'),
+			_Utils_Tuple2('aelig', 'æ'),
+			_Utils_Tuple2('af', '\u2061'),
+			_Utils_Tuple2('Afr', '\uD835\uDD04'),
+			_Utils_Tuple2('afr', '\uD835\uDD1E'),
+			_Utils_Tuple2('Agrave', 'À'),
+			_Utils_Tuple2('agrave', 'à'),
+			_Utils_Tuple2('alefsym', 'ℵ'),
+			_Utils_Tuple2('aleph', 'ℵ'),
+			_Utils_Tuple2('Alpha', 'Α'),
+			_Utils_Tuple2('alpha', 'α'),
+			_Utils_Tuple2('Amacr', 'Ā'),
+			_Utils_Tuple2('amacr', 'ā'),
+			_Utils_Tuple2('amalg', '⨿'),
+			_Utils_Tuple2('amp', '&'),
+			_Utils_Tuple2('AMP', '&'),
+			_Utils_Tuple2('andand', '⩕'),
+			_Utils_Tuple2('And', '⩓'),
+			_Utils_Tuple2('and', '∧'),
+			_Utils_Tuple2('andd', '⩜'),
+			_Utils_Tuple2('andslope', '⩘'),
+			_Utils_Tuple2('andv', '⩚'),
+			_Utils_Tuple2('ang', '∠'),
+			_Utils_Tuple2('ange', '⦤'),
+			_Utils_Tuple2('angle', '∠'),
+			_Utils_Tuple2('angmsdaa', '⦨'),
+			_Utils_Tuple2('angmsdab', '⦩'),
+			_Utils_Tuple2('angmsdac', '⦪'),
+			_Utils_Tuple2('angmsdad', '⦫'),
+			_Utils_Tuple2('angmsdae', '⦬'),
+			_Utils_Tuple2('angmsdaf', '⦭'),
+			_Utils_Tuple2('angmsdag', '⦮'),
+			_Utils_Tuple2('angmsdah', '⦯'),
+			_Utils_Tuple2('angmsd', '∡'),
+			_Utils_Tuple2('angrt', '∟'),
+			_Utils_Tuple2('angrtvb', '⊾'),
+			_Utils_Tuple2('angrtvbd', '⦝'),
+			_Utils_Tuple2('angsph', '∢'),
+			_Utils_Tuple2('angst', 'Å'),
+			_Utils_Tuple2('angzarr', '⍼'),
+			_Utils_Tuple2('Aogon', 'Ą'),
+			_Utils_Tuple2('aogon', 'ą'),
+			_Utils_Tuple2('Aopf', '\uD835\uDD38'),
+			_Utils_Tuple2('aopf', '\uD835\uDD52'),
+			_Utils_Tuple2('apacir', '⩯'),
+			_Utils_Tuple2('ap', '≈'),
+			_Utils_Tuple2('apE', '⩰'),
+			_Utils_Tuple2('ape', '≊'),
+			_Utils_Tuple2('apid', '≋'),
+			_Utils_Tuple2('apos', '\''),
+			_Utils_Tuple2('ApplyFunction', '\u2061'),
+			_Utils_Tuple2('approx', '≈'),
+			_Utils_Tuple2('approxeq', '≊'),
+			_Utils_Tuple2('Aring', 'Å'),
+			_Utils_Tuple2('aring', 'å'),
+			_Utils_Tuple2('Ascr', '\uD835\uDC9C'),
+			_Utils_Tuple2('ascr', '\uD835\uDCB6'),
+			_Utils_Tuple2('Assign', '≔'),
+			_Utils_Tuple2('ast', '*'),
+			_Utils_Tuple2('asymp', '≈'),
+			_Utils_Tuple2('asympeq', '≍'),
+			_Utils_Tuple2('Atilde', 'Ã'),
+			_Utils_Tuple2('atilde', 'ã'),
+			_Utils_Tuple2('Auml', 'Ä'),
+			_Utils_Tuple2('auml', 'ä'),
+			_Utils_Tuple2('awconint', '∳'),
+			_Utils_Tuple2('awint', '⨑'),
+			_Utils_Tuple2('backcong', '≌'),
+			_Utils_Tuple2('backepsilon', '϶'),
+			_Utils_Tuple2('backprime', '‵'),
+			_Utils_Tuple2('backsim', '∽'),
+			_Utils_Tuple2('backsimeq', '⋍'),
+			_Utils_Tuple2('Backslash', '∖'),
+			_Utils_Tuple2('Barv', '⫧'),
+			_Utils_Tuple2('barvee', '⊽'),
+			_Utils_Tuple2('barwed', '⌅'),
+			_Utils_Tuple2('Barwed', '⌆'),
+			_Utils_Tuple2('barwedge', '⌅'),
+			_Utils_Tuple2('bbrk', '⎵'),
+			_Utils_Tuple2('bbrktbrk', '⎶'),
+			_Utils_Tuple2('bcong', '≌'),
+			_Utils_Tuple2('Bcy', 'Б'),
+			_Utils_Tuple2('bcy', 'б'),
+			_Utils_Tuple2('bdquo', '„'),
+			_Utils_Tuple2('becaus', '∵'),
+			_Utils_Tuple2('because', '∵'),
+			_Utils_Tuple2('Because', '∵'),
+			_Utils_Tuple2('bemptyv', '⦰'),
+			_Utils_Tuple2('bepsi', '϶'),
+			_Utils_Tuple2('bernou', 'ℬ'),
+			_Utils_Tuple2('Bernoullis', 'ℬ'),
+			_Utils_Tuple2('Beta', 'Β'),
+			_Utils_Tuple2('beta', 'β'),
+			_Utils_Tuple2('beth', 'ℶ'),
+			_Utils_Tuple2('between', '≬'),
+			_Utils_Tuple2('Bfr', '\uD835\uDD05'),
+			_Utils_Tuple2('bfr', '\uD835\uDD1F'),
+			_Utils_Tuple2('bigcap', '⋂'),
+			_Utils_Tuple2('bigcirc', '◯'),
+			_Utils_Tuple2('bigcup', '⋃'),
+			_Utils_Tuple2('bigodot', '⨀'),
+			_Utils_Tuple2('bigoplus', '⨁'),
+			_Utils_Tuple2('bigotimes', '⨂'),
+			_Utils_Tuple2('bigsqcup', '⨆'),
+			_Utils_Tuple2('bigstar', '★'),
+			_Utils_Tuple2('bigtriangledown', '▽'),
+			_Utils_Tuple2('bigtriangleup', '△'),
+			_Utils_Tuple2('biguplus', '⨄'),
+			_Utils_Tuple2('bigvee', '⋁'),
+			_Utils_Tuple2('bigwedge', '⋀'),
+			_Utils_Tuple2('bkarow', '⤍'),
+			_Utils_Tuple2('blacklozenge', '⧫'),
+			_Utils_Tuple2('blacksquare', '▪'),
+			_Utils_Tuple2('blacktriangle', '▴'),
+			_Utils_Tuple2('blacktriangledown', '▾'),
+			_Utils_Tuple2('blacktriangleleft', '◂'),
+			_Utils_Tuple2('blacktriangleright', '▸'),
+			_Utils_Tuple2('blank', '␣'),
+			_Utils_Tuple2('blk12', '▒'),
+			_Utils_Tuple2('blk14', '░'),
+			_Utils_Tuple2('blk34', '▓'),
+			_Utils_Tuple2('block', '█'),
+			_Utils_Tuple2('bne', '=⃥'),
+			_Utils_Tuple2('bnequiv', '≡⃥'),
+			_Utils_Tuple2('bNot', '⫭'),
+			_Utils_Tuple2('bnot', '⌐'),
+			_Utils_Tuple2('Bopf', '\uD835\uDD39'),
+			_Utils_Tuple2('bopf', '\uD835\uDD53'),
+			_Utils_Tuple2('bot', '⊥'),
+			_Utils_Tuple2('bottom', '⊥'),
+			_Utils_Tuple2('bowtie', '⋈'),
+			_Utils_Tuple2('boxbox', '⧉'),
+			_Utils_Tuple2('boxdl', '┐'),
+			_Utils_Tuple2('boxdL', '╕'),
+			_Utils_Tuple2('boxDl', '╖'),
+			_Utils_Tuple2('boxDL', '╗'),
+			_Utils_Tuple2('boxdr', '┌'),
+			_Utils_Tuple2('boxdR', '╒'),
+			_Utils_Tuple2('boxDr', '╓'),
+			_Utils_Tuple2('boxDR', '╔'),
+			_Utils_Tuple2('boxh', '─'),
+			_Utils_Tuple2('boxH', '═'),
+			_Utils_Tuple2('boxhd', '┬'),
+			_Utils_Tuple2('boxHd', '╤'),
+			_Utils_Tuple2('boxhD', '╥'),
+			_Utils_Tuple2('boxHD', '╦'),
+			_Utils_Tuple2('boxhu', '┴'),
+			_Utils_Tuple2('boxHu', '╧'),
+			_Utils_Tuple2('boxhU', '╨'),
+			_Utils_Tuple2('boxHU', '╩'),
+			_Utils_Tuple2('boxminus', '⊟'),
+			_Utils_Tuple2('boxplus', '⊞'),
+			_Utils_Tuple2('boxtimes', '⊠'),
+			_Utils_Tuple2('boxul', '┘'),
+			_Utils_Tuple2('boxuL', '╛'),
+			_Utils_Tuple2('boxUl', '╜'),
+			_Utils_Tuple2('boxUL', '╝'),
+			_Utils_Tuple2('boxur', '└'),
+			_Utils_Tuple2('boxuR', '╘'),
+			_Utils_Tuple2('boxUr', '╙'),
+			_Utils_Tuple2('boxUR', '╚'),
+			_Utils_Tuple2('boxv', '│'),
+			_Utils_Tuple2('boxV', '║'),
+			_Utils_Tuple2('boxvh', '┼'),
+			_Utils_Tuple2('boxvH', '╪'),
+			_Utils_Tuple2('boxVh', '╫'),
+			_Utils_Tuple2('boxVH', '╬'),
+			_Utils_Tuple2('boxvl', '┤'),
+			_Utils_Tuple2('boxvL', '╡'),
+			_Utils_Tuple2('boxVl', '╢'),
+			_Utils_Tuple2('boxVL', '╣'),
+			_Utils_Tuple2('boxvr', '├'),
+			_Utils_Tuple2('boxvR', '╞'),
+			_Utils_Tuple2('boxVr', '╟'),
+			_Utils_Tuple2('boxVR', '╠'),
+			_Utils_Tuple2('bprime', '‵'),
+			_Utils_Tuple2('breve', '˘'),
+			_Utils_Tuple2('Breve', '˘'),
+			_Utils_Tuple2('brvbar', '¦'),
+			_Utils_Tuple2('bscr', '\uD835\uDCB7'),
+			_Utils_Tuple2('Bscr', 'ℬ'),
+			_Utils_Tuple2('bsemi', '⁏'),
+			_Utils_Tuple2('bsim', '∽'),
+			_Utils_Tuple2('bsime', '⋍'),
+			_Utils_Tuple2('bsolb', '⧅'),
+			_Utils_Tuple2('bsol', '\\'),
+			_Utils_Tuple2('bsolhsub', '⟈'),
+			_Utils_Tuple2('bull', '•'),
+			_Utils_Tuple2('bullet', '•'),
+			_Utils_Tuple2('bump', '≎'),
+			_Utils_Tuple2('bumpE', '⪮'),
+			_Utils_Tuple2('bumpe', '≏'),
+			_Utils_Tuple2('Bumpeq', '≎'),
+			_Utils_Tuple2('bumpeq', '≏'),
+			_Utils_Tuple2('Cacute', 'Ć'),
+			_Utils_Tuple2('cacute', 'ć'),
+			_Utils_Tuple2('capand', '⩄'),
+			_Utils_Tuple2('capbrcup', '⩉'),
+			_Utils_Tuple2('capcap', '⩋'),
+			_Utils_Tuple2('cap', '∩'),
+			_Utils_Tuple2('Cap', '⋒'),
+			_Utils_Tuple2('capcup', '⩇'),
+			_Utils_Tuple2('capdot', '⩀'),
+			_Utils_Tuple2('CapitalDifferentialD', 'ⅅ'),
+			_Utils_Tuple2('caps', '∩︀'),
+			_Utils_Tuple2('caret', '⁁'),
+			_Utils_Tuple2('caron', 'ˇ'),
+			_Utils_Tuple2('Cayleys', 'ℭ'),
+			_Utils_Tuple2('ccaps', '⩍'),
+			_Utils_Tuple2('Ccaron', 'Č'),
+			_Utils_Tuple2('ccaron', 'č'),
+			_Utils_Tuple2('Ccedil', 'Ç'),
+			_Utils_Tuple2('ccedil', 'ç'),
+			_Utils_Tuple2('Ccirc', 'Ĉ'),
+			_Utils_Tuple2('ccirc', 'ĉ'),
+			_Utils_Tuple2('Cconint', '∰'),
+			_Utils_Tuple2('ccups', '⩌'),
+			_Utils_Tuple2('ccupssm', '⩐'),
+			_Utils_Tuple2('Cdot', 'Ċ'),
+			_Utils_Tuple2('cdot', 'ċ'),
+			_Utils_Tuple2('cedil', '¸'),
+			_Utils_Tuple2('Cedilla', '¸'),
+			_Utils_Tuple2('cemptyv', '⦲'),
+			_Utils_Tuple2('cent', '¢'),
+			_Utils_Tuple2('centerdot', '·'),
+			_Utils_Tuple2('CenterDot', '·'),
+			_Utils_Tuple2('cfr', '\uD835\uDD20'),
+			_Utils_Tuple2('Cfr', 'ℭ'),
+			_Utils_Tuple2('CHcy', 'Ч'),
+			_Utils_Tuple2('chcy', 'ч'),
+			_Utils_Tuple2('check', '✓'),
+			_Utils_Tuple2('checkmark', '✓'),
+			_Utils_Tuple2('Chi', 'Χ'),
+			_Utils_Tuple2('chi', 'χ'),
+			_Utils_Tuple2('circ', 'ˆ'),
+			_Utils_Tuple2('circeq', '≗'),
+			_Utils_Tuple2('circlearrowleft', '↺'),
+			_Utils_Tuple2('circlearrowright', '↻'),
+			_Utils_Tuple2('circledast', '⊛'),
+			_Utils_Tuple2('circledcirc', '⊚'),
+			_Utils_Tuple2('circleddash', '⊝'),
+			_Utils_Tuple2('CircleDot', '⊙'),
+			_Utils_Tuple2('circledR', '®'),
+			_Utils_Tuple2('circledS', 'Ⓢ'),
+			_Utils_Tuple2('CircleMinus', '⊖'),
+			_Utils_Tuple2('CirclePlus', '⊕'),
+			_Utils_Tuple2('CircleTimes', '⊗'),
+			_Utils_Tuple2('cir', '○'),
+			_Utils_Tuple2('cirE', '⧃'),
+			_Utils_Tuple2('cire', '≗'),
+			_Utils_Tuple2('cirfnint', '⨐'),
+			_Utils_Tuple2('cirmid', '⫯'),
+			_Utils_Tuple2('cirscir', '⧂'),
+			_Utils_Tuple2('ClockwiseContourIntegral', '∲'),
+			_Utils_Tuple2('CloseCurlyDoubleQuote', '”'),
+			_Utils_Tuple2('CloseCurlyQuote', '’'),
+			_Utils_Tuple2('clubs', '♣'),
+			_Utils_Tuple2('clubsuit', '♣'),
+			_Utils_Tuple2('colon', ':'),
+			_Utils_Tuple2('Colon', '∷'),
+			_Utils_Tuple2('Colone', '⩴'),
+			_Utils_Tuple2('colone', '≔'),
+			_Utils_Tuple2('coloneq', '≔'),
+			_Utils_Tuple2('comma', ','),
+			_Utils_Tuple2('commat', '@'),
+			_Utils_Tuple2('comp', '∁'),
+			_Utils_Tuple2('compfn', '∘'),
+			_Utils_Tuple2('complement', '∁'),
+			_Utils_Tuple2('complexes', 'ℂ'),
+			_Utils_Tuple2('cong', '≅'),
+			_Utils_Tuple2('congdot', '⩭'),
+			_Utils_Tuple2('Congruent', '≡'),
+			_Utils_Tuple2('conint', '∮'),
+			_Utils_Tuple2('Conint', '∯'),
+			_Utils_Tuple2('ContourIntegral', '∮'),
+			_Utils_Tuple2('copf', '\uD835\uDD54'),
+			_Utils_Tuple2('Copf', 'ℂ'),
+			_Utils_Tuple2('coprod', '∐'),
+			_Utils_Tuple2('Coproduct', '∐'),
+			_Utils_Tuple2('copy', '©'),
+			_Utils_Tuple2('COPY', '©'),
+			_Utils_Tuple2('copysr', '℗'),
+			_Utils_Tuple2('CounterClockwiseContourIntegral', '∳'),
+			_Utils_Tuple2('crarr', '↵'),
+			_Utils_Tuple2('cross', '✗'),
+			_Utils_Tuple2('Cross', '⨯'),
+			_Utils_Tuple2('Cscr', '\uD835\uDC9E'),
+			_Utils_Tuple2('cscr', '\uD835\uDCB8'),
+			_Utils_Tuple2('csub', '⫏'),
+			_Utils_Tuple2('csube', '⫑'),
+			_Utils_Tuple2('csup', '⫐'),
+			_Utils_Tuple2('csupe', '⫒'),
+			_Utils_Tuple2('ctdot', '⋯'),
+			_Utils_Tuple2('cudarrl', '⤸'),
+			_Utils_Tuple2('cudarrr', '⤵'),
+			_Utils_Tuple2('cuepr', '⋞'),
+			_Utils_Tuple2('cuesc', '⋟'),
+			_Utils_Tuple2('cularr', '↶'),
+			_Utils_Tuple2('cularrp', '⤽'),
+			_Utils_Tuple2('cupbrcap', '⩈'),
+			_Utils_Tuple2('cupcap', '⩆'),
+			_Utils_Tuple2('CupCap', '≍'),
+			_Utils_Tuple2('cup', '∪'),
+			_Utils_Tuple2('Cup', '⋓'),
+			_Utils_Tuple2('cupcup', '⩊'),
+			_Utils_Tuple2('cupdot', '⊍'),
+			_Utils_Tuple2('cupor', '⩅'),
+			_Utils_Tuple2('cups', '∪︀'),
+			_Utils_Tuple2('curarr', '↷'),
+			_Utils_Tuple2('curarrm', '⤼'),
+			_Utils_Tuple2('curlyeqprec', '⋞'),
+			_Utils_Tuple2('curlyeqsucc', '⋟'),
+			_Utils_Tuple2('curlyvee', '⋎'),
+			_Utils_Tuple2('curlywedge', '⋏'),
+			_Utils_Tuple2('curren', '¤'),
+			_Utils_Tuple2('curvearrowleft', '↶'),
+			_Utils_Tuple2('curvearrowright', '↷'),
+			_Utils_Tuple2('cuvee', '⋎'),
+			_Utils_Tuple2('cuwed', '⋏'),
+			_Utils_Tuple2('cwconint', '∲'),
+			_Utils_Tuple2('cwint', '∱'),
+			_Utils_Tuple2('cylcty', '⌭'),
+			_Utils_Tuple2('dagger', '†'),
+			_Utils_Tuple2('Dagger', '‡'),
+			_Utils_Tuple2('daleth', 'ℸ'),
+			_Utils_Tuple2('darr', '↓'),
+			_Utils_Tuple2('Darr', '↡'),
+			_Utils_Tuple2('dArr', '⇓'),
+			_Utils_Tuple2('dash', '‐'),
+			_Utils_Tuple2('Dashv', '⫤'),
+			_Utils_Tuple2('dashv', '⊣'),
+			_Utils_Tuple2('dbkarow', '⤏'),
+			_Utils_Tuple2('dblac', '˝'),
+			_Utils_Tuple2('Dcaron', 'Ď'),
+			_Utils_Tuple2('dcaron', 'ď'),
+			_Utils_Tuple2('Dcy', 'Д'),
+			_Utils_Tuple2('dcy', 'д'),
+			_Utils_Tuple2('ddagger', '‡'),
+			_Utils_Tuple2('ddarr', '⇊'),
+			_Utils_Tuple2('DD', 'ⅅ'),
+			_Utils_Tuple2('dd', 'ⅆ'),
+			_Utils_Tuple2('DDotrahd', '⤑'),
+			_Utils_Tuple2('ddotseq', '⩷'),
+			_Utils_Tuple2('deg', '°'),
+			_Utils_Tuple2('Del', '∇'),
+			_Utils_Tuple2('Delta', 'Δ'),
+			_Utils_Tuple2('delta', 'δ'),
+			_Utils_Tuple2('demptyv', '⦱'),
+			_Utils_Tuple2('dfisht', '⥿'),
+			_Utils_Tuple2('Dfr', '\uD835\uDD07'),
+			_Utils_Tuple2('dfr', '\uD835\uDD21'),
+			_Utils_Tuple2('dHar', '⥥'),
+			_Utils_Tuple2('dharl', '⇃'),
+			_Utils_Tuple2('dharr', '⇂'),
+			_Utils_Tuple2('DiacriticalAcute', '´'),
+			_Utils_Tuple2('DiacriticalDot', '˙'),
+			_Utils_Tuple2('DiacriticalDoubleAcute', '˝'),
+			_Utils_Tuple2('DiacriticalGrave', '`'),
+			_Utils_Tuple2('DiacriticalTilde', '˜'),
+			_Utils_Tuple2('diam', '⋄'),
+			_Utils_Tuple2('diamond', '⋄'),
+			_Utils_Tuple2('Diamond', '⋄'),
+			_Utils_Tuple2('diamondsuit', '♦'),
+			_Utils_Tuple2('diams', '♦'),
+			_Utils_Tuple2('die', '¨'),
+			_Utils_Tuple2('DifferentialD', 'ⅆ'),
+			_Utils_Tuple2('digamma', 'ϝ'),
+			_Utils_Tuple2('disin', '⋲'),
+			_Utils_Tuple2('div', '÷'),
+			_Utils_Tuple2('divide', '÷'),
+			_Utils_Tuple2('divideontimes', '⋇'),
+			_Utils_Tuple2('divonx', '⋇'),
+			_Utils_Tuple2('DJcy', 'Ђ'),
+			_Utils_Tuple2('djcy', 'ђ'),
+			_Utils_Tuple2('dlcorn', '⌞'),
+			_Utils_Tuple2('dlcrop', '⌍'),
+			_Utils_Tuple2('dollar', '$'),
+			_Utils_Tuple2('Dopf', '\uD835\uDD3B'),
+			_Utils_Tuple2('dopf', '\uD835\uDD55'),
+			_Utils_Tuple2('Dot', '¨'),
+			_Utils_Tuple2('dot', '˙'),
+			_Utils_Tuple2('DotDot', '⃜'),
+			_Utils_Tuple2('doteq', '≐'),
+			_Utils_Tuple2('doteqdot', '≑'),
+			_Utils_Tuple2('DotEqual', '≐'),
+			_Utils_Tuple2('dotminus', '∸'),
+			_Utils_Tuple2('dotplus', '∔'),
+			_Utils_Tuple2('dotsquare', '⊡'),
+			_Utils_Tuple2('doublebarwedge', '⌆'),
+			_Utils_Tuple2('DoubleContourIntegral', '∯'),
+			_Utils_Tuple2('DoubleDot', '¨'),
+			_Utils_Tuple2('DoubleDownArrow', '⇓'),
+			_Utils_Tuple2('DoubleLeftArrow', '⇐'),
+			_Utils_Tuple2('DoubleLeftRightArrow', '⇔'),
+			_Utils_Tuple2('DoubleLeftTee', '⫤'),
+			_Utils_Tuple2('DoubleLongLeftArrow', '⟸'),
+			_Utils_Tuple2('DoubleLongLeftRightArrow', '⟺'),
+			_Utils_Tuple2('DoubleLongRightArrow', '⟹'),
+			_Utils_Tuple2('DoubleRightArrow', '⇒'),
+			_Utils_Tuple2('DoubleRightTee', '⊨'),
+			_Utils_Tuple2('DoubleUpArrow', '⇑'),
+			_Utils_Tuple2('DoubleUpDownArrow', '⇕'),
+			_Utils_Tuple2('DoubleVerticalBar', '∥'),
+			_Utils_Tuple2('DownArrowBar', '⤓'),
+			_Utils_Tuple2('downarrow', '↓'),
+			_Utils_Tuple2('DownArrow', '↓'),
+			_Utils_Tuple2('Downarrow', '⇓'),
+			_Utils_Tuple2('DownArrowUpArrow', '⇵'),
+			_Utils_Tuple2('DownBreve', '̑'),
+			_Utils_Tuple2('downdownarrows', '⇊'),
+			_Utils_Tuple2('downharpoonleft', '⇃'),
+			_Utils_Tuple2('downharpoonright', '⇂'),
+			_Utils_Tuple2('DownLeftRightVector', '⥐'),
+			_Utils_Tuple2('DownLeftTeeVector', '⥞'),
+			_Utils_Tuple2('DownLeftVectorBar', '⥖'),
+			_Utils_Tuple2('DownLeftVector', '↽'),
+			_Utils_Tuple2('DownRightTeeVector', '⥟'),
+			_Utils_Tuple2('DownRightVectorBar', '⥗'),
+			_Utils_Tuple2('DownRightVector', '⇁'),
+			_Utils_Tuple2('DownTeeArrow', '↧'),
+			_Utils_Tuple2('DownTee', '⊤'),
+			_Utils_Tuple2('drbkarow', '⤐'),
+			_Utils_Tuple2('drcorn', '⌟'),
+			_Utils_Tuple2('drcrop', '⌌'),
+			_Utils_Tuple2('Dscr', '\uD835\uDC9F'),
+			_Utils_Tuple2('dscr', '\uD835\uDCB9'),
+			_Utils_Tuple2('DScy', 'Ѕ'),
+			_Utils_Tuple2('dscy', 'ѕ'),
+			_Utils_Tuple2('dsol', '⧶'),
+			_Utils_Tuple2('Dstrok', 'Đ'),
+			_Utils_Tuple2('dstrok', 'đ'),
+			_Utils_Tuple2('dtdot', '⋱'),
+			_Utils_Tuple2('dtri', '▿'),
+			_Utils_Tuple2('dtrif', '▾'),
+			_Utils_Tuple2('duarr', '⇵'),
+			_Utils_Tuple2('duhar', '⥯'),
+			_Utils_Tuple2('dwangle', '⦦'),
+			_Utils_Tuple2('DZcy', 'Џ'),
+			_Utils_Tuple2('dzcy', 'џ'),
+			_Utils_Tuple2('dzigrarr', '⟿'),
+			_Utils_Tuple2('Eacute', 'É'),
+			_Utils_Tuple2('eacute', 'é'),
+			_Utils_Tuple2('easter', '⩮'),
+			_Utils_Tuple2('Ecaron', 'Ě'),
+			_Utils_Tuple2('ecaron', 'ě'),
+			_Utils_Tuple2('Ecirc', 'Ê'),
+			_Utils_Tuple2('ecirc', 'ê'),
+			_Utils_Tuple2('ecir', '≖'),
+			_Utils_Tuple2('ecolon', '≕'),
+			_Utils_Tuple2('Ecy', 'Э'),
+			_Utils_Tuple2('ecy', 'э'),
+			_Utils_Tuple2('eDDot', '⩷'),
+			_Utils_Tuple2('Edot', 'Ė'),
+			_Utils_Tuple2('edot', 'ė'),
+			_Utils_Tuple2('eDot', '≑'),
+			_Utils_Tuple2('ee', 'ⅇ'),
+			_Utils_Tuple2('efDot', '≒'),
+			_Utils_Tuple2('Efr', '\uD835\uDD08'),
+			_Utils_Tuple2('efr', '\uD835\uDD22'),
+			_Utils_Tuple2('eg', '⪚'),
+			_Utils_Tuple2('Egrave', 'È'),
+			_Utils_Tuple2('egrave', 'è'),
+			_Utils_Tuple2('egs', '⪖'),
+			_Utils_Tuple2('egsdot', '⪘'),
+			_Utils_Tuple2('el', '⪙'),
+			_Utils_Tuple2('Element', '∈'),
+			_Utils_Tuple2('elinters', '⏧'),
+			_Utils_Tuple2('ell', 'ℓ'),
+			_Utils_Tuple2('els', '⪕'),
+			_Utils_Tuple2('elsdot', '⪗'),
+			_Utils_Tuple2('Emacr', 'Ē'),
+			_Utils_Tuple2('emacr', 'ē'),
+			_Utils_Tuple2('empty', '∅'),
+			_Utils_Tuple2('emptyset', '∅'),
+			_Utils_Tuple2('EmptySmallSquare', '◻'),
+			_Utils_Tuple2('emptyv', '∅'),
+			_Utils_Tuple2('EmptyVerySmallSquare', '▫'),
+			_Utils_Tuple2('emsp13', '\u2004'),
+			_Utils_Tuple2('emsp14', '\u2005'),
+			_Utils_Tuple2('emsp', '\u2003'),
+			_Utils_Tuple2('ENG', 'Ŋ'),
+			_Utils_Tuple2('eng', 'ŋ'),
+			_Utils_Tuple2('ensp', '\u2002'),
+			_Utils_Tuple2('Eogon', 'Ę'),
+			_Utils_Tuple2('eogon', 'ę'),
+			_Utils_Tuple2('Eopf', '\uD835\uDD3C'),
+			_Utils_Tuple2('eopf', '\uD835\uDD56'),
+			_Utils_Tuple2('epar', '⋕'),
+			_Utils_Tuple2('eparsl', '⧣'),
+			_Utils_Tuple2('eplus', '⩱'),
+			_Utils_Tuple2('epsi', 'ε'),
+			_Utils_Tuple2('Epsilon', 'Ε'),
+			_Utils_Tuple2('epsilon', 'ε'),
+			_Utils_Tuple2('epsiv', 'ϵ'),
+			_Utils_Tuple2('eqcirc', '≖'),
+			_Utils_Tuple2('eqcolon', '≕'),
+			_Utils_Tuple2('eqsim', '≂'),
+			_Utils_Tuple2('eqslantgtr', '⪖'),
+			_Utils_Tuple2('eqslantless', '⪕'),
+			_Utils_Tuple2('Equal', '⩵'),
+			_Utils_Tuple2('equals', '='),
+			_Utils_Tuple2('EqualTilde', '≂'),
+			_Utils_Tuple2('equest', '≟'),
+			_Utils_Tuple2('Equilibrium', '⇌'),
+			_Utils_Tuple2('equiv', '≡'),
+			_Utils_Tuple2('equivDD', '⩸'),
+			_Utils_Tuple2('eqvparsl', '⧥'),
+			_Utils_Tuple2('erarr', '⥱'),
+			_Utils_Tuple2('erDot', '≓'),
+			_Utils_Tuple2('escr', 'ℯ'),
+			_Utils_Tuple2('Escr', 'ℰ'),
+			_Utils_Tuple2('esdot', '≐'),
+			_Utils_Tuple2('Esim', '⩳'),
+			_Utils_Tuple2('esim', '≂'),
+			_Utils_Tuple2('Eta', 'Η'),
+			_Utils_Tuple2('eta', 'η'),
+			_Utils_Tuple2('ETH', 'Ð'),
+			_Utils_Tuple2('eth', 'ð'),
+			_Utils_Tuple2('Euml', 'Ë'),
+			_Utils_Tuple2('euml', 'ë'),
+			_Utils_Tuple2('euro', '€'),
+			_Utils_Tuple2('excl', '!'),
+			_Utils_Tuple2('exist', '∃'),
+			_Utils_Tuple2('Exists', '∃'),
+			_Utils_Tuple2('expectation', 'ℰ'),
+			_Utils_Tuple2('exponentiale', 'ⅇ'),
+			_Utils_Tuple2('ExponentialE', 'ⅇ'),
+			_Utils_Tuple2('fallingdotseq', '≒'),
+			_Utils_Tuple2('Fcy', 'Ф'),
+			_Utils_Tuple2('fcy', 'ф'),
+			_Utils_Tuple2('female', '♀'),
+			_Utils_Tuple2('ffilig', 'ﬃ'),
+			_Utils_Tuple2('fflig', 'ﬀ'),
+			_Utils_Tuple2('ffllig', 'ﬄ'),
+			_Utils_Tuple2('Ffr', '\uD835\uDD09'),
+			_Utils_Tuple2('ffr', '\uD835\uDD23'),
+			_Utils_Tuple2('filig', 'ﬁ'),
+			_Utils_Tuple2('FilledSmallSquare', '◼'),
+			_Utils_Tuple2('FilledVerySmallSquare', '▪'),
+			_Utils_Tuple2('fjlig', 'fj'),
+			_Utils_Tuple2('flat', '♭'),
+			_Utils_Tuple2('fllig', 'ﬂ'),
+			_Utils_Tuple2('fltns', '▱'),
+			_Utils_Tuple2('fnof', 'ƒ'),
+			_Utils_Tuple2('Fopf', '\uD835\uDD3D'),
+			_Utils_Tuple2('fopf', '\uD835\uDD57'),
+			_Utils_Tuple2('forall', '∀'),
+			_Utils_Tuple2('ForAll', '∀'),
+			_Utils_Tuple2('fork', '⋔'),
+			_Utils_Tuple2('forkv', '⫙'),
+			_Utils_Tuple2('Fouriertrf', 'ℱ'),
+			_Utils_Tuple2('fpartint', '⨍'),
+			_Utils_Tuple2('frac12', '½'),
+			_Utils_Tuple2('frac13', '⅓'),
+			_Utils_Tuple2('frac14', '¼'),
+			_Utils_Tuple2('frac15', '⅕'),
+			_Utils_Tuple2('frac16', '⅙'),
+			_Utils_Tuple2('frac18', '⅛'),
+			_Utils_Tuple2('frac23', '⅔'),
+			_Utils_Tuple2('frac25', '⅖'),
+			_Utils_Tuple2('frac34', '¾'),
+			_Utils_Tuple2('frac35', '⅗'),
+			_Utils_Tuple2('frac38', '⅜'),
+			_Utils_Tuple2('frac45', '⅘'),
+			_Utils_Tuple2('frac56', '⅚'),
+			_Utils_Tuple2('frac58', '⅝'),
+			_Utils_Tuple2('frac78', '⅞'),
+			_Utils_Tuple2('frasl', '⁄'),
+			_Utils_Tuple2('frown', '⌢'),
+			_Utils_Tuple2('fscr', '\uD835\uDCBB'),
+			_Utils_Tuple2('Fscr', 'ℱ'),
+			_Utils_Tuple2('gacute', 'ǵ'),
+			_Utils_Tuple2('Gamma', 'Γ'),
+			_Utils_Tuple2('gamma', 'γ'),
+			_Utils_Tuple2('Gammad', 'Ϝ'),
+			_Utils_Tuple2('gammad', 'ϝ'),
+			_Utils_Tuple2('gap', '⪆'),
+			_Utils_Tuple2('Gbreve', 'Ğ'),
+			_Utils_Tuple2('gbreve', 'ğ'),
+			_Utils_Tuple2('Gcedil', 'Ģ'),
+			_Utils_Tuple2('Gcirc', 'Ĝ'),
+			_Utils_Tuple2('gcirc', 'ĝ'),
+			_Utils_Tuple2('Gcy', 'Г'),
+			_Utils_Tuple2('gcy', 'г'),
+			_Utils_Tuple2('Gdot', 'Ġ'),
+			_Utils_Tuple2('gdot', 'ġ'),
+			_Utils_Tuple2('ge', '≥'),
+			_Utils_Tuple2('gE', '≧'),
+			_Utils_Tuple2('gEl', '⪌'),
+			_Utils_Tuple2('gel', '⋛'),
+			_Utils_Tuple2('geq', '≥'),
+			_Utils_Tuple2('geqq', '≧'),
+			_Utils_Tuple2('geqslant', '⩾'),
+			_Utils_Tuple2('gescc', '⪩'),
+			_Utils_Tuple2('ges', '⩾'),
+			_Utils_Tuple2('gesdot', '⪀'),
+			_Utils_Tuple2('gesdoto', '⪂'),
+			_Utils_Tuple2('gesdotol', '⪄'),
+			_Utils_Tuple2('gesl', '⋛︀'),
+			_Utils_Tuple2('gesles', '⪔'),
+			_Utils_Tuple2('Gfr', '\uD835\uDD0A'),
+			_Utils_Tuple2('gfr', '\uD835\uDD24'),
+			_Utils_Tuple2('gg', '≫'),
+			_Utils_Tuple2('Gg', '⋙'),
+			_Utils_Tuple2('ggg', '⋙'),
+			_Utils_Tuple2('gimel', 'ℷ'),
+			_Utils_Tuple2('GJcy', 'Ѓ'),
+			_Utils_Tuple2('gjcy', 'ѓ'),
+			_Utils_Tuple2('gla', '⪥'),
+			_Utils_Tuple2('gl', '≷'),
+			_Utils_Tuple2('glE', '⪒'),
+			_Utils_Tuple2('glj', '⪤'),
+			_Utils_Tuple2('gnap', '⪊'),
+			_Utils_Tuple2('gnapprox', '⪊'),
+			_Utils_Tuple2('gne', '⪈'),
+			_Utils_Tuple2('gnE', '≩'),
+			_Utils_Tuple2('gneq', '⪈'),
+			_Utils_Tuple2('gneqq', '≩'),
+			_Utils_Tuple2('gnsim', '⋧'),
+			_Utils_Tuple2('Gopf', '\uD835\uDD3E'),
+			_Utils_Tuple2('gopf', '\uD835\uDD58'),
+			_Utils_Tuple2('grave', '`'),
+			_Utils_Tuple2('GreaterEqual', '≥'),
+			_Utils_Tuple2('GreaterEqualLess', '⋛'),
+			_Utils_Tuple2('GreaterFullEqual', '≧'),
+			_Utils_Tuple2('GreaterGreater', '⪢'),
+			_Utils_Tuple2('GreaterLess', '≷'),
+			_Utils_Tuple2('GreaterSlantEqual', '⩾'),
+			_Utils_Tuple2('GreaterTilde', '≳'),
+			_Utils_Tuple2('Gscr', '\uD835\uDCA2'),
+			_Utils_Tuple2('gscr', 'ℊ'),
+			_Utils_Tuple2('gsim', '≳'),
+			_Utils_Tuple2('gsime', '⪎'),
+			_Utils_Tuple2('gsiml', '⪐'),
+			_Utils_Tuple2('gtcc', '⪧'),
+			_Utils_Tuple2('gtcir', '⩺'),
+			_Utils_Tuple2('gt', '>'),
+			_Utils_Tuple2('GT', '>'),
+			_Utils_Tuple2('Gt', '≫'),
+			_Utils_Tuple2('gtdot', '⋗'),
+			_Utils_Tuple2('gtlPar', '⦕'),
+			_Utils_Tuple2('gtquest', '⩼'),
+			_Utils_Tuple2('gtrapprox', '⪆'),
+			_Utils_Tuple2('gtrarr', '⥸'),
+			_Utils_Tuple2('gtrdot', '⋗'),
+			_Utils_Tuple2('gtreqless', '⋛'),
+			_Utils_Tuple2('gtreqqless', '⪌'),
+			_Utils_Tuple2('gtrless', '≷'),
+			_Utils_Tuple2('gtrsim', '≳'),
+			_Utils_Tuple2('gvertneqq', '≩︀'),
+			_Utils_Tuple2('gvnE', '≩︀'),
+			_Utils_Tuple2('Hacek', 'ˇ'),
+			_Utils_Tuple2('hairsp', '\u200A'),
+			_Utils_Tuple2('half', '½'),
+			_Utils_Tuple2('hamilt', 'ℋ'),
+			_Utils_Tuple2('HARDcy', 'Ъ'),
+			_Utils_Tuple2('hardcy', 'ъ'),
+			_Utils_Tuple2('harrcir', '⥈'),
+			_Utils_Tuple2('harr', '↔'),
+			_Utils_Tuple2('hArr', '⇔'),
+			_Utils_Tuple2('harrw', '↭'),
+			_Utils_Tuple2('Hat', '^'),
+			_Utils_Tuple2('hbar', 'ℏ'),
+			_Utils_Tuple2('Hcirc', 'Ĥ'),
+			_Utils_Tuple2('hcirc', 'ĥ'),
+			_Utils_Tuple2('hearts', '♥'),
+			_Utils_Tuple2('heartsuit', '♥'),
+			_Utils_Tuple2('hellip', '…'),
+			_Utils_Tuple2('hercon', '⊹'),
+			_Utils_Tuple2('hfr', '\uD835\uDD25'),
+			_Utils_Tuple2('Hfr', 'ℌ'),
+			_Utils_Tuple2('HilbertSpace', 'ℋ'),
+			_Utils_Tuple2('hksearow', '⤥'),
+			_Utils_Tuple2('hkswarow', '⤦'),
+			_Utils_Tuple2('hoarr', '⇿'),
+			_Utils_Tuple2('homtht', '∻'),
+			_Utils_Tuple2('hookleftarrow', '↩'),
+			_Utils_Tuple2('hookrightarrow', '↪'),
+			_Utils_Tuple2('hopf', '\uD835\uDD59'),
+			_Utils_Tuple2('Hopf', 'ℍ'),
+			_Utils_Tuple2('horbar', '―'),
+			_Utils_Tuple2('HorizontalLine', '─'),
+			_Utils_Tuple2('hscr', '\uD835\uDCBD'),
+			_Utils_Tuple2('Hscr', 'ℋ'),
+			_Utils_Tuple2('hslash', 'ℏ'),
+			_Utils_Tuple2('Hstrok', 'Ħ'),
+			_Utils_Tuple2('hstrok', 'ħ'),
+			_Utils_Tuple2('HumpDownHump', '≎'),
+			_Utils_Tuple2('HumpEqual', '≏'),
+			_Utils_Tuple2('hybull', '⁃'),
+			_Utils_Tuple2('hyphen', '‐'),
+			_Utils_Tuple2('Iacute', 'Í'),
+			_Utils_Tuple2('iacute', 'í'),
+			_Utils_Tuple2('ic', '\u2063'),
+			_Utils_Tuple2('Icirc', 'Î'),
+			_Utils_Tuple2('icirc', 'î'),
+			_Utils_Tuple2('Icy', 'И'),
+			_Utils_Tuple2('icy', 'и'),
+			_Utils_Tuple2('Idot', 'İ'),
+			_Utils_Tuple2('IEcy', 'Е'),
+			_Utils_Tuple2('iecy', 'е'),
+			_Utils_Tuple2('iexcl', '¡'),
+			_Utils_Tuple2('iff', '⇔'),
+			_Utils_Tuple2('ifr', '\uD835\uDD26'),
+			_Utils_Tuple2('Ifr', 'ℑ'),
+			_Utils_Tuple2('Igrave', 'Ì'),
+			_Utils_Tuple2('igrave', 'ì'),
+			_Utils_Tuple2('ii', 'ⅈ'),
+			_Utils_Tuple2('iiiint', '⨌'),
+			_Utils_Tuple2('iiint', '∭'),
+			_Utils_Tuple2('iinfin', '⧜'),
+			_Utils_Tuple2('iiota', '℩'),
+			_Utils_Tuple2('IJlig', 'Ĳ'),
+			_Utils_Tuple2('ijlig', 'ĳ'),
+			_Utils_Tuple2('Imacr', 'Ī'),
+			_Utils_Tuple2('imacr', 'ī'),
+			_Utils_Tuple2('image', 'ℑ'),
+			_Utils_Tuple2('ImaginaryI', 'ⅈ'),
+			_Utils_Tuple2('imagline', 'ℐ'),
+			_Utils_Tuple2('imagpart', 'ℑ'),
+			_Utils_Tuple2('imath', 'ı'),
+			_Utils_Tuple2('Im', 'ℑ'),
+			_Utils_Tuple2('imof', '⊷'),
+			_Utils_Tuple2('imped', 'Ƶ'),
+			_Utils_Tuple2('Implies', '⇒'),
+			_Utils_Tuple2('incare', '℅'),
+			_Utils_Tuple2('in', '∈'),
+			_Utils_Tuple2('infin', '∞'),
+			_Utils_Tuple2('infintie', '⧝'),
+			_Utils_Tuple2('inodot', 'ı'),
+			_Utils_Tuple2('intcal', '⊺'),
+			_Utils_Tuple2('int', '∫'),
+			_Utils_Tuple2('Int', '∬'),
+			_Utils_Tuple2('integers', 'ℤ'),
+			_Utils_Tuple2('Integral', '∫'),
+			_Utils_Tuple2('intercal', '⊺'),
+			_Utils_Tuple2('Intersection', '⋂'),
+			_Utils_Tuple2('intlarhk', '⨗'),
+			_Utils_Tuple2('intprod', '⨼'),
+			_Utils_Tuple2('InvisibleComma', '\u2063'),
+			_Utils_Tuple2('InvisibleTimes', '\u2062'),
+			_Utils_Tuple2('IOcy', 'Ё'),
+			_Utils_Tuple2('iocy', 'ё'),
+			_Utils_Tuple2('Iogon', 'Į'),
+			_Utils_Tuple2('iogon', 'į'),
+			_Utils_Tuple2('Iopf', '\uD835\uDD40'),
+			_Utils_Tuple2('iopf', '\uD835\uDD5A'),
+			_Utils_Tuple2('Iota', 'Ι'),
+			_Utils_Tuple2('iota', 'ι'),
+			_Utils_Tuple2('iprod', '⨼'),
+			_Utils_Tuple2('iquest', '¿'),
+			_Utils_Tuple2('iscr', '\uD835\uDCBE'),
+			_Utils_Tuple2('Iscr', 'ℐ'),
+			_Utils_Tuple2('isin', '∈'),
+			_Utils_Tuple2('isindot', '⋵'),
+			_Utils_Tuple2('isinE', '⋹'),
+			_Utils_Tuple2('isins', '⋴'),
+			_Utils_Tuple2('isinsv', '⋳'),
+			_Utils_Tuple2('isinv', '∈'),
+			_Utils_Tuple2('it', '\u2062'),
+			_Utils_Tuple2('Itilde', 'Ĩ'),
+			_Utils_Tuple2('itilde', 'ĩ'),
+			_Utils_Tuple2('Iukcy', 'І'),
+			_Utils_Tuple2('iukcy', 'і'),
+			_Utils_Tuple2('Iuml', 'Ï'),
+			_Utils_Tuple2('iuml', 'ï'),
+			_Utils_Tuple2('Jcirc', 'Ĵ'),
+			_Utils_Tuple2('jcirc', 'ĵ'),
+			_Utils_Tuple2('Jcy', 'Й'),
+			_Utils_Tuple2('jcy', 'й'),
+			_Utils_Tuple2('Jfr', '\uD835\uDD0D'),
+			_Utils_Tuple2('jfr', '\uD835\uDD27'),
+			_Utils_Tuple2('jmath', 'ȷ'),
+			_Utils_Tuple2('Jopf', '\uD835\uDD41'),
+			_Utils_Tuple2('jopf', '\uD835\uDD5B'),
+			_Utils_Tuple2('Jscr', '\uD835\uDCA5'),
+			_Utils_Tuple2('jscr', '\uD835\uDCBF'),
+			_Utils_Tuple2('Jsercy', 'Ј'),
+			_Utils_Tuple2('jsercy', 'ј'),
+			_Utils_Tuple2('Jukcy', 'Є'),
+			_Utils_Tuple2('jukcy', 'є'),
+			_Utils_Tuple2('Kappa', 'Κ'),
+			_Utils_Tuple2('kappa', 'κ'),
+			_Utils_Tuple2('kappav', 'ϰ'),
+			_Utils_Tuple2('Kcedil', 'Ķ'),
+			_Utils_Tuple2('kcedil', 'ķ'),
+			_Utils_Tuple2('Kcy', 'К'),
+			_Utils_Tuple2('kcy', 'к'),
+			_Utils_Tuple2('Kfr', '\uD835\uDD0E'),
+			_Utils_Tuple2('kfr', '\uD835\uDD28'),
+			_Utils_Tuple2('kgreen', 'ĸ'),
+			_Utils_Tuple2('KHcy', 'Х'),
+			_Utils_Tuple2('khcy', 'х'),
+			_Utils_Tuple2('KJcy', 'Ќ'),
+			_Utils_Tuple2('kjcy', 'ќ'),
+			_Utils_Tuple2('Kopf', '\uD835\uDD42'),
+			_Utils_Tuple2('kopf', '\uD835\uDD5C'),
+			_Utils_Tuple2('Kscr', '\uD835\uDCA6'),
+			_Utils_Tuple2('kscr', '\uD835\uDCC0'),
+			_Utils_Tuple2('lAarr', '⇚'),
+			_Utils_Tuple2('Lacute', 'Ĺ'),
+			_Utils_Tuple2('lacute', 'ĺ'),
+			_Utils_Tuple2('laemptyv', '⦴'),
+			_Utils_Tuple2('lagran', 'ℒ'),
+			_Utils_Tuple2('Lambda', 'Λ'),
+			_Utils_Tuple2('lambda', 'λ'),
+			_Utils_Tuple2('lang', '⟨'),
+			_Utils_Tuple2('Lang', '⟪'),
+			_Utils_Tuple2('langd', '⦑'),
+			_Utils_Tuple2('langle', '⟨'),
+			_Utils_Tuple2('lap', '⪅'),
+			_Utils_Tuple2('Laplacetrf', 'ℒ'),
+			_Utils_Tuple2('laquo', '«'),
+			_Utils_Tuple2('larrb', '⇤'),
+			_Utils_Tuple2('larrbfs', '⤟'),
+			_Utils_Tuple2('larr', '←'),
+			_Utils_Tuple2('Larr', '↞'),
+			_Utils_Tuple2('lArr', '⇐'),
+			_Utils_Tuple2('larrfs', '⤝'),
+			_Utils_Tuple2('larrhk', '↩'),
+			_Utils_Tuple2('larrlp', '↫'),
+			_Utils_Tuple2('larrpl', '⤹'),
+			_Utils_Tuple2('larrsim', '⥳'),
+			_Utils_Tuple2('larrtl', '↢'),
+			_Utils_Tuple2('latail', '⤙'),
+			_Utils_Tuple2('lAtail', '⤛'),
+			_Utils_Tuple2('lat', '⪫'),
+			_Utils_Tuple2('late', '⪭'),
+			_Utils_Tuple2('lates', '⪭︀'),
+			_Utils_Tuple2('lbarr', '⤌'),
+			_Utils_Tuple2('lBarr', '⤎'),
+			_Utils_Tuple2('lbbrk', '❲'),
+			_Utils_Tuple2('lbrace', '{'),
+			_Utils_Tuple2('lbrack', '['),
+			_Utils_Tuple2('lbrke', '⦋'),
+			_Utils_Tuple2('lbrksld', '⦏'),
+			_Utils_Tuple2('lbrkslu', '⦍'),
+			_Utils_Tuple2('Lcaron', 'Ľ'),
+			_Utils_Tuple2('lcaron', 'ľ'),
+			_Utils_Tuple2('Lcedil', 'Ļ'),
+			_Utils_Tuple2('lcedil', 'ļ'),
+			_Utils_Tuple2('lceil', '⌈'),
+			_Utils_Tuple2('lcub', '{'),
+			_Utils_Tuple2('Lcy', 'Л'),
+			_Utils_Tuple2('lcy', 'л'),
+			_Utils_Tuple2('ldca', '⤶'),
+			_Utils_Tuple2('ldquo', '“'),
+			_Utils_Tuple2('ldquor', '„'),
+			_Utils_Tuple2('ldrdhar', '⥧'),
+			_Utils_Tuple2('ldrushar', '⥋'),
+			_Utils_Tuple2('ldsh', '↲'),
+			_Utils_Tuple2('le', '≤'),
+			_Utils_Tuple2('lE', '≦'),
+			_Utils_Tuple2('LeftAngleBracket', '⟨'),
+			_Utils_Tuple2('LeftArrowBar', '⇤'),
+			_Utils_Tuple2('leftarrow', '←'),
+			_Utils_Tuple2('LeftArrow', '←'),
+			_Utils_Tuple2('Leftarrow', '⇐'),
+			_Utils_Tuple2('LeftArrowRightArrow', '⇆'),
+			_Utils_Tuple2('leftarrowtail', '↢'),
+			_Utils_Tuple2('LeftCeiling', '⌈'),
+			_Utils_Tuple2('LeftDoubleBracket', '⟦'),
+			_Utils_Tuple2('LeftDownTeeVector', '⥡'),
+			_Utils_Tuple2('LeftDownVectorBar', '⥙'),
+			_Utils_Tuple2('LeftDownVector', '⇃'),
+			_Utils_Tuple2('LeftFloor', '⌊'),
+			_Utils_Tuple2('leftharpoondown', '↽'),
+			_Utils_Tuple2('leftharpoonup', '↼'),
+			_Utils_Tuple2('leftleftarrows', '⇇'),
+			_Utils_Tuple2('leftrightarrow', '↔'),
+			_Utils_Tuple2('LeftRightArrow', '↔'),
+			_Utils_Tuple2('Leftrightarrow', '⇔'),
+			_Utils_Tuple2('leftrightarrows', '⇆'),
+			_Utils_Tuple2('leftrightharpoons', '⇋'),
+			_Utils_Tuple2('leftrightsquigarrow', '↭'),
+			_Utils_Tuple2('LeftRightVector', '⥎'),
+			_Utils_Tuple2('LeftTeeArrow', '↤'),
+			_Utils_Tuple2('LeftTee', '⊣'),
+			_Utils_Tuple2('LeftTeeVector', '⥚'),
+			_Utils_Tuple2('leftthreetimes', '⋋'),
+			_Utils_Tuple2('LeftTriangleBar', '⧏'),
+			_Utils_Tuple2('LeftTriangle', '⊲'),
+			_Utils_Tuple2('LeftTriangleEqual', '⊴'),
+			_Utils_Tuple2('LeftUpDownVector', '⥑'),
+			_Utils_Tuple2('LeftUpTeeVector', '⥠'),
+			_Utils_Tuple2('LeftUpVectorBar', '⥘'),
+			_Utils_Tuple2('LeftUpVector', '↿'),
+			_Utils_Tuple2('LeftVectorBar', '⥒'),
+			_Utils_Tuple2('LeftVector', '↼'),
+			_Utils_Tuple2('lEg', '⪋'),
+			_Utils_Tuple2('leg', '⋚'),
+			_Utils_Tuple2('leq', '≤'),
+			_Utils_Tuple2('leqq', '≦'),
+			_Utils_Tuple2('leqslant', '⩽'),
+			_Utils_Tuple2('lescc', '⪨'),
+			_Utils_Tuple2('les', '⩽'),
+			_Utils_Tuple2('lesdot', '⩿'),
+			_Utils_Tuple2('lesdoto', '⪁'),
+			_Utils_Tuple2('lesdotor', '⪃'),
+			_Utils_Tuple2('lesg', '⋚︀'),
+			_Utils_Tuple2('lesges', '⪓'),
+			_Utils_Tuple2('lessapprox', '⪅'),
+			_Utils_Tuple2('lessdot', '⋖'),
+			_Utils_Tuple2('lesseqgtr', '⋚'),
+			_Utils_Tuple2('lesseqqgtr', '⪋'),
+			_Utils_Tuple2('LessEqualGreater', '⋚'),
+			_Utils_Tuple2('LessFullEqual', '≦'),
+			_Utils_Tuple2('LessGreater', '≶'),
+			_Utils_Tuple2('lessgtr', '≶'),
+			_Utils_Tuple2('LessLess', '⪡'),
+			_Utils_Tuple2('lesssim', '≲'),
+			_Utils_Tuple2('LessSlantEqual', '⩽'),
+			_Utils_Tuple2('LessTilde', '≲'),
+			_Utils_Tuple2('lfisht', '⥼'),
+			_Utils_Tuple2('lfloor', '⌊'),
+			_Utils_Tuple2('Lfr', '\uD835\uDD0F'),
+			_Utils_Tuple2('lfr', '\uD835\uDD29'),
+			_Utils_Tuple2('lg', '≶'),
+			_Utils_Tuple2('lgE', '⪑'),
+			_Utils_Tuple2('lHar', '⥢'),
+			_Utils_Tuple2('lhard', '↽'),
+			_Utils_Tuple2('lharu', '↼'),
+			_Utils_Tuple2('lharul', '⥪'),
+			_Utils_Tuple2('lhblk', '▄'),
+			_Utils_Tuple2('LJcy', 'Љ'),
+			_Utils_Tuple2('ljcy', 'љ'),
+			_Utils_Tuple2('llarr', '⇇'),
+			_Utils_Tuple2('ll', '≪'),
+			_Utils_Tuple2('Ll', '⋘'),
+			_Utils_Tuple2('llcorner', '⌞'),
+			_Utils_Tuple2('Lleftarrow', '⇚'),
+			_Utils_Tuple2('llhard', '⥫'),
+			_Utils_Tuple2('lltri', '◺'),
+			_Utils_Tuple2('Lmidot', 'Ŀ'),
+			_Utils_Tuple2('lmidot', 'ŀ'),
+			_Utils_Tuple2('lmoustache', '⎰'),
+			_Utils_Tuple2('lmoust', '⎰'),
+			_Utils_Tuple2('lnap', '⪉'),
+			_Utils_Tuple2('lnapprox', '⪉'),
+			_Utils_Tuple2('lne', '⪇'),
+			_Utils_Tuple2('lnE', '≨'),
+			_Utils_Tuple2('lneq', '⪇'),
+			_Utils_Tuple2('lneqq', '≨'),
+			_Utils_Tuple2('lnsim', '⋦'),
+			_Utils_Tuple2('loang', '⟬'),
+			_Utils_Tuple2('loarr', '⇽'),
+			_Utils_Tuple2('lobrk', '⟦'),
+			_Utils_Tuple2('longleftarrow', '⟵'),
+			_Utils_Tuple2('LongLeftArrow', '⟵'),
+			_Utils_Tuple2('Longleftarrow', '⟸'),
+			_Utils_Tuple2('longleftrightarrow', '⟷'),
+			_Utils_Tuple2('LongLeftRightArrow', '⟷'),
+			_Utils_Tuple2('Longleftrightarrow', '⟺'),
+			_Utils_Tuple2('longmapsto', '⟼'),
+			_Utils_Tuple2('longrightarrow', '⟶'),
+			_Utils_Tuple2('LongRightArrow', '⟶'),
+			_Utils_Tuple2('Longrightarrow', '⟹'),
+			_Utils_Tuple2('looparrowleft', '↫'),
+			_Utils_Tuple2('looparrowright', '↬'),
+			_Utils_Tuple2('lopar', '⦅'),
+			_Utils_Tuple2('Lopf', '\uD835\uDD43'),
+			_Utils_Tuple2('lopf', '\uD835\uDD5D'),
+			_Utils_Tuple2('loplus', '⨭'),
+			_Utils_Tuple2('lotimes', '⨴'),
+			_Utils_Tuple2('lowast', '∗'),
+			_Utils_Tuple2('lowbar', '_'),
+			_Utils_Tuple2('LowerLeftArrow', '↙'),
+			_Utils_Tuple2('LowerRightArrow', '↘'),
+			_Utils_Tuple2('loz', '◊'),
+			_Utils_Tuple2('lozenge', '◊'),
+			_Utils_Tuple2('lozf', '⧫'),
+			_Utils_Tuple2('lpar', '('),
+			_Utils_Tuple2('lparlt', '⦓'),
+			_Utils_Tuple2('lrarr', '⇆'),
+			_Utils_Tuple2('lrcorner', '⌟'),
+			_Utils_Tuple2('lrhar', '⇋'),
+			_Utils_Tuple2('lrhard', '⥭'),
+			_Utils_Tuple2('lrm', '\u200E'),
+			_Utils_Tuple2('lrtri', '⊿'),
+			_Utils_Tuple2('lsaquo', '‹'),
+			_Utils_Tuple2('lscr', '\uD835\uDCC1'),
+			_Utils_Tuple2('Lscr', 'ℒ'),
+			_Utils_Tuple2('lsh', '↰'),
+			_Utils_Tuple2('Lsh', '↰'),
+			_Utils_Tuple2('lsim', '≲'),
+			_Utils_Tuple2('lsime', '⪍'),
+			_Utils_Tuple2('lsimg', '⪏'),
+			_Utils_Tuple2('lsqb', '['),
+			_Utils_Tuple2('lsquo', '‘'),
+			_Utils_Tuple2('lsquor', '‚'),
+			_Utils_Tuple2('Lstrok', 'Ł'),
+			_Utils_Tuple2('lstrok', 'ł'),
+			_Utils_Tuple2('ltcc', '⪦'),
+			_Utils_Tuple2('ltcir', '⩹'),
+			_Utils_Tuple2('lt', '<'),
+			_Utils_Tuple2('LT', '<'),
+			_Utils_Tuple2('Lt', '≪'),
+			_Utils_Tuple2('ltdot', '⋖'),
+			_Utils_Tuple2('lthree', '⋋'),
+			_Utils_Tuple2('ltimes', '⋉'),
+			_Utils_Tuple2('ltlarr', '⥶'),
+			_Utils_Tuple2('ltquest', '⩻'),
+			_Utils_Tuple2('ltri', '◃'),
+			_Utils_Tuple2('ltrie', '⊴'),
+			_Utils_Tuple2('ltrif', '◂'),
+			_Utils_Tuple2('ltrPar', '⦖'),
+			_Utils_Tuple2('lurdshar', '⥊'),
+			_Utils_Tuple2('luruhar', '⥦'),
+			_Utils_Tuple2('lvertneqq', '≨︀'),
+			_Utils_Tuple2('lvnE', '≨︀'),
+			_Utils_Tuple2('macr', '¯'),
+			_Utils_Tuple2('male', '♂'),
+			_Utils_Tuple2('malt', '✠'),
+			_Utils_Tuple2('maltese', '✠'),
+			_Utils_Tuple2('Map', '⤅'),
+			_Utils_Tuple2('map', '↦'),
+			_Utils_Tuple2('mapsto', '↦'),
+			_Utils_Tuple2('mapstodown', '↧'),
+			_Utils_Tuple2('mapstoleft', '↤'),
+			_Utils_Tuple2('mapstoup', '↥'),
+			_Utils_Tuple2('marker', '▮'),
+			_Utils_Tuple2('mcomma', '⨩'),
+			_Utils_Tuple2('Mcy', 'М'),
+			_Utils_Tuple2('mcy', 'м'),
+			_Utils_Tuple2('mdash', '—'),
+			_Utils_Tuple2('mDDot', '∺'),
+			_Utils_Tuple2('measuredangle', '∡'),
+			_Utils_Tuple2('MediumSpace', '\u205F'),
+			_Utils_Tuple2('Mellintrf', 'ℳ'),
+			_Utils_Tuple2('Mfr', '\uD835\uDD10'),
+			_Utils_Tuple2('mfr', '\uD835\uDD2A'),
+			_Utils_Tuple2('mho', '℧'),
+			_Utils_Tuple2('micro', 'µ'),
+			_Utils_Tuple2('midast', '*'),
+			_Utils_Tuple2('midcir', '⫰'),
+			_Utils_Tuple2('mid', '∣'),
+			_Utils_Tuple2('middot', '·'),
+			_Utils_Tuple2('minusb', '⊟'),
+			_Utils_Tuple2('minus', '−'),
+			_Utils_Tuple2('minusd', '∸'),
+			_Utils_Tuple2('minusdu', '⨪'),
+			_Utils_Tuple2('MinusPlus', '∓'),
+			_Utils_Tuple2('mlcp', '⫛'),
+			_Utils_Tuple2('mldr', '…'),
+			_Utils_Tuple2('mnplus', '∓'),
+			_Utils_Tuple2('models', '⊧'),
+			_Utils_Tuple2('Mopf', '\uD835\uDD44'),
+			_Utils_Tuple2('mopf', '\uD835\uDD5E'),
+			_Utils_Tuple2('mp', '∓'),
+			_Utils_Tuple2('mscr', '\uD835\uDCC2'),
+			_Utils_Tuple2('Mscr', 'ℳ'),
+			_Utils_Tuple2('mstpos', '∾'),
+			_Utils_Tuple2('Mu', 'Μ'),
+			_Utils_Tuple2('mu', 'μ'),
+			_Utils_Tuple2('multimap', '⊸'),
+			_Utils_Tuple2('mumap', '⊸'),
+			_Utils_Tuple2('nabla', '∇'),
+			_Utils_Tuple2('Nacute', 'Ń'),
+			_Utils_Tuple2('nacute', 'ń'),
+			_Utils_Tuple2('nang', '∠⃒'),
+			_Utils_Tuple2('nap', '≉'),
+			_Utils_Tuple2('napE', '⩰̸'),
+			_Utils_Tuple2('napid', '≋̸'),
+			_Utils_Tuple2('napos', 'ŉ'),
+			_Utils_Tuple2('napprox', '≉'),
+			_Utils_Tuple2('natural', '♮'),
+			_Utils_Tuple2('naturals', 'ℕ'),
+			_Utils_Tuple2('natur', '♮'),
+			_Utils_Tuple2('nbsp', '\u00A0'),
+			_Utils_Tuple2('nbump', '≎̸'),
+			_Utils_Tuple2('nbumpe', '≏̸'),
+			_Utils_Tuple2('ncap', '⩃'),
+			_Utils_Tuple2('Ncaron', 'Ň'),
+			_Utils_Tuple2('ncaron', 'ň'),
+			_Utils_Tuple2('Ncedil', 'Ņ'),
+			_Utils_Tuple2('ncedil', 'ņ'),
+			_Utils_Tuple2('ncong', '≇'),
+			_Utils_Tuple2('ncongdot', '⩭̸'),
+			_Utils_Tuple2('ncup', '⩂'),
+			_Utils_Tuple2('Ncy', 'Н'),
+			_Utils_Tuple2('ncy', 'н'),
+			_Utils_Tuple2('ndash', '–'),
+			_Utils_Tuple2('nearhk', '⤤'),
+			_Utils_Tuple2('nearr', '↗'),
+			_Utils_Tuple2('neArr', '⇗'),
+			_Utils_Tuple2('nearrow', '↗'),
+			_Utils_Tuple2('ne', '≠'),
+			_Utils_Tuple2('nedot', '≐̸'),
+			_Utils_Tuple2('NegativeMediumSpace', '\u200B'),
+			_Utils_Tuple2('NegativeThickSpace', '\u200B'),
+			_Utils_Tuple2('NegativeThinSpace', '\u200B'),
+			_Utils_Tuple2('NegativeVeryThinSpace', '\u200B'),
+			_Utils_Tuple2('nequiv', '≢'),
+			_Utils_Tuple2('nesear', '⤨'),
+			_Utils_Tuple2('nesim', '≂̸'),
+			_Utils_Tuple2('NestedGreaterGreater', '≫'),
+			_Utils_Tuple2('NestedLessLess', '≪'),
+			_Utils_Tuple2('NewLine', '\n'),
+			_Utils_Tuple2('nexist', '∄'),
+			_Utils_Tuple2('nexists', '∄'),
+			_Utils_Tuple2('Nfr', '\uD835\uDD11'),
+			_Utils_Tuple2('nfr', '\uD835\uDD2B'),
+			_Utils_Tuple2('ngE', '≧̸'),
+			_Utils_Tuple2('nge', '≱'),
+			_Utils_Tuple2('ngeq', '≱'),
+			_Utils_Tuple2('ngeqq', '≧̸'),
+			_Utils_Tuple2('ngeqslant', '⩾̸'),
+			_Utils_Tuple2('nges', '⩾̸'),
+			_Utils_Tuple2('nGg', '⋙̸'),
+			_Utils_Tuple2('ngsim', '≵'),
+			_Utils_Tuple2('nGt', '≫⃒'),
+			_Utils_Tuple2('ngt', '≯'),
+			_Utils_Tuple2('ngtr', '≯'),
+			_Utils_Tuple2('nGtv', '≫̸'),
+			_Utils_Tuple2('nharr', '↮'),
+			_Utils_Tuple2('nhArr', '⇎'),
+			_Utils_Tuple2('nhpar', '⫲'),
+			_Utils_Tuple2('ni', '∋'),
+			_Utils_Tuple2('nis', '⋼'),
+			_Utils_Tuple2('nisd', '⋺'),
+			_Utils_Tuple2('niv', '∋'),
+			_Utils_Tuple2('NJcy', 'Њ'),
+			_Utils_Tuple2('njcy', 'њ'),
+			_Utils_Tuple2('nlarr', '↚'),
+			_Utils_Tuple2('nlArr', '⇍'),
+			_Utils_Tuple2('nldr', '‥'),
+			_Utils_Tuple2('nlE', '≦̸'),
+			_Utils_Tuple2('nle', '≰'),
+			_Utils_Tuple2('nleftarrow', '↚'),
+			_Utils_Tuple2('nLeftarrow', '⇍'),
+			_Utils_Tuple2('nleftrightarrow', '↮'),
+			_Utils_Tuple2('nLeftrightarrow', '⇎'),
+			_Utils_Tuple2('nleq', '≰'),
+			_Utils_Tuple2('nleqq', '≦̸'),
+			_Utils_Tuple2('nleqslant', '⩽̸'),
+			_Utils_Tuple2('nles', '⩽̸'),
+			_Utils_Tuple2('nless', '≮'),
+			_Utils_Tuple2('nLl', '⋘̸'),
+			_Utils_Tuple2('nlsim', '≴'),
+			_Utils_Tuple2('nLt', '≪⃒'),
+			_Utils_Tuple2('nlt', '≮'),
+			_Utils_Tuple2('nltri', '⋪'),
+			_Utils_Tuple2('nltrie', '⋬'),
+			_Utils_Tuple2('nLtv', '≪̸'),
+			_Utils_Tuple2('nmid', '∤'),
+			_Utils_Tuple2('NoBreak', '\u2060'),
+			_Utils_Tuple2('NonBreakingSpace', '\u00A0'),
+			_Utils_Tuple2('nopf', '\uD835\uDD5F'),
+			_Utils_Tuple2('Nopf', 'ℕ'),
+			_Utils_Tuple2('Not', '⫬'),
+			_Utils_Tuple2('not', '¬'),
+			_Utils_Tuple2('NotCongruent', '≢'),
+			_Utils_Tuple2('NotCupCap', '≭'),
+			_Utils_Tuple2('NotDoubleVerticalBar', '∦'),
+			_Utils_Tuple2('NotElement', '∉'),
+			_Utils_Tuple2('NotEqual', '≠'),
+			_Utils_Tuple2('NotEqualTilde', '≂̸'),
+			_Utils_Tuple2('NotExists', '∄'),
+			_Utils_Tuple2('NotGreater', '≯'),
+			_Utils_Tuple2('NotGreaterEqual', '≱'),
+			_Utils_Tuple2('NotGreaterFullEqual', '≧̸'),
+			_Utils_Tuple2('NotGreaterGreater', '≫̸'),
+			_Utils_Tuple2('NotGreaterLess', '≹'),
+			_Utils_Tuple2('NotGreaterSlantEqual', '⩾̸'),
+			_Utils_Tuple2('NotGreaterTilde', '≵'),
+			_Utils_Tuple2('NotHumpDownHump', '≎̸'),
+			_Utils_Tuple2('NotHumpEqual', '≏̸'),
+			_Utils_Tuple2('notin', '∉'),
+			_Utils_Tuple2('notindot', '⋵̸'),
+			_Utils_Tuple2('notinE', '⋹̸'),
+			_Utils_Tuple2('notinva', '∉'),
+			_Utils_Tuple2('notinvb', '⋷'),
+			_Utils_Tuple2('notinvc', '⋶'),
+			_Utils_Tuple2('NotLeftTriangleBar', '⧏̸'),
+			_Utils_Tuple2('NotLeftTriangle', '⋪'),
+			_Utils_Tuple2('NotLeftTriangleEqual', '⋬'),
+			_Utils_Tuple2('NotLess', '≮'),
+			_Utils_Tuple2('NotLessEqual', '≰'),
+			_Utils_Tuple2('NotLessGreater', '≸'),
+			_Utils_Tuple2('NotLessLess', '≪̸'),
+			_Utils_Tuple2('NotLessSlantEqual', '⩽̸'),
+			_Utils_Tuple2('NotLessTilde', '≴'),
+			_Utils_Tuple2('NotNestedGreaterGreater', '⪢̸'),
+			_Utils_Tuple2('NotNestedLessLess', '⪡̸'),
+			_Utils_Tuple2('notni', '∌'),
+			_Utils_Tuple2('notniva', '∌'),
+			_Utils_Tuple2('notnivb', '⋾'),
+			_Utils_Tuple2('notnivc', '⋽'),
+			_Utils_Tuple2('NotPrecedes', '⊀'),
+			_Utils_Tuple2('NotPrecedesEqual', '⪯̸'),
+			_Utils_Tuple2('NotPrecedesSlantEqual', '⋠'),
+			_Utils_Tuple2('NotReverseElement', '∌'),
+			_Utils_Tuple2('NotRightTriangleBar', '⧐̸'),
+			_Utils_Tuple2('NotRightTriangle', '⋫'),
+			_Utils_Tuple2('NotRightTriangleEqual', '⋭'),
+			_Utils_Tuple2('NotSquareSubset', '⊏̸'),
+			_Utils_Tuple2('NotSquareSubsetEqual', '⋢'),
+			_Utils_Tuple2('NotSquareSuperset', '⊐̸'),
+			_Utils_Tuple2('NotSquareSupersetEqual', '⋣'),
+			_Utils_Tuple2('NotSubset', '⊂⃒'),
+			_Utils_Tuple2('NotSubsetEqual', '⊈'),
+			_Utils_Tuple2('NotSucceeds', '⊁'),
+			_Utils_Tuple2('NotSucceedsEqual', '⪰̸'),
+			_Utils_Tuple2('NotSucceedsSlantEqual', '⋡'),
+			_Utils_Tuple2('NotSucceedsTilde', '≿̸'),
+			_Utils_Tuple2('NotSuperset', '⊃⃒'),
+			_Utils_Tuple2('NotSupersetEqual', '⊉'),
+			_Utils_Tuple2('NotTilde', '≁'),
+			_Utils_Tuple2('NotTildeEqual', '≄'),
+			_Utils_Tuple2('NotTildeFullEqual', '≇'),
+			_Utils_Tuple2('NotTildeTilde', '≉'),
+			_Utils_Tuple2('NotVerticalBar', '∤'),
+			_Utils_Tuple2('nparallel', '∦'),
+			_Utils_Tuple2('npar', '∦'),
+			_Utils_Tuple2('nparsl', '⫽⃥'),
+			_Utils_Tuple2('npart', '∂̸'),
+			_Utils_Tuple2('npolint', '⨔'),
+			_Utils_Tuple2('npr', '⊀'),
+			_Utils_Tuple2('nprcue', '⋠'),
+			_Utils_Tuple2('nprec', '⊀'),
+			_Utils_Tuple2('npreceq', '⪯̸'),
+			_Utils_Tuple2('npre', '⪯̸'),
+			_Utils_Tuple2('nrarrc', '⤳̸'),
+			_Utils_Tuple2('nrarr', '↛'),
+			_Utils_Tuple2('nrArr', '⇏'),
+			_Utils_Tuple2('nrarrw', '↝̸'),
+			_Utils_Tuple2('nrightarrow', '↛'),
+			_Utils_Tuple2('nRightarrow', '⇏'),
+			_Utils_Tuple2('nrtri', '⋫'),
+			_Utils_Tuple2('nrtrie', '⋭'),
+			_Utils_Tuple2('nsc', '⊁'),
+			_Utils_Tuple2('nsccue', '⋡'),
+			_Utils_Tuple2('nsce', '⪰̸'),
+			_Utils_Tuple2('Nscr', '\uD835\uDCA9'),
+			_Utils_Tuple2('nscr', '\uD835\uDCC3'),
+			_Utils_Tuple2('nshortmid', '∤'),
+			_Utils_Tuple2('nshortparallel', '∦'),
+			_Utils_Tuple2('nsim', '≁'),
+			_Utils_Tuple2('nsime', '≄'),
+			_Utils_Tuple2('nsimeq', '≄'),
+			_Utils_Tuple2('nsmid', '∤'),
+			_Utils_Tuple2('nspar', '∦'),
+			_Utils_Tuple2('nsqsube', '⋢'),
+			_Utils_Tuple2('nsqsupe', '⋣'),
+			_Utils_Tuple2('nsub', '⊄'),
+			_Utils_Tuple2('nsubE', '⫅̸'),
+			_Utils_Tuple2('nsube', '⊈'),
+			_Utils_Tuple2('nsubset', '⊂⃒'),
+			_Utils_Tuple2('nsubseteq', '⊈'),
+			_Utils_Tuple2('nsubseteqq', '⫅̸'),
+			_Utils_Tuple2('nsucc', '⊁'),
+			_Utils_Tuple2('nsucceq', '⪰̸'),
+			_Utils_Tuple2('nsup', '⊅'),
+			_Utils_Tuple2('nsupE', '⫆̸'),
+			_Utils_Tuple2('nsupe', '⊉'),
+			_Utils_Tuple2('nsupset', '⊃⃒'),
+			_Utils_Tuple2('nsupseteq', '⊉'),
+			_Utils_Tuple2('nsupseteqq', '⫆̸'),
+			_Utils_Tuple2('ntgl', '≹'),
+			_Utils_Tuple2('Ntilde', 'Ñ'),
+			_Utils_Tuple2('ntilde', 'ñ'),
+			_Utils_Tuple2('ntlg', '≸'),
+			_Utils_Tuple2('ntriangleleft', '⋪'),
+			_Utils_Tuple2('ntrianglelefteq', '⋬'),
+			_Utils_Tuple2('ntriangleright', '⋫'),
+			_Utils_Tuple2('ntrianglerighteq', '⋭'),
+			_Utils_Tuple2('Nu', 'Ν'),
+			_Utils_Tuple2('nu', 'ν'),
+			_Utils_Tuple2('num', '#'),
+			_Utils_Tuple2('numero', '№'),
+			_Utils_Tuple2('numsp', '\u2007'),
+			_Utils_Tuple2('nvap', '≍⃒'),
+			_Utils_Tuple2('nvdash', '⊬'),
+			_Utils_Tuple2('nvDash', '⊭'),
+			_Utils_Tuple2('nVdash', '⊮'),
+			_Utils_Tuple2('nVDash', '⊯'),
+			_Utils_Tuple2('nvge', '≥⃒'),
+			_Utils_Tuple2('nvgt', '>⃒'),
+			_Utils_Tuple2('nvHarr', '⤄'),
+			_Utils_Tuple2('nvinfin', '⧞'),
+			_Utils_Tuple2('nvlArr', '⤂'),
+			_Utils_Tuple2('nvle', '≤⃒'),
+			_Utils_Tuple2('nvlt', '<⃒'),
+			_Utils_Tuple2('nvltrie', '⊴⃒'),
+			_Utils_Tuple2('nvrArr', '⤃'),
+			_Utils_Tuple2('nvrtrie', '⊵⃒'),
+			_Utils_Tuple2('nvsim', '∼⃒'),
+			_Utils_Tuple2('nwarhk', '⤣'),
+			_Utils_Tuple2('nwarr', '↖'),
+			_Utils_Tuple2('nwArr', '⇖'),
+			_Utils_Tuple2('nwarrow', '↖'),
+			_Utils_Tuple2('nwnear', '⤧'),
+			_Utils_Tuple2('Oacute', 'Ó'),
+			_Utils_Tuple2('oacute', 'ó'),
+			_Utils_Tuple2('oast', '⊛'),
+			_Utils_Tuple2('Ocirc', 'Ô'),
+			_Utils_Tuple2('ocirc', 'ô'),
+			_Utils_Tuple2('ocir', '⊚'),
+			_Utils_Tuple2('Ocy', 'О'),
+			_Utils_Tuple2('ocy', 'о'),
+			_Utils_Tuple2('odash', '⊝'),
+			_Utils_Tuple2('Odblac', 'Ő'),
+			_Utils_Tuple2('odblac', 'ő'),
+			_Utils_Tuple2('odiv', '⨸'),
+			_Utils_Tuple2('odot', '⊙'),
+			_Utils_Tuple2('odsold', '⦼'),
+			_Utils_Tuple2('OElig', 'Œ'),
+			_Utils_Tuple2('oelig', 'œ'),
+			_Utils_Tuple2('ofcir', '⦿'),
+			_Utils_Tuple2('Ofr', '\uD835\uDD12'),
+			_Utils_Tuple2('ofr', '\uD835\uDD2C'),
+			_Utils_Tuple2('ogon', '˛'),
+			_Utils_Tuple2('Ograve', 'Ò'),
+			_Utils_Tuple2('ograve', 'ò'),
+			_Utils_Tuple2('ogt', '⧁'),
+			_Utils_Tuple2('ohbar', '⦵'),
+			_Utils_Tuple2('ohm', 'Ω'),
+			_Utils_Tuple2('oint', '∮'),
+			_Utils_Tuple2('olarr', '↺'),
+			_Utils_Tuple2('olcir', '⦾'),
+			_Utils_Tuple2('olcross', '⦻'),
+			_Utils_Tuple2('oline', '‾'),
+			_Utils_Tuple2('olt', '⧀'),
+			_Utils_Tuple2('Omacr', 'Ō'),
+			_Utils_Tuple2('omacr', 'ō'),
+			_Utils_Tuple2('Omega', 'Ω'),
+			_Utils_Tuple2('omega', 'ω'),
+			_Utils_Tuple2('Omicron', 'Ο'),
+			_Utils_Tuple2('omicron', 'ο'),
+			_Utils_Tuple2('omid', '⦶'),
+			_Utils_Tuple2('ominus', '⊖'),
+			_Utils_Tuple2('Oopf', '\uD835\uDD46'),
+			_Utils_Tuple2('oopf', '\uD835\uDD60'),
+			_Utils_Tuple2('opar', '⦷'),
+			_Utils_Tuple2('OpenCurlyDoubleQuote', '“'),
+			_Utils_Tuple2('OpenCurlyQuote', '‘'),
+			_Utils_Tuple2('operp', '⦹'),
+			_Utils_Tuple2('oplus', '⊕'),
+			_Utils_Tuple2('orarr', '↻'),
+			_Utils_Tuple2('Or', '⩔'),
+			_Utils_Tuple2('or', '∨'),
+			_Utils_Tuple2('ord', '⩝'),
+			_Utils_Tuple2('order', 'ℴ'),
+			_Utils_Tuple2('orderof', 'ℴ'),
+			_Utils_Tuple2('ordf', 'ª'),
+			_Utils_Tuple2('ordm', 'º'),
+			_Utils_Tuple2('origof', '⊶'),
+			_Utils_Tuple2('oror', '⩖'),
+			_Utils_Tuple2('orslope', '⩗'),
+			_Utils_Tuple2('orv', '⩛'),
+			_Utils_Tuple2('oS', 'Ⓢ'),
+			_Utils_Tuple2('Oscr', '\uD835\uDCAA'),
+			_Utils_Tuple2('oscr', 'ℴ'),
+			_Utils_Tuple2('Oslash', 'Ø'),
+			_Utils_Tuple2('oslash', 'ø'),
+			_Utils_Tuple2('osol', '⊘'),
+			_Utils_Tuple2('Otilde', 'Õ'),
+			_Utils_Tuple2('otilde', 'õ'),
+			_Utils_Tuple2('otimesas', '⨶'),
+			_Utils_Tuple2('Otimes', '⨷'),
+			_Utils_Tuple2('otimes', '⊗'),
+			_Utils_Tuple2('Ouml', 'Ö'),
+			_Utils_Tuple2('ouml', 'ö'),
+			_Utils_Tuple2('ovbar', '⌽'),
+			_Utils_Tuple2('OverBar', '‾'),
+			_Utils_Tuple2('OverBrace', '⏞'),
+			_Utils_Tuple2('OverBracket', '⎴'),
+			_Utils_Tuple2('OverParenthesis', '⏜'),
+			_Utils_Tuple2('para', '¶'),
+			_Utils_Tuple2('parallel', '∥'),
+			_Utils_Tuple2('par', '∥'),
+			_Utils_Tuple2('parsim', '⫳'),
+			_Utils_Tuple2('parsl', '⫽'),
+			_Utils_Tuple2('part', '∂'),
+			_Utils_Tuple2('PartialD', '∂'),
+			_Utils_Tuple2('Pcy', 'П'),
+			_Utils_Tuple2('pcy', 'п'),
+			_Utils_Tuple2('percnt', '%'),
+			_Utils_Tuple2('period', '.'),
+			_Utils_Tuple2('permil', '‰'),
+			_Utils_Tuple2('perp', '⊥'),
+			_Utils_Tuple2('pertenk', '‱'),
+			_Utils_Tuple2('Pfr', '\uD835\uDD13'),
+			_Utils_Tuple2('pfr', '\uD835\uDD2D'),
+			_Utils_Tuple2('Phi', 'Φ'),
+			_Utils_Tuple2('phi', 'φ'),
+			_Utils_Tuple2('phiv', 'ϕ'),
+			_Utils_Tuple2('phmmat', 'ℳ'),
+			_Utils_Tuple2('phone', '☎'),
+			_Utils_Tuple2('Pi', 'Π'),
+			_Utils_Tuple2('pi', 'π'),
+			_Utils_Tuple2('pitchfork', '⋔'),
+			_Utils_Tuple2('piv', 'ϖ'),
+			_Utils_Tuple2('planck', 'ℏ'),
+			_Utils_Tuple2('planckh', 'ℎ'),
+			_Utils_Tuple2('plankv', 'ℏ'),
+			_Utils_Tuple2('plusacir', '⨣'),
+			_Utils_Tuple2('plusb', '⊞'),
+			_Utils_Tuple2('pluscir', '⨢'),
+			_Utils_Tuple2('plus', '+'),
+			_Utils_Tuple2('plusdo', '∔'),
+			_Utils_Tuple2('plusdu', '⨥'),
+			_Utils_Tuple2('pluse', '⩲'),
+			_Utils_Tuple2('PlusMinus', '±'),
+			_Utils_Tuple2('plusmn', '±'),
+			_Utils_Tuple2('plussim', '⨦'),
+			_Utils_Tuple2('plustwo', '⨧'),
+			_Utils_Tuple2('pm', '±'),
+			_Utils_Tuple2('Poincareplane', 'ℌ'),
+			_Utils_Tuple2('pointint', '⨕'),
+			_Utils_Tuple2('popf', '\uD835\uDD61'),
+			_Utils_Tuple2('Popf', 'ℙ'),
+			_Utils_Tuple2('pound', '£'),
+			_Utils_Tuple2('prap', '⪷'),
+			_Utils_Tuple2('Pr', '⪻'),
+			_Utils_Tuple2('pr', '≺'),
+			_Utils_Tuple2('prcue', '≼'),
+			_Utils_Tuple2('precapprox', '⪷'),
+			_Utils_Tuple2('prec', '≺'),
+			_Utils_Tuple2('preccurlyeq', '≼'),
+			_Utils_Tuple2('Precedes', '≺'),
+			_Utils_Tuple2('PrecedesEqual', '⪯'),
+			_Utils_Tuple2('PrecedesSlantEqual', '≼'),
+			_Utils_Tuple2('PrecedesTilde', '≾'),
+			_Utils_Tuple2('preceq', '⪯'),
+			_Utils_Tuple2('precnapprox', '⪹'),
+			_Utils_Tuple2('precneqq', '⪵'),
+			_Utils_Tuple2('precnsim', '⋨'),
+			_Utils_Tuple2('pre', '⪯'),
+			_Utils_Tuple2('prE', '⪳'),
+			_Utils_Tuple2('precsim', '≾'),
+			_Utils_Tuple2('prime', '′'),
+			_Utils_Tuple2('Prime', '″'),
+			_Utils_Tuple2('primes', 'ℙ'),
+			_Utils_Tuple2('prnap', '⪹'),
+			_Utils_Tuple2('prnE', '⪵'),
+			_Utils_Tuple2('prnsim', '⋨'),
+			_Utils_Tuple2('prod', '∏'),
+			_Utils_Tuple2('Product', '∏'),
+			_Utils_Tuple2('profalar', '⌮'),
+			_Utils_Tuple2('profline', '⌒'),
+			_Utils_Tuple2('profsurf', '⌓'),
+			_Utils_Tuple2('prop', '∝'),
+			_Utils_Tuple2('Proportional', '∝'),
+			_Utils_Tuple2('Proportion', '∷'),
+			_Utils_Tuple2('propto', '∝'),
+			_Utils_Tuple2('prsim', '≾'),
+			_Utils_Tuple2('prurel', '⊰'),
+			_Utils_Tuple2('Pscr', '\uD835\uDCAB'),
+			_Utils_Tuple2('pscr', '\uD835\uDCC5'),
+			_Utils_Tuple2('Psi', 'Ψ'),
+			_Utils_Tuple2('psi', 'ψ'),
+			_Utils_Tuple2('puncsp', '\u2008'),
+			_Utils_Tuple2('Qfr', '\uD835\uDD14'),
+			_Utils_Tuple2('qfr', '\uD835\uDD2E'),
+			_Utils_Tuple2('qint', '⨌'),
+			_Utils_Tuple2('qopf', '\uD835\uDD62'),
+			_Utils_Tuple2('Qopf', 'ℚ'),
+			_Utils_Tuple2('qprime', '⁗'),
+			_Utils_Tuple2('Qscr', '\uD835\uDCAC'),
+			_Utils_Tuple2('qscr', '\uD835\uDCC6'),
+			_Utils_Tuple2('quaternions', 'ℍ'),
+			_Utils_Tuple2('quatint', '⨖'),
+			_Utils_Tuple2('quest', '?'),
+			_Utils_Tuple2('questeq', '≟'),
+			_Utils_Tuple2('quot', '\"'),
+			_Utils_Tuple2('QUOT', '\"'),
+			_Utils_Tuple2('rAarr', '⇛'),
+			_Utils_Tuple2('race', '∽̱'),
+			_Utils_Tuple2('Racute', 'Ŕ'),
+			_Utils_Tuple2('racute', 'ŕ'),
+			_Utils_Tuple2('radic', '√'),
+			_Utils_Tuple2('raemptyv', '⦳'),
+			_Utils_Tuple2('rang', '⟩'),
+			_Utils_Tuple2('Rang', '⟫'),
+			_Utils_Tuple2('rangd', '⦒'),
+			_Utils_Tuple2('range', '⦥'),
+			_Utils_Tuple2('rangle', '⟩'),
+			_Utils_Tuple2('raquo', '»'),
+			_Utils_Tuple2('rarrap', '⥵'),
+			_Utils_Tuple2('rarrb', '⇥'),
+			_Utils_Tuple2('rarrbfs', '⤠'),
+			_Utils_Tuple2('rarrc', '⤳'),
+			_Utils_Tuple2('rarr', '→'),
+			_Utils_Tuple2('Rarr', '↠'),
+			_Utils_Tuple2('rArr', '⇒'),
+			_Utils_Tuple2('rarrfs', '⤞'),
+			_Utils_Tuple2('rarrhk', '↪'),
+			_Utils_Tuple2('rarrlp', '↬'),
+			_Utils_Tuple2('rarrpl', '⥅'),
+			_Utils_Tuple2('rarrsim', '⥴'),
+			_Utils_Tuple2('Rarrtl', '⤖'),
+			_Utils_Tuple2('rarrtl', '↣'),
+			_Utils_Tuple2('rarrw', '↝'),
+			_Utils_Tuple2('ratail', '⤚'),
+			_Utils_Tuple2('rAtail', '⤜'),
+			_Utils_Tuple2('ratio', '∶'),
+			_Utils_Tuple2('rationals', 'ℚ'),
+			_Utils_Tuple2('rbarr', '⤍'),
+			_Utils_Tuple2('rBarr', '⤏'),
+			_Utils_Tuple2('RBarr', '⤐'),
+			_Utils_Tuple2('rbbrk', '❳'),
+			_Utils_Tuple2('rbrace', '}'),
+			_Utils_Tuple2('rbrack', ']'),
+			_Utils_Tuple2('rbrke', '⦌'),
+			_Utils_Tuple2('rbrksld', '⦎'),
+			_Utils_Tuple2('rbrkslu', '⦐'),
+			_Utils_Tuple2('Rcaron', 'Ř'),
+			_Utils_Tuple2('rcaron', 'ř'),
+			_Utils_Tuple2('Rcedil', 'Ŗ'),
+			_Utils_Tuple2('rcedil', 'ŗ'),
+			_Utils_Tuple2('rceil', '⌉'),
+			_Utils_Tuple2('rcub', '}'),
+			_Utils_Tuple2('Rcy', 'Р'),
+			_Utils_Tuple2('rcy', 'р'),
+			_Utils_Tuple2('rdca', '⤷'),
+			_Utils_Tuple2('rdldhar', '⥩'),
+			_Utils_Tuple2('rdquo', '”'),
+			_Utils_Tuple2('rdquor', '”'),
+			_Utils_Tuple2('rdsh', '↳'),
+			_Utils_Tuple2('real', 'ℜ'),
+			_Utils_Tuple2('realine', 'ℛ'),
+			_Utils_Tuple2('realpart', 'ℜ'),
+			_Utils_Tuple2('reals', 'ℝ'),
+			_Utils_Tuple2('Re', 'ℜ'),
+			_Utils_Tuple2('rect', '▭'),
+			_Utils_Tuple2('reg', '®'),
+			_Utils_Tuple2('REG', '®'),
+			_Utils_Tuple2('ReverseElement', '∋'),
+			_Utils_Tuple2('ReverseEquilibrium', '⇋'),
+			_Utils_Tuple2('ReverseUpEquilibrium', '⥯'),
+			_Utils_Tuple2('rfisht', '⥽'),
+			_Utils_Tuple2('rfloor', '⌋'),
+			_Utils_Tuple2('rfr', '\uD835\uDD2F'),
+			_Utils_Tuple2('Rfr', 'ℜ'),
+			_Utils_Tuple2('rHar', '⥤'),
+			_Utils_Tuple2('rhard', '⇁'),
+			_Utils_Tuple2('rharu', '⇀'),
+			_Utils_Tuple2('rharul', '⥬'),
+			_Utils_Tuple2('Rho', 'Ρ'),
+			_Utils_Tuple2('rho', 'ρ'),
+			_Utils_Tuple2('rhov', 'ϱ'),
+			_Utils_Tuple2('RightAngleBracket', '⟩'),
+			_Utils_Tuple2('RightArrowBar', '⇥'),
+			_Utils_Tuple2('rightarrow', '→'),
+			_Utils_Tuple2('RightArrow', '→'),
+			_Utils_Tuple2('Rightarrow', '⇒'),
+			_Utils_Tuple2('RightArrowLeftArrow', '⇄'),
+			_Utils_Tuple2('rightarrowtail', '↣'),
+			_Utils_Tuple2('RightCeiling', '⌉'),
+			_Utils_Tuple2('RightDoubleBracket', '⟧'),
+			_Utils_Tuple2('RightDownTeeVector', '⥝'),
+			_Utils_Tuple2('RightDownVectorBar', '⥕'),
+			_Utils_Tuple2('RightDownVector', '⇂'),
+			_Utils_Tuple2('RightFloor', '⌋'),
+			_Utils_Tuple2('rightharpoondown', '⇁'),
+			_Utils_Tuple2('rightharpoonup', '⇀'),
+			_Utils_Tuple2('rightleftarrows', '⇄'),
+			_Utils_Tuple2('rightleftharpoons', '⇌'),
+			_Utils_Tuple2('rightrightarrows', '⇉'),
+			_Utils_Tuple2('rightsquigarrow', '↝'),
+			_Utils_Tuple2('RightTeeArrow', '↦'),
+			_Utils_Tuple2('RightTee', '⊢'),
+			_Utils_Tuple2('RightTeeVector', '⥛'),
+			_Utils_Tuple2('rightthreetimes', '⋌'),
+			_Utils_Tuple2('RightTriangleBar', '⧐'),
+			_Utils_Tuple2('RightTriangle', '⊳'),
+			_Utils_Tuple2('RightTriangleEqual', '⊵'),
+			_Utils_Tuple2('RightUpDownVector', '⥏'),
+			_Utils_Tuple2('RightUpTeeVector', '⥜'),
+			_Utils_Tuple2('RightUpVectorBar', '⥔'),
+			_Utils_Tuple2('RightUpVector', '↾'),
+			_Utils_Tuple2('RightVectorBar', '⥓'),
+			_Utils_Tuple2('RightVector', '⇀'),
+			_Utils_Tuple2('ring', '˚'),
+			_Utils_Tuple2('risingdotseq', '≓'),
+			_Utils_Tuple2('rlarr', '⇄'),
+			_Utils_Tuple2('rlhar', '⇌'),
+			_Utils_Tuple2('rlm', '\u200F'),
+			_Utils_Tuple2('rmoustache', '⎱'),
+			_Utils_Tuple2('rmoust', '⎱'),
+			_Utils_Tuple2('rnmid', '⫮'),
+			_Utils_Tuple2('roang', '⟭'),
+			_Utils_Tuple2('roarr', '⇾'),
+			_Utils_Tuple2('robrk', '⟧'),
+			_Utils_Tuple2('ropar', '⦆'),
+			_Utils_Tuple2('ropf', '\uD835\uDD63'),
+			_Utils_Tuple2('Ropf', 'ℝ'),
+			_Utils_Tuple2('roplus', '⨮'),
+			_Utils_Tuple2('rotimes', '⨵'),
+			_Utils_Tuple2('RoundImplies', '⥰'),
+			_Utils_Tuple2('rpar', ')'),
+			_Utils_Tuple2('rpargt', '⦔'),
+			_Utils_Tuple2('rppolint', '⨒'),
+			_Utils_Tuple2('rrarr', '⇉'),
+			_Utils_Tuple2('Rrightarrow', '⇛'),
+			_Utils_Tuple2('rsaquo', '›'),
+			_Utils_Tuple2('rscr', '\uD835\uDCC7'),
+			_Utils_Tuple2('Rscr', 'ℛ'),
+			_Utils_Tuple2('rsh', '↱'),
+			_Utils_Tuple2('Rsh', '↱'),
+			_Utils_Tuple2('rsqb', ']'),
+			_Utils_Tuple2('rsquo', '’'),
+			_Utils_Tuple2('rsquor', '’'),
+			_Utils_Tuple2('rthree', '⋌'),
+			_Utils_Tuple2('rtimes', '⋊'),
+			_Utils_Tuple2('rtri', '▹'),
+			_Utils_Tuple2('rtrie', '⊵'),
+			_Utils_Tuple2('rtrif', '▸'),
+			_Utils_Tuple2('rtriltri', '⧎'),
+			_Utils_Tuple2('RuleDelayed', '⧴'),
+			_Utils_Tuple2('ruluhar', '⥨'),
+			_Utils_Tuple2('rx', '℞'),
+			_Utils_Tuple2('Sacute', 'Ś'),
+			_Utils_Tuple2('sacute', 'ś'),
+			_Utils_Tuple2('sbquo', '‚'),
+			_Utils_Tuple2('scap', '⪸'),
+			_Utils_Tuple2('Scaron', 'Š'),
+			_Utils_Tuple2('scaron', 'š'),
+			_Utils_Tuple2('Sc', '⪼'),
+			_Utils_Tuple2('sc', '≻'),
+			_Utils_Tuple2('sccue', '≽'),
+			_Utils_Tuple2('sce', '⪰'),
+			_Utils_Tuple2('scE', '⪴'),
+			_Utils_Tuple2('Scedil', 'Ş'),
+			_Utils_Tuple2('scedil', 'ş'),
+			_Utils_Tuple2('Scirc', 'Ŝ'),
+			_Utils_Tuple2('scirc', 'ŝ'),
+			_Utils_Tuple2('scnap', '⪺'),
+			_Utils_Tuple2('scnE', '⪶'),
+			_Utils_Tuple2('scnsim', '⋩'),
+			_Utils_Tuple2('scpolint', '⨓'),
+			_Utils_Tuple2('scsim', '≿'),
+			_Utils_Tuple2('Scy', 'С'),
+			_Utils_Tuple2('scy', 'с'),
+			_Utils_Tuple2('sdotb', '⊡'),
+			_Utils_Tuple2('sdot', '⋅'),
+			_Utils_Tuple2('sdote', '⩦'),
+			_Utils_Tuple2('searhk', '⤥'),
+			_Utils_Tuple2('searr', '↘'),
+			_Utils_Tuple2('seArr', '⇘'),
+			_Utils_Tuple2('searrow', '↘'),
+			_Utils_Tuple2('sect', '§'),
+			_Utils_Tuple2('semi', ';'),
+			_Utils_Tuple2('seswar', '⤩'),
+			_Utils_Tuple2('setminus', '∖'),
+			_Utils_Tuple2('setmn', '∖'),
+			_Utils_Tuple2('sext', '✶'),
+			_Utils_Tuple2('Sfr', '\uD835\uDD16'),
+			_Utils_Tuple2('sfr', '\uD835\uDD30'),
+			_Utils_Tuple2('sfrown', '⌢'),
+			_Utils_Tuple2('sharp', '♯'),
+			_Utils_Tuple2('SHCHcy', 'Щ'),
+			_Utils_Tuple2('shchcy', 'щ'),
+			_Utils_Tuple2('SHcy', 'Ш'),
+			_Utils_Tuple2('shcy', 'ш'),
+			_Utils_Tuple2('ShortDownArrow', '↓'),
+			_Utils_Tuple2('ShortLeftArrow', '←'),
+			_Utils_Tuple2('shortmid', '∣'),
+			_Utils_Tuple2('shortparallel', '∥'),
+			_Utils_Tuple2('ShortRightArrow', '→'),
+			_Utils_Tuple2('ShortUpArrow', '↑'),
+			_Utils_Tuple2('shy', '\u00AD'),
+			_Utils_Tuple2('Sigma', 'Σ'),
+			_Utils_Tuple2('sigma', 'σ'),
+			_Utils_Tuple2('sigmaf', 'ς'),
+			_Utils_Tuple2('sigmav', 'ς'),
+			_Utils_Tuple2('sim', '∼'),
+			_Utils_Tuple2('simdot', '⩪'),
+			_Utils_Tuple2('sime', '≃'),
+			_Utils_Tuple2('simeq', '≃'),
+			_Utils_Tuple2('simg', '⪞'),
+			_Utils_Tuple2('simgE', '⪠'),
+			_Utils_Tuple2('siml', '⪝'),
+			_Utils_Tuple2('simlE', '⪟'),
+			_Utils_Tuple2('simne', '≆'),
+			_Utils_Tuple2('simplus', '⨤'),
+			_Utils_Tuple2('simrarr', '⥲'),
+			_Utils_Tuple2('slarr', '←'),
+			_Utils_Tuple2('SmallCircle', '∘'),
+			_Utils_Tuple2('smallsetminus', '∖'),
+			_Utils_Tuple2('smashp', '⨳'),
+			_Utils_Tuple2('smeparsl', '⧤'),
+			_Utils_Tuple2('smid', '∣'),
+			_Utils_Tuple2('smile', '⌣'),
+			_Utils_Tuple2('smt', '⪪'),
+			_Utils_Tuple2('smte', '⪬'),
+			_Utils_Tuple2('smtes', '⪬︀'),
+			_Utils_Tuple2('SOFTcy', 'Ь'),
+			_Utils_Tuple2('softcy', 'ь'),
+			_Utils_Tuple2('solbar', '⌿'),
+			_Utils_Tuple2('solb', '⧄'),
+			_Utils_Tuple2('sol', '/'),
+			_Utils_Tuple2('Sopf', '\uD835\uDD4A'),
+			_Utils_Tuple2('sopf', '\uD835\uDD64'),
+			_Utils_Tuple2('spades', '♠'),
+			_Utils_Tuple2('spadesuit', '♠'),
+			_Utils_Tuple2('spar', '∥'),
+			_Utils_Tuple2('sqcap', '⊓'),
+			_Utils_Tuple2('sqcaps', '⊓︀'),
+			_Utils_Tuple2('sqcup', '⊔'),
+			_Utils_Tuple2('sqcups', '⊔︀'),
+			_Utils_Tuple2('Sqrt', '√'),
+			_Utils_Tuple2('sqsub', '⊏'),
+			_Utils_Tuple2('sqsube', '⊑'),
+			_Utils_Tuple2('sqsubset', '⊏'),
+			_Utils_Tuple2('sqsubseteq', '⊑'),
+			_Utils_Tuple2('sqsup', '⊐'),
+			_Utils_Tuple2('sqsupe', '⊒'),
+			_Utils_Tuple2('sqsupset', '⊐'),
+			_Utils_Tuple2('sqsupseteq', '⊒'),
+			_Utils_Tuple2('square', '□'),
+			_Utils_Tuple2('Square', '□'),
+			_Utils_Tuple2('SquareIntersection', '⊓'),
+			_Utils_Tuple2('SquareSubset', '⊏'),
+			_Utils_Tuple2('SquareSubsetEqual', '⊑'),
+			_Utils_Tuple2('SquareSuperset', '⊐'),
+			_Utils_Tuple2('SquareSupersetEqual', '⊒'),
+			_Utils_Tuple2('SquareUnion', '⊔'),
+			_Utils_Tuple2('squarf', '▪'),
+			_Utils_Tuple2('squ', '□'),
+			_Utils_Tuple2('squf', '▪'),
+			_Utils_Tuple2('srarr', '→'),
+			_Utils_Tuple2('Sscr', '\uD835\uDCAE'),
+			_Utils_Tuple2('sscr', '\uD835\uDCC8'),
+			_Utils_Tuple2('ssetmn', '∖'),
+			_Utils_Tuple2('ssmile', '⌣'),
+			_Utils_Tuple2('sstarf', '⋆'),
+			_Utils_Tuple2('Star', '⋆'),
+			_Utils_Tuple2('star', '☆'),
+			_Utils_Tuple2('starf', '★'),
+			_Utils_Tuple2('straightepsilon', 'ϵ'),
+			_Utils_Tuple2('straightphi', 'ϕ'),
+			_Utils_Tuple2('strns', '¯'),
+			_Utils_Tuple2('sub', '⊂'),
+			_Utils_Tuple2('Sub', '⋐'),
+			_Utils_Tuple2('subdot', '⪽'),
+			_Utils_Tuple2('subE', '⫅'),
+			_Utils_Tuple2('sube', '⊆'),
+			_Utils_Tuple2('subedot', '⫃'),
+			_Utils_Tuple2('submult', '⫁'),
+			_Utils_Tuple2('subnE', '⫋'),
+			_Utils_Tuple2('subne', '⊊'),
+			_Utils_Tuple2('subplus', '⪿'),
+			_Utils_Tuple2('subrarr', '⥹'),
+			_Utils_Tuple2('subset', '⊂'),
+			_Utils_Tuple2('Subset', '⋐'),
+			_Utils_Tuple2('subseteq', '⊆'),
+			_Utils_Tuple2('subseteqq', '⫅'),
+			_Utils_Tuple2('SubsetEqual', '⊆'),
+			_Utils_Tuple2('subsetneq', '⊊'),
+			_Utils_Tuple2('subsetneqq', '⫋'),
+			_Utils_Tuple2('subsim', '⫇'),
+			_Utils_Tuple2('subsub', '⫕'),
+			_Utils_Tuple2('subsup', '⫓'),
+			_Utils_Tuple2('succapprox', '⪸'),
+			_Utils_Tuple2('succ', '≻'),
+			_Utils_Tuple2('succcurlyeq', '≽'),
+			_Utils_Tuple2('Succeeds', '≻'),
+			_Utils_Tuple2('SucceedsEqual', '⪰'),
+			_Utils_Tuple2('SucceedsSlantEqual', '≽'),
+			_Utils_Tuple2('SucceedsTilde', '≿'),
+			_Utils_Tuple2('succeq', '⪰'),
+			_Utils_Tuple2('succnapprox', '⪺'),
+			_Utils_Tuple2('succneqq', '⪶'),
+			_Utils_Tuple2('succnsim', '⋩'),
+			_Utils_Tuple2('succsim', '≿'),
+			_Utils_Tuple2('SuchThat', '∋'),
+			_Utils_Tuple2('sum', '∑'),
+			_Utils_Tuple2('Sum', '∑'),
+			_Utils_Tuple2('sung', '♪'),
+			_Utils_Tuple2('sup1', '¹'),
+			_Utils_Tuple2('sup2', '²'),
+			_Utils_Tuple2('sup3', '³'),
+			_Utils_Tuple2('sup', '⊃'),
+			_Utils_Tuple2('Sup', '⋑'),
+			_Utils_Tuple2('supdot', '⪾'),
+			_Utils_Tuple2('supdsub', '⫘'),
+			_Utils_Tuple2('supE', '⫆'),
+			_Utils_Tuple2('supe', '⊇'),
+			_Utils_Tuple2('supedot', '⫄'),
+			_Utils_Tuple2('Superset', '⊃'),
+			_Utils_Tuple2('SupersetEqual', '⊇'),
+			_Utils_Tuple2('suphsol', '⟉'),
+			_Utils_Tuple2('suphsub', '⫗'),
+			_Utils_Tuple2('suplarr', '⥻'),
+			_Utils_Tuple2('supmult', '⫂'),
+			_Utils_Tuple2('supnE', '⫌'),
+			_Utils_Tuple2('supne', '⊋'),
+			_Utils_Tuple2('supplus', '⫀'),
+			_Utils_Tuple2('supset', '⊃'),
+			_Utils_Tuple2('Supset', '⋑'),
+			_Utils_Tuple2('supseteq', '⊇'),
+			_Utils_Tuple2('supseteqq', '⫆'),
+			_Utils_Tuple2('supsetneq', '⊋'),
+			_Utils_Tuple2('supsetneqq', '⫌'),
+			_Utils_Tuple2('supsim', '⫈'),
+			_Utils_Tuple2('supsub', '⫔'),
+			_Utils_Tuple2('supsup', '⫖'),
+			_Utils_Tuple2('swarhk', '⤦'),
+			_Utils_Tuple2('swarr', '↙'),
+			_Utils_Tuple2('swArr', '⇙'),
+			_Utils_Tuple2('swarrow', '↙'),
+			_Utils_Tuple2('swnwar', '⤪'),
+			_Utils_Tuple2('szlig', 'ß'),
+			_Utils_Tuple2('Tab', '\t'),
+			_Utils_Tuple2('target', '⌖'),
+			_Utils_Tuple2('Tau', 'Τ'),
+			_Utils_Tuple2('tau', 'τ'),
+			_Utils_Tuple2('tbrk', '⎴'),
+			_Utils_Tuple2('Tcaron', 'Ť'),
+			_Utils_Tuple2('tcaron', 'ť'),
+			_Utils_Tuple2('Tcedil', 'Ţ'),
+			_Utils_Tuple2('tcedil', 'ţ'),
+			_Utils_Tuple2('Tcy', 'Т'),
+			_Utils_Tuple2('tcy', 'т'),
+			_Utils_Tuple2('tdot', '⃛'),
+			_Utils_Tuple2('telrec', '⌕'),
+			_Utils_Tuple2('Tfr', '\uD835\uDD17'),
+			_Utils_Tuple2('tfr', '\uD835\uDD31'),
+			_Utils_Tuple2('there4', '∴'),
+			_Utils_Tuple2('therefore', '∴'),
+			_Utils_Tuple2('Therefore', '∴'),
+			_Utils_Tuple2('Theta', 'Θ'),
+			_Utils_Tuple2('theta', 'θ'),
+			_Utils_Tuple2('thetasym', 'ϑ'),
+			_Utils_Tuple2('thetav', 'ϑ'),
+			_Utils_Tuple2('thickapprox', '≈'),
+			_Utils_Tuple2('thicksim', '∼'),
+			_Utils_Tuple2('ThickSpace', '\u205F\u200A'),
+			_Utils_Tuple2('ThinSpace', '\u2009'),
+			_Utils_Tuple2('thinsp', '\u2009'),
+			_Utils_Tuple2('thkap', '≈'),
+			_Utils_Tuple2('thksim', '∼'),
+			_Utils_Tuple2('THORN', 'Þ'),
+			_Utils_Tuple2('thorn', 'þ'),
+			_Utils_Tuple2('tilde', '˜'),
+			_Utils_Tuple2('Tilde', '∼'),
+			_Utils_Tuple2('TildeEqual', '≃'),
+			_Utils_Tuple2('TildeFullEqual', '≅'),
+			_Utils_Tuple2('TildeTilde', '≈'),
+			_Utils_Tuple2('timesbar', '⨱'),
+			_Utils_Tuple2('timesb', '⊠'),
+			_Utils_Tuple2('times', '×'),
+			_Utils_Tuple2('timesd', '⨰'),
+			_Utils_Tuple2('tint', '∭'),
+			_Utils_Tuple2('toea', '⤨'),
+			_Utils_Tuple2('topbot', '⌶'),
+			_Utils_Tuple2('topcir', '⫱'),
+			_Utils_Tuple2('top', '⊤'),
+			_Utils_Tuple2('Topf', '\uD835\uDD4B'),
+			_Utils_Tuple2('topf', '\uD835\uDD65'),
+			_Utils_Tuple2('topfork', '⫚'),
+			_Utils_Tuple2('tosa', '⤩'),
+			_Utils_Tuple2('tprime', '‴'),
+			_Utils_Tuple2('trade', '™'),
+			_Utils_Tuple2('TRADE', '™'),
+			_Utils_Tuple2('triangle', '▵'),
+			_Utils_Tuple2('triangledown', '▿'),
+			_Utils_Tuple2('triangleleft', '◃'),
+			_Utils_Tuple2('trianglelefteq', '⊴'),
+			_Utils_Tuple2('triangleq', '≜'),
+			_Utils_Tuple2('triangleright', '▹'),
+			_Utils_Tuple2('trianglerighteq', '⊵'),
+			_Utils_Tuple2('tridot', '◬'),
+			_Utils_Tuple2('trie', '≜'),
+			_Utils_Tuple2('triminus', '⨺'),
+			_Utils_Tuple2('TripleDot', '⃛'),
+			_Utils_Tuple2('triplus', '⨹'),
+			_Utils_Tuple2('trisb', '⧍'),
+			_Utils_Tuple2('tritime', '⨻'),
+			_Utils_Tuple2('trpezium', '⏢'),
+			_Utils_Tuple2('Tscr', '\uD835\uDCAF'),
+			_Utils_Tuple2('tscr', '\uD835\uDCC9'),
+			_Utils_Tuple2('TScy', 'Ц'),
+			_Utils_Tuple2('tscy', 'ц'),
+			_Utils_Tuple2('TSHcy', 'Ћ'),
+			_Utils_Tuple2('tshcy', 'ћ'),
+			_Utils_Tuple2('Tstrok', 'Ŧ'),
+			_Utils_Tuple2('tstrok', 'ŧ'),
+			_Utils_Tuple2('twixt', '≬'),
+			_Utils_Tuple2('twoheadleftarrow', '↞'),
+			_Utils_Tuple2('twoheadrightarrow', '↠'),
+			_Utils_Tuple2('Uacute', 'Ú'),
+			_Utils_Tuple2('uacute', 'ú'),
+			_Utils_Tuple2('uarr', '↑'),
+			_Utils_Tuple2('Uarr', '↟'),
+			_Utils_Tuple2('uArr', '⇑'),
+			_Utils_Tuple2('Uarrocir', '⥉'),
+			_Utils_Tuple2('Ubrcy', 'Ў'),
+			_Utils_Tuple2('ubrcy', 'ў'),
+			_Utils_Tuple2('Ubreve', 'Ŭ'),
+			_Utils_Tuple2('ubreve', 'ŭ'),
+			_Utils_Tuple2('Ucirc', 'Û'),
+			_Utils_Tuple2('ucirc', 'û'),
+			_Utils_Tuple2('Ucy', 'У'),
+			_Utils_Tuple2('ucy', 'у'),
+			_Utils_Tuple2('udarr', '⇅'),
+			_Utils_Tuple2('Udblac', 'Ű'),
+			_Utils_Tuple2('udblac', 'ű'),
+			_Utils_Tuple2('udhar', '⥮'),
+			_Utils_Tuple2('ufisht', '⥾'),
+			_Utils_Tuple2('Ufr', '\uD835\uDD18'),
+			_Utils_Tuple2('ufr', '\uD835\uDD32'),
+			_Utils_Tuple2('Ugrave', 'Ù'),
+			_Utils_Tuple2('ugrave', 'ù'),
+			_Utils_Tuple2('uHar', '⥣'),
+			_Utils_Tuple2('uharl', '↿'),
+			_Utils_Tuple2('uharr', '↾'),
+			_Utils_Tuple2('uhblk', '▀'),
+			_Utils_Tuple2('ulcorn', '⌜'),
+			_Utils_Tuple2('ulcorner', '⌜'),
+			_Utils_Tuple2('ulcrop', '⌏'),
+			_Utils_Tuple2('ultri', '◸'),
+			_Utils_Tuple2('Umacr', 'Ū'),
+			_Utils_Tuple2('umacr', 'ū'),
+			_Utils_Tuple2('uml', '¨'),
+			_Utils_Tuple2('UnderBar', '_'),
+			_Utils_Tuple2('UnderBrace', '⏟'),
+			_Utils_Tuple2('UnderBracket', '⎵'),
+			_Utils_Tuple2('UnderParenthesis', '⏝'),
+			_Utils_Tuple2('Union', '⋃'),
+			_Utils_Tuple2('UnionPlus', '⊎'),
+			_Utils_Tuple2('Uogon', 'Ų'),
+			_Utils_Tuple2('uogon', 'ų'),
+			_Utils_Tuple2('Uopf', '\uD835\uDD4C'),
+			_Utils_Tuple2('uopf', '\uD835\uDD66'),
+			_Utils_Tuple2('UpArrowBar', '⤒'),
+			_Utils_Tuple2('uparrow', '↑'),
+			_Utils_Tuple2('UpArrow', '↑'),
+			_Utils_Tuple2('Uparrow', '⇑'),
+			_Utils_Tuple2('UpArrowDownArrow', '⇅'),
+			_Utils_Tuple2('updownarrow', '↕'),
+			_Utils_Tuple2('UpDownArrow', '↕'),
+			_Utils_Tuple2('Updownarrow', '⇕'),
+			_Utils_Tuple2('UpEquilibrium', '⥮'),
+			_Utils_Tuple2('upharpoonleft', '↿'),
+			_Utils_Tuple2('upharpoonright', '↾'),
+			_Utils_Tuple2('uplus', '⊎'),
+			_Utils_Tuple2('UpperLeftArrow', '↖'),
+			_Utils_Tuple2('UpperRightArrow', '↗'),
+			_Utils_Tuple2('upsi', 'υ'),
+			_Utils_Tuple2('Upsi', 'ϒ'),
+			_Utils_Tuple2('upsih', 'ϒ'),
+			_Utils_Tuple2('Upsilon', 'Υ'),
+			_Utils_Tuple2('upsilon', 'υ'),
+			_Utils_Tuple2('UpTeeArrow', '↥'),
+			_Utils_Tuple2('UpTee', '⊥'),
+			_Utils_Tuple2('upuparrows', '⇈'),
+			_Utils_Tuple2('urcorn', '⌝'),
+			_Utils_Tuple2('urcorner', '⌝'),
+			_Utils_Tuple2('urcrop', '⌎'),
+			_Utils_Tuple2('Uring', 'Ů'),
+			_Utils_Tuple2('uring', 'ů'),
+			_Utils_Tuple2('urtri', '◹'),
+			_Utils_Tuple2('Uscr', '\uD835\uDCB0'),
+			_Utils_Tuple2('uscr', '\uD835\uDCCA'),
+			_Utils_Tuple2('utdot', '⋰'),
+			_Utils_Tuple2('Utilde', 'Ũ'),
+			_Utils_Tuple2('utilde', 'ũ'),
+			_Utils_Tuple2('utri', '▵'),
+			_Utils_Tuple2('utrif', '▴'),
+			_Utils_Tuple2('uuarr', '⇈'),
+			_Utils_Tuple2('Uuml', 'Ü'),
+			_Utils_Tuple2('uuml', 'ü'),
+			_Utils_Tuple2('uwangle', '⦧'),
+			_Utils_Tuple2('vangrt', '⦜'),
+			_Utils_Tuple2('varepsilon', 'ϵ'),
+			_Utils_Tuple2('varkappa', 'ϰ'),
+			_Utils_Tuple2('varnothing', '∅'),
+			_Utils_Tuple2('varphi', 'ϕ'),
+			_Utils_Tuple2('varpi', 'ϖ'),
+			_Utils_Tuple2('varpropto', '∝'),
+			_Utils_Tuple2('varr', '↕'),
+			_Utils_Tuple2('vArr', '⇕'),
+			_Utils_Tuple2('varrho', 'ϱ'),
+			_Utils_Tuple2('varsigma', 'ς'),
+			_Utils_Tuple2('varsubsetneq', '⊊︀'),
+			_Utils_Tuple2('varsubsetneqq', '⫋︀'),
+			_Utils_Tuple2('varsupsetneq', '⊋︀'),
+			_Utils_Tuple2('varsupsetneqq', '⫌︀'),
+			_Utils_Tuple2('vartheta', 'ϑ'),
+			_Utils_Tuple2('vartriangleleft', '⊲'),
+			_Utils_Tuple2('vartriangleright', '⊳'),
+			_Utils_Tuple2('vBar', '⫨'),
+			_Utils_Tuple2('Vbar', '⫫'),
+			_Utils_Tuple2('vBarv', '⫩'),
+			_Utils_Tuple2('Vcy', 'В'),
+			_Utils_Tuple2('vcy', 'в'),
+			_Utils_Tuple2('vdash', '⊢'),
+			_Utils_Tuple2('vDash', '⊨'),
+			_Utils_Tuple2('Vdash', '⊩'),
+			_Utils_Tuple2('VDash', '⊫'),
+			_Utils_Tuple2('Vdashl', '⫦'),
+			_Utils_Tuple2('veebar', '⊻'),
+			_Utils_Tuple2('vee', '∨'),
+			_Utils_Tuple2('Vee', '⋁'),
+			_Utils_Tuple2('veeeq', '≚'),
+			_Utils_Tuple2('vellip', '⋮'),
+			_Utils_Tuple2('verbar', '|'),
+			_Utils_Tuple2('Verbar', '‖'),
+			_Utils_Tuple2('vert', '|'),
+			_Utils_Tuple2('Vert', '‖'),
+			_Utils_Tuple2('VerticalBar', '∣'),
+			_Utils_Tuple2('VerticalLine', '|'),
+			_Utils_Tuple2('VerticalSeparator', '❘'),
+			_Utils_Tuple2('VerticalTilde', '≀'),
+			_Utils_Tuple2('VeryThinSpace', '\u200A'),
+			_Utils_Tuple2('Vfr', '\uD835\uDD19'),
+			_Utils_Tuple2('vfr', '\uD835\uDD33'),
+			_Utils_Tuple2('vltri', '⊲'),
+			_Utils_Tuple2('vnsub', '⊂⃒'),
+			_Utils_Tuple2('vnsup', '⊃⃒'),
+			_Utils_Tuple2('Vopf', '\uD835\uDD4D'),
+			_Utils_Tuple2('vopf', '\uD835\uDD67'),
+			_Utils_Tuple2('vprop', '∝'),
+			_Utils_Tuple2('vrtri', '⊳'),
+			_Utils_Tuple2('Vscr', '\uD835\uDCB1'),
+			_Utils_Tuple2('vscr', '\uD835\uDCCB'),
+			_Utils_Tuple2('vsubnE', '⫋︀'),
+			_Utils_Tuple2('vsubne', '⊊︀'),
+			_Utils_Tuple2('vsupnE', '⫌︀'),
+			_Utils_Tuple2('vsupne', '⊋︀'),
+			_Utils_Tuple2('Vvdash', '⊪'),
+			_Utils_Tuple2('vzigzag', '⦚'),
+			_Utils_Tuple2('Wcirc', 'Ŵ'),
+			_Utils_Tuple2('wcirc', 'ŵ'),
+			_Utils_Tuple2('wedbar', '⩟'),
+			_Utils_Tuple2('wedge', '∧'),
+			_Utils_Tuple2('Wedge', '⋀'),
+			_Utils_Tuple2('wedgeq', '≙'),
+			_Utils_Tuple2('weierp', '℘'),
+			_Utils_Tuple2('Wfr', '\uD835\uDD1A'),
+			_Utils_Tuple2('wfr', '\uD835\uDD34'),
+			_Utils_Tuple2('Wopf', '\uD835\uDD4E'),
+			_Utils_Tuple2('wopf', '\uD835\uDD68'),
+			_Utils_Tuple2('wp', '℘'),
+			_Utils_Tuple2('wr', '≀'),
+			_Utils_Tuple2('wreath', '≀'),
+			_Utils_Tuple2('Wscr', '\uD835\uDCB2'),
+			_Utils_Tuple2('wscr', '\uD835\uDCCC'),
+			_Utils_Tuple2('xcap', '⋂'),
+			_Utils_Tuple2('xcirc', '◯'),
+			_Utils_Tuple2('xcup', '⋃'),
+			_Utils_Tuple2('xdtri', '▽'),
+			_Utils_Tuple2('Xfr', '\uD835\uDD1B'),
+			_Utils_Tuple2('xfr', '\uD835\uDD35'),
+			_Utils_Tuple2('xharr', '⟷'),
+			_Utils_Tuple2('xhArr', '⟺'),
+			_Utils_Tuple2('Xi', 'Ξ'),
+			_Utils_Tuple2('xi', 'ξ'),
+			_Utils_Tuple2('xlarr', '⟵'),
+			_Utils_Tuple2('xlArr', '⟸'),
+			_Utils_Tuple2('xmap', '⟼'),
+			_Utils_Tuple2('xnis', '⋻'),
+			_Utils_Tuple2('xodot', '⨀'),
+			_Utils_Tuple2('Xopf', '\uD835\uDD4F'),
+			_Utils_Tuple2('xopf', '\uD835\uDD69'),
+			_Utils_Tuple2('xoplus', '⨁'),
+			_Utils_Tuple2('xotime', '⨂'),
+			_Utils_Tuple2('xrarr', '⟶'),
+			_Utils_Tuple2('xrArr', '⟹'),
+			_Utils_Tuple2('Xscr', '\uD835\uDCB3'),
+			_Utils_Tuple2('xscr', '\uD835\uDCCD'),
+			_Utils_Tuple2('xsqcup', '⨆'),
+			_Utils_Tuple2('xuplus', '⨄'),
+			_Utils_Tuple2('xutri', '△'),
+			_Utils_Tuple2('xvee', '⋁'),
+			_Utils_Tuple2('xwedge', '⋀'),
+			_Utils_Tuple2('Yacute', 'Ý'),
+			_Utils_Tuple2('yacute', 'ý'),
+			_Utils_Tuple2('YAcy', 'Я'),
+			_Utils_Tuple2('yacy', 'я'),
+			_Utils_Tuple2('Ycirc', 'Ŷ'),
+			_Utils_Tuple2('ycirc', 'ŷ'),
+			_Utils_Tuple2('Ycy', 'Ы'),
+			_Utils_Tuple2('ycy', 'ы'),
+			_Utils_Tuple2('yen', '¥'),
+			_Utils_Tuple2('Yfr', '\uD835\uDD1C'),
+			_Utils_Tuple2('yfr', '\uD835\uDD36'),
+			_Utils_Tuple2('YIcy', 'Ї'),
+			_Utils_Tuple2('yicy', 'ї'),
+			_Utils_Tuple2('Yopf', '\uD835\uDD50'),
+			_Utils_Tuple2('yopf', '\uD835\uDD6A'),
+			_Utils_Tuple2('Yscr', '\uD835\uDCB4'),
+			_Utils_Tuple2('yscr', '\uD835\uDCCE'),
+			_Utils_Tuple2('YUcy', 'Ю'),
+			_Utils_Tuple2('yucy', 'ю'),
+			_Utils_Tuple2('yuml', 'ÿ'),
+			_Utils_Tuple2('Yuml', 'Ÿ'),
+			_Utils_Tuple2('Zacute', 'Ź'),
+			_Utils_Tuple2('zacute', 'ź'),
+			_Utils_Tuple2('Zcaron', 'Ž'),
+			_Utils_Tuple2('zcaron', 'ž'),
+			_Utils_Tuple2('Zcy', 'З'),
+			_Utils_Tuple2('zcy', 'з'),
+			_Utils_Tuple2('Zdot', 'Ż'),
+			_Utils_Tuple2('zdot', 'ż'),
+			_Utils_Tuple2('zeetrf', 'ℨ'),
+			_Utils_Tuple2('ZeroWidthSpace', '\u200B'),
+			_Utils_Tuple2('Zeta', 'Ζ'),
+			_Utils_Tuple2('zeta', 'ζ'),
+			_Utils_Tuple2('zfr', '\uD835\uDD37'),
+			_Utils_Tuple2('Zfr', 'ℨ'),
+			_Utils_Tuple2('ZHcy', 'Ж'),
+			_Utils_Tuple2('zhcy', 'ж'),
+			_Utils_Tuple2('zigrarr', '⇝'),
+			_Utils_Tuple2('zopf', '\uD835\uDD6B'),
+			_Utils_Tuple2('Zopf', 'ℤ'),
+			_Utils_Tuple2('Zscr', '\uD835\uDCB5'),
+			_Utils_Tuple2('zscr', '\uD835\uDCCF'),
+			_Utils_Tuple2('zwj', '\u200D'),
+			_Utils_Tuple2('zwnj', '\u200C')
+		]));
+var $author$project$Markdown$Render$htmlEntity = function (str) {
+	return A2(
+		$elm$html$Html$span,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('mm-htmlEntity')
+			]),
+		_List_fromArray(
+			[
+				$elm$html$Html$text(
+				A2(
+					$elm$core$Maybe$withDefault,
+					'(' + (str + ')'),
+					A2($elm$core$Dict$get, str, $author$project$HtmlEntity$dict)))
+			]));
+};
+var $author$project$Markdown$Render$htmlEntity_ = function (element) {
+	if (element.$ === 'HtmlEntity') {
+		var str = element.a;
+		return A2(
+			$elm$core$Maybe$withDefault,
+			'(' + (str + ')'),
+			A2($elm$core$Dict$get, str, $author$project$HtmlEntity$dict));
+	} else {
+		return '';
+	}
+};
 var $elm$html$Html$img = _VirtualDom_node('img');
 var $author$project$Markdown$Render$idAttrWithLabel = F2(
 	function (id, label) {
@@ -11837,13 +14065,14 @@ var $author$project$Markdown$Render$renderStanza = F2(
 				]),
 			A2($elm$core$List$map, poetryLine, lines));
 	});
+var $author$project$Markdown$Render$highlightColor = '#d7d6ff';
 var $author$project$Markdown$Render$selectedStyle_ = F2(
 	function (targetId, currentId) {
 		var _v0 = _Utils_eq(targetId, currentId);
 		if (_v0) {
-			return A2($elm$html$Html$Attributes$style, 'background-color', '#8d9ffe');
+			return A2($elm$html$Html$Attributes$style, 'background-color', $author$project$Markdown$Render$highlightColor);
 		} else {
-			return A2($elm$html$Html$Attributes$style, 'background-color', 'none');
+			return A2($elm$html$Html$Attributes$style, 'background-color', '#fff');
 		}
 	});
 var $elm$html$Html$Attributes$src = function (url) {
@@ -12109,6 +14338,22 @@ var $author$project$Markdown$Render$renderToHtmlMsg = F4(
 			case 'StrikeThroughText':
 				var str = mmInline.a;
 				return $author$project$Markdown$Render$strikethrough(str);
+			case 'HtmlEntity':
+				var str = mmInline.a;
+				return $author$project$Markdown$Render$htmlEntity(str);
+			case 'HtmlEntities':
+				var list = mmInline.a;
+				var entities = A2(
+					$elm$core$String$join,
+					'',
+					A2($elm$core$List$map, $author$project$Markdown$Render$htmlEntity_, list)) + ' ';
+				return A2(
+					$elm$html$Html$span,
+					_List_Nil,
+					_List_fromArray(
+						[
+							$elm$html$Html$text(entities)
+						]));
 			case 'BracketedText':
 				var str = mmInline.a;
 				return A2(
@@ -12412,6 +14657,17 @@ var $author$project$Markdown$Render$renderOListItem = F5(
 						blockContent))
 				]));
 	});
+var $author$project$Markdown$Render$renderOrdinary = F5(
+	function (info, selectedId, id, level, blockContent) {
+		return A2(
+			$elm$html$Html$span,
+			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$text('EXTENSION BLOCK(' + (info + ')')),
+					A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
+				]));
+	});
 var $author$project$Markdown$Render$renderPoetry = F4(
 	function (selectedId, id, level, blockContent) {
 		return A2(
@@ -12441,6 +14697,705 @@ var $author$project$Markdown$Render$renderQuotation = F4(
 				[
 					A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 				]));
+	});
+var $elm$core$Result$andThen = F2(
+	function (callback, result) {
+		if (result.$ === 'Ok') {
+			var value = result.a;
+			return callback(value);
+		} else {
+			var msg = result.a;
+			return $elm$core$Result$Err(msg);
+		}
+	});
+var $elm$virtual_dom$VirtualDom$nodeNS = function (tag) {
+	return _VirtualDom_nodeNS(
+		_VirtualDom_noScript(tag));
+};
+var $elm$svg$Svg$node = $elm$virtual_dom$VirtualDom$nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var $Garados007$elm_svg_parser$SvgParser$toAttribute = function (_v0) {
+	var name = _v0.a;
+	var value = _v0.b;
+	return A2($elm$virtual_dom$VirtualDom$attribute, name, value);
+};
+var $Garados007$elm_svg_parser$SvgParser$elementToSvg = function (element) {
+	return A3(
+		$elm$svg$Svg$node,
+		element.name,
+		A2($elm$core$List$map, $Garados007$elm_svg_parser$SvgParser$toAttribute, element.attributes),
+		A2($elm$core$List$map, $Garados007$elm_svg_parser$SvgParser$nodeToSvg, element.children));
+};
+var $Garados007$elm_svg_parser$SvgParser$nodeToSvg = function (svgNode) {
+	switch (svgNode.$) {
+		case 'SvgElement':
+			var element = svgNode.a;
+			return $Garados007$elm_svg_parser$SvgParser$elementToSvg(element);
+		case 'SvgText':
+			var content = svgNode.a;
+			return $elm$svg$Svg$text(content);
+		default:
+			var content = svgNode.a;
+			return $elm$svg$Svg$text('');
+	}
+};
+var $andre_dietrich$parser_combinators$Combine$Parser = function (a) {
+	return {$: 'Parser', a: a};
+};
+var $andre_dietrich$parser_combinators$Combine$app = function (_v0) {
+	var inner = _v0.a;
+	return inner;
+};
+var $andre_dietrich$parser_combinators$Combine$andThen = F2(
+	function (f, p) {
+		return $andre_dietrich$parser_combinators$Combine$Parser(
+			F2(
+				function (state, stream) {
+					var _v0 = A3($andre_dietrich$parser_combinators$Combine$app, p, state, stream);
+					if (_v0.c.$ === 'Ok') {
+						var rstate = _v0.a;
+						var rstream = _v0.b;
+						var res = _v0.c.a;
+						return A3(
+							$andre_dietrich$parser_combinators$Combine$app,
+							f(res),
+							rstate,
+							rstream);
+					} else {
+						var estate = _v0.a;
+						var estream = _v0.b;
+						var ms = _v0.c.a;
+						return _Utils_Tuple3(
+							estate,
+							estream,
+							$elm$core$Result$Err(ms));
+					}
+				}));
+	});
+var $pilatch$flip$Flip$flip = F3(
+	function (_function, argB, argA) {
+		return A2(_function, argA, argB);
+	});
+var $andre_dietrich$parser_combinators$Combine$bimap = F3(
+	function (fok, ferr, p) {
+		return $andre_dietrich$parser_combinators$Combine$Parser(
+			F2(
+				function (state, stream) {
+					var _v0 = A3($andre_dietrich$parser_combinators$Combine$app, p, state, stream);
+					if (_v0.c.$ === 'Ok') {
+						var rstate = _v0.a;
+						var rstream = _v0.b;
+						var res = _v0.c.a;
+						return _Utils_Tuple3(
+							rstate,
+							rstream,
+							$elm$core$Result$Ok(
+								fok(res)));
+					} else {
+						var estate = _v0.a;
+						var estream = _v0.b;
+						var ms = _v0.c.a;
+						return _Utils_Tuple3(
+							estate,
+							estream,
+							$elm$core$Result$Err(
+								ferr(ms)));
+					}
+				}));
+	});
+var $andre_dietrich$parser_combinators$Combine$map = F2(
+	function (f, p) {
+		return A3($andre_dietrich$parser_combinators$Combine$bimap, f, $elm$core$Basics$identity, p);
+	});
+var $andre_dietrich$parser_combinators$Combine$andMap = F2(
+	function (rp, lp) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$andThen,
+			A2($pilatch$flip$Flip$flip, $andre_dietrich$parser_combinators$Combine$map, rp),
+			lp);
+	});
+var $Garados007$elm_svg_parser$SvgParser$flip = F3(
+	function (func, b, a) {
+		return A2(func, a, b);
+	});
+var $Garados007$elm_svg_parser$SvgParser$andMapRight = F2(
+	function (lp, rp) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$andMap,
+			rp,
+			A2(
+				$andre_dietrich$parser_combinators$Combine$map,
+				$Garados007$elm_svg_parser$SvgParser$flip($elm$core$Basics$always),
+				lp));
+	});
+var $Garados007$elm_svg_parser$SvgParser$SvgElement = function (a) {
+	return {$: 'SvgElement', a: a};
+};
+var $Garados007$elm_svg_parser$SvgParser$andMapLeft = F2(
+	function (lp, rp) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$andMap,
+			rp,
+			A2($andre_dietrich$parser_combinators$Combine$map, $elm$core$Basics$always, lp));
+	});
+var $andre_dietrich$parser_combinators$Combine$emptyErr = $andre_dietrich$parser_combinators$Combine$Parser(
+	F2(
+		function (state, stream) {
+			return _Utils_Tuple3(
+				state,
+				stream,
+				$elm$core$Result$Err(_List_Nil));
+		}));
+var $andre_dietrich$parser_combinators$Combine$or = F2(
+	function (lp, rp) {
+		return $andre_dietrich$parser_combinators$Combine$Parser(
+			F2(
+				function (state, stream) {
+					var _v0 = A3($andre_dietrich$parser_combinators$Combine$app, lp, state, stream);
+					if (_v0.c.$ === 'Ok') {
+						var res = _v0;
+						return res;
+					} else {
+						var lms = _v0.c.a;
+						var _v1 = A3($andre_dietrich$parser_combinators$Combine$app, rp, state, stream);
+						if (_v1.c.$ === 'Ok') {
+							var res = _v1;
+							return res;
+						} else {
+							var rms = _v1.c.a;
+							return _Utils_Tuple3(
+								state,
+								stream,
+								$elm$core$Result$Err(
+									_Utils_ap(lms, rms)));
+						}
+					}
+				}));
+	});
+var $andre_dietrich$parser_combinators$Combine$choice = function (xs) {
+	return A3($elm$core$List$foldr, $andre_dietrich$parser_combinators$Combine$or, $andre_dietrich$parser_combinators$Combine$emptyErr, xs);
+};
+var $Garados007$elm_svg_parser$SvgParser$SvgComment = function (a) {
+	return {$: 'SvgComment', a: a};
+};
+var $andre_dietrich$parser_combinators$Combine$mapError = $andre_dietrich$parser_combinators$Combine$bimap($elm$core$Basics$identity);
+var $andre_dietrich$parser_combinators$Combine$onerror = F2(
+	function (m, p) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$mapError,
+			$elm$core$Basics$always(
+				_List_fromArray(
+					[m])),
+			p);
+	});
+var $andre_dietrich$parser_combinators$Combine$primitive = $andre_dietrich$parser_combinators$Combine$Parser;
+var $andre_dietrich$parser_combinators$Combine$Char$satisfy = function (pred) {
+	return $andre_dietrich$parser_combinators$Combine$primitive(
+		F2(
+			function (state, stream) {
+				var message = 'could not satisfy predicate';
+				var _v0 = $elm$core$String$uncons(stream.input);
+				if (_v0.$ === 'Just') {
+					var _v1 = _v0.a;
+					var h = _v1.a;
+					var rest = _v1.b;
+					return pred(h) ? _Utils_Tuple3(
+						state,
+						_Utils_update(
+							stream,
+							{input: rest, position: stream.position + 1}),
+						$elm$core$Result$Ok(h)) : _Utils_Tuple3(
+						state,
+						stream,
+						$elm$core$Result$Err(
+							_List_fromArray(
+								[message])));
+				} else {
+					return _Utils_Tuple3(
+						state,
+						stream,
+						$elm$core$Result$Err(
+							_List_fromArray(
+								[message])));
+				}
+			}));
+};
+var $andre_dietrich$parser_combinators$Combine$Char$anyChar = A2(
+	$andre_dietrich$parser_combinators$Combine$onerror,
+	'expected any character',
+	$andre_dietrich$parser_combinators$Combine$Char$satisfy(
+		$elm$core$Basics$always(true)));
+var $elm$core$String$fromList = _String_fromList;
+var $andre_dietrich$parser_combinators$Combine$succeed = function (res) {
+	return $andre_dietrich$parser_combinators$Combine$Parser(
+		F2(
+			function (state, stream) {
+				return _Utils_Tuple3(
+					state,
+					stream,
+					$elm$core$Result$Ok(res));
+			}));
+};
+var $andre_dietrich$parser_combinators$Combine$lazy = function (t) {
+	return A2(
+		$andre_dietrich$parser_combinators$Combine$andThen,
+		t,
+		$andre_dietrich$parser_combinators$Combine$succeed(_Utils_Tuple0));
+};
+var $andre_dietrich$parser_combinators$Combine$manyTill = F2(
+	function (p, end_) {
+		var accumulate = F3(
+			function (acc, state, stream) {
+				accumulate:
+				while (true) {
+					var _v0 = A3($andre_dietrich$parser_combinators$Combine$app, end_, state, stream);
+					if (_v0.c.$ === 'Ok') {
+						var rstate = _v0.a;
+						var rstream = _v0.b;
+						return _Utils_Tuple3(
+							rstate,
+							rstream,
+							$elm$core$Result$Ok(
+								$elm$core$List$reverse(acc)));
+					} else {
+						var estate = _v0.a;
+						var estream = _v0.b;
+						var ms = _v0.c.a;
+						var _v1 = A3($andre_dietrich$parser_combinators$Combine$app, p, state, stream);
+						if (_v1.c.$ === 'Ok') {
+							var rstate = _v1.a;
+							var rstream = _v1.b;
+							var res = _v1.c.a;
+							var $temp$acc = A2($elm$core$List$cons, res, acc),
+								$temp$state = rstate,
+								$temp$stream = rstream;
+							acc = $temp$acc;
+							state = $temp$state;
+							stream = $temp$stream;
+							continue accumulate;
+						} else {
+							return _Utils_Tuple3(
+								estate,
+								estream,
+								$elm$core$Result$Err(ms));
+						}
+					}
+				}
+			});
+		return $andre_dietrich$parser_combinators$Combine$Parser(
+			accumulate(_List_Nil));
+	});
+var $andre_dietrich$parser_combinators$Combine$string = function (s) {
+	return $andre_dietrich$parser_combinators$Combine$Parser(
+		F2(
+			function (state, stream) {
+				if (A2($elm$core$String$startsWith, s, stream.input)) {
+					var len = $elm$core$String$length(s);
+					var pos = stream.position + len;
+					var rem = A2($elm$core$String$dropLeft, len, stream.input);
+					return _Utils_Tuple3(
+						state,
+						_Utils_update(
+							stream,
+							{input: rem, position: pos}),
+						$elm$core$Result$Ok(s));
+				} else {
+					return _Utils_Tuple3(
+						state,
+						stream,
+						$elm$core$Result$Err(
+							_List_fromArray(
+								['expected \"' + (s + '\"')])));
+				}
+			}));
+};
+var $elm$regex$Regex$fromString = function (string) {
+	return A2(
+		$elm$regex$Regex$fromStringWith,
+		{caseInsensitive: false, multiline: false},
+		string);
+};
+var $elm$regex$Regex$findAtMost = _Regex_findAtMost;
+var $andre_dietrich$parser_combinators$Combine$regexer = F5(
+	function (input, output, pat, state, stream) {
+		var pattern = A2($elm$core$String$startsWith, '^', pat) ? pat : ('^' + pat);
+		var _v0 = A3(
+			$elm$regex$Regex$findAtMost,
+			1,
+			A2(
+				$elm$core$Maybe$withDefault,
+				$elm$regex$Regex$never,
+				input(pattern)),
+			stream.input);
+		if (_v0.b && (!_v0.b.b)) {
+			var match = _v0.a;
+			var len = $elm$core$String$length(match.match);
+			var pos = stream.position + len;
+			var rem = A2($elm$core$String$dropLeft, len, stream.input);
+			return _Utils_Tuple3(
+				state,
+				_Utils_update(
+					stream,
+					{input: rem, position: pos}),
+				$elm$core$Result$Ok(
+					output(match)));
+		} else {
+			return _Utils_Tuple3(
+				state,
+				stream,
+				$elm$core$Result$Err(
+					_List_fromArray(
+						['expected input matching Regexp /' + (pattern + '/')])));
+		}
+	});
+var $andre_dietrich$parser_combinators$Combine$regex = A2(
+	$elm$core$Basics$composeR,
+	A2(
+		$andre_dietrich$parser_combinators$Combine$regexer,
+		$elm$regex$Regex$fromString,
+		function ($) {
+			return $.match;
+		}),
+	$andre_dietrich$parser_combinators$Combine$Parser);
+var $andre_dietrich$parser_combinators$Combine$whitespace = A2(
+	$andre_dietrich$parser_combinators$Combine$onerror,
+	'optional whitespace',
+	$andre_dietrich$parser_combinators$Combine$regex('\\s*'));
+var $Garados007$elm_svg_parser$SvgParser$commentParser = $andre_dietrich$parser_combinators$Combine$lazy(
+	function (_v0) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$map,
+			A2($elm$core$Basics$composeL, $Garados007$elm_svg_parser$SvgParser$SvgComment, $elm$core$String$fromList),
+			A2(
+				$Garados007$elm_svg_parser$SvgParser$andMapRight,
+				A2(
+					$Garados007$elm_svg_parser$SvgParser$andMapRight,
+					$andre_dietrich$parser_combinators$Combine$whitespace,
+					$andre_dietrich$parser_combinators$Combine$string('<!--')),
+				A2(
+					$andre_dietrich$parser_combinators$Combine$manyTill,
+					$andre_dietrich$parser_combinators$Combine$Char$anyChar,
+					$andre_dietrich$parser_combinators$Combine$string('-->'))));
+	});
+var $andre_dietrich$parser_combinators$Combine$many = function (p) {
+	var accumulate = F3(
+		function (acc, state, stream) {
+			accumulate:
+			while (true) {
+				var _v0 = A3($andre_dietrich$parser_combinators$Combine$app, p, state, stream);
+				if (_v0.c.$ === 'Ok') {
+					var rstate = _v0.a;
+					var rstream = _v0.b;
+					var res = _v0.c.a;
+					if (_Utils_eq(stream, rstream)) {
+						return _Utils_Tuple3(
+							rstate,
+							rstream,
+							$elm$core$List$reverse(acc));
+					} else {
+						var $temp$acc = A2($elm$core$List$cons, res, acc),
+							$temp$state = rstate,
+							$temp$stream = rstream;
+						acc = $temp$acc;
+						state = $temp$state;
+						stream = $temp$stream;
+						continue accumulate;
+					}
+				} else {
+					return _Utils_Tuple3(
+						state,
+						stream,
+						$elm$core$List$reverse(acc));
+				}
+			}
+		});
+	return $andre_dietrich$parser_combinators$Combine$Parser(
+		F2(
+			function (state, stream) {
+				var _v1 = A3(accumulate, _List_Nil, state, stream);
+				var rstate = _v1.a;
+				var rstream = _v1.b;
+				var res = _v1.c;
+				return _Utils_Tuple3(
+					rstate,
+					rstream,
+					$elm$core$Result$Ok(res));
+			}));
+};
+var $Garados007$elm_svg_parser$SvgParser$Element = F3(
+	function (name, attributes, children) {
+		return {attributes: attributes, children: children, name: name};
+	});
+var $andre_dietrich$parser_combinators$Combine$optional = F2(
+	function (res, p) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$or,
+			p,
+			$andre_dietrich$parser_combinators$Combine$succeed(res));
+	});
+var $elm$core$Tuple$pair = F2(
+	function (a, b) {
+		return _Utils_Tuple2(a, b);
+	});
+var $Garados007$elm_svg_parser$SvgParser$attributeParser = A2(
+	$andre_dietrich$parser_combinators$Combine$andMap,
+	A2(
+		$andre_dietrich$parser_combinators$Combine$optional,
+		'',
+		A2(
+			$Garados007$elm_svg_parser$SvgParser$andMapLeft,
+			A2(
+				$Garados007$elm_svg_parser$SvgParser$andMapRight,
+				$andre_dietrich$parser_combinators$Combine$string('=\"'),
+				$andre_dietrich$parser_combinators$Combine$regex('[^\"]*')),
+			$andre_dietrich$parser_combinators$Combine$string('\"'))),
+	A2(
+		$andre_dietrich$parser_combinators$Combine$map,
+		$elm$core$Tuple$pair,
+		$andre_dietrich$parser_combinators$Combine$regex('[^=>/]+')));
+var $andre_dietrich$parser_combinators$Combine$keep = F2(
+	function (p1, p2) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$andMap,
+			p1,
+			A2(
+				$andre_dietrich$parser_combinators$Combine$map,
+				$pilatch$flip$Flip$flip($elm$core$Basics$always),
+				p2));
+	});
+var $andre_dietrich$parser_combinators$Combine$sepBy1 = F2(
+	function (sep, p) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$andMap,
+			$andre_dietrich$parser_combinators$Combine$many(
+				A2($andre_dietrich$parser_combinators$Combine$keep, p, sep)),
+			A2($andre_dietrich$parser_combinators$Combine$map, $elm$core$List$cons, p));
+	});
+var $andre_dietrich$parser_combinators$Combine$sepBy = F2(
+	function (sep, p) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$or,
+			A2($andre_dietrich$parser_combinators$Combine$sepBy1, sep, p),
+			$andre_dietrich$parser_combinators$Combine$succeed(_List_Nil));
+	});
+var $Garados007$elm_svg_parser$SvgParser$openingParser = A3(
+	$Garados007$elm_svg_parser$SvgParser$flip,
+	$andre_dietrich$parser_combinators$Combine$andMap,
+	A2(
+		$andre_dietrich$parser_combinators$Combine$andMap,
+		$andre_dietrich$parser_combinators$Combine$regex('[^/>\\s]+'),
+		A2(
+			$andre_dietrich$parser_combinators$Combine$map,
+			F3(
+				function (_v0, tagName, attributes) {
+					return A3($Garados007$elm_svg_parser$SvgParser$Element, tagName, attributes, _List_Nil);
+				}),
+			$andre_dietrich$parser_combinators$Combine$string('<'))),
+	A2(
+		$Garados007$elm_svg_parser$SvgParser$andMapLeft,
+		A2(
+			$Garados007$elm_svg_parser$SvgParser$andMapRight,
+			$andre_dietrich$parser_combinators$Combine$whitespace,
+			A2($andre_dietrich$parser_combinators$Combine$sepBy, $andre_dietrich$parser_combinators$Combine$whitespace, $Garados007$elm_svg_parser$SvgParser$attributeParser)),
+		$andre_dietrich$parser_combinators$Combine$whitespace));
+var $Garados007$elm_svg_parser$SvgParser$SvgText = function (a) {
+	return {$: 'SvgText', a: a};
+};
+var $Garados007$elm_svg_parser$SvgParser$textParser = $andre_dietrich$parser_combinators$Combine$lazy(
+	function (_v0) {
+		return A2(
+			$andre_dietrich$parser_combinators$Combine$map,
+			$Garados007$elm_svg_parser$SvgParser$SvgText,
+			A2(
+				$Garados007$elm_svg_parser$SvgParser$andMapRight,
+				$andre_dietrich$parser_combinators$Combine$whitespace,
+				$andre_dietrich$parser_combinators$Combine$regex('[^<]+')));
+	});
+var $Garados007$elm_svg_parser$SvgParser$closingOrChildrenParser = function (element) {
+	var childrenParser = A2(
+		$andre_dietrich$parser_combinators$Combine$map,
+		function (children) {
+			return _Utils_update(
+				element,
+				{children: children});
+		},
+		A2(
+			$Garados007$elm_svg_parser$SvgParser$andMapLeft,
+			A2(
+				$Garados007$elm_svg_parser$SvgParser$andMapLeft,
+				A2(
+					$Garados007$elm_svg_parser$SvgParser$andMapRight,
+					A2(
+						$Garados007$elm_svg_parser$SvgParser$andMapRight,
+						$andre_dietrich$parser_combinators$Combine$whitespace,
+						$andre_dietrich$parser_combinators$Combine$string('>')),
+					$andre_dietrich$parser_combinators$Combine$many(
+						$Garados007$elm_svg_parser$SvgParser$cyclic$nodeParser())),
+				$andre_dietrich$parser_combinators$Combine$whitespace),
+			$andre_dietrich$parser_combinators$Combine$string('</' + (element.name + '>'))));
+	return $andre_dietrich$parser_combinators$Combine$lazy(
+		function (_v2) {
+			return $andre_dietrich$parser_combinators$Combine$choice(
+				_List_fromArray(
+					[
+						A2(
+						$Garados007$elm_svg_parser$SvgParser$andMapRight,
+						A2(
+							$Garados007$elm_svg_parser$SvgParser$andMapRight,
+							$andre_dietrich$parser_combinators$Combine$whitespace,
+							$andre_dietrich$parser_combinators$Combine$string('/>')),
+						$andre_dietrich$parser_combinators$Combine$succeed(element)),
+						childrenParser
+					]));
+		});
+};
+function $Garados007$elm_svg_parser$SvgParser$cyclic$elementParser() {
+	return $andre_dietrich$parser_combinators$Combine$lazy(
+		function (_v1) {
+			return A2(
+				$andre_dietrich$parser_combinators$Combine$map,
+				$Garados007$elm_svg_parser$SvgParser$SvgElement,
+				A2(
+					$andre_dietrich$parser_combinators$Combine$andThen,
+					$Garados007$elm_svg_parser$SvgParser$closingOrChildrenParser,
+					A2(
+						$andre_dietrich$parser_combinators$Combine$andMap,
+						$Garados007$elm_svg_parser$SvgParser$openingParser,
+						A2(
+							$andre_dietrich$parser_combinators$Combine$map,
+							$Garados007$elm_svg_parser$SvgParser$flip($elm$core$Basics$always),
+							$andre_dietrich$parser_combinators$Combine$whitespace))));
+		});
+}
+function $Garados007$elm_svg_parser$SvgParser$cyclic$nodeParser() {
+	return $andre_dietrich$parser_combinators$Combine$lazy(
+		function (_v0) {
+			return $andre_dietrich$parser_combinators$Combine$choice(
+				_List_fromArray(
+					[
+						$Garados007$elm_svg_parser$SvgParser$textParser,
+						$Garados007$elm_svg_parser$SvgParser$commentParser,
+						$Garados007$elm_svg_parser$SvgParser$cyclic$elementParser()
+					]));
+		});
+}
+try {
+	var $Garados007$elm_svg_parser$SvgParser$elementParser = $Garados007$elm_svg_parser$SvgParser$cyclic$elementParser();
+	$Garados007$elm_svg_parser$SvgParser$cyclic$elementParser = function () {
+		return $Garados007$elm_svg_parser$SvgParser$elementParser;
+	};
+	var $Garados007$elm_svg_parser$SvgParser$nodeParser = $Garados007$elm_svg_parser$SvgParser$cyclic$nodeParser();
+	$Garados007$elm_svg_parser$SvgParser$cyclic$nodeParser = function () {
+		return $Garados007$elm_svg_parser$SvgParser$nodeParser;
+	};
+} catch ($) {
+	throw 'Some top-level definitions from `SvgParser` are causing infinite recursion:\n\n  ┌─────┐\n  │    closingOrChildrenParser\n  │     ↓\n  │    elementParser\n  │     ↓\n  │    nodeParser\n  └─────┘\n\nThese errors are very tricky, so read https://elm-lang.org/0.19.1/bad-recursion to learn how to fix it!';}
+var $andre_dietrich$parser_combinators$Combine$InputStream = F3(
+	function (data, input, position) {
+		return {data: data, input: input, position: position};
+	});
+var $andre_dietrich$parser_combinators$Combine$initStream = function (s) {
+	return A3($andre_dietrich$parser_combinators$Combine$InputStream, s, s, 0);
+};
+var $andre_dietrich$parser_combinators$Combine$runParser = F3(
+	function (p, st, s) {
+		var _v0 = A3(
+			$andre_dietrich$parser_combinators$Combine$app,
+			p,
+			st,
+			$andre_dietrich$parser_combinators$Combine$initStream(s));
+		if (_v0.c.$ === 'Ok') {
+			var state = _v0.a;
+			var stream = _v0.b;
+			var res = _v0.c.a;
+			return $elm$core$Result$Ok(
+				_Utils_Tuple3(state, stream, res));
+		} else {
+			var state = _v0.a;
+			var stream = _v0.b;
+			var ms = _v0.c.a;
+			return $elm$core$Result$Err(
+				_Utils_Tuple3(state, stream, ms));
+		}
+	});
+var $Garados007$elm_svg_parser$SvgParser$xmlDeclarationParser = A2(
+	$andre_dietrich$parser_combinators$Combine$map,
+	$elm$core$String$fromList,
+	A2(
+		$Garados007$elm_svg_parser$SvgParser$andMapRight,
+		A2(
+			$Garados007$elm_svg_parser$SvgParser$andMapRight,
+			$andre_dietrich$parser_combinators$Combine$whitespace,
+			$andre_dietrich$parser_combinators$Combine$string('<?xml')),
+		A2(
+			$andre_dietrich$parser_combinators$Combine$manyTill,
+			$andre_dietrich$parser_combinators$Combine$Char$anyChar,
+			$andre_dietrich$parser_combinators$Combine$string('?>'))));
+var $Garados007$elm_svg_parser$SvgParser$parseToNode = function (input) {
+	var _v0 = A3(
+		$andre_dietrich$parser_combinators$Combine$runParser,
+		A2(
+			$Garados007$elm_svg_parser$SvgParser$andMapRight,
+			A2($andre_dietrich$parser_combinators$Combine$optional, '', $Garados007$elm_svg_parser$SvgParser$xmlDeclarationParser),
+			$Garados007$elm_svg_parser$SvgParser$nodeParser),
+		_List_Nil,
+		input);
+	if (_v0.$ === 'Ok') {
+		var _v1 = _v0.a;
+		var svgNode = _v1.c;
+		return $elm$core$Result$Ok(svgNode);
+	} else {
+		var _v2 = _v0.a;
+		var stream = _v2.b;
+		var errors = _v2.c;
+		return $elm$core$Result$Err(
+			A2($elm$core$String$join, ' or ', errors));
+	}
+};
+var $elm$svg$Svg$trustedNode = _VirtualDom_nodeNS('http://www.w3.org/2000/svg');
+var $elm$svg$Svg$svg = $elm$svg$Svg$trustedNode('svg');
+var $Garados007$elm_svg_parser$SvgParser$parse = function (input) {
+	var toHtml = function (svgNode) {
+		if (svgNode.$ === 'SvgElement') {
+			var element = svgNode.a;
+			return (element.name === 'svg') ? $elm$core$Result$Ok(
+				A2(
+					$elm$svg$Svg$svg,
+					A2($elm$core$List$map, $Garados007$elm_svg_parser$SvgParser$toAttribute, element.attributes),
+					A2($elm$core$List$map, $Garados007$elm_svg_parser$SvgParser$nodeToSvg, element.children))) : $elm$core$Result$Err('Top element is not svg');
+		} else {
+			return $elm$core$Result$Err('Top element is not svg');
+		}
+	};
+	return A2(
+		$elm$core$Result$andThen,
+		toHtml,
+		$Garados007$elm_svg_parser$SvgParser$parseToNode(input));
+};
+var $author$project$Markdown$Render$renderSvg_ = function (svgText) {
+	var _v0 = $Garados007$elm_svg_parser$SvgParser$parse(svgText);
+	if (_v0.$ === 'Ok') {
+		var data = _v0.a;
+		return data;
+	} else {
+		return A2($elm$html$Html$span, _List_Nil, _List_Nil);
+	}
+};
+var $author$project$Markdown$Render$renderSvg = F4(
+	function (selectedId, id, level, blockContent) {
+		if ((blockContent.$ === 'M') && (blockContent.a.$ === 'OrdinaryText')) {
+			var svgText = blockContent.a.a;
+			return $author$project$Markdown$Render$renderSvg_(svgText);
+		} else {
+			return A2($elm$html$Html$span, _List_Nil, _List_Nil);
+		}
 	});
 var $author$project$Markdown$Render$renderUListItem = F4(
 	function (selectedId, id, level, blockContent) {
@@ -12485,13 +15440,6 @@ var $elm$html$Html$td = _VirtualDom_node('td');
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Line$Add = {$: 'Add'};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Line$Del = {$: 'Del'};
 var $pablohirafuji$elm_syntax_highlight$SyntaxHighlight$Line$Normal = {$: 'Normal'};
-var $elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
 var $elm$html$Html$Attributes$attribute = $elm$virtual_dom$VirtualDom$attribute;
 var $elm$core$List$filter = F2(
 	function (isGood, list) {
@@ -12891,7 +15839,7 @@ var $author$project$Markdown$Render$renderBlock = F3(
 							[
 								A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 							]));
-				default:
+				case 'Table':
 					var _v16 = block.a.a;
 					var level = block.b;
 					var blockContent = block.c;
@@ -12906,10 +15854,19 @@ var $author$project$Markdown$Render$renderBlock = F3(
 							[
 								A4($author$project$Markdown$Render$renderBlockContent, selectedId, id, level, blockContent)
 							]));
+				default:
+					var info = block.a.a.a;
+					var level = block.b;
+					var blockContent = block.c;
+					var _v17 = $elm$core$String$trim(info);
+					if (_v17 === 'svg') {
+						return A4($author$project$Markdown$Render$renderSvg, selectedId, id, level, blockContent);
+					} else {
+						return A5($author$project$Markdown$Render$renderOrdinary, info, selectedId, id, level, blockContent);
+					}
 			}
 		}
 	});
-var $author$project$Markdown$Render$highlightColor = '#8d9ffe';
 var $author$project$Markdown$Render$selectedStyle = F2(
 	function (targetId, currentId) {
 		var _v0 = _Utils_eq(targetId, currentId);
@@ -12919,7 +15876,10 @@ var $author$project$Markdown$Render$selectedStyle = F2(
 					A2($elm$html$Html$Attributes$style, 'background-color', $author$project$Markdown$Render$highlightColor)
 				]);
 		} else {
-			return _List_Nil;
+			return _List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'background-color', '#fff')
+				]);
 		}
 	});
 var $author$project$Markdown$Render$mmBlockTreeToHtml = F2(
@@ -13564,13 +16524,11 @@ var $author$project$Markdown$Parse$MDBlockWithId = F4(
 		return {$: 'MDBlockWithId', a: a, b: b, c: c, d: d};
 	});
 var $author$project$BlockType$Plain = {$: 'Plain'};
-var $author$project$MDInline$Stanza = function (a) {
-	return {$: 'Stanza', a: a};
-};
 var $author$project$Markdown$Parse$T = function (a) {
 	return {$: 'T', a: a};
 };
 var $author$project$BlockType$Verbatim = {$: 'Verbatim'};
+var $elm$core$String$lines = _String_lines;
 var $author$project$MDInline$BoldText = function (a) {
 	return {$: 'BoldText', a: a};
 };
@@ -13681,6 +16639,45 @@ var $author$project$MDInline$code = A2(
 									c,
 									_Utils_chr(' '));
 							})))))));
+var $author$project$MDInline$HtmlEntity = function (a) {
+	return {$: 'HtmlEntity', a: a};
+};
+var $author$project$MDInline$htmlEntityText = A2(
+	$elm$parser$Parser$Advanced$map,
+	$author$project$MDInline$HtmlEntity,
+	A2(
+		$elm$parser$Parser$Advanced$map,
+		A2(
+			$elm$core$Basics$composeR,
+			A2($elm$core$String$replace, '&', ''),
+			A2(
+				$elm$core$Basics$composeR,
+				A2($elm$core$String$replace, ';', ''),
+				A2($elm$core$String$replace, ' ', ''))),
+		$elm$parser$Parser$Advanced$getChompedString(
+			A2(
+				$elm$parser$Parser$Advanced$ignorer,
+				A2(
+					$elm$parser$Parser$Advanced$ignorer,
+					A2(
+						$elm$parser$Parser$Advanced$ignorer,
+						$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+						$elm$parser$Parser$Advanced$symbol(
+							A2(
+								$elm$parser$Parser$Advanced$Token,
+								'&',
+								$author$project$MDInline$Expecting('Expecting \'&\' to begin Html entity')))),
+					$elm$parser$Parser$Advanced$chompWhile(
+						function (c) {
+							return !_Utils_eq(
+								c,
+								_Utils_chr(';'));
+						})),
+				$elm$parser$Parser$Advanced$symbol(
+					A2(
+						$elm$parser$Parser$Advanced$Token,
+						';',
+						$author$project$MDInline$Expecting('Expecting \';\' to end  Html entity')))))));
 var $author$project$MDInline$Image = F2(
 	function (a, b) {
 		return {$: 'Image', a: a, b: b};
@@ -13875,6 +16872,8 @@ var $author$project$MDInline$isSpecialCharacter = function (c) {
 			return true;
 		case '*':
 			return true;
+		case '&':
+			return true;
 		case '\n':
 			return true;
 		default:
@@ -13950,7 +16949,7 @@ var $author$project$MDInline$strikeThroughText = A2(
 					$elm$parser$Parser$Advanced$spaces)))));
 var $author$project$MDInline$inlineExtended = $elm$parser$Parser$Advanced$oneOf(
 	_List_fromArray(
-		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$ordinaryTextExtended]));
+		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$htmlEntityText, $author$project$MDInline$ordinaryTextExtended]));
 var $author$project$MDInline$InlineMath = function (a) {
 	return {$: 'InlineMath', a: a};
 };
@@ -14010,7 +17009,7 @@ var $author$project$MDInline$ordinaryTextExtendedMath = function () {
 }();
 var $author$project$MDInline$inlineExtendedMath = $elm$parser$Parser$Advanced$oneOf(
 	_List_fromArray(
-		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$inlineMath, $author$project$MDInline$ordinaryTextExtendedMath]));
+		[$author$project$MDInline$code, $author$project$MDInline$image, $author$project$MDInline$link, $author$project$MDInline$boldText, $author$project$MDInline$italicText, $author$project$MDInline$strikeThroughText, $author$project$MDInline$htmlEntityText, $author$project$MDInline$inlineMath, $author$project$MDInline$ordinaryTextExtendedMath]));
 var $author$project$MDInline$ordinaryTextStandard = function () {
 	var validStart = A2($elm$core$Basics$composeL, $elm$core$Basics$not, $author$project$MDInline$isSpecialCharacter);
 	return $author$project$MDInline$ordinaryTextParser(validStart);
@@ -14138,13 +17137,18 @@ var $author$project$Markdown$Parse$extendedMDParser = F2(
 		if (bt.$ === 'MarkdownBlock') {
 			var mt = bt.a;
 			if (mt.$ === 'Poetry') {
+				var lines = $elm$core$String$lines(content_);
+				var parsedLines = $author$project$MDInline$Paragraph(
+					A2(
+						$elm$core$List$map,
+						$author$project$MDInline$parse(option_),
+						lines));
 				return A4(
 					$author$project$Markdown$Parse$MDBlockWithId,
 					id,
 					$author$project$BlockType$MarkdownBlock(mt),
 					level_,
-					$author$project$Markdown$Parse$M(
-						$author$project$MDInline$Stanza(content_)));
+					$author$project$Markdown$Parse$M(parsedLines));
 			} else {
 				return A4(
 					$author$project$Markdown$Parse$MDBlockWithId,
@@ -14193,22 +17197,38 @@ var $author$project$Markdown$Parse$extendedMathMDParser = F2(
 		var content_ = _v0.d;
 		if (bt.$ === 'MarkdownBlock') {
 			var mt = bt.a;
-			if (mt.$ === 'Poetry') {
-				return A4(
-					$author$project$Markdown$Parse$MDBlockWithId,
-					id,
-					$author$project$BlockType$MarkdownBlock(mt),
-					level_,
-					$author$project$Markdown$Parse$M(
-						$author$project$MDInline$Stanza(content_)));
-			} else {
-				return A4(
-					$author$project$Markdown$Parse$MDBlockWithId,
-					id,
-					$author$project$BlockType$MarkdownBlock(mt),
-					level_,
-					$author$project$Markdown$Parse$M(
-						A2($author$project$MDInline$parse, option_, content_)));
+			switch (mt.$) {
+				case 'Poetry':
+					var lines = $elm$core$String$lines(content_);
+					var parsedLines = $author$project$MDInline$Paragraph(
+						A2(
+							$elm$core$List$map,
+							$author$project$MDInline$parse(option_),
+							lines));
+					return A4(
+						$author$project$Markdown$Parse$MDBlockWithId,
+						id,
+						$author$project$BlockType$MarkdownBlock(mt),
+						level_,
+						$author$project$Markdown$Parse$M(parsedLines));
+				case 'ExtensionBlock':
+					var args = mt.a;
+					var content__ = A3($elm$core$String$replace, '@' + args, '', content_);
+					return A4(
+						$author$project$Markdown$Parse$MDBlockWithId,
+						id,
+						$author$project$BlockType$MarkdownBlock(mt),
+						level_,
+						$author$project$Markdown$Parse$M(
+							$author$project$MDInline$OrdinaryText(content__)));
+				default:
+					return A4(
+						$author$project$Markdown$Parse$MDBlockWithId,
+						id,
+						$author$project$BlockType$MarkdownBlock(mt),
+						level_,
+						$author$project$Markdown$Parse$M(
+							A2($author$project$MDInline$parse, option_, content_)));
 			}
 		} else {
 			switch (bt.a.$) {
@@ -14863,6 +17883,41 @@ var $author$project$BlockType$codeBlock = A2(
 		$elm$parser$Parser$Advanced$oneOf(
 			_List_fromArray(
 				[$author$project$BlockType$cssLang, $author$project$BlockType$elmLang, $author$project$BlockType$javascriptLang, $author$project$BlockType$jsonLang, $author$project$BlockType$pythonLang, $author$project$BlockType$sqlLang, $author$project$BlockType$xmlLang]))));
+var $author$project$BlockType$ExtensionBlock = function (a) {
+	return {$: 'ExtensionBlock', a: a};
+};
+var $author$project$BlockType$restOfLine = $elm$parser$Parser$Advanced$getChompedString(
+	A2(
+		$elm$parser$Parser$Advanced$ignorer,
+		A2(
+			$elm$parser$Parser$Advanced$ignorer,
+			$elm$parser$Parser$Advanced$succeed(_Utils_Tuple0),
+			$elm$parser$Parser$Advanced$chompWhile(
+				function (c) {
+					return !_Utils_eq(
+						c,
+						_Utils_chr('\n'));
+				})),
+		$elm$parser$Parser$Advanced$symbol(
+			A2(
+				$elm$parser$Parser$Advanced$Token,
+				'\n',
+				$author$project$BlockType$Expecting('expecting newline')))));
+var $author$project$BlockType$extensionBlock = A2(
+	$elm$parser$Parser$Advanced$keeper,
+	A2(
+		$elm$parser$Parser$Advanced$ignorer,
+		$elm$parser$Parser$Advanced$succeed(
+			function (s) {
+				return $author$project$BlockType$MarkdownBlock(
+					$author$project$BlockType$ExtensionBlock(s));
+			}),
+		$elm$parser$Parser$Advanced$symbol(
+			A2(
+				$elm$parser$Parser$Advanced$Token,
+				'@',
+				$author$project$BlockType$Expecting('expecting \'@\' to begin extended block')))),
+	$author$project$BlockType$restOfLine);
 var $author$project$BlockType$parseWhile = function (accepting) {
 	return $elm$parser$Parser$Advanced$getChompedString(
 		$elm$parser$Parser$Advanced$chompWhile(accepting));
@@ -15035,6 +18090,7 @@ var $author$project$BlockType$parseExtended = $elm$parser$Parser$Advanced$oneOf(
 			$author$project$BlockType$mathBlock,
 			$author$project$BlockType$unorderedListItemBlock,
 			$author$project$BlockType$orderedListItemBlock,
+			$author$project$BlockType$extensionBlock,
 			$author$project$BlockType$quotationBlock,
 			$author$project$BlockType$poetryBlock,
 			$elm$parser$Parser$Advanced$backtrackable($author$project$BlockType$verbatimBlock),
@@ -15250,6 +18306,9 @@ var $author$project$BlockType$prefixOfMarkdownType = F2(
 			case 'Heading':
 				var k = mdt.a;
 				return A2($elm$core$String$repeat, k, '#') + ' ';
+			case 'ExtensionBlock':
+				var str = mdt.a;
+				return '|';
 			case 'HorizontalRule':
 				return '___';
 			case 'Quotation':
@@ -15731,7 +18790,6 @@ var $author$project$Markdown$Parse$runFSM = F2(
 			});
 		return A3($elm$core$List$foldl, folder, $author$project$Markdown$Parse$initialFSM, lines);
 	});
-var $elm$core$String$lines = _String_lines;
 var $author$project$Markdown$Parse$splitIntoLines = function (str) {
 	return A2(
 		$elm$core$List$map,

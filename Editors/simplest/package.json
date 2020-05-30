@@ -10,6 +10,7 @@
     "compile": "elm make --optimize src/Main.elm --output public/Main.js",
     "ff": "open -a /Applications/Firefox.app/ public/index.html",
     "chrome": "open -a /Applications/GoogleChrome.app/ public/index.html",
+    "go": "open -a /Applications/Firefox.app/ https://jxxcarlson.github.io/app/mathMarkdownLive/",
     "publish": "sh scripts/publish.sh"
 
   },
