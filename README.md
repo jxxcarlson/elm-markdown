@@ -8,7 +8,7 @@ which offers a small set of optional extensions:
 
 - Standard: the usual thing
 - Extended: strike-though text, tables, and Poetry and Verbatim blocks, 
-better image handling, SVG figures
+better image handling, and SVG figures
 - ExtendedMath: like Extended, but math formulas written in
 TeX/LaTeX, eg.,
 ```
@@ -34,12 +34,11 @@ This example shows how to include mathematical
 formulas and SVG figures.
 
 
-## Demo
+## Demos
 
-There are three versions
-of the demo, a basic one in  `./app-demo-simple/`, 
- `./app-demo-simple/`, and`app-demo-fancy`.  Best
-to look at the first one first.  The second and third
+For demos, see the `./Editors` folder.
+Best to look at `./Editors/simpest` first.  
+The other examples
 include extra bells, whistles and optimizations
 that are useful for interactive editing environments
 and documents with a lot of mathematics.
@@ -47,9 +46,8 @@ and documents with a lot of mathematics.
 Links to live demos:
 
 - [simplest](https://jxxcarlson.github.io/app/mathMarkdownLive/)
+- [markdown.minilatex.app](https://markdown.minilatex.app)
 
-See [markdown.minilatex.app](https://markdown.minilatex.app)
-for the latest version the fancy demo.
 
 **NOTE:** This package is still evolving relatively rapidly.  I regret
 publishing so many updates, but I am using it in several apps, and this
@@ -59,7 +57,7 @@ is the only way I know how to encapsulate the complexity, work
 ## Installing the Demo
 
 ```bash
-$ cd to ./app-demo-fancy
+$ cd to ./Editors/fancy
 
 $ npm install
 
@@ -71,7 +69,8 @@ $ npm start
 The style used by the library is entirely determined by the
 definitions of the CSS classes that you refer to in your
 `index.html`.  The ones used for the demo app are found
-in `./app-demo/assets/style.css` and `./app-demo-fancy/assets/style.css`
+in `./assets/style.css` when you are in the folder
+for one of the Editor examples.
 You can easily reconfigure the CSS to satsify your
 own esthetics.
 
@@ -83,7 +82,7 @@ Markdown.  However, there are two that I thought
 important enough to add: tables, poetry blocks and verbatim text.
 Poetry blocks are
 are like quotation blocks, except that they begin
-with ">>" instead of ">".  Line endings are respected
+with ">>" instead of ">".  White space and line endings are respected
 in poetry blocks.  Verbatim blocks are like code blocks,
 except that they are set off by four backticks instead of
 three.  No syntax coloring is applied to verbatim blocks.
