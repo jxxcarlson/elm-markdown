@@ -32,7 +32,15 @@ $$
     \\int_0^1 x^n dx = \\frac{1}{n + 1}
 $$
 
-## 3 Code
+
+## 3. SVG
+
+@svg
+<svg width="100" height="100">
+<circle cx="50" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
+</svg>
+
+## 4 Code
 
 ```elm
 setArea : Float -> Organism -> Organism
@@ -40,7 +48,7 @@ setArea a organism  =
    map (\\r -> {r | area =  a}) organism
 ```
 
-## 4 Lists
+## 5 Lists
 
 Lists can be nested and
 can contain other nested elements

@@ -8,7 +8,7 @@ which offers a small set of optional extensions:
 
 - Standard: the usual thing
 - Extended: strike-though text, tables, and Poetry and Verbatim blocks, 
-better image handling
+better image handling, SVG figures
 - ExtendedMath: like Extended, but math formulas written in
 TeX/LaTeX, eg.,
 ```
@@ -29,6 +29,10 @@ view model =
             |> Html.map MarkdownMsg
         ]
 ```
+
+This example shows how to include mathematical
+formulas and SVG figures.
+
 
 ## Demo
 

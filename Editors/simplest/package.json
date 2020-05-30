@@ -9,7 +9,8 @@
     "debug": "elm make --debug src/Main.elm --output public/Main.js",
     "compile": "elm make --optimize src/Main.elm --output public/Main.js",
     "ff": "open -a /Applications/Firefox.app/ public/index.html",
-    "chrome": "open -a /Applications/GoogleChrome.app/ public/index.html"
+    "chrome": "open -a /Applications/GoogleChrome.app/ public/index.html",
+    "publish": "sh scripts/publish.sh"
 
   },
   "keywords": [],
