@@ -96,7 +96,16 @@ also say `![My favorite image::left](imageUrl)` or
 `![My favorite image::right](imageUrl)` to float the image left or right at 
 40% width. The widths are defined in `style.css`.
 
+## SVG
 
+You can add SVG images like this:
+
+```
+@svg
+<svg width="100" height="100">
+<circle cx="50" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
+</svg>
+```
 
 ## Advanced Usage: AST
 
@@ -133,6 +142,8 @@ extent possible by the method of successive approximations
 
 ## Recent Changes
 
+- Added the @-block element to the parser.  Allows further
+extension to the syntax (see section SVG above)
 
 -  Made substantial changes to simplify the API.
 
