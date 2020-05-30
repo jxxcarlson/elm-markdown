@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "go": "open -a /Applications/Firefox.app/ https://jxxcarlson.github.io/app/elm-markdown-example/index.html",
-    "start": "elm-live -p 8003 -d public/ src/Main.elm -- --output public/index.html",
+    "start": "elm-live -p 8000 -d public/ src/Main.elm -- --output public/Main.js",
     "publish": "sh publish.sh"
   },
   "repository": {

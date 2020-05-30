@@ -20,7 +20,7 @@ are properly rendered.
 ## How to use it
 
 
-For simple applications, follow the code in `/example/src`, e.g,
+For simple applications, follow the code in `./example/src`, e.g,
 
 ```
 view model =
@@ -31,7 +31,14 @@ view model =
 ```
 
 This example shows how to include mathematical
-formulas and SVG figures.
+formulas and SVG figures.  To run the example, do this:
+
+```
+$ cd example
+$ sh make.sh
+```
+
+Then open `public/index.html` with your browser.
 
 
 ## Demos
