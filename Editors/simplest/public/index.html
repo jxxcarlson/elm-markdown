@@ -23,11 +23,17 @@
 
 <body>
 
-<div id="main"></div>
+<h2>Editor</h2>
+
+<p style="width: 500px;">This example shows how one can embed an editor for <code>jxxcarlson/elm-markdown</code>
+in a web page.  To see what you can do with this flavor of Markdown,
+compare the source text (left) with the rendered text (right).</p>
+
+<div id="editor"></div>
 
 <script>
 
-		var root = document.getElementById('main');
+		var root = document.getElementById('editor');
 		var app = Elm.Main.init({node: root, flags:  { width:  1200, height: 900 }});
 
 	 </script>

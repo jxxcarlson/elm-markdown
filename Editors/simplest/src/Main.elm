@@ -35,7 +35,6 @@ type Msg
     | GenerateSeed
     | NewSeed Int
     | RestoreText
-    | ExampleText
     | MarkdownMsg Markdown.Render.MarkdownMsg
 
 
@@ -93,22 +92,12 @@ update msg model =
             , Cmd.none
             )
 
-        ExampleText ->
-            ( { model
-                | counter = model.counter + 1
-                , sourceText = Strings.mathExampleText
-              }
-            , Cmd.none
-            )
-
         MarkdownMsg _ ->
             ( model, Cmd.none )
 
 
 
---
--- VIEW FUNCTIONS
----
+-- VIEW
 
 
 view : Model -> Html Msg
@@ -121,12 +110,9 @@ view model =
 display : Model -> Html Msg
 display model =
     div []
-        [ h1 [ style "margin-left" "20px" ] [ text "Markdown + Math Demo" ]
-        , p [ style "margin-left" "20px" ] [ text "Edit or write new Markdown + Math below." ]
-        , label <| "counter: " ++ String.fromInt model.counter
-        , editor model
+        [ editor model
         , renderedSource model
-        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80 ]
+        , p [ style "clear" "left", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80 ]
         ]
 
 
@@ -147,9 +133,7 @@ renderedSource model =
 
 
 
---
 -- BUTTONS
---
 
 
 clearButton width =
@@ -158,7 +142,3 @@ clearButton width =
 
 restoreTextButton width =
     button ([ onClick RestoreText ] ++ buttonStyle colorBlue width) [ text "Restore" ]
-
-
-exampleButton width =
-    button ([ onClick ExampleText ] ++ buttonStyle colorBlue width) [ text "Example 2" ]

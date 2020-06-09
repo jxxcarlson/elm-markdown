@@ -1,4 +1,4 @@
-module Strings exposing (initialText, mathExampleText)
+module Strings exposing (initialText)
 
 
 initialText =
@@ -36,11 +36,15 @@ $$
 ## 3. SVG
 
 @svg
-<svg width="100" height="100">
-<circle cx="50" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
+<svg width="300" height="100">
+<circle cx="200" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
 </svg>
 
-## 4 Code
+## 4 Images
+
+![Robin](http://noteimages.s3.amazonaws.com/robin2.jpg)
+
+## 5 Code
 
 ```elm
 setArea : Float -> Organism -> Organism
@@ -48,7 +52,7 @@ setArea a organism  =
    map (\\r -> {r | area =  a}) organism
 ```
 
-## 5 Lists
+## 6 Lists
 
 Lists can be nested and
 can contain other nested elements
@@ -68,23 +72,3 @@ for nesting elements is four spaces.
     - Shampoo
     
  """
-
-
-old =
-    """
-
-# Tests
-
-
-[Working Example](https://ellie-app.com/5M6pVvF5BRta1)
-
-[Working Example 2](https://ellie-app.com/5M7wMJZ4T83a1)
-
-"""
-
-
-mathExampleText =
-    """
-ddd
-
-"""

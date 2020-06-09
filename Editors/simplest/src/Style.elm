@@ -1,10 +1,7 @@
-module Style exposing(..)
+module Style exposing (..)
 
--- import Html exposing (..)
 import Html
 import Html.Attributes exposing (style)
--- import Html.Events exposing (onClick, onInput)
--- import Html.Keyed as Keyed
 
 
 colorBlue =
@@ -42,34 +39,28 @@ buttonStyle color width =
 
 
 outerStyle =
-    [ style "margin-top" "20px"
-    , style "background-color" "#e1e6e8"
-    , style "padding" "20px"
-    , style "width" "1430px"
-    , style "height" "710px"
+    [ style "width" "1430px"
+    , style "height" "510px"
     ]
 
 
 editorTextStyle =
-    textStyle "400px" "450px" "#fff"
-
-
-macroPanelStyle =
-    textStyle "300px" "450px" "#fff"
+    textStyle "400px" "400px" "#fff"
 
 
 renderedSourceStyle =
-    textStyle "400px" "450px" "#fff"
+    textStyle "400px" "400px" "#fff"
 
 
 textStyle width height color =
     [ style "width" width
     , style "height" height
-    , style "padding" "15px"
-    , style "margin-left" "20px"
     , style "background-color" color
+    , style "margin-right" "20px"
+    , style "padding" "20px"
     , style "overflow" "scroll"
     , style "float" "left"
+    , style "border-width" "1px"
     ]
 
 
