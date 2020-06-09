@@ -1,0 +1,7 @@
+env:
+  SERVER_ROOT: /Users/jxxcarlson/dev/elm/projects/elm-editor/demo/public
+scripts:
+  test: deno run --allow-read --allow-net --allow-env
+  server: deno run --allow-read --allow-net --allow-env server.ts
+  ps: ps aux | grep deno
+  
