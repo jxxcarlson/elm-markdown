@@ -49,13 +49,22 @@ $$
 An svg figure:
 
 @svg
-<svg width="100" height="100">
-  <circle cx="50" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
+<svg width="300" height="100">
+  <circle cx="250" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
 </svg>
+
 
 Some Html entities:
 
 &forall; (&bbA;:&caU;): &bbA; &to; &bbB;
+
+
+API:
+
+```elm
+Markdown.Render.toHtml ExtendedMath model.sourceText
+  |> Html.map MarkdownMsg
+```
 
 """
 
