@@ -858,6 +858,22 @@ renderToHtmlMsg selectedId id level mmInline =
         Link url label ->
             Html.a [ HA.href url ] [ Html.text (label ++ " ") ]
 
+        ExtensionInline op args ->
+            case op of
+                "class" ->
+                    let
+                        class =
+                            List.head args |> Maybe.withDefault "none"
+
+                        content =
+                            List.drop 1 args |> String.join " "
+                    in
+                    Html.span [ HA.class class ] [ Html.text content ]
+
+                _ ->
+                    Html.span []
+                        [ Html.text (("op(" ++ op ++ ")") :: args |> String.join " ") ]
+
         MDInline.Image label_ url ->
             let
                 labelParts =

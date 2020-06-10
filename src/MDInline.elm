@@ -1,6 +1,6 @@
 module MDInline exposing
     ( MDInline(..), parse, string, stringContent
-    , string2
+    , extension, parseWhile, string2
     )
 
 {-| Module MDInline provides one type and two functions. The
@@ -52,6 +52,7 @@ type MDInline
     | BracketedText String
     | HtmlEntity String
     | HtmlEntities (List MDInline)
+    | ExtensionInline String (List String)
     | Link String String
     | Image String String
     | Line (List MDInline)
@@ -107,6 +108,9 @@ stringContent mmInline =
         Stanza arg ->
             arg
 
+        ExtensionInline op args ->
+            op :: args |> String.join " "
+
         Error arg ->
             List.map string arg |> String.join " "
 
@@ -155,6 +159,9 @@ string2 mmInline =
 
         Stanza arg ->
             arg
+
+        ExtensionInline op args ->
+            op :: args |> String.join " "
 
         Error arg ->
             "Error [" ++ (List.map string arg |> String.join " ") ++ "]"
@@ -207,6 +214,9 @@ string mmInline =
         Stanza arg ->
             "Stanza [\n" ++ arg ++ "\n]"
 
+        ExtensionInline op args ->
+            "ExtensionInline [" ++ (op :: args |> String.join " ") ++ "]"
+
         Error arg ->
             "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
 
@@ -256,6 +266,21 @@ render mmInline =
         Stanza arg ->
             "<p class=mm.inline>\n" ++ arg ++ "</p>"
 
+        ExtensionInline op args ->
+            case op of
+                "class" ->
+                    let
+                        class =
+                            List.head args |> Maybe.withDefault "none"
+
+                        args_ =
+                            List.drop 1 args
+                    in
+                    "<span class = " ++ class ++ ">" ++ (args_ |> String.join " ") ++ "</span>"
+
+                _ ->
+                    "<span>" ++ (("Op " ++ op) :: args |> String.join " ") ++ "</span>"
+
         Error arg ->
             "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
 
@@ -270,6 +295,10 @@ type alias PrefixedString =
 
 
 {-| MDInline parser
+
+    > > parse ExtendedMath "@class[red stuff]"
+      Paragraph [Line [ExtensionInline "class" ["red","stuff"]]]
+
 -}
 parse : MarkdownOption -> String -> MDInline
 parse option str =
@@ -333,6 +362,58 @@ inline option =
             inlineExtendedMath
 
 
+
+-- TODO: Make the extension parser work as intended
+
+
+{-|
+
+    > run extension "@class[red stuff]"
+    --> Ok (ExtensionInline "class" ["red","stuff"])
+
+-}
+extension =
+    succeed (\cmd args -> ExtensionInline cmd args)
+        |. symbol (Token "@" (Expecting "Expecting '@[' to begin extension element"))
+        |= parseUntil "["
+        |. symbol (Token "[" (Expecting "Expecting '[' to continue extension element"))
+        |= extArgs_
+        |. symbol (Token "]" (Expecting "Expecting ']' to end extension element"))
+        |. spaces
+
+
+extArgs_ : Parser (List String)
+extArgs_ =
+    loop [] extArgsAux
+
+
+extArgsAux : List String -> Parser (Step (List String) (List String))
+extArgsAux vs =
+    oneOf
+        [ succeed (\v -> Loop (v :: vs))
+            |= alphaNum
+            |. getArgTerminator
+        , succeed ()
+            |> map (\_ -> Done (List.reverse vs))
+        ]
+
+
+alphaNum =
+    parseWhile (\c -> Char.isAlphaNum c)
+
+
+getArgTerminator =
+    oneOf
+        [ symbol (Token " " (Expecting "Terminator, expecting ' '"))
+        , symbol (Token ";" (Expecting "Terminator, expecting blank"))
+        ]
+
+
+whitespace : Parser ()
+whitespace =
+    chompWhile (\c -> c == ' ' || c == '\t' || c == '\n' || c == '\u{000D}')
+
+
 {-|
 
 > run inline "$a^5 = 1$"
@@ -347,12 +428,12 @@ inline option =
 -}
 inlineExtendedMath : Parser MDInline
 inlineExtendedMath =
-    oneOf [ code, image, link, boldText, italicText, strikeThroughText, htmlEntityText, inlineMath, ordinaryTextExtendedMath ]
+    oneOf [ extension, code, image, link, boldText, italicText, strikeThroughText, htmlEntityText, inlineMath, ordinaryTextExtendedMath ]
 
 
 inlineExtended : Parser MDInline
 inlineExtended =
-    oneOf [ code, image, link, boldText, italicText, strikeThroughText, htmlEntityText, ordinaryTextExtended ]
+    oneOf [ extension, code, image, link, boldText, italicText, strikeThroughText, htmlEntityText, ordinaryTextExtended ]
 
 
 inlineStandard : Parser MDInline
@@ -407,6 +488,9 @@ isSpecialCharacter c =
             True
 
         '&' ->
+            True
+
+        '@' ->
             True
 
         '\n' ->
@@ -704,3 +788,13 @@ manyHelp p vs =
         , succeed ()
             |> map (\_ -> Done (List.reverse vs))
         ]
+
+
+between : Parser opening -> Parser closing -> Parser a -> Parser a
+between opening closing p =
+    succeed identity
+        |. opening
+        |. spaces
+        |= p
+        |. spaces
+        |. closing
