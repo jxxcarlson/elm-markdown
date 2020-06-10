@@ -95,7 +95,7 @@ title : MarkdownOutput -> Html MarkdownMsg
 title markdownOutput =
     case markdownOutput of
         Simple _ ->
-            Html.span [] []
+            Html.span [ HA.class "X1" ] []
 
         Composite docParts ->
             docParts.title
@@ -107,7 +107,7 @@ toc : MarkdownOutput -> Html MarkdownMsg
 toc markdownOutput =
     case markdownOutput of
         Simple _ ->
-            Html.span [] []
+            Html.span [ HA.class "X2" ] []
 
         Composite docParts ->
             docParts.toc
@@ -119,7 +119,7 @@ document : MarkdownOutput -> Html MarkdownMsg
 document markdownOutput =
     case markdownOutput of
         Simple _ ->
-            Html.span [] []
+            Html.span [ HA.class "X3" ] []
 
         Composite docParts ->
             docParts.document
@@ -530,7 +530,7 @@ renderHeadingForTOC heading =
             renderTOCHeading ( 0, 0 ) id0 k level blockContent
 
         _ ->
-            Html.span [] []
+            Html.span [ HA.class "X4" ] []
 
 
 idAttr : Id -> Html.Attribute MarkdownMsg
@@ -630,7 +630,7 @@ renderSvg selectedId id level blockContent =
             renderSvg_ svgText
 
         _ ->
-            Html.span [] []
+            Html.span [ HA.class "X5" ] []
 
 
 renderSvg_ : String -> Html msg
@@ -640,11 +640,11 @@ renderSvg_ svgText =
             data
 
         Err _ ->
-            Html.span [] []
+            Html.span [ HA.class "X6" ] []
 
 
 renderOrdinary info selectedId id level blockContent =
-    Html.span []
+    Html.span [ HA.class "X7" ]
         [ Html.text <| "EXTENSION BLOCK(" ++ info ++ ")"
         , renderBlockContent selectedId id level blockContent
         ]
@@ -808,7 +808,7 @@ renderBlockContent selectedId id level blockContent =
             renderToHtmlMsg selectedId id level mmInline
 
         T str ->
-            Html.span [ idAttr id, blockLevelClass (level - 1), selectedStyle_ selectedId id ] [ Html.text str ]
+            Html.span [ HA.class "X8", idAttr id, blockLevelClass (level - 1), selectedStyle_ selectedId id ] [ Html.text str ]
 
 
 nameFromBlockContent : BlockContent -> String
@@ -850,7 +850,7 @@ renderToHtmlMsg selectedId id level mmInline =
                 entities =
                     (List.map htmlEntity_ list |> String.join "") ++ " "
             in
-            Html.span [] [ Html.text entities ]
+            Html.span [ HA.class "X9" ] [ Html.text entities ]
 
         BracketedText str ->
             Html.span [ HA.class "bracketed" ] [ Html.text <| "[" ++ str ++ "]" ]
@@ -866,12 +866,12 @@ renderToHtmlMsg selectedId id level mmInline =
                             List.head args |> Maybe.withDefault "none"
 
                         content =
-                            (List.drop 1 args |> String.join " ") ++ " "
+                            List.drop 1 args |> String.join " "
                     in
                     Html.span [ HA.class class ] [ Html.text content ]
 
                 _ ->
-                    Html.span []
+                    Html.span [ HA.class "X10" ]
                         [ Html.text (("op(" ++ op ++ ")") :: args |> String.join " ") ]
 
         MDInline.Image label_ url ->
@@ -898,7 +898,7 @@ renderToHtmlMsg selectedId id level mmInline =
                     joinLine selectedId id level arg
             in
             if List.length joined == 1 then
-                List.head joined |> Maybe.withDefault (Html.span [] [ Html.text "" ])
+                List.head joined |> Maybe.withDefault (Html.span [ HA.class "X11" ] [ Html.text "" ])
 
             else
                 Html.span [ HA.class "line" ] joined
@@ -939,7 +939,12 @@ joinLine selectedId id level items =
         folder item ( accString, accElement ) =
             case item of
                 OrdinaryText str ->
-                    ( str :: accString, accElement )
+                    case isPunctuation (String.left 1 str) of
+                        True ->
+                            ( str :: accString, accElement )
+
+                        False ->
+                            ( (" " ++ str) :: accString, accElement )
 
                 _ ->
                     if accString /= [] then
@@ -963,7 +968,7 @@ joinLine selectedId id level items =
                         String.join "" accString
 
                     span =
-                        Html.span [] [ Html.text content ]
+                        Html.span [ HA.class "X12" ] [ Html.text content ]
                 in
                 span :: accElement
 
