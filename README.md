@@ -63,7 +63,10 @@ publishing so many updates, but I am using it in several apps, and this
 is the only way I know how to encapsulate the complexity, work
  with the CI build systems, and keep my sanity
 
-## Installing the Demo
+## Installing a Demo
+
+
+For example:
 
 ```bash
 $ cd to ./Editors/fancy
@@ -77,8 +80,8 @@ $ npm start
 
 The style used by the library is entirely determined by the
 definitions of the CSS classes that you refer to in your
-`index.html`.  The ones used for the demo app are found
-in `./assets/style.css` when you are in the folder
+`index.html`.  The ones used for the demo apps are found
+in `./public/assets/style.css` when you are in the folder
 for one of the Editor examples.
 You can easily reconfigure the CSS to satsify your
 own esthetics.
@@ -86,15 +89,30 @@ own esthetics.
 
 ## Markdown extensions
 
-I am trying to be conservative about extensions to
-Markdown.  However, there are two that I thought
-important enough to add: tables, poetry blocks and verbatim text.
-Poetry blocks are
+Here are the main additions:    
+
+
+- Poetry blocks are
 are like quotation blocks, except that they begin
 with ">>" instead of ">".  White space and line endings are respected
-in poetry blocks.  Verbatim blocks are like code blocks,
+in poetry blocks.  
+
+- Verbatim blocks are like code blocks,
 except that they are set off by four backticks instead of
 three.  No syntax coloring is applied to verbatim blocks.
+
+- Tables
+
+- Extension blocks.  These begin with the character `@`, e.g., 
+`@svg` for SVG figures (see below).  The general form
+is `@cmd arg1 arg2 ...` on the first line followed by the
+body of the element: zero or more non-blank lines followed
+by a blank line.  The argument list may be empty.
+
+- Inline extensions.  These have the form `@cmd[arg1 arg2 ...]`
+For example, the text `@class[red warning]` renders as the word
+*warning* in red.  The first argument is a CSS class name.  It can 
+be anything, but to take effect, it must be defined in `./public/assets/style.css`.
 
 ### Images
 
