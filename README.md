@@ -7,8 +7,9 @@ to provide a pure Elm implementation of Markdown
 which offers a small set of optional extensions:
 
 - Standard: the usual thing
-- Extended: strike-though text, tables, and Poetry and Verbatim blocks, 
-better image handling, and SVG figures
+- Extended: strike-though text, tables, Poetry and Verbatim blocks, 
+better image handling, extensible block and inline elements,
+SVG figures, apply a CSS class to an inline element
 - ExtendedMath: like Extended, but math formulas written in
 TeX/LaTeX, eg.,
 ```
@@ -43,12 +44,13 @@ Then open `public/index.html` with your browser.
 
 ## Demos
 
-For demos, see the `./Editors` folder.
-Best to look at `./Editors/simpest` first.  
+See hte `./Demos` folder for examples
+Best to look at `./Demos/simplest` first.  
 The other examples
 include extra bells, whistles and optimizations
 that are useful for interactive editing environments
-and documents with a lot of mathematics.
+and documents with a lot of mathematics.  The `reader`
+app is read-only that can be used for content distribution.
 
 Links to live demos:
 

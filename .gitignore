@@ -40,7 +40,7 @@ app-demo-simple/public/Main.js
 
 **/Main.js
 **/Main.min.js
-Editors/fancy/public/Main.js
+Demos/fancy/public/Main.js
 example/node_modules/
-Editors/simplest/public/Main.js
-Editors/reader/index.html
+Demos/simplest/public/Main.js
+Demos/reader/index.html

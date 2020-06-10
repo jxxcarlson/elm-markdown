@@ -4,7 +4,6 @@ module Markdown.Parse exposing
     , getId, idFromString, stringFromId, idOfBlock, incrementVersion
     , equalContent, equalIds
     , project, projectedStringOfBlockContent, stringOfMDBlockTree
-    , toBlockTree
     )
 
 {-| The purpose of this module is to parse a Document,
