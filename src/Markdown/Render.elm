@@ -866,7 +866,7 @@ renderToHtmlMsg selectedId id level mmInline =
                             List.head args |> Maybe.withDefault "none"
 
                         content =
-                            List.drop 1 args |> String.join " "
+                            (List.drop 1 args |> String.join " ") ++ " "
                     in
                     Html.span [ HA.class class ] [ Html.text content ]
 
