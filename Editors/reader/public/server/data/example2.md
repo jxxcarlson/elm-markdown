@@ -5,7 +5,8 @@ below.
 
 > This is a @class[blue test], but
 if something should go wrong, you 
-will receive a @class[red warning]. The color @class[green green] is also available.
+will receive a @class[red warning]. The 
+color @class[green green] is also available.
 
 The syntax is as in this example:
 
