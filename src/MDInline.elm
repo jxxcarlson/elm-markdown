@@ -377,36 +377,20 @@ extension =
         |. symbol (Token "@" (Expecting "Expecting '@[' to begin extension element"))
         |= parseUntil "["
         |. symbol (Token "[" (Expecting "Expecting '[' to continue extension element"))
-        |= extArgs_
+        |= (alphaNumSpace |> map makeList)
         |. symbol (Token "]" (Expecting "Expecting ']' to end extension element"))
         |. spaces
 
 
-extArgs_ : Parser (List String)
-extArgs_ =
-    loop [] extArgsAux
+makeList : String -> List String
+makeList str =
+    str
+        |> String.split " "
+        |> List.filter (\s -> s /= "")
 
 
-extArgsAux : List String -> Parser (Step (List String) (List String))
-extArgsAux vs =
-    oneOf
-        [ succeed (\v -> Loop (v :: vs))
-            |= alphaNum
-            |. getArgTerminator
-        , succeed ()
-            |> map (\_ -> Done (List.reverse vs))
-        ]
-
-
-alphaNum =
-    parseWhile (\c -> Char.isAlphaNum c)
-
-
-getArgTerminator =
-    oneOf
-        [ symbol (Token " " (Expecting "Terminator, expecting ' '"))
-        , symbol (Token ";" (Expecting "Terminator, expecting blank"))
-        ]
+alphaNumSpace =
+    parseWhile (\c -> Char.isAlphaNum c || c == ' ')
 
 
 whitespace : Parser ()
