@@ -12,6 +12,11 @@ body { background-color: #e1e6e8; padding-left: 40px; }
     overflow : scroll;
  }
 
+.red { color: red}
+.green { color: green}
+.blue { color: blue}
+.highlight {background-color: yellow}
+.censored {background-color: black}
 
 
 h1 {font-size: 20pt}
@@ -50,22 +55,22 @@ h5 {font-size: 10pt}
 .mm-h5 {font-size: 10pt}
 
 
-.mm-block-1 {
-  margin-left: 16px;
-}
+..mm-block-1 {
+   margin-left: 16px;
+ }
 
-.mm-block-2 {
-  margin-left: 32px;
-}
+ .mm-block-2 {
+   margin-left: 32px;
+ }
 
 
-.mm-block-3 {
-  margin-left: 78px;
-}
+ .mm-block-3 {
+   margin-left: 48px;
+ }
 
-.mm-block-4 {
-  margin-left: 104px;
-}
+ .mm-block-4 {
+   margin-left: 64px;
+ }
 
 
 .mm-olist-item {

@@ -5,6 +5,8 @@ initialText =
     """
 # Markdown + Math
 
+This is a `test`.
+
 This is the simplest use case of the package
 [jxxcarlson//elm-markdown](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/),
 the purpose of which is to render Markdown with math. No fancy editor,
@@ -13,7 +15,7 @@ no debouncing for rapid typists,
 so the document
 is re-rendered on each stroke of the keyboard. No other fancy stuff like an active table of contents,
 which is also possible. See
-the [docs](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)
+the [docs](https://package.elm-lang.org/∫packages/jxxcarlson/elm-markdown/latest/)
 for more info on implementing these options in your app. Or go to
 [markdown.minilatex.app](https://markdown.minilatex.app/) for a fancier
 version of the app which makes more expensive use of
@@ -37,7 +39,7 @@ $$
 
 @svg
 <svg width="300" height="100">
-<circle cx="200" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
+<circle cx="180" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
 </svg>
 
 ## 4 Images
@@ -73,39 +75,33 @@ for nesting elements is four spaces.
 
 
 
- ## 7 Some Extensions
+ ## 7 The CSS Class Inline Element
 
- ### Colored text
-
- - This is @@red[red hot stuff].
-
- - Today I am feeling @@blue[somewhat blue].
-
- - We need more @@green[green energy].
-
- - My email address is `john@ladidah.io` (Note the song-and-dance needed for the `@` sign).
-
- - This is @@highlight[a very important point].
-   
- - I have censored @@class[censored this text because it is stupid].
-
-Note the `@@class` construction.  The first word in brackets defines the CSS
-class to be applied to the remaining words. The css class is defined in
-the file `./assets/style.css`:
+ The examples below show how one can apply an arbitrary
+ CSS class to text.  The word following the `@` sign
+ defines the CSS class.  The class itself must be defined
+ in the file `./assets/style.css`, e.g:
 
 ````
     .censored {background-color: black}
 ````
 
-### SVG figures
 
- @@svg
- <svg width="300" height="100">
-   <circle cx="190" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
- </svg>
+ - This is @red[red hot stuff].
 
+ - Today I am feeling @blue[somewhat blue].
 
-### Html entities
+ - We need more @green[green energy].
+
+ - My email address is `john@ladidah.io` (Note the song-and-dance needed for the `@` sign).
+
+ - This is @highlight[a very important point].
+
+ - I have censored @censored[this text because it is stupid].
+
+- @red[red], @blue[blue], @green[green]
+
+## 8 Html entities
 
  &forall; (&bbA;:&caU;): &bbA; &to; &bbB;
 

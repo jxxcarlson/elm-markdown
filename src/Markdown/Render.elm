@@ -859,32 +859,7 @@ renderToHtmlMsg selectedId id level mmInline =
             Html.a [ HA.href url, HA.target "_blank" ] [ Html.text (label ++ " ") ]
 
         ExtensionInline op args ->
-            case op of
-                "class" ->
-                    let
-                        class =
-                            List.head args |> Maybe.withDefault "none"
-
-                        content =
-                            List.drop 1 args |> String.join " "
-                    in
-                    Html.span [ HA.class class ] [ Html.text content ]
-
-                "red" ->
-                    Html.span [ HA.class "red" ] [ Html.text (String.join " " args) ]
-
-                "green" ->
-                    Html.span [ HA.class "green" ] [ Html.text (String.join " " args) ]
-
-                "blue" ->
-                    Html.span [ HA.class "blue" ] [ Html.text (String.join " " args) ]
-
-                "highlight" ->
-                    Html.span [ HA.class "highlight" ] [ Html.text (String.join " " args) ]
-
-                _ ->
-                    Html.span [ HA.class "X10" ]
-                        [ Html.text (("op(" ++ op ++ ")") :: args |> String.join " ") ]
+            Html.span [ HA.class op ] [ Html.text (String.join " " args) ]
 
         MDInline.Image label_ url ->
             let

@@ -9,6 +9,29 @@
   justify-content: space-between;
 }
 
+ .red { color: red}
+ .green { color: green}
+ .blue { color: blue}
+ .highlight {background-color: yellow}
+ .censored {background-color: black}
+
+..mm-block-1 {
+   margin-left: 16px;
+ }
+
+ .mm-block-2 {
+   margin-left: 32px;
+ }
+
+
+ .mm-block-3 {
+   margin-left: 48px;
+ }
+
+ .mm-block-4 {
+   margin-left: 64px;
+ }
+
 
 .flex-row {
   display: flex;
