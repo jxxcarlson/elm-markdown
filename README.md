@@ -110,10 +110,16 @@ body of the element: zero or more non-blank lines followed
 by a blank line.  The argument list may be empty.
 
 - Inline extensions.  These have the form `@cmd[arg1 arg2 ...]`
-For example, the text `@class[red warning]` renders as the word
-*warning* in red.  The first argument is a CSS class name.  It can 
-be anything, but to take effect, it must be defined in `./public/assets/style.css`.
-
+For example, the text `@red[very hot stuff]` renders with *very hot stuff*
+in red.  The `cmd` is a CSS class name, and that class is applied to
+the text `arg1 arg2 ... `.  The class name
+be anything, but to have an effect, it must be defined in `./public/assets/style.css`.
+We have defined the following CSS classes: `red`, `green`, `blue`, `highlight` and `censored`.
+The first three color the text.  The last two change the background
+color: yellow and black, respectively.  We may define more interesting inline
+extensions later.  For these, the `cmd` will be a kind of reserved word. We think 
+of it as a function that is applied to the arguments `arg1`, `arg2`, etc.
+ 
 ### Images
 
 The usual `![My favorite image](imageUrl)` does the usual thing, with the image 
