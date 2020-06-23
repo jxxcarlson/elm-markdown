@@ -856,7 +856,7 @@ renderToHtmlMsg selectedId id level mmInline =
             Html.span [ HA.class "bracketed" ] [ Html.text <| "[" ++ str ++ "]" ]
 
         Link url label ->
-            Html.a [ HA.href url ] [ Html.text (label ++ " ") ]
+            Html.a [ HA.href url, HA.target "_blank" ] [ Html.text (label ++ " ") ]
 
         ExtensionInline op args ->
             case op of
