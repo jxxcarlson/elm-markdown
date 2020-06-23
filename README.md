@@ -103,23 +103,36 @@ three.  No syntax coloring is applied to verbatim blocks.
 
 - Tables
 
-- Extension blocks.  These begin with the character `@`, e.g., 
-`@@svg` for SVG figures (see below).  The general form
-is `@cmd arg1 arg2 ...` on the first line followed by the
+- Extension blocks.  These begin with the token `@@`, e.g, 
+`@@svg` for SVG figures as explained below.  The general form
+is `@@cmd arg1 arg2 ...` on the first line followed by the
 body of the element: zero or more non-blank lines followed
 by a blank line.  The argument list may be empty.
 
 - Inline extensions.  These have the form `@cmd[arg1 arg2 ...]`
 For example, the text `@red[very hot stuff]` renders with *very hot stuff*
 in red.  The `cmd` is a CSS class name, and that class is applied to
-the text `arg1 arg2 ... `.  The class name
+the text `arg1 arg2 ... `.  The class name can
 be anything, but to have an effect, it must be defined in `./public/assets/style.css`.
 We have defined the following CSS classes: `red`, `green`, `blue`, `highlight` and `censored`.
 The first three color the text.  The last two change the background
 color: yellow and black, respectively.  We may define more interesting inline
-extensions later.  For these, the `cmd` will be a kind of reserved word. We think 
+extensions later that do not rely on CSS, or entirely on CSS.  
+For these, the `cmd` will be a kind of reserved word. We think 
 of it as a function that is applied to the arguments `arg1`, `arg2`, etc.
  
+
+## SVG
+
+You can add SVG images like this:
+
+```
+@@svg
+<svg width="100" height="100">
+<circle cx="50" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
+</svg>
+```
+
 ### Images
 
 The usual `![My favorite image](imageUrl)` does the usual thing, with the image 
@@ -127,17 +140,6 @@ scaled to 100% of the width. You can
 also say `![My favorite image::left](imageUrl)` or 
 `![My favorite image::right](imageUrl)` to float the image left or right at 
 40% width. The widths are defined in `style.css`.
-
-## SVG
-
-You can add SVG images like this:
-
-```
-@svg
-<svg width="100" height="100">
-<circle cx="50" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
-</svg>
-```
 
 ## Advanced Usage: AST
 
