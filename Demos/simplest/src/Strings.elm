@@ -22,7 +22,7 @@ this pacakge.
 
 # Examples
 
-## 1 Inline math: 
+## 1 Inline math:
 
 Pythagoras said that $a^2 + b^2 = c^2$.
 
@@ -70,5 +70,44 @@ for nesting elements is four spaces.
 - Drugstore
     - Aspirin
     - Shampoo
-    
+
+
+
+ ## 7 Some Extensions
+
+ ### Colored text
+
+ - This is @@red[red hot stuff].
+
+ - Today I am feeling @@blue[somewhat blue].
+
+ - We need more @@green[green energy].
+
+ - My email address is `john@ladidah.io` (Note the song-and-dance needed for the `@` sign).
+
+ - This is @@highlight[a very important point].
+   
+ - I have censored @@class[censored this text because it is stupid].
+
+Note the `@@class` construction.  The first word in brackets defines the CSS
+class to be applied to the remaining words. The css class is defined in
+the file `./assets/style.css`:
+
+````
+    .censored {background-color: black}
+````
+
+### SVG figures
+
+ @@svg
+ <svg width="300" height="100">
+   <circle cx="190" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
+ </svg>
+
+
+### Html entities
+
+ &forall; (&bbA;:&caU;): &bbA; &to; &bbB;
+
+
  """

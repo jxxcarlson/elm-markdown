@@ -11,6 +11,12 @@ body { background-color: #e1e6e8; padding-left: 40px; }
  }
 
 
+.red { color: red}
+.green { color: green}
+.blue { color: blue}
+.highlight {background-color: yellow}
+.censored {background-color: black}
+
 
 h1 {font-size: 20pt}
 h2 {font-size: 16pt}

@@ -870,6 +870,18 @@ renderToHtmlMsg selectedId id level mmInline =
                     in
                     Html.span [ HA.class class ] [ Html.text content ]
 
+                "red" ->
+                    Html.span [ HA.class "red" ] [ Html.text (String.join " " args) ]
+
+                "green" ->
+                    Html.span [ HA.class "green" ] [ Html.text (String.join " " args) ]
+
+                "blue" ->
+                    Html.span [ HA.class "blue" ] [ Html.text (String.join " " args) ]
+
+                "highlight" ->
+                    Html.span [ HA.class "highlight" ] [ Html.text (String.join " " args) ]
+
                 _ ->
                     Html.span [ HA.class "X10" ]
                         [ Html.text (("op(" ++ op ++ ")") :: args |> String.join " ") ]

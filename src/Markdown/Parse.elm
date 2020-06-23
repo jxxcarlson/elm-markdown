@@ -474,7 +474,7 @@ extendedMathMDParser option_ (Block id bt level_ content_) =
                 ExtensionBlock args ->
                     let
                         content__ =
-                            String.replace ("@" ++ args) "" content_
+                            String.replace ("@@" ++ args) "" content_
                     in
                     MDBlockWithId id (MarkdownBlock mt) level_ (M (OrdinaryText content__))
 

@@ -374,7 +374,7 @@ inline option =
 -}
 extension =
     succeed (\cmd args -> ExtensionInline cmd args)
-        |. symbol (Token "@" (Expecting "Expecting '@[' to begin extension element"))
+        |. symbol (Token "@@" (Expecting "Expecting '@@[' to begin extension element"))
         |= parseUntil "["
         |. symbol (Token "[" (Expecting "Expecting '[' to continue extension element"))
         |= (alphaNumSpace |> map makeList)
