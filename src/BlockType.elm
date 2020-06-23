@@ -14,6 +14,7 @@ module BlockType exposing
     , isOListItem
     , level
     , parse
+    , parseExtended
     , parseStandard
     , prefixOfBlockType
     , stringOfBlockType
@@ -224,7 +225,7 @@ quotationBlock =
 extensionBlock : Parser BlockType
 extensionBlock =
     succeed (\s -> MarkdownBlock (ExtensionBlock s))
-        |. symbol (Token "@" (Expecting "expecting '@' to begin extended block"))
+        |. symbol (Token "@@" (Expecting "expecting '@@' to begin extended block"))
         |= restOfLine
 
 

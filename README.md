@@ -104,7 +104,7 @@ three.  No syntax coloring is applied to verbatim blocks.
 - Tables
 
 - Extension blocks.  These begin with the character `@`, e.g., 
-`@svg` for SVG figures (see below).  The general form
+`@@svg` for SVG figures (see below).  The general form
 is `@cmd arg1 arg2 ...` on the first line followed by the
 body of the element: zero or more non-blank lines followed
 by a blank line.  The argument list may be empty.

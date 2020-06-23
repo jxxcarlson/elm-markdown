@@ -5,7 +5,6 @@ initialText =
     """
 # Markdown + Math
 
-This is a `test`.
 
 This is the simplest use case of the package
 [jxxcarlson//elm-markdown](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/),
@@ -37,7 +36,7 @@ $$
 
 ## 3. SVG
 
-@svg
+@@svg
 <svg width="300" height="100">
 <circle cx="180" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
 </svg>
@@ -77,8 +76,8 @@ for nesting elements is four spaces.
 
  ## 7 The CSS Class Inline Element
 
- The examples below show how one can apply an arbitrary
- CSS class to text.  The word following the `@` sign
+ @highlight[The examples below show how one can apply an arbitrary
+ CSS class to text].  The word following the `@` sign
  defines the CSS class.  The class itself must be defined
  in the file `./assets/style.css`, e.g:
 
@@ -95,11 +94,9 @@ for nesting elements is four spaces.
 
  - My email address is `john@ladidah.io` (Note the song-and-dance needed for the `@` sign).
 
- - This is @highlight[a very important point].
-
  - I have censored @censored[this text because it is stupid].
 
-- @red[red], @blue[blue], @green[green]
+
 
 ## 8 Html entities
 
