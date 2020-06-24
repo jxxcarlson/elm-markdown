@@ -1,7 +1,18 @@
 module Style exposing (..)
 
+import Element exposing (Element, column, padding, px, row, spacing, width)
+import Element.Background as Background
+import Element.Font as Font
 import Html
 import Html.Attributes exposing (style)
+
+
+white =
+    Element.rgb 1.0 1.0 1.0
+
+
+black =
+    Element.rgb 0.1 0.1 0.1
 
 
 colorBlue =
@@ -49,16 +60,19 @@ editorTextStyle =
 
 
 renderedSourceStyle =
-    textStyle "400px" "400px" "#fff"
+    textStyle "400px" "550px" "#fff"
 
 
 textStyle width height color =
     [ style "width" width
     , style "height" height
     , style "background-color" color
+    , style "font-size" "14px"
     , style "margin-right" "20px"
     , style "padding" "20px"
-    , style "overflow" "scroll"
+    , style "overflow-y" "scroll"
+    , style "white-space" "normal"
+    , style "line-height" "20px"
     , style "float" "left"
     , style "border-width" "1px"
     ]

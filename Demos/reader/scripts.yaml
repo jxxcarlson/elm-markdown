@@ -8,8 +8,9 @@ scripts:
 
   start:
     cmd:
-      pll:
-        - file_server ./public
-        - open -a /Applications/Google\ Chrome.app/ http://0.0.0.0:4507/index.html
+        - elm make --optimize src/Main.elm --output=public/Main.js
+        - pll:
+          - file_server ./public
+          - open -a /Applications/Google\ Chrome.app/ http://0.0.0.0:4507/index.html
 
   look  : open -a /Applications/Google\ Chrome.app/  index.html
