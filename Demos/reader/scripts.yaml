@@ -1,4 +1,15 @@
+env:
+  ROOT: /Users/jxxcarlson/dev/elm/projects/elm-markdown/Demos/reader
+  URL: http://0.0.0.0:4507/
 scripts:
   debug: elm make --debug src/Main.elm
-  make:  elm make --optimize src/Main.elm
-  look  : open -a /Applications/Google\ Chrome.app/  public/index.html
+
+  make:  elm make --optimize src/Main.elm --output=public/Main.js
+
+  start:
+    cmd:
+      pll:
+        - file_server ./public
+        - open -a /Applications/Google\ Chrome.app/ http://0.0.0.0:4507/index.html
+
+  look  : open -a /Applications/Google\ Chrome.app/  index.html

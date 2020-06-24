@@ -77,7 +77,7 @@ update msg model =
 
 getDocument fileName =
     Http.get
-        { url = Config.serverUrl ++ "/api/document/" ++ fileName
+        { url = Config.serverUrl ++ "/api/text/" ++ fileName
         , expect = Http.expectString GotText
         }
 
@@ -98,8 +98,8 @@ display model =
     div []
         [ renderedSource model
         , p [ style "clear" "left", style "margin-top" "-20px" ]
-            [ getFileButton "example1.md"
-            , getFileButton "example2.md"
+            [ getFileButton "quantum.md"
+            , getFileButton "type_theory_01.md"
             ]
         ]
 
@@ -121,4 +121,4 @@ renderedSource model =
 
 getFileButton : String -> Html Msg
 getFileButton fileName =
-    button ([ onClick (GetText fileName) ] ++ buttonStyle colorBlue 100) [ text fileName ]
+    button ([ onClick (GetText fileName) ] ++ buttonStyle colorBlue 140) [ text fileName ]
