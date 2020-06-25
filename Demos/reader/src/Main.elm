@@ -38,6 +38,7 @@ type alias Model =
     , counter : Int
     , docType : DocType
     , fileList : List String
+    , currentFileName : String
     , message : String
     }
 
@@ -60,14 +61,6 @@ type Msg
     | LaTeXMsg MiniLatex.Edit.LaTeXMsg
 
 
-
--- | LaTeXMsg MiniLatex.Edit.LaTeXMsg
---| RenderLaTeX LaTeXMsg
---type RenderMsg
---    = MarkdownMsg
---    | LaTeXMsg
-
-
 type alias Flags =
     {}
 
@@ -80,6 +73,7 @@ init flags =
             , counter = 0
             , docType = MarkdownDoc
             , fileList = []
+            , currentFileName = ""
             , message = ""
             }
     in
@@ -95,7 +89,11 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetText fileName ->
-            { model | counter = model.counter + 1, docType = docTypeOfFile fileName }
+            { model
+                | counter = model.counter + 1
+                , docType = docTypeOfFile fileName
+                , currentFileName = fileName
+            }
                 |> withCmd (getDocument fileName)
 
         GotText result ->
@@ -181,18 +179,20 @@ rightColumn model =
         , spacing 4
         , Background.color Style.white
         ]
-        (List.map viewFileName (model.fileList |> filterFileNames |> List.sort))
+        (List.map (viewFileName model.currentFileName) (model.fileList |> filterFileNames |> List.sort))
 
 
-viewFileName : String -> Element Msg
-viewFileName fileName =
+viewFileName : String -> String -> Element Msg
+viewFileName currentFileName fileName =
     Button.make (GetText fileName) fileName
         |> Button.withWidth (Bounded 180)
         |> Button.withHeight (Bounded 25)
         |> Button.withAlignment Left
+        |> Button.withSelectedBackgroundColor Style.paleBlue
+        |> Button.withSelectedFontColor Style.blue
         |> Button.withBackgroundColor Style.white
         |> Button.withFontColor Style.black
-        |> Button.withSelected False
+        |> Button.withSelected (fileName == currentFileName)
         |> Button.toElement
 
 

@@ -11,6 +11,14 @@ white =
     Element.rgb 1.0 1.0 1.0
 
 
+blue =
+    Element.rgb 0.0 0.0 0.8
+
+
+paleBlue =
+    Element.rgb 0.9 0.9 1.0
+
+
 black =
     Element.rgb 0.1 0.1 0.1
 
