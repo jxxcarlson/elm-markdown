@@ -858,8 +858,8 @@ renderToHtmlMsg selectedId id level mmInline =
         Link url label ->
             Html.a [ HA.href url, HA.target "_blank" ] [ Html.text (label ++ " ") ]
 
-        ExtensionInline op args ->
-            Html.span [ HA.class op ] [ Html.text (String.join " " args) ]
+        ExtensionInline op arg ->
+            Html.span [ HA.class op ] [ Html.text arg ]
 
         MDInline.Image label_ url ->
             let

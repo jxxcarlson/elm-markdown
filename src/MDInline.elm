@@ -52,7 +52,7 @@ type MDInline
     | BracketedText String
     | HtmlEntity String
     | HtmlEntities (List MDInline)
-    | ExtensionInline String (List String)
+    | ExtensionInline String String
     | Link String String
     | Image String String
     | Line (List MDInline)
@@ -108,8 +108,8 @@ stringContent mmInline =
         Stanza arg ->
             arg
 
-        ExtensionInline op args ->
-            op :: args |> String.join " "
+        ExtensionInline op arg ->
+            op ++ ": " ++ arg
 
         Error arg ->
             List.map string arg |> String.join " "
@@ -160,8 +160,8 @@ string2 mmInline =
         Stanza arg ->
             arg
 
-        ExtensionInline op args ->
-            op :: args |> String.join " "
+        ExtensionInline op arg ->
+            op ++ ": " ++ arg
 
         Error arg ->
             "Error [" ++ (List.map string arg |> String.join " ") ++ "]"
@@ -214,8 +214,8 @@ string mmInline =
         Stanza arg ->
             "Stanza [\n" ++ arg ++ "\n]"
 
-        ExtensionInline op args ->
-            "ExtensionInline [" ++ (op :: args |> String.join " ") ++ "]"
+        ExtensionInline op arg ->
+            "ExtensionInline: " ++ op ++ "[" ++ arg ++ "]"
 
         Error arg ->
             "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
@@ -266,20 +266,8 @@ render mmInline =
         Stanza arg ->
             "<p class=mm.inline>\n" ++ arg ++ "</p>"
 
-        ExtensionInline op args ->
-            case op of
-                "class" ->
-                    let
-                        class =
-                            List.head args |> Maybe.withDefault "none"
-
-                        args_ =
-                            List.drop 1 args
-                    in
-                    "<span class = " ++ class ++ ">" ++ (args_ |> String.join " ") ++ "</span>"
-
-                _ ->
-                    "<span>" ++ (("Op " ++ op) :: args |> String.join " ") ++ "</span>"
+        ExtensionInline op arg ->
+            "<span class=" ++ op ++ ">" ++ arg ++ "</span>"
 
         Error arg ->
             "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
@@ -372,13 +360,24 @@ inline option =
     --> Ok (ExtensionInline "class" ["red","stuff"])
 
 -}
-extension =
+extension_ =
     succeed (\cmd args -> ExtensionInline cmd args)
-        |. symbol (Token "@" (Expecting "Expecting '@[' to begin extension element"))
+        |. symbol (Token "@" (Expecting "Expecting '@' to begin extension element"))
         |= parseUntil "["
         |. symbol (Token "[" (Expecting "Expecting '[' to continue extension element"))
-        |= (alphaNumSpace |> map makeList)
+        |= parseWhile (\c -> c /= ']')
         |. symbol (Token "]" (Expecting "Expecting ']' to end extension element"))
+        |. spaces
+
+
+extension =
+    oneOf [ backtrackable extension_, emailTail ]
+
+
+emailTail =
+    succeed (\s -> ExtensionInline "noOp" ("@" ++ s))
+        |. symbol (Token "@" (Expecting "Expecting '@' to begin tail of email address"))
+        |= parseWhile (\c -> c /= ' ')
         |. spaces
 
 

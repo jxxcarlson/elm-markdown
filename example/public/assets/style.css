@@ -10,7 +10,9 @@
 .red { color: red}
 .green { color: green}
 .blue { color: blue}
-.highlight {background-color: yellow}
+.pale { color: #aaa; }
+.mark {background-color: yellow}
+.highlight { background-color: #8d9ffe; }
 .censored {background-color: black}
 
 h1 {font-size: 20pt}
