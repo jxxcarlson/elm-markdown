@@ -1,9 +1,12 @@
 
 body { background-color: #e1e6e8; padding-left: 40px; }
 
-.red { color: red;}
-.green { color: green;}
-.blue {color: blue;}
+.red { color: red}
+.green { color: green}
+.blue { color: blue}
+.highlight {background-color: yellow}
+.mark {background-color: yellow}
+.censored {background-color: black}
 
 .elmsh-line {
     padding : 8px;
@@ -113,6 +116,25 @@ h5 {font-size: 10pt}
 	margin-bottom: 4px;
 	width: inherit;
 }
+
+.mm-poetry > p {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+w
+.mm-poetry > line {
+   white-space : pre;
+}
+
+.mm-poetry p p span {
+  margin : 0;
+  white-space: pre;
+  }
+
+p > p {
+  margin : 0;
+  }
+
 .mm-error-message {
 	color: red; margin-bottom: 12px;
 }
