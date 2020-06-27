@@ -41,6 +41,22 @@ $$
 <circle cx="180" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
 </svg>
 
+The SVG block is an example of an extension block. These have the form
+`@@BLOCK-NAME` followed by non-blank lines of text followed by a blank line.
+Unimplemented blocks are rendered verbatim, like this:
+
+@@comment
+This is a comment.
+Comment blocks are not implemented in the
+Markdown renderer
+
+
+If you want to make a comment that is not visible in the rendered
+text, use the `@@invisible` block.
+
+@@invisible
+This block is invisible.
+
 ## 4 Images
 
 ![Robin](http://noteimages.s3.amazonaws.com/robin2.jpg)
@@ -74,7 +90,7 @@ for nesting elements is four spaces.
 
 
 
- ## 7 The CSS Class Inline Element
+ ## 7 Inline extensions
 
  @highlight[The examples below show how one can apply an arbitrary
  CSS class to text].  The word following the `@` sign

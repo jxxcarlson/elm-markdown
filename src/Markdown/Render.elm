@@ -620,6 +620,9 @@ renderBlock selectedId id block =
                 "svg" ->
                     renderSvg selectedId id level blockContent
 
+                "invisible" ->
+                    Html.span [] []
+
                 _ ->
                     renderAsVerbatim info selectedId id level blockContent
 

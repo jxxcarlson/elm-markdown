@@ -107,7 +107,10 @@ three.  No syntax coloring is applied to verbatim blocks.
 `@@svg` for SVG figures as explained below.  The general form
 is `@@cmd arg1 arg2 ...` on the first line followed by the
 body of the element: zero or more non-blank lines followed
-by a blank line.  The argument list may be empty.
+by a blank line.  The argument list may be empty.  Unimplemented
+blocks are rendered verbatim.  If you want to make a comment
+in the text but not have it show up in the rendered version,
+use the `@@invisible` block. 
 
 - Inline extensions.  These have the form `@cmd[arg]`
 For example, the text `@red[very hot stuff]` renders  *very hot stuff*

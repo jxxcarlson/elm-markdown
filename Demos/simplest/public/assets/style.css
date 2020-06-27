@@ -16,7 +16,7 @@ body { background-color: #e1e6e8; padding-left: 40px; }
 .blue { color: blue}
 .pale { color: #aaa; }
 .mark {background-color: yellow}
-.highlight { background-color: #8d9ffe; }
+.highlight { background-color: yellow; }
 .censored {background-color: black}
 
 
