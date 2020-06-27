@@ -621,7 +621,17 @@ renderBlock selectedId id block =
                     renderSvg selectedId id level blockContent
 
                 _ ->
-                    renderOrdinary info selectedId id level blockContent
+                    renderAsVerbatim info selectedId id level blockContent
+
+
+renderAsVerbatim : String -> Id -> Id -> Int -> BlockContent -> Html MarkdownMsg
+renderAsVerbatim info selectedId id level blockContent =
+    case blockContent of
+        M (OrdinaryText str) ->
+            Html.pre [ idAttr id, marginOfLevel level, selectedStyle_ selectedId id ] [ Html.text ("@@" ++ info ++ str) ]
+
+        _ ->
+            Html.span [ HA.class "X5" ] []
 
 
 renderSvg selectedId id level blockContent =
@@ -643,6 +653,7 @@ renderSvg_ svgText =
             Html.span [ HA.class "X6" ] []
 
 
+renderOrdinary : String -> Id -> Id -> Level -> BlockContent -> Html MarkdownMsg
 renderOrdinary info selectedId id level blockContent =
     Html.span [ HA.class "X7" ]
         [ Html.text <| "EXTENSION BLOCK(" ++ info ++ ")"
