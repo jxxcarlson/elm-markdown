@@ -40,6 +40,11 @@ svgText =
     """
 # This is a test
 
+one
+@removed[two (x)]
+@added[two (y)]
+three
+
 Some math:
 
 $$

@@ -873,7 +873,15 @@ renderToHtmlMsg selectedId id level mmInline =
             Html.a [ HA.href url, HA.target "_blank" ] [ Html.text (label ++ " ") ]
 
         ExtensionInline op arg ->
-            Html.span [ HA.class op ] [ Html.text arg ]
+            case op of
+                "added" ->
+                    Html.span [ HA.style "font-color" "blue" ] [ Html.text (arg ++ "\n") ]
+
+                "removed" ->
+                    Html.span [ HA.style "font-color" "red" ] [ Html.text (arg ++ "\n") ]
+
+                _ ->
+                    Html.span [ HA.class op ] [ Html.text arg ]
 
         MDInline.Image label_ url ->
             let
