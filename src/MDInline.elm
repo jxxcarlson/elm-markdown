@@ -23,17 +23,11 @@ of the BlockMMTree values.
 -}
 
 import Markdown.Option exposing (MarkdownOption(..))
-import Parser.Advanced exposing (..)
+import Parser.Advanced exposing (getChompedString, (|=), (|.), symbol, spaces, run, succeed, chompUntil, chompIf, chompWhile, mapChompedString, Token(..), oneOf, map, backtrackable, DeadEnd, loop, Step(..))
 
 
 type alias Parser a =
-    Parser.Advanced.Parser Context Problem a
-
-
-type Context
-    = Definition String
-    | List
-    | Record
+    Parser.Advanced.Parser String Problem a
 
 
 type Problem
@@ -93,10 +87,10 @@ stringContent mmInline =
         BracketedText str ->
             str
 
-        Link a b ->
+        Link _ b ->
             b
 
-        Image a b ->
+        Image a _ ->
             a
 
         Line arg ->
@@ -193,7 +187,7 @@ string mmInline =
         HtmlEntity str ->
             "HtmlEntity [" ++ str ++ "]"
 
-        HtmlEntities str ->
+        HtmlEntities _ ->
             "HtmlEntity [" ++ "Unimplemented HtmlEntities" ++ "]"
 
         BracketedText str ->
@@ -221,65 +215,15 @@ string mmInline =
             "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
 
 
-render : MDInline -> String
-render mmInline =
-    case mmInline of
-        OrdinaryText str ->
-            str
-
-        ItalicText str ->
-            "<i>" ++ str ++ "</i>"
-
-        BoldText str ->
-            "<b>" ++ str ++ "</b>"
-
-        Code str ->
-            "<code>" ++ str ++ "</code>"
-
-        InlineMath str ->
-            "$" ++ str ++ "$"
-
-        StrikeThroughText str ->
-            "<strikethrough>" ++ str ++ "</strikethrough>"
-
-        HtmlEntity str ->
-            "<span>" ++ str ++ "</span>"
-
-        HtmlEntities _ ->
-            "<span>" ++ "Unimplmemnted HtmlEntities" ++ "</span>"
-
-        BracketedText str ->
-            "[" ++ str ++ "]"
-
-        Link a b ->
-            "Link [" ++ a ++ "](" ++ b ++ ")"
-
-        Image a b ->
-            "Image [" ++ a ++ "](" ++ b ++ ")"
-
-        Line arg ->
-            List.map render arg |> String.join " "
-
-        Paragraph arg ->
-            "<p>\n" ++ (List.map render arg |> List.map indentLine |> String.join "\n") ++ "\n</p>"
-
-        Stanza arg ->
-            "<p class=mm.inline>\n" ++ arg ++ "</p>"
-
-        ExtensionInline op arg ->
-            "<span class=" ++ op ++ ">" ++ arg ++ "</span>"
-
-        Error arg ->
-            "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
-
-
 indentLine : String -> String
 indentLine s =
     "  " ++ s
 
 
 type alias PrefixedString =
-    { prefix : String, text : String }
+    { prefix : String
+    , text : String
+    }
 
 
 {-| MDInline parser
@@ -308,7 +252,9 @@ wrap strList =
 
 
 type alias WrapAccumulator =
-    { currentString : String, lst : List String }
+    { currentString : String
+    , lst : List String
+    }
 
 
 wrapper : String -> WrapAccumulator -> WrapAccumulator
@@ -379,13 +325,6 @@ emailTail =
         |. symbol (Token "@" (Expecting "Expecting '@' to begin tail of email address"))
         |= parseWhile (\c -> c /= ' ')
         |. spaces
-
-
-makeList : String -> List String
-makeList str =
-    str
-        |> String.split " "
-        |> List.filter (\s -> s /= "")
 
 
 alphaNumSpace =
@@ -581,9 +520,9 @@ linkUrl =
 
 terminateBracket : Parser String
 terminateBracket =
-    (succeed ()
+    succeed ()
      -- |. symbol (Token " " DummyExpectation)
-    )
+    
         |> map (\_ -> " ")
 
 
@@ -640,28 +579,6 @@ htmlEntityText =
         |> map HtmlEntity
 
 
-htmlEntitiesText : Parser MDInline
-htmlEntitiesText =
-    many_ htmlEntityText
-        |> map HtmlEntities
-
-
-many_ : Parser a -> Parser (List a)
-many_ p =
-    loop [] (step p)
-
-
-step : Parser a -> List a -> Parser (Step (List a) (List a))
-step p vs =
-    oneOf
-        [ succeed (\v -> Loop (v :: vs))
-            |= p
-            |. spaces
-        , succeed ()
-            |> map (\_ -> Done (List.reverse vs))
-        ]
-
-
 {-|
 
 > run inlineMath "$a^5 = 3$"
@@ -710,7 +627,7 @@ inlineList option =
     many (inline option)
 
 
-resolveInlineResult : Result (List (DeadEnd Context Problem)) (List MDInline) -> MDInline
+resolveInlineResult : Result (List (DeadEnd String Problem)) (List MDInline) -> MDInline
 resolveInlineResult result =
     case result of
         Ok res_ ->
@@ -720,7 +637,7 @@ resolveInlineResult result =
             decodeInlineError list
 
 
-decodeInlineError : List (DeadEnd Context Problem) -> MDInline
+decodeInlineError : List (DeadEnd String Problem) -> MDInline
 decodeInlineError errorList =
     let
         errorMessage =
@@ -730,13 +647,7 @@ decodeInlineError errorList =
     OrdinaryText errorMessage
 
 
-errorString : List (DeadEnd Context Problem) -> String
-errorString errorList =
-    List.map displayDeadEnd errorList
-        |> String.join "\n"
-
-
-displayDeadEnd : DeadEnd Context Problem -> String
+displayDeadEnd : DeadEnd String Problem -> String
 displayDeadEnd deadend =
     case deadend.problem of
         Expecting error ->
@@ -747,16 +658,6 @@ displayDeadEnd deadend =
 ---
 -- HELPERS
 --
-
-
-joinMMInlineLists : MDInline -> MDInline -> MDInline
-joinMMInlineLists a b =
-    case ( a, b ) of
-        ( Line aList, Line bList ) ->
-            Line (aList ++ bList)
-
-        ( _, _ ) ->
-            Line []
 
 
 many : Parser a -> Parser (List a)
@@ -772,13 +673,3 @@ manyHelp p vs =
         , succeed ()
             |> map (\_ -> Done (List.reverse vs))
         ]
-
-
-between : Parser opening -> Parser closing -> Parser a -> Parser a
-between opening closing p =
-    succeed identity
-        |. opening
-        |. spaces
-        |= p
-        |. spaces
-        |. closing

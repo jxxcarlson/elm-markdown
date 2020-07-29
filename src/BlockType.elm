@@ -37,7 +37,7 @@ by 4, where division is integer division.
 -}
 
 import Markdown.Option exposing (MarkdownOption(..))
-import Parser.Advanced exposing (..)
+import Parser.Advanced exposing (getChompedString, (|=), (|.), symbol, spaces, run, succeed, chompUntil, chompIf, chompWhile, Token(..), oneOf, map, backtrackable, Step(..))
 
 
 levelIndentation : Int
@@ -46,13 +46,7 @@ levelIndentation =
 
 
 type alias Parser a =
-    Parser.Advanced.Parser Context Problem a
-
-
-type Context
-    = Definition String
-    | List
-    | Record
+    Parser.Advanced.Parser String Problem a
 
 
 type Problem
@@ -259,7 +253,7 @@ horizontalRuleBlock =
         |. spaces
         |. symbol (Token "___" (Expecting "Expecting at least three underscores to begin thematic break"))
     )
-        |> map (\x -> MarkdownBlock HorizontalRule)
+        |> map (\_ -> MarkdownBlock HorizontalRule)
 
 
 headingBlock : Parser BlockType
@@ -270,14 +264,6 @@ headingBlock =
         |= parseWhile (\c -> c == '#')
     )
         |> map (\s -> MarkdownBlock (Heading (String.length s + 1)))
-
-
-parseHeadingPrefix : Parser String
-parseHeadingPrefix =
-    succeed identity
-        |. spaces
-        |. symbol (Token "#" (Expecting "Expecting '#' to begin heading block"))
-        |= parseWhile (\c -> c == '#')
 
 
 codeBlock : Parser BlockType
@@ -420,7 +406,7 @@ prefixOfMarkdownType mdt line =
         Heading k ->
             String.repeat k "#" ++ " "
 
-        ExtensionBlock str ->
+        ExtensionBlock _ ->
             -- TODO: is this correct?
             "|"
 
@@ -518,21 +504,6 @@ numberOfLeadingBlanks =
     )
         |> getChompedString
         |> map String.length
-
-
-{-|
-
-    run leadingString "   xyz"
-    --> Ok ("   x") : Result (List (DeadEnd Context Problem)) String
-
--}
-leadingString : Parser String
-leadingString =
-    getChompedString <|
-        succeed ()
-            |. chompWhile (\c -> c == ' ')
-            |. chompIf (\c -> c /= ' ') (Expecting "expecting non-blank character after run of blanks")
-
 
 
 --|> map String.trim

@@ -1,4 +1,4 @@
-module Test.Types exposing (..)
+module Test.Types exposing (TestDatum, SmallTestDatum, defaultSmallTestDatum)
 
 
 type alias TestDatum =
@@ -19,6 +19,7 @@ type alias SmallTestDatum =
     }
 
 
+defaultSmallTestDatum : SmallTestDatum
 defaultSmallTestDatum =
     { markdown = ""
     , html = ""

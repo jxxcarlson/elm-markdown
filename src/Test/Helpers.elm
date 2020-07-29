@@ -1,11 +1,9 @@
 module Test.Helpers exposing (exampleAST, exampleCM, exampleHtml, exampleText, getExample, htmlTest, myHtmlTest, parseStringToHtml, parseStringToString)
 
-import Expect exposing (Expectation)
-import Html.String exposing (..)
-import Markdown.Option exposing (..)
+import Expect
+import Html.String
+import Markdown.Option exposing (MarkdownOption(..), OutputOption(..))
 import ParserTypes
-import Test exposing (..)
-import Test.Types exposing (..)
 import Tree exposing (Tree)
 
 

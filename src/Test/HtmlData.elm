@@ -1,6 +1,4 @@
-module Test.HtmlData exposing (..)
-
-import Test.Types exposing (..)
+module Test.HtmlData exposing (commonMark, empty, working, basic)
 
 
 commonMark : List TestDatum

@@ -57,7 +57,6 @@ import Markdown.Parse as Parse
         , Id
         , MDBlock(..)
         , MDBlockWithId(..)
-        , idOfBlock
         , project
         , projectedStringOfBlockContent
         , stringFromId
@@ -66,6 +65,7 @@ import Parser
 import SvgParser
 import SyntaxHighlight exposing (monokai, toBlockHtml, useTheme)
 import Tree exposing (Tree)
+import String exposing (String)
 
 
 {-| Use `Html MarkdownMsg` so that user clicks on elements in the rendered text can be detected.
@@ -146,8 +146,8 @@ withOptions markdownOption outputOption selectedId version content =
 
 {-| Render from an AST
 -}
-fromASTWithOptions : MarkdownOption -> OutputOption -> Id -> Tree MDBlockWithId -> MarkdownOutput
-fromASTWithOptions markdownOption outputOption selectedId ast =
+fromASTWithOptions : OutputOption -> Id -> Tree MDBlockWithId -> MarkdownOutput
+fromASTWithOptions outputOption selectedId ast =
     case
         outputOption
     of
@@ -213,16 +213,6 @@ typeOfMDBlockWithId (MDBlockWithId _ bt _ _) =
     bt
 
 
-isHeadingWithId : MDBlockWithId -> Bool
-isHeadingWithId block =
-    case typeOfMDBlockWithId block of
-        MarkdownBlock (Heading _) ->
-            True
-
-        _ ->
-            False
-
-
 isMathWithId : MDBlockWithId -> Bool
 isMathWithId block =
     case typeOfMDBlockWithId block of
@@ -233,6 +223,7 @@ isMathWithId block =
             False
 
 
+id0 : (Int, Int)
 id0 =
     ( -1, -1 )
 
@@ -258,6 +249,7 @@ toHtml option str =
         |> fromAST ( 0, 0 )
 
 
+masterId : Html.Attribute MarkdownMsg
 masterId =
     HA.id "__RENDERED_TEXT__"
 
@@ -270,47 +262,6 @@ fromAST selectedId blockTreeWithId =
         |> Tree.children
         |> List.map (mmBlockTreeToHtml selectedId)
         |> (\x -> Html.div [ masterId ] x)
-
-
-toHtmlWithTOC : Id -> Int -> MarkdownOption -> String -> String -> Html MarkdownMsg
-toHtmlWithTOC selectedId version option heading str =
-    let
-        ast : Tree MDBlockWithId
-        ast =
-            Parse.toMDBlockTree version option str
-
-        toc_ : Html MarkdownMsg
-        toc_ =
-            tableOfContentsAsHtml heading (Tree.map project ast)
-
-        bodyAST : List (Tree MDBlockWithId)
-        bodyAST =
-            ast |> Tree.children
-
-        headOfBodyAST =
-            List.head bodyAST |> Maybe.map (Tree.map project)
-
-        html =
-            bodyAST |> List.map (mmBlockTreeToHtml selectedId)
-
-        title_ =
-            List.head html |> Maybe.withDefault (Html.div [] [])
-
-        body =
-            List.drop 1 html
-
-        separator =
-            Html.hr [ HA.style "padding-bottom" "2px", HA.style "background-color" "#aaa", HA.style "border-width" "0" ] []
-
-        spacing =
-            Html.div [ HA.style "padding-bottom" "40px" ] []
-    in
-    case Maybe.map (isHeading << Tree.label) headOfBodyAST of
-        Just True ->
-            Html.div [ masterId ] (title_ :: separator :: toc_ :: separator :: spacing :: body)
-
-        _ ->
-            Html.div [ masterId ] (separator :: toc_ :: separator :: spacing :: title_ :: body)
 
 
 {-| Like `renderHtml`, but constructs a table of contents.
@@ -374,12 +325,6 @@ renderHtmlWithExternalTOC selectedId heading ast =
 
         body =
             List.drop 1 html
-
-        separator =
-            Html.hr [ HA.style "padding-bottom" "2px", HA.style "background-color" "#aaa", HA.style "border-width" "0" ] []
-
-        spacing =
-            Html.div [ HA.style "padding-bottom" "40px" ] []
     in
     { title = Html.div [] [ title_ ]
     , toc = Html.div [] [ toc_ ]
@@ -387,41 +332,29 @@ renderHtmlWithExternalTOC selectedId heading ast =
     }
 
 
+highlightColor : String
 highlightColor =
     "#d7d6ff"
-
-
-
---"#8d9ffe"
-
-
-makeKeyedNodeBody : Id -> Id -> Int -> MDInline -> ( String, Html MarkdownMsg )
-makeKeyedNodeBody selectedId id level mDInline =
-    ( stringFromId id, renderToHtmlMsg selectedId id level mDInline )
 
 
 {-| DOC sync: if targetId == currentId, then return highlighted style
 -}
 selectedStyle_ : Id -> Id -> Html.Attribute MarkdownMsg
 selectedStyle_ targetId currentId =
-    case targetId == currentId of
-        True ->
-            HA.style "background-color" highlightColor
-
-        False ->
-            HA.style "background-color" "#fff"
+    if targetId == currentId then
+        HA.style "background-color" highlightColor
+    else
+        HA.style "background-color" "#fff"
 
 
 {-| DOC sync: if targetId == currentId, then return highlighted style
 -}
 selectedStyle : Id -> Id -> List (Html.Attribute MarkdownMsg)
 selectedStyle targetId currentId =
-    case targetId == currentId of
-        True ->
-            [ HA.style "background-color" highlightColor ]
-
-        False ->
-            [ HA.style "background-color" "#fff" ]
+    if targetId == currentId then
+        [ HA.style "background-color" highlightColor ]
+    else
+        [ HA.style "background-color" "#fff" ]
 
 
 mmBlockTreeToHtml : Id -> Tree MDBlockWithId -> Html MarkdownMsg
@@ -466,7 +399,7 @@ mmBlockTreeToHtml selectedId tree =
                       )
                     ]
 
-            MDBlockWithId id (BalancedBlock DisplayMath) level content ->
+            MDBlockWithId id (BalancedBlock DisplayMath) _ content ->
                 Keyed.node "div"
                     [ HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ]
                     [ ( stringFromId id, displayMathText (projectedStringOfBlockContent content) ) ]
@@ -474,7 +407,7 @@ mmBlockTreeToHtml selectedId tree =
             MDBlockWithId id (BalancedBlock Verbatim) _ _ ->
                 Keyed.node "pre" [ HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ] [ ( stringFromId id, Html.text "OUF: Verbatim!" ) ]
 
-            MDBlockWithId id (BalancedBlock (DisplayCode lang)) _ _ ->
+            MDBlockWithId id (BalancedBlock (DisplayCode _)) _ _ ->
                 Html.div [ HA.id (stringFromId id), HE.onClick (IDClicked (stringFromId id)), selectedStyle_ selectedId id ] [ Html.text "OUF: Code!" ]
 
 
@@ -570,7 +503,7 @@ renderBlock selectedId id block =
         MDBlock (MarkdownBlock (OListItem index)) level blockContent ->
             renderOListItem selectedId id index level blockContent
 
-        MDBlock (MarkdownBlock HorizontalRule) level blockContent ->
+        MDBlock (MarkdownBlock HorizontalRule) _ _ ->
             Html.hr [ idAttr id, HA.class "mm-thematic-break", selectedStyle_ selectedId id ] []
 
         MDBlock (MarkdownBlock BlockType.Image) level blockContent ->
@@ -618,7 +551,7 @@ renderBlock selectedId id block =
         MDBlock (MarkdownBlock (ExtensionBlock info)) level blockContent ->
             case String.trim info of
                 "svg" ->
-                    renderSvg selectedId id level blockContent
+                    renderSvg blockContent
 
                 "invisible" ->
                     Html.span [] []
@@ -637,7 +570,7 @@ renderAsVerbatim info selectedId id level blockContent =
             Html.span [ HA.class "X5" ] []
 
 
-renderSvg selectedId id level blockContent =
+renderSvg blockContent =
     case blockContent of
         M (OrdinaryText svgText) ->
             renderSvg_ svgText
@@ -656,30 +589,12 @@ renderSvg_ svgText =
             Html.span [ HA.class "X6" ] []
 
 
-renderOrdinary : String -> Id -> Id -> Level -> BlockContent -> Html MarkdownMsg
-renderOrdinary info selectedId id level blockContent =
-    Html.span [ HA.class "X7" ]
-        [ Html.text <| "EXTENSION BLOCK(" ++ info ++ ")"
-        , renderBlockContent selectedId id level blockContent
-        ]
-
-
 marginOfLevel level =
     HA.style "margin-left" (String.fromInt (0 * level) ++ "px")
 
 
 blockLevelClass k =
     HA.class <| "mm-block-" ++ String.fromInt k
-
-
-unWrapParagraph : MDInline -> List MDInline
-unWrapParagraph mmInline =
-    case mmInline of
-        Paragraph element ->
-            element
-
-        _ ->
-            []
 
 
 renderUListItem : Id -> Id -> Level -> BlockContent -> Html MarkdownMsg
@@ -948,12 +863,10 @@ joinLine selectedId id level items =
         folder item ( accString, accElement ) =
             case item of
                 OrdinaryText str ->
-                    case isPunctuation (String.left 1 str) of
-                        True ->
-                            ( str :: accString, accElement )
-
-                        False ->
-                            ( (" " ++ str) :: accString, accElement )
+                    if isPunctuation (String.left 1 str) then
+                        ( str :: accString, accElement )
+                    else
+                        ( (" " ++ str) :: accString, accElement )
 
                 _ ->
                     if accString /= [] then
