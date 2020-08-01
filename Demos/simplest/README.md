@@ -1,19 +1,11 @@
-MeenyLatex Live Edit
-====================
+# Simplest example
 
-This is a minimal app to show
-how MiniLatex renders source 
-text.  I have not yet wired up
-fast render in this app.  Coming
-soon!
-
-See the demo at 
-[MiniLatex Live](https://jxxcarlson.github.io/app/miniLatexLive/index.html)
+A live markdown editor showing of all basic features.
 
 Compile with
 
 ```
-   $ elm make src/Main.elm --output=Main.js
+   elm make --optimize src/Main.elm --output=Main.js
 ```
 
-Run by clicking on `index.html`
+Run by opening `public/index.html` in your browser.

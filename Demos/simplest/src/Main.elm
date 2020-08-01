@@ -1,15 +1,14 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (..)
-import Html.Attributes as HA exposing (..)
+import Html exposing (Html, text, div, p, textarea, button)
+import Html.Attributes exposing (style, value)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
-import Markdown.Option exposing (..)
+import Markdown.Option exposing (MarkdownOption(..), OutputOption(..))
 import Markdown.Render
-import Random
-import Strings
-import Style exposing (..)
+import Placeholders exposing (initialText)
+import Style exposing (colorBlue, buttonStyle, outerStyle, editorTextStyle, renderedSourceStyle)
 
 
 main : Program Flags Model Msg
@@ -32,8 +31,6 @@ type alias Model =
 type Msg
     = Clear
     | GetContent String
-    | GenerateSeed
-    | NewSeed Int
     | RestoreText
     | MarkdownMsg Markdown.Render.MarkdownMsg
 
@@ -43,10 +40,10 @@ type alias Flags =
 
 
 init : Flags -> ( Model, Cmd Msg )
-init flags =
+init _ =
     let
         model =
-            { sourceText = Strings.initialText
+            { sourceText = initialText
             , counter = 0
             , seed = 0
             }
@@ -55,7 +52,7 @@ init flags =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 
@@ -70,12 +67,6 @@ update msg model =
             , Cmd.none
             )
 
-        GenerateSeed ->
-            ( model, Random.generate NewSeed (Random.int 1 10000) )
-
-        NewSeed newSeed ->
-            ( { model | seed = newSeed }, Cmd.none )
-
         Clear ->
             ( { model
                 | sourceText = ""
@@ -87,14 +78,13 @@ update msg model =
         RestoreText ->
             ( { model
                 | counter = model.counter + 1
-                , sourceText = Strings.initialText
+                , sourceText = initialText
               }
             , Cmd.none
             )
 
         MarkdownMsg _ ->
             ( model, Cmd.none )
-
 
 
 -- VIEW
@@ -116,10 +106,6 @@ display model =
         ]
 
 
-label text_ =
-    p labelStyle [ text text_ ]
-
-
 editor : Model -> Html Msg
 editor model =
     textarea (editorTextStyle ++ [ onInput GetContent, value model.sourceText ]) []
@@ -132,13 +118,14 @@ renderedSource model =
         [ ( String.fromInt model.counter, Markdown.Render.toHtml ExtendedMath model.sourceText |> Html.map MarkdownMsg ) ]
 
 
-
 -- BUTTONS
 
 
+clearButton : Int -> Html Msg
 clearButton width =
-    button ([ onClick Clear ] ++ buttonStyle colorBlue width) [ text "Clear" ]
+    button (onClick Clear :: buttonStyle colorBlue width) [ text "Clear" ]
 
 
+restoreTextButton : Int -> Html Msg
 restoreTextButton width =
-    button ([ onClick RestoreText ] ++ buttonStyle colorBlue width) [ text "Restore" ]
+    button (onClick RestoreText :: buttonStyle colorBlue width) [ text "Reset" ]

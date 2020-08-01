@@ -45,7 +45,7 @@
 .mm-h5 {font-size: 10pt}
 
 
-..mm-block-1 {
+ .mm-block-1 {
    margin-left: 16px;
  }
 
@@ -136,4 +136,8 @@ p.mm-table-cell {
 
 .mm-verbatim {
 	font: 16px courier; background-color: #eee; padding: 8px;
+}
+
+body { 
+	background-color: #e1e6e8;
 }

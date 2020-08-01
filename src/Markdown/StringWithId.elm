@@ -78,6 +78,7 @@ toHtml version option str =
         |> renderHtml
 
 
+masterId : Html.Attribute msg
 masterId =
     HA.id "__RENDERED_TEXT__"
 
@@ -255,6 +256,7 @@ renderTableOfContents heading blockList =
         |> (\x -> Html.div tocStyle x)
 
 
+tocStyle : List (Html.Attribute msg)
 tocStyle =
     [ HA.style "font-size" "x-small"
     , HA.style "margin-left" "15px"
@@ -359,10 +361,12 @@ renderBlock id block =
         MDBlock (MarkdownBlock( ExtensionBlock _)) _ _ ->
             Html.text "TODO: implement me" -- TODO implement me
 
+marginOfLevel : Int -> Html.Attribute msg
 marginOfLevel level =
     HA.style "margin-left" (String.fromInt (0 * level) ++ "px")
 
 
+blockLevelClass : Int -> Html.Attribute msg
 blockLevelClass k =
     HA.class <| "mm-block-" ++ String.fromInt k
 

@@ -1,6 +1,6 @@
 module MDInline exposing
     ( MDInline(..), parse, string, stringContent
-    , extension, parseWhile, string2
+    , extension, parseWhile, string2, Problem(..), ordinaryTextExtended, ordinaryTextStandard
     )
 
 {-| Module MDInline provides one type and two functions. The
@@ -241,10 +241,7 @@ parse option str =
         |> Paragraph
 
 
-
--- wrap : List String -> List String
-
-
+wrap : List String -> List String
 wrap strList =
     List.foldl wrapper { currentString = "", lst = [] } strList
         |> (\acc -> acc.currentString :: acc.lst)
@@ -306,6 +303,7 @@ inline option =
     --> Ok (ExtensionInline "class" ["red","stuff"])
 
 -}
+extension_ : Parser.Advanced.Parser String Problem MDInline
 extension_ =
     succeed (\cmd args -> ExtensionInline cmd args)
         |. symbol (Token "@" (Expecting "Expecting '@' to begin extension element"))
@@ -316,24 +314,17 @@ extension_ =
         |. spaces
 
 
+extension : Parser.Advanced.Parser String Problem MDInline
 extension =
     oneOf [ backtrackable extension_, emailTail ]
 
 
+emailTail : Parser.Advanced.Parser String Problem MDInline
 emailTail =
     succeed (\s -> ExtensionInline "noOp" ("@" ++ s))
         |. symbol (Token "@" (Expecting "Expecting '@' to begin tail of email address"))
         |= parseWhile (\c -> c /= ' ')
         |. spaces
-
-
-alphaNumSpace =
-    parseWhile (\c -> Char.isAlphaNum c || c == ' ')
-
-
-whitespace : Parser ()
-whitespace =
-    chompWhile (\c -> c == ' ' || c == '\t' || c == '\n' || c == '\u{000D}')
 
 
 {-|

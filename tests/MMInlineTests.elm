@@ -1,9 +1,9 @@
 module MMInlineTests exposing (ordinaryTextParsing)
 
-import Expect exposing (Expectation)
-import MMInline
+import Expect
+import MDInline
 import Parser.Advanced exposing (run)
-import Test exposing (..)
+import Test exposing (test, describe, Test)
 
 
 {-| The behavior of the ordinary text parser is slightly different between the three modes
@@ -22,48 +22,48 @@ ordinaryTextParsing =
             Err
                 [ { col = 1
                   , contextStack = []
-                  , problem = MMInline.Expecting "expecting regular character to begin ordinary text line"
+                  , problem = MDInline.Expecting "expecting regular character to begin ordinary text line"
                   , row = 1
                   }
                 ]
 
-        generalOrdinaryTextTests parser =
+        generalOrdinaryTextTests =
             describe "behavior that is the same for all three modes"
                 [ test "leading backtick (`)" <|
                     \_ ->
                         "`hahaha"
-                            |> run MMInline.ordinaryTextStandard
+                            |> run MDInline.ordinaryTextStandard
                             |> Expect.equal error
                 , test "leading opening square bracket ([)" <|
                     \_ ->
                         "[hahaha"
-                            |> run MMInline.ordinaryTextStandard
+                            |> run MDInline.ordinaryTextStandard
                             |> Expect.equal error
                 , test "leading asterisk (*)" <|
                     \_ ->
                         "*hahaha"
-                            |> run MMInline.ordinaryTextStandard
+                            |> run MDInline.ordinaryTextStandard
                             |> Expect.equal error
                 , test "leading newline (\n)" <|
                     \_ ->
                         "\nhahaha"
-                            |> run MMInline.ordinaryTextStandard
+                            |> run MDInline.ordinaryTextStandard
                             |> Expect.equal error
                 , test "leading closing square bracket (])" <|
                     \_ ->
                         "]hahaha"
-                            |> run MMInline.ordinaryTextStandard
-                            |> Expect.equal (Ok (MMInline.OrdinaryText "]hahaha"))
+                            |> run MDInline.ordinaryTextStandard
+                            |> Expect.equal (Ok (MDInline.OrdinaryText "]hahaha"))
                 , test "closing square bracket terminates normal text" <|
                     \_ ->
                         "haha]ha"
-                            |> run MMInline.ordinaryTextStandard
-                            |> Expect.equal (Ok (MMInline.OrdinaryText "haha"))
+                            |> run MDInline.ordinaryTextStandard
+                            |> Expect.equal (Ok (MDInline.OrdinaryText "haha"))
                 , test "normal text" <|
                     \_ ->
                         "hahaha"
-                            |> run MMInline.ordinaryTextStandard
-                            |> Expect.equal (Ok (MMInline.OrdinaryText "hahaha"))
+                            |> run MDInline.ordinaryTextStandard
+                            |> Expect.equal (Ok (MDInline.OrdinaryText "hahaha"))
                 ]
     in
     describe "The MMInline module"
@@ -71,39 +71,39 @@ ordinaryTextParsing =
             [ test "leading dollar ($)" <|
                 \_ ->
                     "$hahaha"
-                        |> run MMInline.ordinaryTextStandard
-                        |> Expect.equal (Ok (MMInline.OrdinaryText "$hahaha"))
+                        |> run MDInline.ordinaryTextStandard
+                        |> Expect.equal (Ok (MDInline.OrdinaryText "$hahaha"))
             , test "leading tilde (~)" <|
                 \_ ->
                     "~hahaha"
-                        |> run MMInline.ordinaryTextStandard
-                        |> Expect.equal (Ok (MMInline.OrdinaryText "~hahaha"))
-            , generalOrdinaryTextTests MMInline.ordinaryTextStandard
+                        |> run MDInline.ordinaryTextStandard
+                        |> Expect.equal (Ok (MDInline.OrdinaryText "~hahaha"))
+            , generalOrdinaryTextTests MDInline.ordinaryTextStandard
             ]
         , describe "Extended"
             [ test "leading dollar ($)" <|
                 \_ ->
                     "$hahaha"
-                        |> run MMInline.ordinaryTextExtended
-                        |> Expect.equal (Ok (MMInline.OrdinaryText "$hahaha"))
+                        |> run MDInline.ordinaryTextExtended
+                        |> Expect.equal (Ok (MDInline.OrdinaryText "$hahaha"))
             , test "leading tilde (~)" <|
                 \_ ->
                     "~hahaha"
-                        |> run MMInline.ordinaryTextExtended
+                        |> run MDInline.ordinaryTextExtended
                         |> Expect.equal error
-            , generalOrdinaryTextTests MMInline.ordinaryTextExtended
+            , generalOrdinaryTextTests MDInline.ordinaryTextExtended
             ]
         , describe "ExtendedMath"
             [ test "leading dollar ($)" <|
                 \_ ->
                     "$hahaha"
-                        |> run MMInline.ordinaryTextExtendedMath
+                        |> run MDInline.ordinaryTextExtendedMath
                         |> Expect.equal error
             , test "leading tilde (~)" <|
                 \_ ->
                     "~hahaha"
-                        |> run MMInline.ordinaryTextExtendedMath
+                        |> run MDInline.ordinaryTextExtendedMath
                         |> Expect.equal error
-            , generalOrdinaryTextTests MMInline.ordinaryTextExtendedMath
+            , generalOrdinaryTextTests MDInline.ordinaryTextExtendedMath
             ]
         ]

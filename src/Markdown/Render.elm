@@ -448,6 +448,7 @@ renderTableOfContents heading blockList =
         |> (\x -> Html.div tocStyle x)
 
 
+tocStyle : List (Html.Attribute msg)
 tocStyle =
     [ HA.style "font-size" "x-small"
     , HA.style "margin-left" "15px"
@@ -570,6 +571,7 @@ renderAsVerbatim info selectedId id level blockContent =
             Html.span [ HA.class "X5" ] []
 
 
+renderSvg : BlockContent -> Html msg
 renderSvg blockContent =
     case blockContent of
         M (OrdinaryText svgText) ->
@@ -589,10 +591,12 @@ renderSvg_ svgText =
             Html.span [ HA.class "X6" ] []
 
 
+marginOfLevel : Int -> Html.Attribute msg
 marginOfLevel level =
     HA.style "margin-left" (String.fromInt (0 * level) ++ "px")
 
 
+blockLevelClass : Int -> Html.Attribute msg
 blockLevelClass k =
     HA.class <| "mm-block-" ++ String.fromInt k
 

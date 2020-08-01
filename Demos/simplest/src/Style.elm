@@ -1,19 +1,12 @@
-module Style exposing (..)
+module Style exposing (colorBlue, buttonStyle, outerStyle, editorTextStyle, renderedSourceStyle, textStyle, labelStyle)
 
 import Html
 import Html.Attributes exposing (style)
 
 
+colorBlue : String
 colorBlue =
     "rgb(100,100,200)"
-
-
-colorLight =
-    "#88a"
-
-
-colorDark =
-    "#444"
 
 
 buttonStyle : String -> Int -> List (Html.Attribute msg)
@@ -38,20 +31,24 @@ buttonStyle color width =
 -- STYLE FUNCTIONS
 
 
+outerStyle : List (Html.Attribute msg)
 outerStyle =
     [ style "width" "1430px"
     , style "height" "510px"
     ]
 
 
+editorTextStyle : List (Html.Attribute msg)
 editorTextStyle =
     textStyle "400px" "400px" "#fff"
 
 
+renderedSourceStyle : List (Html.Attribute msg)
 renderedSourceStyle =
     textStyle "400px" "400px" "#fff"
 
 
+textStyle : String -> String -> String -> List (Html.Attribute msg)
 textStyle width height color =
     [ style "width" width
     , style "height" height
@@ -64,6 +61,7 @@ textStyle width height color =
     ]
 
 
+labelStyle : List (Html.Attribute msg)
 labelStyle =
     [ style "margin-top" "5px"
     , style "margin-bottom" "0px"
