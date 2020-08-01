@@ -24,7 +24,6 @@ main =
 type alias Model =
     { sourceText : String
     , counter : Int
-    , seed : Int
     }
 
 
@@ -45,7 +44,6 @@ init _ =
         model =
             { sourceText = initialText
             , counter = 0
-            , seed = 0
             }
     in
     ( model, Cmd.none )

@@ -152,7 +152,7 @@ idOfBlock (MDBlockWithId id _ _ _) =
     id
 
 
-{-| Return true of the blocks have the same id
+{-| Return true if the blocks have the same id
 -}
 equalIds : MDBlockWithId -> MDBlockWithId -> Bool
 equalIds a b =
@@ -345,6 +345,13 @@ a three of Blocks in constructed using the level information.
 -}
 toBlockTree : MarkdownOption -> Document -> Tree Block
 toBlockTree option document =
+    let
+        res = Debug.log "fsm" (document
+                |> splitIntoLines
+                |> runFSM option
+                |> flush)
+    in
+
     document
         |> splitIntoLines
         |> runFSM option
@@ -391,10 +398,13 @@ toMDBlockTree :
     -> Document
     -> Tree MDBlockWithId
 toMDBlockTree version option document =
-    document
-        |> toBlockTree option
-        |> Tree.map (selectParser option)
-        |> Tree.indexedMap (\idx block -> setBlockIndex version idx block)
+    let
+        res = Debug.log "tree" (document
+            |> toBlockTree option
+            |> Tree.map (selectParser option)
+            |> Tree.indexedMap (\idx block -> setBlockIndex version idx block))
+    in
+        res
 
 
 setBlockIndex : Int -> Int -> MDBlockWithId -> MDBlockWithId

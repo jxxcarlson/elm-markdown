@@ -1,4 +1,4 @@
-module MMInlineTests exposing (ordinaryTextParsing)
+module MDInlineTests exposing (ordinaryTextParsing)
 
 import Expect
 import MDInline
@@ -27,42 +27,42 @@ ordinaryTextParsing =
                   }
                 ]
 
-        generalOrdinaryTextTests =
+        generalOrdinaryTextTests mdFlavorParser =
             describe "behavior that is the same for all three modes"
                 [ test "leading backtick (`)" <|
                     \_ ->
                         "`hahaha"
-                            |> run MDInline.ordinaryTextStandard
+                            |> run mdFlavorParser
                             |> Expect.equal error
                 , test "leading opening square bracket ([)" <|
                     \_ ->
                         "[hahaha"
-                            |> run MDInline.ordinaryTextStandard
+                            |> run mdFlavorParser
                             |> Expect.equal error
                 , test "leading asterisk (*)" <|
                     \_ ->
                         "*hahaha"
-                            |> run MDInline.ordinaryTextStandard
+                            |> run mdFlavorParser
                             |> Expect.equal error
                 , test "leading newline (\n)" <|
                     \_ ->
                         "\nhahaha"
-                            |> run MDInline.ordinaryTextStandard
+                            |> run mdFlavorParser
                             |> Expect.equal error
                 , test "leading closing square bracket (])" <|
                     \_ ->
                         "]hahaha"
-                            |> run MDInline.ordinaryTextStandard
+                            |> run mdFlavorParser
                             |> Expect.equal (Ok (MDInline.OrdinaryText "]hahaha"))
                 , test "closing square bracket terminates normal text" <|
                     \_ ->
                         "haha]ha"
-                            |> run MDInline.ordinaryTextStandard
+                            |> run mdFlavorParser
                             |> Expect.equal (Ok (MDInline.OrdinaryText "haha"))
                 , test "normal text" <|
                     \_ ->
                         "hahaha"
-                            |> run MDInline.ordinaryTextStandard
+                            |> run mdFlavorParser
                             |> Expect.equal (Ok (MDInline.OrdinaryText "hahaha"))
                 ]
     in

@@ -1,6 +1,6 @@
 module MDInline exposing
     ( MDInline(..), parse, string, stringContent
-    , extension, parseWhile, string2, Problem(..), ordinaryTextExtended, ordinaryTextStandard
+    , extension, parseWhile, string2, Problem(..), ordinaryTextExtended, ordinaryTextExtendedMath ,ordinaryTextStandard
     )
 
 {-| Module MDInline provides one type and two functions. The
@@ -597,7 +597,7 @@ code =
         |. symbol (Token "`" (Expecting "Expecting '``' to begin inline code"))
         |. chompWhile (\c -> c /= '`')
         |. symbol (Token "`" (Expecting "Expecting '``' to end inline code"))
-        |. chompWhile (\c -> c /= ' ')
+        --|. chompWhile (\c -> c /= ' ')
     )
         |> getChompedString
         |> map String.trim
