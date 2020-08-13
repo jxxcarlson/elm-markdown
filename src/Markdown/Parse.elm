@@ -50,6 +50,7 @@ import Markdown.Option exposing (MarkdownOption(..))
 import Parser exposing ((|.), (|=), Parser, int, succeed, symbol)
 import Prefix
 import Tree exposing (Tree)
+import String exposing (lines)
 
 
 
@@ -349,7 +350,9 @@ toBlockTree option document =
         res = Debug.log "fsm" (document
                 |> splitIntoLines
                 |> runFSM option
-                |> flush)
+                |> flush
+                |> List.map (changeLevel 1))
+                |> HTree.fromList rootBlock blockLevel
     in
 
     document
@@ -401,10 +404,13 @@ toMDBlockTree version option document =
     let
         res = Debug.log "tree" (document
             |> toBlockTree option
+            |> Tree.map (selectParser option))
+            --|> Tree.indexedMap (\idx block -> setBlockIndex version idx block))
+    in
+        (document
+            |> toBlockTree option
             |> Tree.map (selectParser option)
             |> Tree.indexedMap (\idx block -> setBlockIndex version idx block))
-    in
-        res
 
 
 setBlockIndex : Int -> Int -> MDBlockWithId -> MDBlockWithId
@@ -1046,11 +1052,25 @@ blockListOfFSM (FSM _ blockList_ _) =
 
 splitIntoLines : String -> List Line
 splitIntoLines str =
-    str
-        |> String.lines
-        |> List.map
-            (\l -> l ++ "\n")
+    let
+        lines =
+            str |> String.lines
+    in
+        addToAllButLast lines "\n"
 
+
+addToAllButLast : List Line -> String -> List Line
+addToAllButLast lines str =
+    case lines of
+            [] ->
+                []
+
+            line :: [] ->
+                [line]
+            
+            line :: tailLines ->
+                (line ++ str) :: addToAllButLast tailLines str
+                
 
 initialFSM : FSM
 initialFSM =

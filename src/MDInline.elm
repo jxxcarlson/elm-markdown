@@ -234,8 +234,17 @@ type alias PrefixedString =
 -}
 parse : MarkdownOption -> String -> MDInline
 parse option str =
-    str
+    let
+        res = Debug.log "parse str" (str
+                |> String.split "\n"
+                |> List.filter (\strElt -> not <| String.isEmpty strElt)
+                |> wrap
+                |> List.map (parseLine option)
+                |> Paragraph)
+    in
+        str
         |> String.split "\n"
+        |> List.filter (\strElt -> not <| String.isEmpty strElt)
         |> wrap
         |> List.map (parseLine option)
         |> Paragraph
@@ -582,7 +591,6 @@ inlineMath =
         |. symbol (Token "$" (Expecting "Expecting '$' to begin inline math"))
         |. chompWhile (\c -> c /= '$')
         |. symbol (Token "$" (Expecting "Expecting '$' to end inline math"))
-        |. chompWhile (\c -> c == ' ')
     )
         |> getChompedString
         |> map String.trim
@@ -597,7 +605,6 @@ code =
         |. symbol (Token "`" (Expecting "Expecting '``' to begin inline code"))
         |. chompWhile (\c -> c /= '`')
         |. symbol (Token "`" (Expecting "Expecting '``' to end inline code"))
-        --|. chompWhile (\c -> c /= ' ')
     )
         |> getChompedString
         |> map String.trim
