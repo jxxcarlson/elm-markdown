@@ -1,5 +1,5 @@
 module Markdown.Parse exposing
-    ( toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
+    ( toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST, toTextTree, toTextTree2
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
     , getId, idFromString, stringFromId, idOfBlock, incrementVersion
     , equalContent, equalIds
@@ -18,7 +18,7 @@ the rationale for this module.
 
 ## Create or use AST
 
-@docs toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
+@docs toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST, toTextTree, toTextTree2
 
 
 ## Types
@@ -49,8 +49,8 @@ import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (MarkdownOption(..))
 import Parser exposing ((|.), (|=), Parser, int, succeed, symbol)
 import Prefix
-import Tree exposing (Tree)
 import String exposing (lines)
+import Tree exposing (Tree)
 
 
 
@@ -347,14 +347,16 @@ a three of Blocks in constructed using the level information.
 toBlockTree : MarkdownOption -> Document -> Tree Block
 toBlockTree option document =
     let
-        res = Debug.log "fsm" (document
-                |> splitIntoLines
-                |> runFSM option
-                |> flush
-                |> List.map (changeLevel 1))
+        res =
+            Debug.log "fsm"
+                (document
+                    |> splitIntoLines
+                    |> runFSM option
+                    |> flush
+                    |> List.map (changeLevel 1)
+                )
                 |> HTree.fromList rootBlock blockLevel
     in
-
     document
         |> splitIntoLines
         |> runFSM option
@@ -402,15 +404,19 @@ toMDBlockTree :
     -> Tree MDBlockWithId
 toMDBlockTree version option document =
     let
-        res = Debug.log "tree" (document
-            |> toBlockTree option
-            |> Tree.map (selectParser option))
-            --|> Tree.indexedMap (\idx block -> setBlockIndex version idx block))
+        res =
+            Debug.log "tree"
+                (document
+                    |> toBlockTree option
+                    |> Tree.map (selectParser option)
+                )
+
+        --|> Tree.indexedMap (\idx block -> setBlockIndex version idx block))
     in
-        (document
-            |> toBlockTree option
-            |> Tree.map (selectParser option)
-            |> Tree.indexedMap (\idx block -> setBlockIndex version idx block))
+    document
+        |> toBlockTree option
+        |> Tree.map (selectParser option)
+        |> Tree.indexedMap (\idx block -> setBlockIndex version idx block)
 
 
 setBlockIndex : Int -> Int -> MDBlockWithId -> MDBlockWithId
@@ -1056,21 +1062,21 @@ splitIntoLines str =
         lines =
             str |> String.lines
     in
-        addToAllButLast lines "\n"
+    addToAllButLast lines "\n"
 
 
 addToAllButLast : List Line -> String -> List Line
 addToAllButLast lines str =
     case lines of
-            [] ->
-                []
+        [] ->
+            []
 
-            line :: [] ->
-                [line]
-            
-            line :: tailLines ->
-                (line ++ str) :: addToAllButLast tailLines str
-                
+        line :: [] ->
+            [ line ]
+
+        line :: tailLines ->
+            (line ++ str) :: addToAllButLast tailLines str
+
 
 initialFSM : FSM
 initialFSM =
@@ -1128,6 +1134,108 @@ stringOfMMInline mmInline =
 
 
 -- AST Tools --
+
+
+{-| Map a (Tree MDBlock) to a (Tree String)
+-}
+toTextTree : Tree MDBlock -> Tree String
+toTextTree tree =
+    -- TODO: complete this
+    let
+        toText : MDBlock -> String
+        toText (MDBlock _ _ content) =
+            case content of
+                M mdInline ->
+                    mdInlineToText mdInline
+
+                T str ->
+                    str
+    in
+    Tree.map toText tree
+
+
+{-| Map a (Tree MDBlockWithId) to a (Tree String)
+-}
+toTextTree2 : Tree MDBlockWithId -> Tree String
+toTextTree2 tree =
+    -- TODO: complete this
+    let
+        toText : MDBlockWithId -> String
+        toText (MDBlockWithId _ _ _ content) =
+            case content of
+                M mdInline ->
+                    mdInlineToText mdInline
+
+                T str ->
+                    str
+    in
+    Tree.map toText tree
+
+
+mdInlineToText : MDInline -> String
+mdInlineToText mdInline =
+    case mdInline of
+        OrdinaryText str ->
+            str
+
+        ItalicText str ->
+            str
+
+        BoldText str ->
+            str
+
+        Code str ->
+            str
+
+        InlineMath str ->
+            str
+
+        StrikeThroughText str ->
+            str
+
+        BracketedText str ->
+            str
+
+        HtmlEntity str ->
+            str
+
+        HtmlEntities items ->
+            List.map mdInlineToText items
+                |> String.join " "
+
+        ExtensionInline a b ->
+            a ++ " " ++ b
+
+        Link a b ->
+            a ++ " " ++ b
+
+        Line items ->
+            List.map mdInlineToText items
+                |> String.join " "
+
+        Paragraph items ->
+            List.map mdInlineToText items
+                |> String.join " "
+
+        Stanza str ->
+            str
+
+        MDInline.Error _ ->
+            "error message"
+
+        _ ->
+            "undef"
+
+
+
+-- type BlockContent
+--     = M MDInline
+--     | T String
+-- type MDInline
+--
+--     | HtmlEntities (List MDInline)
+--     | Line (List MDInline)
+--     | Paragraph (List MDInline)
 
 
 {-| Scan the tree, incrementing the version of the target Id if found.

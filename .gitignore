@@ -46,3 +46,6 @@ Demos/simplest/public/Main.js
 Demos/reader/index.html
 
 node_modules
+Demos/simple/make.sh
+Demos/simplest/make.sh
+NOTES.md
