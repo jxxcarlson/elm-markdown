@@ -1,5 +1,5 @@
 module Markdown.Parse exposing
-    ( toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
+    ( toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST, toTextTree, toTextTree2
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
     , getId, idFromString, stringFromId, idOfBlock, incrementVersion
     , equalContent, equalIds
@@ -18,7 +18,7 @@ the rationale for this module.
 
 ## Create or use AST
 
-@docs toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST
+@docs toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST, toTextTree, toTextTree2
 
 
 ## Types
@@ -1341,6 +1341,101 @@ stringContentFromBlock (MDBlockWithId _ _ _ c) =
 
         M mdInline ->
             MDInline.string2 mdInline
+
+
+
+-- AST Transformer
+
+
+{-| Map a (Tree MDBlock) to a (Tree String)
+-}
+toTextTree : Tree MDBlock -> Tree String
+toTextTree tree =
+    -- TODO: complete this
+    let
+        toText : MDBlock -> String
+        toText (MDBlock _ _ content) =
+            case content of
+                M mdInline ->
+                    mdInlineToText mdInline
+
+                T str ->
+                    str
+    in
+    Tree.map toText tree
+
+
+{-| Map a (Tree MDBlockWithId) to a (Tree String)
+-}
+toTextTree2 : Tree MDBlockWithId -> Tree String
+toTextTree2 tree =
+    -- TODO: complete this
+    let
+        toText : MDBlockWithId -> String
+        toText (MDBlockWithId _ _ _ content) =
+            case content of
+                M mdInline ->
+                    mdInlineToText mdInline
+
+                T str ->
+                    str
+    in
+    Tree.map toText tree
+
+
+mdInlineToText : MDInline -> String
+mdInlineToText mdInline =
+    case mdInline of
+        OrdinaryText str ->
+            str
+
+        ItalicText str ->
+            str
+
+        BoldText str ->
+            str
+
+        Code str ->
+            str
+
+        InlineMath str ->
+            str
+
+        StrikeThroughText str ->
+            str
+
+        BracketedText str ->
+            str
+
+        HtmlEntity str ->
+            str
+
+        HtmlEntities items ->
+            List.map mdInlineToText items
+                |> String.join " "
+
+        ExtensionInline a b ->
+            a ++ " " ++ b
+
+        Link a b ->
+            a ++ " " ++ b
+
+        Line items ->
+            List.map mdInlineToText items
+                |> String.join " "
+
+        Paragraph items ->
+            List.map mdInlineToText items
+                |> String.join " "
+
+        Stanza str ->
+            str
+
+        MDInline.Error _ ->
+            "error message"
+
+        _ ->
+            "undef"
 
 
 
