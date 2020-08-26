@@ -24,7 +24,7 @@
             "jxxcarlson/htree": "2.0.1",
             "lovasoa/elm-rolling-list": "1.1.4",
             "lukewestby/elm-string-interpolate": "1.0.4",
-            "pablohirafuji/elm-syntax-highlight": "3.2.0",
+            "pablohirafuji/elm-syntax-highlight": "3.4.0",
             "zwilias/elm-html-string": "2.0.2",
             "zwilias/elm-rosetree": "1.5.0"
         },

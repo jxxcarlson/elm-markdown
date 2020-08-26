@@ -192,6 +192,9 @@ parserOfLanguage lang_ =
         XmlLang ->
             SyntaxHighlight.xml
 
+        NoLang ->
+            SyntaxHighlight.noLang
+
 
 typeOfMDBlock : MDBlock -> BlockType
 typeOfMDBlock (MDBlock bt _ _) =
@@ -534,7 +537,7 @@ renderBlock selectedId id block =
                         , parserOfLanguage lang (String.trimLeft <| BlockType.deleteLangPrefix lang str)
                             |> Result.map (toBlockHtml (Just 1))
                             |> Result.withDefault
-                                (Html.pre [] [ Html.code [] [ Html.text str ] ])
+                                 (Html.pre [] [ Html.code [] [ Html.text str ] ])
                         ]
 
                 _ ->

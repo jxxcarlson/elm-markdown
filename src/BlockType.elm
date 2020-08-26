@@ -80,6 +80,7 @@ type Language
     | PythonLang
     | SqlLang
     | XmlLang
+    | NoLang
 
 
 stringOfLanguage : Language -> String
@@ -105,6 +106,9 @@ stringOfLanguage lang_ =
 
         XmlLang ->
             "xml"
+
+        NoLang ->
+            "nolang"
 
 
 type MarkdownType
@@ -270,7 +274,7 @@ codeBlock : Parser BlockType
 codeBlock =
     (succeed identity
         |. symbol (Token "```" (Expecting "Expecting three ticks to begin code block"))
-        |= oneOf [ cssLang, elmLang, javascriptLang, jsonLang, pythonLang, sqlLang, xmlLang ]
+        |= oneOf [ cssLang, elmLang, javascriptLang, jsonLang, pythonLang, sqlLang, xmlLang, noLang ]
     )
         |> map (\lang -> BalancedBlock (DisplayCode lang))
 
@@ -321,6 +325,11 @@ xmlLang =
     succeed XmlLang
         |. symbol (Token "xml" (Expecting "Expecting string for language"))
 
+
+noLang : Parser Language
+noLang =
+    succeed NoLang
+        |. spaces
 
 verbatimBlock : Parser BlockType
 verbatimBlock =
