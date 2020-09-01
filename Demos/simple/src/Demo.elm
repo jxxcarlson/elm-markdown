@@ -5,6 +5,7 @@ import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
+import Markdown.LaTeX
 import Markdown.Option exposing (MarkdownOption(..), OutputOption(..))
 import Markdown.Render exposing (MarkdownMsg, MarkdownOutput)
 import Random
@@ -41,6 +42,7 @@ type Msg
     | SelectExtended
     | SelectExtendedMath
     | MarkdownMsg MarkdownMsg
+    | ExportToLaTeX
 
 
 type alias Flags =
@@ -129,6 +131,9 @@ update msg model =
         MarkdownMsg _ ->
             ( model, Cmd.none )
 
+        ExportToLaTeX ->
+            ( { model | sourceText = Markdown.LaTeX.export model.sourceText }, Cmd.none )
+
 
 
 --
@@ -155,7 +160,15 @@ display model =
         , p [ style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt" ] [ text "MathJax 3." ]
         , editor model
         , renderedSource rt model
-        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ] [ clearButton 60, restoreTextButton 80, span [ style "margin-left" "30px", style "margin-right" "10px" ] [ text "Markdown flavor: " ], standardMarkdownButton model 100, extendedMarkdownButton model 100, extendedMathMarkdownButton model 140 ]
+        , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ]
+            [ clearButton 60
+            , restoreTextButton 80
+            , exportToLaTeXButton 100
+            , span [ style "margin-left" "30px", style "margin-right" "10px" ] [ text "Markdown flavor: " ]
+            , standardMarkdownButton model 100
+            , extendedMarkdownButton model 100
+            , extendedMathMarkdownButton model 140
+            ]
         , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "minilatex.io" ]
         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "package.elm-lang.org" ]
         ]
@@ -200,6 +213,10 @@ clearButton width =
 
 restoreTextButton width =
     button ([ onClick RestoreText ] ++ buttonStyle colorBlue width) [ text "Restore" ]
+
+
+exportToLaTeXButton width =
+    button ([ onClick ExportToLaTeX ] ++ buttonStyle colorBlue width) [ text "To LaTeX" ]
 
 
 standardMarkdownButton model width =
