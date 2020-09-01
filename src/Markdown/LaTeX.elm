@@ -1,27 +1,16 @@
 module Markdown.LaTeX exposing (export)
 
-{-| For simple applications, the function xxx will be enough.
-The other functions are mostly for building apps, e.g., editors,
-in which the source text changes a lot. The best guide to
-using the code are the examples. See the folder `examples`
-and `editors`.
+{-| Use `Markdown.LaTeX.export someText` to convert Markdown text to [MiniLaTeX](https://demo.minilatex.app/). Imperfect but serviceable.
+The app in `./Demos/simple` illustrates the use of this function.
 
+[Live demo](https://jxxcarlson.github.io/app/mathMarkdownSimple/).
 
-## Types
-
-@docs MarkdownMsg
-
-@docs fromAST
-
-
-## Utility
+@docs export
 
 -}
 
 import BlockType exposing (BalancedType(..), BlockType(..), Language(..), Level, MarkdownType(..))
 import Dict
-import Html exposing (Html)
-import Html.Attributes as HA exposing (style)
 import HtmlEntity
 import MDInline exposing (MDInline(..))
 import Markdown.LaTeXPostProcess as LaTeXPostProcess
@@ -33,14 +22,11 @@ import Markdown.Parse as Parse
         , MDBlock(..)
         , MDBlockWithId(..)
         , projectedStringOfBlockContent
-        , stringFromId
         )
-import SvgParser
 import Tree exposing (Tree)
 
 
-{-| Render source test given an a Markdown flavor
--}
+{-| -}
 export : String -> String
 export str =
     str
@@ -48,7 +34,7 @@ export str =
         |> fromAST ( 0, 0 )
 
 
-{-| Render to Html from a parse tree
+{-| Render to String from a parse tree
 -}
 fromAST : Id -> Tree MDBlockWithId -> String
 fromAST selectedId blockTreeWithId =
@@ -59,86 +45,10 @@ fromAST selectedId blockTreeWithId =
         |> LaTeXPostProcess.fixItemLists
 
 
-masterId =
-    HA.id "__RENDERED_TEXT__"
-
-
 {-| Use `String` so that user clicks on elements in the rendered text can be detected.
 -}
 type MarkdownMsg
     = IDClicked String
-
-
-typeOfMDBlock : MDBlock -> BlockType
-typeOfMDBlock (MDBlock bt _ _) =
-    bt
-
-
-isHeading : MDBlock -> Bool
-isHeading block =
-    case typeOfMDBlock block of
-        MarkdownBlock (Heading _) ->
-            True
-
-        _ ->
-            False
-
-
-typeOfMDBlockWithId : MDBlockWithId -> BlockType
-typeOfMDBlockWithId (MDBlockWithId _ bt _ _) =
-    bt
-
-
-isHeadingWithId : MDBlockWithId -> Bool
-isHeadingWithId block =
-    case typeOfMDBlockWithId block of
-        MarkdownBlock (Heading _) ->
-            True
-
-        _ ->
-            False
-
-
-isMathWithId : MDBlockWithId -> Bool
-isMathWithId block =
-    case typeOfMDBlockWithId block of
-        BalancedBlock DisplayMath ->
-            True
-
-        _ ->
-            False
-
-
-id0 =
-    ( -1, -1 )
-
-
-highlightColor =
-    "#d7d6ff"
-
-
-{-| DOC sync: if targetId == currentId, then return highlighted style
--}
-selectedStyle_ : Id -> Id -> Html.Attribute MarkdownMsg
-selectedStyle_ targetId currentId =
-    case targetId == currentId of
-        True ->
-            HA.style "background-color" highlightColor
-
-        False ->
-            HA.style "background-color" "#fff"
-
-
-{-| DOC sync: if targetId == currentId, then return highlighted style
--}
-selectedStyle : Id -> Id -> List (Html.Attribute MarkdownMsg)
-selectedStyle targetId currentId =
-    case targetId == currentId of
-        True ->
-            [ HA.style "background-color" highlightColor ]
-
-        False ->
-            [ HA.style "background-color" "#fff" ]
 
 
 mmBlockTreeToLaTeX : Id -> Tree MDBlockWithId -> String
@@ -181,16 +91,6 @@ mmBlockTreeToLaTeX selectedId tree =
 
             MDBlockWithId id (BalancedBlock (DisplayCode lang)) _ _ ->
                 "OUF: Code!"
-
-
-idAttr : Id -> Html.Attribute MarkdownMsg
-idAttr id =
-    HA.id (stringFromId id)
-
-
-idAttrWithLabel : Id -> String -> Html.Attribute MarkdownMsg
-idAttrWithLabel id label =
-    HA.id (stringFromId id ++ label)
 
 
 renderBlock : Id -> Id -> MDBlock -> String
@@ -281,48 +181,6 @@ renderAsVerbatim info selectedId id level blockContent =
             ""
 
 
-renderSvg selectedId id level blockContent =
-    case blockContent of
-        M (OrdinaryText svgText) ->
-            renderSvg_ svgText
-
-        _ ->
-            Html.span [ HA.class "X5" ] []
-
-
-renderSvg_ : String -> Html msg
-renderSvg_ svgText =
-    case SvgParser.parse svgText of
-        Ok data ->
-            data
-
-        Err _ ->
-            Html.span [ HA.class "X6" ] []
-
-
-renderOrdinary : String -> Id -> Id -> Level -> BlockContent -> String
-renderOrdinary info selectedId id level blockContent =
-    renderBlockContent selectedId id level blockContent
-
-
-marginOfLevel level =
-    HA.style "margin-left" (String.fromInt (0 * level) ++ "px")
-
-
-blockLevelClass k =
-    HA.class <| "mm-block-" ++ String.fromInt k
-
-
-unWrapParagraph : MDInline -> List MDInline
-unWrapParagraph mmInline =
-    case mmInline of
-        Paragraph element ->
-            element
-
-        _ ->
-            []
-
-
 renderOListItem : Id -> Id -> Int -> Level -> BlockContent -> String
 renderOListItem selectedId id index level blockContent =
     "\\item " ++ renderBlockContent selectedId id level blockContent
@@ -331,21 +189,6 @@ renderOListItem selectedId id index level blockContent =
 renderUListItem : Id -> Id -> Level -> BlockContent -> String
 renderUListItem selectedId id level blockContent =
     "\\item " ++ renderBlockContent selectedId id level blockContent
-
-
-prependToParagraph : MDInline -> BlockContent -> BlockContent
-prependToParagraph head tail =
-    case tail of
-        T _ ->
-            tail
-
-        M mmInLine ->
-            case mmInLine of
-                Paragraph lst ->
-                    M (Paragraph (head :: lst))
-
-                _ ->
-                    tail
 
 
 renderHeading : Id -> Id -> Int -> Level -> BlockContent -> String

@@ -7,7 +7,8 @@
     "exposed-modules": [
         "Markdown.Render",
         "Markdown.Option",
-        "Markdown.Parse"
+        "Markdown.Parse",
+        "Markdown.LaTeX"
     ],
     "elm-version": "0.19.0 <= v < 0.20.0",
     "dependencies": {

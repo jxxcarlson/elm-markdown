@@ -55,10 +55,11 @@ app is read-only that can be used for content distribution.
 Links to live demos:
 
 - [simplest](https://jxxcarlson.github.io/app/mathMarkdownLive/)
+- [simple](https://jxxcarlson.github.io/app/mathMarkdownSimple/) — includes export to MiniLaTeX.
 - [markdown.minilatex.app](https://markdown.minilatex.app)
 
 
-**NOTE:** This package is still evolving relatively rapidly.  I regret
+**NOTE:** This package is still evolving.  I regret
 publishing so many updates, but I am using it in several apps, and this
 is the only way I know how to encapsulate the complexity, work
  with the CI build systems, and keep my sanity
@@ -178,6 +179,8 @@ extent possible by the method of successive approximations
 
 
 ## Recent Changes
+
+- Added a function to export Markdown text to MiniLaTeX.
 
 - Added the @-block element to the parser.  Allows further
 extension to the syntax (see section SVG above)

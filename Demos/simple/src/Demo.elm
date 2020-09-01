@@ -1,6 +1,7 @@
 module Demo exposing (main)
 
 import Browser
+import File.Download as Download
 import Html exposing (..)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
@@ -132,7 +133,16 @@ update msg model =
             ( model, Cmd.none )
 
         ExportToLaTeX ->
-            ( { model | sourceText = Markdown.LaTeX.export model.sourceText }, Cmd.none )
+            let
+                laTeXContent =
+                    Markdown.LaTeX.export model.sourceText
+            in
+            ( model, download laTeXContent )
+
+
+download : String -> Cmd msg
+download latexContent =
+    Download.string "exported.tex" "application/x-latex" latexContent
 
 
 

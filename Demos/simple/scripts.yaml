@@ -1,0 +1,6 @@
+scripts:
+  make: elm make --debug src/Demo.elm --output=public/Main.js
+
+  publish:
+    - cp -r public/* /Users/jxxcarlson/dev/github_pages/app/mathMarkdownSimple/
+    - cd /Users/jxxcarlson/dev/github_pages/app/mathMarkdownSimple/
