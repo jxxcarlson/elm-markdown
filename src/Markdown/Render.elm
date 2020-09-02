@@ -4,6 +4,7 @@ module Markdown.Render exposing
     , fromAST, fromASTWithOptions
     , document, title, toc
     , numberOfMathElements
+    , toHtml_
     )
 
 {-| For simple applications, the function `toHtml` will be enough.
@@ -256,6 +257,20 @@ toHtml option str =
     str
         |> Parse.toMDBlockTree 0 option
         |> fromAST ( 0, 0 )
+
+
+toHtml_ : MarkdownOption -> String -> List (Html MarkdownMsg)
+toHtml_ option str =
+    str
+        |> Parse.toMDBlockTree 0 option
+        |> fromAST_ ( 0, 0 )
+
+
+fromAST_ : Id -> Tree MDBlockWithId -> List (Html MarkdownMsg)
+fromAST_ selectedId blockTreeWithId =
+    blockTreeWithId
+        |> Tree.children
+        |> List.map (mmBlockTreeToHtml selectedId)
 
 
 masterId =

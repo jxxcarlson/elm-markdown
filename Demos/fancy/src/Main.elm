@@ -36,7 +36,7 @@ a label `(version, id): (Int, Int)`, where
 the `id` is unique to each block.
 Each time the text changes, a new AST is computed a
 with an incremented version number. The
-the function function `Diff.mergeWith equals` is applied
+function function `Diff.mergeWith equals` is applied
 to compute the updated AST. The effect of this operation
 is that the id's of the nodes that have not changed
 are themselves unchanged. In this way, MathJax will

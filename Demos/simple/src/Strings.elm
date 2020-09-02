@@ -88,18 +88,18 @@ $$
 
 He said that `a := 0` is an initialization statement.
 
-```
+````
 ## Harmonic series:
 
 sum = 0
 for n in range(1..100):
   sum = sum + 1.0/n
 sum
-```
+````
 
 ## SVG
 
-@svg
+@@svg
 <svg width="100" height="100">
 <circle cx="50" cy="50" r="40" stroke="blue" stroke-width="3" fill="cyan" />
 </svg>
