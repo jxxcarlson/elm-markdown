@@ -1,1 +1,1 @@
-elm make --debug src/Demo.elm --output=public/Main.js
+elm make --debug src/Demo.elm --output=public/Demo.js

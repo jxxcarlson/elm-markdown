@@ -1034,8 +1034,34 @@ htmlEntity_ element =
 -- MATH --
 
 
-mathText : String -> Html MarkdownMsg
-mathText content =
+{-| THE MAIN RENDERING FUNCTION
+-}
+mathText : DisplayMode -> String -> Html msg
+mathText displayMode content =
+    Html.node "math-text"
+        [ HA.property "display" (Json.Encode.bool (isDisplayMathMode displayMode))
+        , HA.property "content" (Json.Encode.string (content |> String.replace "\\ \\" "\\\\"))
+        ]
+        []
+
+
+type DisplayMode
+    = InlineMathMode
+    | DisplayMathMode
+
+
+isDisplayMathMode : DisplayMode -> Bool
+isDisplayMathMode displayMode =
+    case displayMode of
+        InlineMathMode ->
+            False
+
+        DisplayMathMode ->
+            True
+
+
+mathTextOLD : String -> Html MarkdownMsg
+mathTextOLD content =
     Html.node "math-text"
         [ HA.class "mm-math", HA.property "content" (Json.Encode.string content) ]
         []
@@ -1043,7 +1069,8 @@ mathText content =
 
 inlineMathText : Id -> String -> Html MarkdownMsg
 inlineMathText id str =
-    Keyed.node "span" [ idAttrWithLabel id "m" ] [ ( stringFromId id ++ "m", mathText <| "$ " ++ String.trim str ++ " $ " ) ]
+    -- Keyed.node "span" [ idAttrWithLabel id "m" ] [ ( stringFromId id ++ "m", mathText <| "$ " ++ String.trim str ++ " $ " ) ]
+    mathText InlineMathMode (String.trim str)
 
 
 displayMathText : String -> Html MarkdownMsg
@@ -1052,7 +1079,8 @@ displayMathText str =
         str2 =
             String.trim str
     in
-    mathText <| "$$\n" ++ str2 ++ "\n$$"
+    --     mathText <| "$$\n" ++ str2 ++ "\n$$"
+    mathText DisplayMathMode (String.trim str)
 
 
 
