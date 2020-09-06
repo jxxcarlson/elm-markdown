@@ -166,8 +166,7 @@ display model =
             Markdown.Render.withOptions model.option (ExternalTOC "Contents") ( 0, 0 ) 0 model.sourceText
     in
     div []
-        [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Markdown Demo (Experimental)" ]
-        , p [ style "margin-left" "20px", style "margin-top" "0", style "font-size" "14pt" ] [ text "MathJax 3." ]
+        [ h2 [ style "margin-left" "20px", style "margin-bottom" "0px", style "margin-top" "0px" ] [ text "Pure Elm Math+Markdown Demo" ]
         , editor model
         , renderedSource rt model
         , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ]
