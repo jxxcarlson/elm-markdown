@@ -1,4 +1,4 @@
-module Demo exposing (main)
+module Main exposing (main)
 
 import Browser
 import File.Download as Download

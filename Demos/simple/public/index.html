@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="assets/style.css">
 
     <!-- Load app -->
-    <script src="Demo.js" charset="utf-8"></script>
+    <script src="Main.js" charset="utf-8"></script>
 
 </head>
 
@@ -44,7 +44,7 @@
 		const randInts = getRandomInts(5);
 
 		var root = document.getElementById('main');
-		var app = Elm.Demo.init({node: root, flags:  { seed: randInts[0], width:  1200, height: 900 }});
+		var app = Elm.Main.init({node: root, flags:  { seed: randInts[0], width:  1200, height: 900 }});
         init(app);
 
 	 </script>
