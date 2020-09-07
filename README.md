@@ -44,13 +44,12 @@ Then open `public/index.html` with your browser.
 
 ## Demos
 
-See hte `./Demos` folder for examples
+See the `./Demos` folder for examples.
 Best to look at `./Demos/simplest` first.  
 The other examples
 include extra bells, whistles and optimizations
 that are useful for interactive editing environments
-and documents with a lot of mathematics.  The `reader`
-app is read-only that can be used for content distribution.
+and documents with a lot of mathematics.  
 
 Links to live demos:
 
@@ -111,20 +110,26 @@ body of the element: zero or more non-blank lines followed
 by a blank line.  The argument list may be empty.  Unimplemented
 blocks are rendered verbatim.  If you want to make a comment
 in the text but not have it show up in the rendered version,
-use the `@@invisible` block. 
+use the `@@invisible` block, like this:
+
+    ```
+    @@invisible
+    This is not to be seen!
+    ```
 
 - Inline extensions.  These have the form `@cmd[arg]`
 For example, the text `@red[very hot stuff]` renders  *very hot stuff*
 in red.  The `cmd` is a CSS class name, and that class is applied to
 the text `arg`.  The class name can
 be anything, but to have an effect, it must be defined in `./public/assets/style.css`.
-We have defined the following CSS classes: `red`, `green`, `blue`, `pale`,
-`highlight`, `mark` and `censored`.
-The first four color the text.  The last three change the background
+We have defined the following CSS classes: `red`, `green`, `blue`, `pale`, 
+`highlight`, and `censored`.
+The first four color the text.  The last two change the background
 color: yellow, yellow, and black, respectively.  We may define more interesting inline
 extensions later that do not rely on CSS, or entirely on CSS.  
 For these, the `cmd` will be a kind of reserved word. We think 
-of it as a function that is applied to`arg`. 
+of it as a function that is applied to`arg`.  The CSS definitions should reside 
+in `public/assets/style.css`.  See that code in `Demos/simple`.
 
 ## SVG
 
@@ -180,9 +185,9 @@ extent possible by the method of successive approximations
 
 ## Recent Changes
 
-- Added a function to export Markdown text to MiniLaTeX.
+- Added the function `Markdown.LaTeX.export` to export Markdown text to MiniLaTeX.
 
-- Added the @-block element to the parser.  Allows further
+- Added the @@-block element to the parser.  Allows further
 extension to the syntax (see section SVG above)
 
 -  Made substantial changes to simplify the API.

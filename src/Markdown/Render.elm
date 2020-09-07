@@ -1,10 +1,9 @@
 module Markdown.Render exposing
     ( MarkdownOutput(..), MarkdownMsg(..), DocumentParts
-    , toHtml, withOptions
+    , toHtml, toHtml_, withOptions
     , fromAST, fromASTWithOptions
     , document, title, toc
     , numberOfMathElements
-    , toHtml_
     )
 
 {-| For simple applications, the function `toHtml` will be enough.
@@ -21,7 +20,7 @@ and `editors`.
 
 ## Rendering
 
-@docs toHtml, withOptions
+@docs toHtml, toHtml_, withOptions
 
 
 ## Rendering from AST
@@ -259,6 +258,8 @@ toHtml option str =
         |> fromAST ( 0, 0 )
 
 
+{-| Like `toHtml`, but produces a `List (Html MarkdownMsg)` value.
+-}
 toHtml_ : MarkdownOption -> String -> List (Html MarkdownMsg)
 toHtml_ option str =
     str

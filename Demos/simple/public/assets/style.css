@@ -14,6 +14,7 @@
  .blue { color: blue}
  .highlight {background-color: yellow}
  .censored {background-color: black}
+ .pale { color : #aaa }
 
 
 .toc-level-0 { margin-left: 0em; font-size : 10pt; line-height: 4pt; font-weight: normal; text-decoration: none; }
