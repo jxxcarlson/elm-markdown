@@ -6,6 +6,8 @@ scripts:
 
   ssh: ssh root@138.197.81.6
 
+  look: open -a /Applications/Firefox.app/ public/index.html
+
   minify: npx uglify-js public/Main.js -mc 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9"' -o public/Main.min.js
 
   publish:

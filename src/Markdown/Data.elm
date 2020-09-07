@@ -1,5 +1,17 @@
 module Markdown.Data exposing (MarkdownData, init, render, update)
 
+{-| Markdown.Data exposes types and functions which are used by
+UMUI, a universal markup interface. With UMUI, one can
+easily switch between markup languages, e.g. the Math+Markdown
+in jxxcarlson/elm-markdown and MiniLaTeX, the subset of
+LaTeX defined in jxxcarlson/meenylatex.
+
+To use UMUI, one must expose one data type, here given
+by `MarkdownData`, and three functions which operate on it:
+`init`, `update`, and `render`.
+
+-}
+
 import Html exposing (Html)
 import Markdown.Option
 import Markdown.Render exposing (MarkdownMsg)
