@@ -1,0 +1,5 @@
+scripts:
+  make: elm make src/Demo.elm --output=public/Demo.js
+
+  look: open -a /Applications/Firefox.app public/index.html
+  

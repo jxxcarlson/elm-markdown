@@ -49,3 +49,4 @@ node_modules
 Demos/simple/make.sh
 Demos/simplest/make.sh
 NOTES.md
+Demos/simple/public/Demo.js
