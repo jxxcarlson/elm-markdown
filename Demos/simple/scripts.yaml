@@ -19,6 +19,7 @@ scripts:
     - scp public/index-remote.html root@138.197.81.6:/${REMOTE}/index.html
     - scp public/assets/elm-katex.js root@138.197.81.6:/${REMOTE}/assets
     - scp public/assets/style.css root@138.197.81.6:/${REMOTE}/assets
+    - echo "published at https://markdown.minilatex.app/"
 
 
 
