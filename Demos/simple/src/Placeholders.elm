@@ -90,11 +90,7 @@ $$
 
 He said that `a := 0` is an initialization statement.
 
-<<<<<<< HEAD:Demos/simple/src/Strings.elm
-````
-=======
 
->>>>>>> anton:Demos/simple/src/Placeholders.elm
 ## Harmonic series:
 
 ```

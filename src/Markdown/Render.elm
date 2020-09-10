@@ -62,10 +62,10 @@ import Markdown.Parse as Parse
         , stringFromId
         )
 import Parser
+import String exposing (String)
 import SvgParser
 import SyntaxHighlight exposing (monokai, toBlockHtml, useTheme)
 import Tree exposing (Tree)
-import String exposing (String)
 
 
 {-| Use `Html MarkdownMsg` so that user clicks on elements in the rendered text can be detected.
@@ -223,7 +223,7 @@ isMathWithId block =
             False
 
 
-id0 : (Int, Int)
+id0 : ( Int, Int )
 id0 =
     ( -1, -1 )
 
@@ -249,7 +249,6 @@ toHtml option str =
         |> fromAST ( 0, 0 )
 
 
-<<<<<<< HEAD
 {-| Like `toHtml`, but produces a `List (Html MarkdownMsg)` value.
 -}
 toHtml_ : MarkdownOption -> String -> List (Html MarkdownMsg)
@@ -266,9 +265,7 @@ fromAST_ selectedId blockTreeWithId =
         |> List.map (mmBlockTreeToHtml selectedId)
 
 
-=======
 masterId : Html.Attribute MarkdownMsg
->>>>>>> anton
 masterId =
     HA.id "__RENDERED_TEXT__"
 
@@ -362,6 +359,7 @@ selectedStyle_ : Id -> Id -> Html.Attribute MarkdownMsg
 selectedStyle_ targetId currentId =
     if targetId == currentId then
         HA.style "background-color" highlightColor
+
     else
         HA.style "background-color" "#fff"
 
@@ -372,6 +370,7 @@ selectedStyle : Id -> Id -> List (Html.Attribute MarkdownMsg)
 selectedStyle targetId currentId =
     if targetId == currentId then
         [ HA.style "background-color" highlightColor ]
+
     else
         [ HA.style "background-color" "#fff" ]
 
@@ -888,6 +887,7 @@ joinLine selectedId id level items =
                 OrdinaryText str ->
                     if isPunctuation (String.left 1 str) then
                         ( str :: accString, accElement )
+
                     else
                         ( (" " ++ str) :: accString, accElement )
 
