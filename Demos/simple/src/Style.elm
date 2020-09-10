@@ -1,28 +1,18 @@
-module Style exposing (buttonStyle, buttonStyleSelected, colorBlue, colorDarkRed, colorDark, colorLight, editorTextStyle, tocStyle, labelStyle, macroPanelStyle, outerStyle, renderedSourceStyle, textStyle)
+module Style exposing (buttonStyle, buttonStyleSelected, colorBlue, colorDarkRed, editorTextStyle, tocStyle, labelStyle, outerStyle, renderedSourceStyle, textStyle)
 
--- import Html exposing (..)
 
 import Html
 import Html.Attributes exposing (style)
 
 
-
--- import Html.Events exposing (onClick, onInput)
--- import Html.Keyed as Keyed
-
-
+colorBlue : String
 colorBlue =
     "rgb(100,100,200)"
 
+
+colorDarkRed : String
 colorDarkRed =
     "rgb(180,0,0)"
-
-colorLight =
-    "#88a"
-
-
-colorDark =
-    "#444"
 
 
 buttonStyle : String -> Int -> List (Html.Attribute msg)
@@ -49,9 +39,10 @@ buttonStyleSelected bit color color2 width =
         realWidth =
             width + 0 |> String.fromInt |> (\x -> x ++ "px")
     in
-    [ case bit of
-        False -> style "backgroundColor" color
-        True -> style "backgroundColor" color2
+    [ if bit then
+        style "backgroundColor" color
+      else
+        style "backgroundColor" color2
     , style "color" "white"
     , style "width" realWidth
     , style "height" "25px"
@@ -66,30 +57,30 @@ buttonStyleSelected bit color color2 width =
 -- STYLE FUNCTIONS
 
 
+outerStyle : List (Html.Attribute msg)
 outerStyle =
     [ style "margin-top" "20px"
-    , style "background-color" "#e1e6e8"
     , style "padding" "20px"
     , style "width" "1300px"
     , style "height" "670px"
     ]
 
 
+editorTextStyle : List (Html.Attribute msg)
 editorTextStyle =
     textStyle "400px" "500px" "#fff"
 
 
-macroPanelStyle =
-    textStyle "300px" "450px" "#fff"
-
-
+renderedSourceStyle : List (Html.Attribute msg)
 renderedSourceStyle =
     textStyle "400px" "500px" "#fff"
 
+tocStyle : List (Html.Attribute msg)
 tocStyle =
-    textStyle "200px" "500px" "#fff" ++ [style "float" "left"]
+    textStyle "250px" "500px" "#fff" ++ [style "float" "left"]
 
 
+textStyle : String -> String -> String -> List (Html.Attribute msg)
 textStyle width height color =
     [ style "width" width
     , style "height" height
@@ -101,6 +92,7 @@ textStyle width height color =
     ]
 
 
+labelStyle : List (Html.Attribute msg)
 labelStyle =
     [ style "margin-top" "5px"
     , style "margin-bottom" "0px"

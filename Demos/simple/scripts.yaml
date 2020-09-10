@@ -1,3 +1,4 @@
+
 env:
   REMOTE: /var/www/markdown.minilatex.app/html/
 
@@ -27,3 +28,4 @@ scripts:
     -  elm make --debug src/Demo.elm --output=public/Main.js
     - cp -r public/* /Users/jxxcarlson/dev/github_pages/app/mathMarkdownSimple/
     - cd /Users/jxxcarlson/dev/github_pages/app/mathMarkdownSimple/
+

@@ -1,16 +1,10 @@
 module Prefix exposing (drop, get, truncate)
 
-import Parser.Advanced exposing (..)
+import Parser.Advanced exposing (getChompedString, (|=), (|.), symbol, spaces, run, succeed, chompUntil, chompWhile, Token(..), oneOf, map)
 
 
 type alias Parser a =
-    Parser.Advanced.Parser Context Problem a
-
-
-type Context
-    = Definition String
-    | List
-    | Record
+    Parser.Advanced.Parser String Problem a
 
 
 type Problem

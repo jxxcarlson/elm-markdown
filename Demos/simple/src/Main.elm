@@ -2,16 +2,15 @@ module Main exposing (main)
 
 import Browser
 import File.Download as Download
-import Html exposing (..)
+import Html exposing (Html, a, button, div, h1, h2, p, span, text, textarea)
 import Html.Attributes as HA exposing (style)
 import Html.Events exposing (onClick, onInput)
 import Html.Keyed as Keyed
 import Markdown.LaTeX
 import Markdown.Option exposing (MarkdownOption(..), OutputOption(..))
 import Markdown.Render exposing (MarkdownMsg, MarkdownOutput)
-import Random
-import Strings
-import Style exposing (..)
+import Placeholders
+import Style exposing (buttonStyle, buttonStyleSelected, colorBlue, colorDarkRed, editorTextStyle, outerStyle, renderedSourceStyle, tocStyle)
 
 
 main : Program Flags Model Msg
@@ -27,7 +26,6 @@ main =
 type alias Model =
     { sourceText : String
     , counter : Int
-    , seed : Int
     , option : MarkdownOption
     }
 
@@ -35,10 +33,7 @@ type alias Model =
 type Msg
     = Clear
     | GetContent String
-    | GenerateSeed
-    | NewSeed Int
-    | RestoreText
-    | RefreshText
+    | ResetText
     | SelectStandard
     | SelectExtended
     | SelectExtendedMath
@@ -51,12 +46,11 @@ type alias Flags =
 
 
 init : Flags -> ( Model, Cmd Msg )
-init flags =
+init _ =
     let
         model =
-            { sourceText = Strings.initialText
+            { sourceText = Placeholders.initialText
             , counter = 0
-            , seed = 0
             , option = ExtendedMath
             }
     in
@@ -64,7 +58,7 @@ init flags =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 
@@ -79,12 +73,6 @@ update msg model =
             , Cmd.none
             )
 
-        GenerateSeed ->
-            ( model, Random.generate NewSeed (Random.int 1 10000) )
-
-        NewSeed newSeed ->
-            ( { model | seed = newSeed }, Cmd.none )
-
         Clear ->
             ( { model
                 | sourceText = ""
@@ -93,17 +81,10 @@ update msg model =
             , Cmd.none
             )
 
-        RestoreText ->
+        ResetText ->
             ( { model
                 | counter = model.counter + 1
-                , sourceText = Strings.initialText
-              }
-            , Cmd.none
-            )
-
-        RefreshText ->
-            ( { model
-                | counter = model.counter + 1
+                , sourceText = Placeholders.initialText
               }
             , Cmd.none
             )
@@ -171,20 +152,14 @@ display model =
         , renderedSource rt model
         , p [ style "clear" "left", style "margin-left" "20px", style "margin-top" "-20px" ]
             [ clearButton 60
-            , restoreTextButton 80
             , exportToLaTeXButton 100
             , span [ style "margin-left" "30px", style "margin-right" "10px" ] [ text "Markdown flavor: " ]
-            , standardMarkdownButton model 100
             , extendedMarkdownButton model 100
             , extendedMathMarkdownButton model 140
             ]
         , a [ HA.href "https://minilatex.io", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "minilatex.io" ]
         , a [ HA.href "https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/", style "clear" "left", style "margin-left" "20px", style "margin-top" "0px" ] [ text "package.elm-lang.org" ]
         ]
-
-
-label text_ =
-    p labelStyle [ text text_ ]
 
 
 editor : Model -> Html Msg
@@ -216,25 +191,26 @@ renderedSource rt model =
 -- BUTTONS --
 
 
+clearButton : Int -> Html Msg
 clearButton width =
-    button ([ onClick Clear ] ++ buttonStyle colorBlue width) [ text "Clear" ]
+    button (onClick Clear :: buttonStyle colorBlue width) [ text "Clear" ]
 
 
-restoreTextButton width =
-    button ([ onClick RestoreText ] ++ buttonStyle colorBlue width) [ text "Restore" ]
+resetTextButton : Int -> Html Msg
+resetTextButton width =
+    button (onClick ResetText :: buttonStyle colorBlue width) [ text "Reset" ]
 
 
+exportToLaTeXButton : Int -> Html Msg
 exportToLaTeXButton width =
     button ([ onClick ExportToLaTeX ] ++ buttonStyle colorBlue width) [ text "To LaTeX" ]
 
 
-standardMarkdownButton model width =
-    button ([ onClick SelectStandard ] ++ buttonStyleSelected (model.option == Standard) colorBlue colorDarkRed width) [ text "Standard" ]
-
-
+extendedMarkdownButton : Model -> Int -> Html Msg
 extendedMarkdownButton model width =
-    button ([ onClick SelectExtended ] ++ buttonStyleSelected (model.option == Extended) colorBlue colorDarkRed width) [ text "Extended" ]
+    button (onClick SelectExtended :: buttonStyleSelected (model.option == Extended) colorBlue colorDarkRed width) [ text "Extended" ]
 
 
+extendedMathMarkdownButton : Model -> Int -> Html Msg
 extendedMathMarkdownButton model width =
-    button ([ onClick SelectExtendedMath ] ++ buttonStyleSelected (model.option == ExtendedMath) colorBlue colorDarkRed width) [ text "Extended-Math" ]
+    button (onClick SelectExtendedMath :: buttonStyleSelected (model.option == ExtendedMath) colorBlue colorDarkRed width) [ text "Extended-Math" ]

@@ -49,6 +49,7 @@ import MDInline exposing (MDInline(..))
 import Markdown.Option exposing (MarkdownOption(..))
 import Parser exposing ((|.), (|=), Parser, int, succeed, symbol)
 import Prefix
+import String exposing (lines)
 import Tree exposing (Tree)
 
 
@@ -138,7 +139,7 @@ if it is of type `T`. Otherwise, return the empty string.
 projectedStringOfBlockContent : BlockContent -> String
 projectedStringOfBlockContent blockContent =
     case blockContent of
-        M mmInline ->
+        M _ ->
             ""
 
         T str ->
@@ -152,7 +153,7 @@ idOfBlock (MDBlockWithId id _ _ _) =
     id
 
 
-{-| Return true of the blocks have the same id
+{-| Return true if the blocks have the same id
 -}
 equalIds : MDBlockWithId -> MDBlockWithId -> Bool
 equalIds a b =
@@ -283,26 +284,6 @@ type State
     | Error
 
 
-getCurrentBlock : FSM -> Maybe Block
-getCurrentBlock (FSM state _ _) =
-    case state of
-        InBlock block ->
-            Just block
-
-        _ ->
-            Nothing
-
-
-getCurrentBlockType : FSM -> Maybe BlockType
-getCurrentBlockType (FSM state _ _) =
-    case state of
-        InBlock block ->
-            Just (typeOfBlock block)
-
-        _ ->
-            Nothing
-
-
 getTopOfBlockTypeStack : FSM -> Maybe BlockType
 getTopOfBlockTypeStack (FSM _ _ register) =
     List.head register.blockTypeStack
@@ -327,19 +308,9 @@ type alias Register =
     }
 
 
-pushBlockStack : Block -> Register -> Register
-pushBlockStack block register =
-    { register | blockStack = block :: register.blockStack }
-
-
 topOfBlockStack : Register -> Maybe Block
 topOfBlockStack register =
     List.head register.blockStack
-
-
-popBlockStack : Register -> ( Maybe Block, Register )
-popBlockStack register =
-    ( List.head register.blockStack, { register | blockStack = List.tail register.blockStack |> Maybe.withDefault [] } )
 
 
 clearBlockStack : Register -> Register
@@ -375,6 +346,17 @@ a three of Blocks in constructed using the level information.
 -}
 toBlockTree : MarkdownOption -> Document -> Tree Block
 toBlockTree option document =
+    let
+        res =
+            Debug.log "fsm"
+                (document
+                    |> splitIntoLines
+                    |> runFSM option
+                    |> flush
+                    |> List.map (changeLevel 1)
+                )
+                |> HTree.fromList rootBlock blockLevel
+    in
     document
         |> splitIntoLines
         |> runFSM option
@@ -421,6 +403,16 @@ toMDBlockTree :
     -> Document
     -> Tree MDBlockWithId
 toMDBlockTree version option document =
+    let
+        res =
+            Debug.log "tree"
+                (document
+                    |> toBlockTree option
+                    |> Tree.map (selectParser option)
+                )
+
+        --|> Tree.indexedMap (\idx block -> setBlockIndex version idx block))
+    in
     document
         |> toBlockTree option
         |> Tree.map (selectParser option)
@@ -428,12 +420,12 @@ toMDBlockTree version option document =
 
 
 setBlockIndex : Int -> Int -> MDBlockWithId -> MDBlockWithId
-setBlockIndex version idx (MDBlockWithId id bt lev blockContent) =
+setBlockIndex version idx (MDBlockWithId _ bt lev blockContent) =
     MDBlockWithId ( idx, version ) bt lev blockContent
 
 
 selectParser : MarkdownOption -> (Block -> MDBlockWithId)
-selectParser option ((Block id bt level_ content_) as block) =
+selectParser option ((Block _ _ _ _) as block) =
     case option of
         Standard ->
             standardMDParser option block
@@ -443,16 +435,6 @@ selectParser option ((Block id bt level_ content_) as block) =
 
         ExtendedMath ->
             extendedMathMDParser option block
-
-
-unWrap : MDInline -> List MDInline
-unWrap ast =
-    case ast of
-        Paragraph args ->
-            args
-
-        _ ->
-            []
 
 
 extendedMathMDParser : MarkdownOption -> Block -> MDBlockWithId
@@ -581,7 +563,7 @@ runFSM option lines =
 
 
 nextState : MarkdownOption -> Line -> FSM -> FSM
-nextState option line ((FSM state blocks register) as fsm_) =
+nextState option line ((FSM _ _ _) as fsm_) =
     let
         fsm =
             handleRegister fsm_
@@ -603,7 +585,7 @@ handleRegister ((FSM state blocks register) as fsm) =
         Nothing ->
             fsm
 
-        Just block ->
+        Just _ ->
             -- Pop the blockStack the new item is not a table row
             case typeOfState state of
                 Just (MarkdownBlock TableRow) ->
@@ -671,11 +653,6 @@ nextStateAtStart option line ((FSM state blocks register) as fsm) =
                 fsm
 
 
-currentIdOfFSM : FSM -> Id
-currentIdOfFSM (FSM _ _ register) =
-    register.id
-
-
 {-| Used in parsing tables
 -}
 newBlockTypeIsDifferent : BlockType -> State -> Bool
@@ -689,7 +666,7 @@ newBlockTypeIsDifferent blockType state =
 
 
 nextStateInBlock : MarkdownOption -> Line -> FSM -> FSM
-nextStateInBlock option line ((FSM state_ blocks_ register) as fsm) =
+nextStateInBlock option line ((FSM _ _ register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
             FSM Error (blockListOfFSM fsm) register
@@ -741,7 +718,7 @@ processMarkDownBlock option level blockTypeOfLine line ((FSM state blocks regist
     case state of
         -- add current block to block list and
         -- start new block with the current line and lineType
-        InBlock ((Block id typeOfCurrentBlock levelOfCurrentBlock _) as currentBlock) ->
+        InBlock ((Block _ typeOfCurrentBlock _ _) as currentBlock) ->
             if BlockType.isBalanced typeOfCurrentBlock then
                 -- add line to current balanced block
                 addLineToFSM line fsm
@@ -791,12 +768,8 @@ handleTableStart blockTypeOfLine level line state blocks register =
         Error ->
             FSM state blocks register
 
-        InBlock currentBlock ->
+        InBlock _ ->
             let
-                tableBlock : Block
-                tableBlock =
-                    Block ( -1, -1 ) (MarkdownBlock Table) level "tableRoot"
-
                 rowBlock : Block
                 rowBlock =
                     Block ( -1, -1 ) blockTypeOfLine (level + 1) "row"
@@ -821,7 +794,7 @@ handleInnerTableRow blockTypeOfLine level line state blocks register =
         Error ->
             FSM state blocks register
 
-        InBlock currentBlock ->
+        InBlock _ ->
             let
                 rowBlock : Block
                 rowBlock =
@@ -841,7 +814,7 @@ handleInnerTableRow blockTypeOfLine level line state blocks register =
 
 
 processBalancedBlock : BlockType -> Line -> FSM -> FSM
-processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
+processBalancedBlock blockType line ((FSM _ blocks_ register) as fsm) =
     -- the currently processed block should be closed and a new one opened
     if Just blockType == typeOfState (stateOfFSM fsm) then
         case stateOfFSM fsm of
@@ -898,7 +871,7 @@ processBalancedBlock blockType line ((FSM state_ blocks_ register) as fsm) =
 
 -}
 addNewMarkdownBlock : MarkdownOption -> Block -> Line -> FSM -> FSM
-addNewMarkdownBlock option ((Block id typeOfCurrentBlock levelOfCurrentBlock _) as currentBlock) line ((FSM state blocks register) as fsm) =
+addNewMarkdownBlock option ((Block id typeOfCurrentBlock _ _) as currentBlock) line ((FSM _ blocks register) as fsm) =
     case BlockType.get option line of
         ( _, Nothing ) ->
             fsm
@@ -1055,6 +1028,7 @@ typeOfState s =
             Nothing
 
 
+rootBlock : Block
 rootBlock =
     Block ( 0, 0 ) (MarkdownBlock Root) 0 "DOCUMENT"
 
@@ -1084,10 +1058,24 @@ blockListOfFSM (FSM _ blockList_ _) =
 
 splitIntoLines : String -> List Line
 splitIntoLines str =
-    str
-        |> String.lines
-        |> List.map
-            (\l -> l ++ "\n")
+    let
+        lines =
+            str |> String.lines
+    in
+    addToAllButLast lines "\n"
+
+
+addToAllButLast : List Line -> String -> List Line
+addToAllButLast lines str =
+    case lines of
+        [] ->
+            []
+
+        line :: [] ->
+            [ line ]
+
+        line :: tailLines ->
+            (line ++ str) :: addToAllButLast tailLines str
 
 
 initialFSM : FSM
@@ -1097,59 +1085,6 @@ initialFSM =
 
 
 -- STRING FUNCTIONS: WERE USED TO DEBUG DURING DEVELOPMENT --
-
-
-toAnnotatedStringList : List Block -> List ( Int, String )
-toAnnotatedStringList blocks =
-    List.map (\(Block _ _ level content) -> ( level, content )) blocks
-
-
-stringOfFSM : FSM -> String
-stringOfFSM fsm =
-    fsm
-        |> flush
-        |> List.map stringOfBlock
-        |> String.join "\n\n"
-
-
-fsmToPairs : FSM -> List ( Int, String )
-fsmToPairs fsm =
-    fsm |> flush |> toAnnotatedStringList
-
-
-pairsListToPairsTree : List ( Int, String ) -> Tree ( Int, String )
-pairsListToPairsTree lst =
-    lst |> HTree.fromList ( -1, "ROOT" ) Tuple.first
-
-
-pairsTreeToString : Tree ( Int, String ) -> String
-pairsTreeToString tree =
-    HTree.toOutline Tuple.second tree
-
-
-fsmToPairsTree : FSM -> Tree ( Int, String )
-fsmToPairsTree fsm =
-    fsm |> fsmToPairs |> HTree.fromList ( -1, "ROOT" ) Tuple.first
-
-
-stringOfBlockTree : Tree Block -> String
-stringOfBlockTree tree =
-    tree
-        |> Tree.flatten
-        |> List.map stringOfBlock
-        |> String.join "\n"
-
-
-stringOfBlock : Block -> String
-stringOfBlock (Block id bt lev_ content_) =
-    String.repeat (2 * lev_) " "
-        ++ BlockType.stringOfBlockType bt
-        ++ stringFromId id
-        ++ " ("
-        ++ String.fromInt lev_
-        ++ ") "
-        ++ "\n"
-        ++ indent lev_ content_
 
 
 indent : Int -> String -> String
@@ -1201,12 +1136,113 @@ stringOfMMInline mmInline =
 -- AST Tools --
 
 
+{-| Map a (Tree MDBlock) to a (Tree String)
+-}
+toTextTree : Tree MDBlock -> Tree String
+toTextTree tree =
+    -- TODO: complete this
+    let
+        toText : MDBlock -> String
+        toText (MDBlock _ _ content) =
+            case content of
+                M mdInline ->
+                    mdInlineToText mdInline
+
+                T str ->
+                    str
+    in
+    Tree.map toText tree
+
+
+{-| Map a (Tree MDBlockWithId) to a (Tree String)
+-}
+toTextTree2 : Tree MDBlockWithId -> Tree String
+toTextTree2 tree =
+    -- TODO: complete this
+    let
+        toText : MDBlockWithId -> String
+        toText (MDBlockWithId _ _ _ content) =
+            case content of
+                M mdInline ->
+                    mdInlineToText mdInline
+
+                T str ->
+                    str
+    in
+    Tree.map toText tree
+
+
+mdInlineToText : MDInline -> String
+mdInlineToText mdInline =
+    case mdInline of
+        OrdinaryText str ->
+            str
+
+        ItalicText str ->
+            str
+
+        BoldText str ->
+            str
+
+        Code str ->
+            str
+
+        InlineMath str ->
+            str
+
+        StrikeThroughText str ->
+            str
+
+        BracketedText str ->
+            str
+
+        HtmlEntity str ->
+            str
+
+        HtmlEntities items ->
+            List.map mdInlineToText items
+                |> String.join " "
+
+        ExtensionInline a b ->
+            a ++ " " ++ b
+
+        Link a b ->
+            a ++ " " ++ b
+
+        Line items ->
+            List.map mdInlineToText items
+                |> String.join " "
+
+        Paragraph items ->
+            List.map mdInlineToText items
+                |> String.join " "
+
+        Stanza str ->
+            str
+
+        MDInline.Error _ ->
+            "error message"
+
+        _ ->
+            "undef"
+
+
+
+-- type BlockContent
+--     = M MDInline
+--     | T String
+-- type MDInline
+--
+--     | HtmlEntities (List MDInline)
+--     | Line (List MDInline)
+--     | Paragraph (List MDInline)
+
+
 {-| Scan the tree, incrementing the version of the target Id if found.
 This function is used to update the AST int order to highlight
 the rendered text which belongs to the target Id. Use
 
     Markdown.Render.fromASTWithOptions
-        markdownOption
         outputOption
         targetId
         ast
@@ -1216,7 +1252,7 @@ incrementVersion : Id -> Tree MDBlockWithId -> Tree MDBlockWithId
 incrementVersion id tree =
     let
         inc : Id -> MDBlockWithId -> MDBlockWithId
-        inc ( id_, v_ ) ((MDBlockWithId ( id__, v__ ) bt lev bcont) as block) =
+        inc ( id_, v_ ) ((MDBlockWithId ( id__, _ ) bt lev bcont) as block) =
             if id_ == id__ then
                 MDBlockWithId ( id__, v_ + 1 ) bt lev bcont
 
@@ -1237,13 +1273,6 @@ searchAST str ast =
         |> List.filter (\block -> String.contains (Prefix.truncate str |> String.trim) (Prefix.truncate (stringContentFromBlock block)))
         |> List.head
         |> Maybe.map idOfBlock
-
-
-inspectAST : Tree MDBlockWithId -> List ( Id, String )
-inspectAST ast =
-    ast
-        |> Tree.flatten
-        |> List.map (\b -> ( idOfBlock b, stringContentFromBlock b ))
 
 
 {-| Get lead ing text element from AST
@@ -1292,7 +1321,9 @@ getId str_ sourceMapDict =
 
 
 type alias IdRecord =
-    { id : Int, version : Int }
+    { id : Int
+    , version : Int
+    }
 
 
 idParser : Parser ( Int, Int )

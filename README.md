@@ -1,6 +1,7 @@
 
 # jxxcarlson/elm-markdown
 
+[![Elm package](https://img.shields.io/elm-package/v/jxxcarlson/elm-markdown.svg)](https://package.elm-lang.org/packages/jxxcarlson/elm-markdown/latest/)
 
 The aim of this Markdown library is
 to provide a pure Elm implementation of Markdown
