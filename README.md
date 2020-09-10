@@ -188,6 +188,8 @@ extent possible by the method of successive approximations
 
 - Added the function `Markdown.LaTeX.export` to export Markdown text to MiniLaTeX.
 
+- Added the function `Markdown.Parse.toTextTree : Tree MDBlock -> Tree String`
+
 - Added the @@-block element to the parser.  Allows further
 extension to the syntax (see section SVG above)
 

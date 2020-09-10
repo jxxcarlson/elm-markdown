@@ -18,7 +18,7 @@ the rationale for this module.
 
 ## Create or use AST
 
-@docs toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST, toTextTree, toTextTree2
+@docs toMDBlockTree, searchAST, sourceMap, getLeadingTextFromAST, toTextTree
 
 
 ## Types
@@ -1133,7 +1133,7 @@ stringOfMMInline mmInline =
 
 
 
--- AST Tools --
+-- AST TRANSFORMER --
 
 
 {-| Map a (Tree MDBlock) to a (Tree String)
@@ -1152,89 +1152,6 @@ toTextTree tree =
                     str
     in
     Tree.map toText tree
-
-
-
---{-| Map a (Tree MDBlockWithId) to a (Tree String)
----}
---toTextTree2 : Tree MDBlockWithId -> Tree String
---toTextTree2 tree =
---    -- TODO: complete this
---    let
---        toText : MDBlockWithId -> String
---        toText (MDBlockWithId _ _ _ content) =
---            case content of
---                M mdInline ->
---                    mdInlineToText mdInline
---
---                T str ->
---                    str
---    in
---    Tree.map toText tree
---
---
---mdInlineToText : MDInline -> String
---mdInlineToText mdInline =
---    case mdInline of
---        OrdinaryText str ->
---            str
---
---        ItalicText str ->
---            str
---
---        BoldText str ->
---            str
---
---        Code str ->
---            str
---
---        InlineMath str ->
---            str
---
---        StrikeThroughText str ->
---            str
---
---        BracketedText str ->
---            str
---
---        HtmlEntity str ->
---            str
---
---        HtmlEntities items ->
---            List.map mdInlineToText items
---                |> String.join " "
---
---        ExtensionInline a b ->
---            a ++ " " ++ b
---
---        Link a b ->
---            a ++ " " ++ b
---
---        Line items ->
---            List.map mdInlineToText items
---                |> String.join " "
---
---        Paragraph items ->
---            List.map mdInlineToText items
---                |> String.join " "
---
---        Stanza str ->
---            str
---
---        MDInline.Error _ ->
---            "error message"
---
---        _ ->
---            "undef"
--- TODO: verify, then delete
--- type BlockContent
---     = M MDInline
---     | T String
--- type MDInline
---
---     | HtmlEntities (List MDInline)
---     | Line (List MDInline)
---     | Paragraph (List MDInline)
 
 
 {-| Scan the tree, incrementing the version of the target Id if found.
@@ -1371,45 +1288,6 @@ stringContentFromBlock (MDBlockWithId _ _ _ c) =
 
         M mdInline ->
             MDInline.string2 mdInline
-
-
-
--- AST Transformer
---
---{-| Map a (Tree MDBlock) to a (Tree String)
----}
---toTextTree : Tree MDBlock -> Tree String
---toTextTree tree =
---    -- TODO: complete this
---    let
---        toText : MDBlock -> String
---        toText (MDBlock _ _ content) =
---            case content of
---                M mdInline ->
---                    mdInlineToText mdInline
---
---                T str ->
---                    str
---    in
---    Tree.map toText tree
--- TODO: verify, then delete
---
---{-| Map a (Tree MDBlockWithId) to a (Tree String)
----}
---toTextTree2 : Tree MDBlockWithId -> Tree String
---toTextTree2 tree =
---    -- TODO: complete this
---    let
---        toText : MDBlockWithId -> String
---        toText (MDBlockWithId _ _ _ content) =
---            case content of
---                M mdInline ->
---                    mdInlineToText mdInline
---
---                T str ->
---                     str
---    in
---    Tree.map toText tree
 
 
 mdInlineToText : MDInline -> String
