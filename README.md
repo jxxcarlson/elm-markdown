@@ -59,7 +59,7 @@ Links to live demos:
 - [markdown.minilatex.app](https://markdown.minilatex.app)
 
 
-**NOTE:** This package is still evolving.  I regret
+This package is still evolving.  I regret
 publishing so many updates, but I am using it in several apps, and this
 is the only way I know how to encapsulate the complexity, work
  with the CI build systems, and keep my sanity
@@ -72,10 +72,22 @@ For example:
 ```bash
 $ cd to ./Editors/fancy
 
-$ npm install
+$ vr make
 
-$ npm start
 ```
+
+
+**NOTES** 
+
+- `vr` is the command for Umberto Pepato's script runner,
+[Velociraptor](https://dev.to/umbo/velociraptor-an-npm-style-script-runner-for-deno-26a).
+It is elegant and simple, with the scripts stored in `scripts.yaml` To use 
+it, you need to have installed [Deno](https://deno.land/), advertised as *a modern and secure 
+runtime for JavaScript and TypeScript that uses V8 and is built in Rust.*
+
+- If you don't use Velociraptor, just peek inside `scripts.yaml` for whatever shell commands you need.
+Usually just the `make` command.  
+
 
 ## Style
 
