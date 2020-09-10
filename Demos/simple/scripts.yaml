@@ -3,7 +3,7 @@ env:
   REMOTE: /var/www/markdown.minilatex.app/html/
 
 scripts:
-  make: elm make --debug src/Main.elm --output=public/Main.js
+  make: elm make --optimize src/Main.elm --output=public/Main.js
 
   ssh: ssh root@138.197.81.6
 

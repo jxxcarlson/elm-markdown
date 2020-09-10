@@ -348,13 +348,12 @@ toBlockTree : MarkdownOption -> Document -> Tree Block
 toBlockTree option document =
     let
         res =
-            Debug.log "fsm"
-                (document
-                    |> splitIntoLines
-                    |> runFSM option
-                    |> flush
-                    |> List.map (changeLevel 1)
-                )
+            (document
+                |> splitIntoLines
+                |> runFSM option
+                |> flush
+                |> List.map (changeLevel 1)
+            )
                 |> HTree.fromList rootBlock blockLevel
     in
     document
@@ -405,11 +404,9 @@ toMDBlockTree :
 toMDBlockTree version option document =
     let
         res =
-            Debug.log "tree"
-                (document
-                    |> toBlockTree option
-                    |> Tree.map (selectParser option)
-                )
+            document
+                |> toBlockTree option
+                |> Tree.map (selectParser option)
 
         --|> Tree.indexedMap (\idx block -> setBlockIndex version idx block))
     in

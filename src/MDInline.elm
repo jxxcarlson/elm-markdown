@@ -1,6 +1,6 @@
 module MDInline exposing
     ( MDInline(..), parse, string, stringContent
-    , extension, parseWhile, string2, Problem(..), ordinaryTextExtended, ordinaryTextExtendedMath ,ordinaryTextStandard
+    , Problem(..), extension, ordinaryTextExtended, ordinaryTextExtendedMath, ordinaryTextStandard, parseWhile, string2
     )
 
 {-| Module MDInline provides one type and two functions. The
@@ -23,7 +23,7 @@ of the BlockMMTree values.
 -}
 
 import Markdown.Option exposing (MarkdownOption(..))
-import Parser.Advanced exposing (getChompedString, (|=), (|.), symbol, spaces, run, succeed, chompUntil, chompIf, chompWhile, mapChompedString, Token(..), oneOf, map, backtrackable, DeadEnd, loop, Step(..))
+import Parser.Advanced exposing ((|.), (|=), DeadEnd, Step(..), Token(..), backtrackable, chompIf, chompUntil, chompWhile, getChompedString, loop, map, mapChompedString, oneOf, run, spaces, succeed, symbol)
 
 
 type alias Parser a =
@@ -235,14 +235,15 @@ type alias PrefixedString =
 parse : MarkdownOption -> String -> MDInline
 parse option str =
     let
-        res = Debug.log "parse str" (str
+        res =
+            str
                 |> String.split "\n"
                 |> List.filter (\strElt -> not <| String.isEmpty strElt)
                 |> wrap
                 |> List.map (parseLine option)
-                |> Paragraph)
+                |> Paragraph
     in
-        str
+    str
         |> String.split "\n"
         |> List.filter (\strElt -> not <| String.isEmpty strElt)
         |> wrap
@@ -521,8 +522,7 @@ linkUrl =
 terminateBracket : Parser String
 terminateBracket =
     succeed ()
-     -- |. symbol (Token " " DummyExpectation)
-    
+        -- |. symbol (Token " " DummyExpectation)
         |> map (\_ -> " ")
 
 

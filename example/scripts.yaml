@@ -1,0 +1,7 @@
+
+scripts:
+  make: elm make --optimize src/Main.elm --output=Main.js
+
+  look: open -a /Applications/Firefox.app/ index.html
+
+
