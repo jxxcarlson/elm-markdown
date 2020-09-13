@@ -28,13 +28,13 @@ astTest input =
 
 basicTestData : List ( String, String, String )
 basicTestData =
-    [ --( "emptyDoc", emptyDoc, emptyDocAST )
-    -- , ( "inlineCode", inlineCode, inlineCodeAST )
-    -- , ( "inlineCodeSpace", inlineCodeSpace, inlineCodeSpaceAST )
-    -- , ( "inlineMath", inlineMath, inlineMathAST )
-    -- , ( "inlineMathSpace", inlineMathSpace, inlineMathSpaceAST )
-    -- , ( "inlineBasic", inlineBasic, inlineBasicAST )
-    ( "codeBlock", codeBlock, codeBlockAST )
+    [ ( "emptyDoc", emptyDoc, emptyDocAST )
+    , ( "inlineCode", inlineCode, inlineCodeAST )
+    , ( "inlineCodeSpace", inlineCodeSpace, inlineCodeSpaceAST )
+    , ( "inlineMath", inlineMath, inlineMathAST )
+    , ( "inlineMathSpace", inlineMathSpace, inlineMathSpaceAST )
+    , ( "inlineBasic", inlineBasic, inlineBasicAST )
+    , ( "codeBlock", codeBlock, codeBlockAST )
     --, ( "blockBasic", blockBasic, blockBasicAST )
     ]
 
@@ -75,7 +75,7 @@ inlineCodeSpaceAST =
 
 codeBlock : String
 codeBlock =
-    """```
+    """```nolang
 #MACROHERE
 import string.theory.dimensions
 
@@ -92,7 +92,7 @@ After code block."""
 
 codeBlockAST : String
 codeBlockAST =
-    "Rooti0v0 (0) Paragraph [  Line [Text [DOCUMENT]]]\n  nolangi1v0 (1)   \n  #MACROHERE\n  import string.theory.dimensions\n  \n  dimensions(11)\n  regex = \"[^i].*[A-Za-z0-9]+\"\n  sum = 0\n  for (n<-0 until 100){\n    sum = sum + 1.0/n\n  }\n  sum\n  Plaini2v0 (1)   Paragraph [  Line [Text [After code block.]]]"
+    "Rooti0v0 (0) Paragraph [  Line [Text [DOCUMENT]]]\n  nolangi1v0 (1)   nolang\n  #MACROHERE\n  import string.theory.dimensions\n  \n  dimensions(11)\n  regex = \"[^i].*[A-Za-z0-9]+\"\n  sum = 0\n  for (n<-0 until 100){\n    sum = sum + 1.0/n\n  }\n  sum\n  Plaini2v0 (1)   Paragraph [  Line [Text [After code block.]]]"
 
 
 inlineMath : String

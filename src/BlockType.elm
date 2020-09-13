@@ -287,49 +287,49 @@ deleteLangPrefix lang str =
 cssLang : Parser Language
 cssLang =
     succeed CssLang
-        |. symbol (Token "css" (Expecting "Expecting string for language"))
+        |. symbol (Token "css" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
 
 
 elmLang : Parser Language
 elmLang =
     succeed ElmLang
-        |. symbol (Token "elm" (Expecting "Expecting string for language"))
+        |. symbol (Token "elm" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
 
 
 javascriptLang : Parser Language
 javascriptLang =
     succeed JavascriptLang
-        |. symbol (Token "javascript" (Expecting "Expecting string for language"))
+        |. symbol (Token "javascript" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
 
 
 jsonLang : Parser Language
 jsonLang =
     succeed JsonLang
-        |. symbol (Token "json" (Expecting "Expecting string for language"))
+        |. symbol (Token "json" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
 
 
 pythonLang : Parser Language
 pythonLang =
     succeed PythonLang
-        |. symbol (Token "python" (Expecting "Expecting string for language"))
+        |. symbol (Token "python" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
 
 
 sqlLang : Parser Language
 sqlLang =
     succeed SqlLang
-        |. symbol (Token "sql" (Expecting "Expecting string for language"))
+        |. symbol (Token "sql" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
 
 
 xmlLang : Parser Language
 xmlLang =
     succeed XmlLang
-        |. symbol (Token "xml" (Expecting "Expecting string for language"))
+        |. symbol (Token "xml" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
 
 
 noLang : Parser Language
 noLang =
     succeed NoLang
-        |. spaces
+        |. symbol (Token "nolang" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
 
 verbatimBlock : Parser BlockType
 verbatimBlock =
