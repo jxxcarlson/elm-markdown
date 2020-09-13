@@ -91,9 +91,9 @@ $$
 He said that `a := 0` is an initialization statement.
 
 
-## Harmonic series:
+### Harmonic series:
 
-```
+```python
 sum = 0
 for n in range(1..100):
   sum = sum + 1.0/n
