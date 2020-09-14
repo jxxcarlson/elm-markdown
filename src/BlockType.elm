@@ -37,7 +37,7 @@ by 4, where division is integer division.
 -}
 
 import Markdown.Option exposing (MarkdownOption(..))
-import Parser.Advanced exposing (getChompedString, (|=), (|.), symbol, spaces, run, succeed, chompUntil, chompIf, chompWhile, Token(..), oneOf, map, backtrackable, Step(..))
+import Parser.Advanced exposing ((|.), (|=), Step(..), Token(..), backtrackable, chompIf, chompUntil, chompWhile, getChompedString, map, oneOf, run, spaces, succeed, symbol)
 
 
 levelIndentation : Int
@@ -331,6 +331,7 @@ noLang =
     succeed NoLang
         |. symbol (Token "nolang" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
 
+
 verbatimBlock : Parser BlockType
 verbatimBlock =
     succeed (BalancedBlock Verbatim)
@@ -513,6 +514,7 @@ numberOfLeadingBlanks =
     )
         |> getChompedString
         |> map String.length
+
 
 
 --|> map String.trim

@@ -198,6 +198,11 @@ extent possible by the method of successive approximations
 
 ## Recent Changes
 
+- Added `nolang` support for the syntax highlighter.  Thus in code blocks
+set off by triple backticks where the language is not supported by the 
+syntax highlighter, use `nolang` in place of `elm`, `python`, etc.  Currently 
+supported languages are css, elm, javascript, json, python, sql, and xml.
+
 - Added the function `Markdown.LaTeX.export` to export Markdown text to MiniLaTeX.
 
 - Added the function `Markdown.Parse.toTextTree : Tree MDBlock -> Tree String`
@@ -222,5 +227,7 @@ bidrectional sync of source and rendered text.
 
 Thanks to Folkert de Vries and Luke Westby.  A shout-out
 to Folkert for an optimiztaion of the pure text 
-rendering (10 x speedup).
+rendering (10 x speedup).  A thankyou to Anton-4 for 
+significant code cleanup and adding `nolang` support
+for the syntax highlighter. 
 
