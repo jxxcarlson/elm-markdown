@@ -602,9 +602,9 @@ inlineMath =
 code : Parser MDInline
 code =
     (succeed ()
-        |. symbol (Token "`" (Expecting "Expecting '``' to begin inline code"))
+        |. symbol (Token "`" (Expecting "Expecting '`' to begin inline code"))
         |. chompWhile (\c -> c /= '`')
-        |. symbol (Token "`" (Expecting "Expecting '``' to end inline code"))
+        |. symbol (Token "`" (Expecting "Expecting '`' to end inline code"))
     )
         |> getChompedString
         |> map String.trim
