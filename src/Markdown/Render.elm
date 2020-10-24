@@ -820,6 +820,14 @@ renderToHtmlMsg selectedId id level mmInline =
                 "removed" ->
                     Html.span [ HA.style "color" "red" ] [ Html.text (arg ++ "\n") ]
 
+                "ilink1" -> Html.span [] []
+
+                "ilink2" -> Html.span [] []
+
+                "ilink3" -> Html.span [] []
+
+                "ilink4" -> Html.span [] []
+
                 _ ->
                     Html.span [ HA.class op ] [ Html.text arg ]
 

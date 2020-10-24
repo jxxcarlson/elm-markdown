@@ -145,7 +145,11 @@ renderBlock selectedId id block =
         MDBlock (BalancedBlock (DisplayCode lang)) level blockContent ->
             case blockContent of
                 T str ->
-                    str
+                    let
+                        langStr = BlockType.stringOfLanguage lang ++ "\n"
+                        str_ = String.replace langStr "" str
+                    in
+                    env "verbatim" str_
 
                 _ ->
                     displayMathText ""
