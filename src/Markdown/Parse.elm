@@ -3,7 +3,7 @@ module Markdown.Parse exposing
     , MDBlock(..), MDBlockWithId(..), BlockContent(..), Id
     , getId, idFromString, stringFromId, idOfBlock, incrementVersion
     , equalContent, equalIds
-    , project, projectedStringOfBlockContent, stringOfMDBlockTree
+    , project, projectedStringOfBlockContent, stringOfMDBlockTree, getArgPair
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -1344,3 +1344,17 @@ mdInlineToText mdInline =
 
 
 -- |> Prefix.truncate
+getArgPair : String -> String -> Maybe (String, String)
+getArgPair sep str =
+   case Parser.run (argPairParser sep) str of
+       Ok p -> Just p
+       Err _ -> Nothing
+
+argPairParser : String -> Parser (String, String)
+argPairParser sep =
+    succeed Tuple.pair
+      |. Parser.spaces
+      |= (Parser.getChompedString (Parser.chompUntil sep) |> Parser.map String.trim)
+      |. symbol ">"
+      |. Parser.spaces
+      |= (Parser.getChompedString (Parser.chompUntilEndOr "\n") |> Parser.map String.trim)

@@ -1,0 +1,4 @@
+scripts:
+
+  cloc: cloc --by-file src
+

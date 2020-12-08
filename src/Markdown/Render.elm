@@ -828,6 +828,16 @@ renderToHtmlMsg selectedId id level mmInline =
 
                 "ilink4" -> Html.span [] []
 
+                "ylink" -> Html.span [ HA.style "color" "red" ] [ Html.text ("Y: " ++ String.toUpper arg ++ "\n") ]
+
+                "xlink" ->
+                  let
+                    (docId, label) = case Parse.getArgPair ">" arg of
+                                         Just (a,b) -> (a,b)
+                                         Nothing -> ("**", "bad document id")
+                  in
+                  Html.a [ HA.href ("https://minilatex.lamdera.app/" ++ docId)] [ Html.text label ]
+
                 _ ->
                     Html.span [ HA.class op ] [ Html.text arg ]
 
