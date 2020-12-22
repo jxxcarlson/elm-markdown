@@ -270,7 +270,7 @@ update msg model =
                     ( { model | editor = newEditor }, editorCmd |> Cmd.map EditorMsg )
 
         -- The below are optional, and used for external copy/pastes
-        -- See module `Outside` and also `outside.js` and `index.html` for additional
+        -- See module `Outside` and also `outside.js` and `index-katex.html` for additional
         -- information
         Outside infoForElm ->
             case infoForElm of

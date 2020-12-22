@@ -17,7 +17,7 @@ scripts:
     - elm make --optimize src/Main.elm --output=public/Main.js
     - npx uglify-js public/Main.js -mc 'pure_funcs="F2,F3,F4,F5,F6,F7,F8,F9"' -o public/Main.min.js
     - scp public/Main.min.js root@138.197.81.6:/${REMOTE}
-    - scp public/index-remote.html root@138.197.81.6:/${REMOTE}/index.html
+    - scp public/index-remote.html root@138.197.81.6:/${REMOTE}/index-katex.html
     - scp public/assets/elm-katex.js root@138.197.81.6:/${REMOTE}/assets
     - scp public/assets/style.css root@138.197.81.6:/${REMOTE}/assets
     - echo "published at https://markdown.minilatex.app/"

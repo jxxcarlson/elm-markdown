@@ -237,7 +237,7 @@ To compile, use
 elm make --output=Main.js
 ```
 
-Then open `index.html` to run the app.
+Then open `index-katex.html` to run the app.
 
 
 """

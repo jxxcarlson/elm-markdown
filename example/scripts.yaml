@@ -1,7 +1,10 @@
 
 scripts:
+
   make: elm make --optimize src/Main.elm --output=public/Main.js
 
-  look: open -a /Applications/Firefox.app/ public/index.html
+  look1: open -a /Applications/Firefox.app/ public/index-mathjax.html
+
+  look2: open -a /Applications/Firefox.app/ public/index-katex.html
 
 
