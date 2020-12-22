@@ -38,7 +38,7 @@ the rationale for this module.
 
 ## Tools
 
-@docs project, projectedStringOfBlockContent, stringOfMDBlockTree
+@docs project, projectedStringOfBlockContent, stringOfMDBlockTree, getArgPair
 
 -}
 
@@ -1344,6 +1344,9 @@ mdInlineToText mdInline =
 
 
 -- |> Prefix.truncate
+{-| Get arguments that are used constructs like @xlink[ arg1 > arg2 ]
+
+-}
 getArgPair : String -> String -> Maybe (String, String)
 getArgPair sep str =
    case Parser.run (argPairParser sep) str of
