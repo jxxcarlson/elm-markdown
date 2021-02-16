@@ -55,171 +55,6 @@ type MDInline
     | Error (List MDInline)
 
 
-{-| String content of MDInline value. Used in ElmWithId.searchAST
--}
-stringContent : MDInline -> String
-stringContent mmInline =
-    case mmInline of
-        OrdinaryText str ->
-            str
-
-        ItalicText str ->
-            str
-
-        BoldText str ->
-            str
-
-        Code str ->
-            str
-
-        InlineMath str ->
-            str
-
-        StrikeThroughText str ->
-            str
-
-        HtmlEntity str ->
-            str
-
-        HtmlEntities _ ->
-            "HtmlEntities: unimplemented"
-
-        BracketedText str ->
-            str
-
-        Link _ b ->
-            b
-
-        Image a _ ->
-            a
-
-        Line arg ->
-            List.map string2 arg |> String.join " "
-
-        Paragraph arg ->
-            List.map string arg |> List.map indentLine |> String.join "\n"
-
-        Stanza arg ->
-            arg
-
-        ExtensionInline op arg ->
-            op ++ ": " ++ arg
-
-        Error arg ->
-            List.map string arg |> String.join " "
-
-
-string2 : MDInline -> String
-string2 mmInline =
-    case mmInline of
-        OrdinaryText str ->
-            str
-
-        ItalicText str ->
-            str
-
-        BoldText str ->
-            str
-
-        Code str ->
-            str
-
-        InlineMath str ->
-            str
-
-        StrikeThroughText str ->
-            str
-
-        HtmlEntity str ->
-            str
-
-        HtmlEntities _ ->
-            "HtmlEntities: unimplemented"
-
-        BracketedText str ->
-            str
-
-        Link a b ->
-            a ++ " " ++ b
-
-        Image a b ->
-            a ++ " " ++ b
-
-        Line arg ->
-            List.map string2 arg |> String.join " "
-
-        Paragraph arg ->
-            List.map string2 arg |> String.join "\n"
-
-        Stanza arg ->
-            arg
-
-        ExtensionInline op arg ->
-            op ++ ": " ++ arg
-
-        Error arg ->
-            "Error [" ++ (List.map string arg |> String.join " ") ++ "]"
-
-
-{-| String representation of an MDInline value
--}
-string : MDInline -> String
-string mmInline =
-    case mmInline of
-        OrdinaryText str ->
-            "Text [" ++ str ++ "]"
-
-        ItalicText str ->
-            "Italic [" ++ str ++ "]"
-
-        BoldText str ->
-            "Bold [" ++ str ++ "]"
-
-        Code str ->
-            "Code [" ++ str ++ "]"
-
-        InlineMath str ->
-            "InlineMath [" ++ str ++ "]"
-
-        StrikeThroughText str ->
-            "StrikeThroughText [" ++ str ++ "]"
-
-        HtmlEntity str ->
-            "HtmlEntity [" ++ str ++ "]"
-
-        HtmlEntities _ ->
-            "HtmlEntity [" ++ "Unimplemented HtmlEntities" ++ "]"
-
-        BracketedText str ->
-            "Bracketed [" ++ str ++ "]"
-
-        Link a b ->
-            "Link [" ++ a ++ "](" ++ b ++ ")"
-
-        Image a b ->
-            "Image [" ++ a ++ "](" ++ b ++ ")"
-
-        Line arg ->
-            "Line [" ++ (List.map string arg |> String.join " ") ++ "]"
-
-        Paragraph arg ->
-            "Paragraph [" ++ (List.map string arg |> List.map indentLine |> String.join "\n") ++ "]"
-
-        Stanza arg ->
-            "Stanza [\n" ++ arg ++ "\n]"
-
-        ExtensionInline op arg ->
-            "ExtensionInline: " ++ op ++ "[" ++ arg ++ "]"
-
-        Error arg ->
-            "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
-
-
-indentLine : String -> String
-indentLine s =
-    "  " ++ s
-
-
 type alias PrefixedString =
     { prefix : String
     , text : String
@@ -228,21 +63,16 @@ type alias PrefixedString =
 
 {-| MDInline parser
 
-    > > parse ExtendedMath "@class[red stuff]"
+    > parse ExtendedMath "@class[red stuff]"
       Paragraph [Line [ExtensionInline "class" ["red","stuff"]]]
+
+
+    > MDInline.parse ExtendedMath "*foo* hahaha: hohoho, $a^6 + 2$"
+    Paragraph [Line [ItalicText ("foo "),OrdinaryText ("hahaha: hohoho, "),InlineMath ("a^6 + 2")]]
 
 -}
 parse : MarkdownOption -> String -> MDInline
 parse option str =
-    let
-        res =
-            str
-                |> String.split "\n"
-                |> List.filter (\strElt -> not <| String.isEmpty strElt)
-                |> wrap
-                |> List.map (parseLine option)
-                |> Paragraph
-    in
     str
         |> String.split "\n"
         |> List.filter (\strElt -> not <| String.isEmpty strElt)
@@ -251,17 +81,68 @@ parse option str =
         |> Paragraph
 
 
-wrap : List String -> List String
-wrap strList =
-    List.foldl wrapper { currentString = "", lst = [] } strList
-        |> (\acc -> acc.currentString :: acc.lst)
-        |> List.reverse
+parseLine : MarkdownOption -> String -> MDInline
+parseLine option str =
+    run (inlineList option) str
+        |> resolveInlineResult
+
+
+inlineList : MarkdownOption -> Parser (List MDInline)
+inlineList option =
+    many (inline option)
+
+
+{-| This is the dispatcher for the inline element parsers
+for the different flavors of Markdown.
+-}
+inline : MarkdownOption -> Parser MDInline
+inline option =
+    case option of
+        Standard ->
+            inlineStandard
+
+        Extended ->
+            inlineExtended
+
+        ExtendedMath ->
+            inlineExtendedMath
+
+
+resolveInlineResult : Result (List (DeadEnd String Problem)) (List MDInline) -> MDInline
+resolveInlineResult result =
+    case result of
+        Ok res_ ->
+            res_ |> Line
+
+        Err list ->
+            decodeInlineError list
+
+
+decodeInlineError : List (DeadEnd String Problem) -> MDInline
+decodeInlineError errorList =
+    let
+        errorMessage =
+            List.map displayDeadEnd errorList
+                |> String.join ";;\n\n"
+    in
+    OrdinaryText errorMessage
+
+
+
+-- WRAPPING TEXT
 
 
 type alias WrapAccumulator =
     { currentString : String
     , lst : List String
     }
+
+
+wrap : List String -> List String
+wrap strList =
+    List.foldl wrapper { currentString = "", lst = [] } strList
+        |> (\acc -> acc.currentString :: acc.lst)
+        |> List.reverse
 
 
 wrapper : String -> WrapAccumulator -> WrapAccumulator
@@ -279,28 +160,6 @@ wrapper str acc =
 endsWithPunctuation : String -> Bool
 endsWithPunctuation str =
     String.right 1 str == "."
-
-
-parseLine : MarkdownOption -> String -> MDInline
-parseLine option str =
-    run (inlineList option) str
-        |> resolveInlineResult
-
-
-{-| This is the dispatcher for the inline element parsers
-for the different flavors of Markdown.
--}
-inline : MarkdownOption -> Parser MDInline
-inline option =
-    case option of
-        Standard ->
-            inlineStandard
-
-        Extended ->
-            inlineExtended
-
-        ExtendedMath ->
-            inlineExtendedMath
 
 
 
@@ -614,37 +473,6 @@ code =
         |> map Code
 
 
-{-|
-
-    > MDInline.parse "*foo* hahaha: hohoho, $a^6 + 2$"
-    MMInlineList [ItalicText ("foo "),OrdinaryText ("hahaha: hohoho, "),InlineMath ("a^6 + 2")]
-
--}
-inlineList : MarkdownOption -> Parser (List MDInline)
-inlineList option =
-    many (inline option)
-
-
-resolveInlineResult : Result (List (DeadEnd String Problem)) (List MDInline) -> MDInline
-resolveInlineResult result =
-    case result of
-        Ok res_ ->
-            res_ |> Line
-
-        Err list ->
-            decodeInlineError list
-
-
-decodeInlineError : List (DeadEnd String Problem) -> MDInline
-decodeInlineError errorList =
-    let
-        errorMessage =
-            List.map displayDeadEnd errorList
-                |> String.join ";;\n\n"
-    in
-    OrdinaryText errorMessage
-
-
 displayDeadEnd : DeadEnd String Problem -> String
 displayDeadEnd deadend =
     case deadend.problem of
@@ -671,3 +499,172 @@ manyHelp p vs =
         , succeed ()
             |> map (\_ -> Done (List.reverse vs))
         ]
+
+
+
+-- STRING FUNCTIONS
+
+
+{-| String content of MDInline value. Used in ElmWithId.searchAST
+-}
+stringContent : MDInline -> String
+stringContent mmInline =
+    case mmInline of
+        OrdinaryText str ->
+            str
+
+        ItalicText str ->
+            str
+
+        BoldText str ->
+            str
+
+        Code str ->
+            str
+
+        InlineMath str ->
+            str
+
+        StrikeThroughText str ->
+            str
+
+        HtmlEntity str ->
+            str
+
+        HtmlEntities _ ->
+            "HtmlEntities: unimplemented"
+
+        BracketedText str ->
+            str
+
+        Link _ b ->
+            b
+
+        Image a _ ->
+            a
+
+        Line arg ->
+            List.map string2 arg |> String.join " "
+
+        Paragraph arg ->
+            List.map string arg |> List.map indentLine |> String.join "\n"
+
+        Stanza arg ->
+            arg
+
+        ExtensionInline op arg ->
+            op ++ ": " ++ arg
+
+        Error arg ->
+            List.map string arg |> String.join " "
+
+
+string2 : MDInline -> String
+string2 mmInline =
+    case mmInline of
+        OrdinaryText str ->
+            str
+
+        ItalicText str ->
+            str
+
+        BoldText str ->
+            str
+
+        Code str ->
+            str
+
+        InlineMath str ->
+            str
+
+        StrikeThroughText str ->
+            str
+
+        HtmlEntity str ->
+            str
+
+        HtmlEntities _ ->
+            "HtmlEntities: unimplemented"
+
+        BracketedText str ->
+            str
+
+        Link a b ->
+            a ++ " " ++ b
+
+        Image a b ->
+            a ++ " " ++ b
+
+        Line arg ->
+            List.map string2 arg |> String.join " "
+
+        Paragraph arg ->
+            List.map string2 arg |> String.join "\n"
+
+        Stanza arg ->
+            arg
+
+        ExtensionInline op arg ->
+            op ++ ": " ++ arg
+
+        Error arg ->
+            "Error [" ++ (List.map string arg |> String.join " ") ++ "]"
+
+
+{-| String representation of an MDInline value
+-}
+string : MDInline -> String
+string mmInline =
+    case mmInline of
+        OrdinaryText str ->
+            "Text [" ++ str ++ "]"
+
+        ItalicText str ->
+            "Italic [" ++ str ++ "]"
+
+        BoldText str ->
+            "Bold [" ++ str ++ "]"
+
+        Code str ->
+            "Code [" ++ str ++ "]"
+
+        InlineMath str ->
+            "InlineMath [" ++ str ++ "]"
+
+        StrikeThroughText str ->
+            "StrikeThroughText [" ++ str ++ "]"
+
+        HtmlEntity str ->
+            "HtmlEntity [" ++ str ++ "]"
+
+        HtmlEntities _ ->
+            "HtmlEntity [" ++ "Unimplemented HtmlEntities" ++ "]"
+
+        BracketedText str ->
+            "Bracketed [" ++ str ++ "]"
+
+        Link a b ->
+            "Link [" ++ a ++ "](" ++ b ++ ")"
+
+        Image a b ->
+            "Image [" ++ a ++ "](" ++ b ++ ")"
+
+        Line arg ->
+            "Line [" ++ (List.map string arg |> String.join " ") ++ "]"
+
+        Paragraph arg ->
+            "Paragraph [" ++ (List.map string arg |> List.map indentLine |> String.join "\n") ++ "]"
+
+        Stanza arg ->
+            "Stanza [\n" ++ arg ++ "\n]"
+
+        ExtensionInline op arg ->
+            "ExtensionInline: " ++ op ++ "[" ++ arg ++ "]"
+
+        Error arg ->
+            "Ordinary [" ++ (List.map string arg |> String.join " ") ++ "]"
+
+
+indentLine : String -> String
+indentLine s =
+    "  " ++ s

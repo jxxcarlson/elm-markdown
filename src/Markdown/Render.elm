@@ -195,6 +195,9 @@ parserOfLanguage lang_ =
         NoLang ->
             SyntaxHighlight.noLang
 
+        Verse ->
+            SyntaxHighlight.noLang
+
 
 typeOfMDBlock : MDBlock -> BlockType
 typeOfMDBlock (MDBlock bt _ _) =
@@ -548,10 +551,14 @@ renderBlock selectedId id block =
                     displayMathText ""
 
         MDBlock (BalancedBlock (DisplayCode lang)) level blockContent ->
-            case blockContent of
-                T str ->
+            case ( blockContent, lang ) of
+                ( T str, Verse ) ->
+                    Html.div [ blockLevelClass (level - 1), HA.style "white-space" "pre-wrap" ]
+                        [ Html.text <| BlockType.deleteLangPrefix lang str ]
+
+                ( T str, _ ) ->
                     Html.div [ blockLevelClass (level - 1) ]
-                        [ useTheme oneDark
+                        [ useTheme monokai
                         , parserOfLanguage lang (String.trimLeft <| BlockType.deleteLangPrefix lang str)
                             |> Result.map (toBlockHtml (Just 1))
                             |> Result.withDefault
@@ -628,7 +635,7 @@ renderUListItem selectedId id level blockContent =
         label =
             case level of
                 1 ->
-                    "• "
+                    "•  "
 
                 2 ->
                     "◊ "
@@ -645,6 +652,7 @@ renderUListItem selectedId id level blockContent =
     Html.li
         [ HA.class "mm-ulist-item"
         , blockLevelClass (level - 1)
+        , HA.style "margin-left" (String.fromInt (20 * level) ++ "px")
         , idAttr id
         , selectedStyle_ selectedId id
         ]
@@ -892,11 +900,13 @@ renderToHtmlMsg selectedId id level mmInline =
                 mapper =
                     \m -> ( stringFromId id, renderToHtmlMsg selectedId id level m )
             in
-            Keyed.node "p"
+            Keyed.node "div"
                 -- [ idAttr id, selectedStyle_ selectedId id, HA.class "mm-paragraph", blockLevelClass (level - 1) ]
                 [ idAttr id
                 , selectedStyle_ selectedId id
-                , style "margin" "0"
+
+                --,  style "margin" "0"
+                , style "margin-bottom" "18px"
                 , blockLevelClass (level - 1)
                 ]
                 (List.map mapper arg)

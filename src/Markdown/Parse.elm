@@ -4,7 +4,7 @@ module Markdown.Parse exposing
     , getId, idFromString, stringFromId, idOfBlock, incrementVersion
     , equalContent, equalIds
     , project, projectedStringOfBlockContent, stringOfMDBlockTree, getArgPair
-    , toBlockTree
+    , runFSM, runFSM1, toBlockTree
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -332,6 +332,13 @@ emptyRegister =
     }
 
 
+runFSM1 option document =
+    document
+        |> splitIntoLines
+        |> runFSM option
+        |> flush
+
+
 {-| `parseToBlockTree` runs the FSM to parse the input into
 a list of Blocks. The machine is flushed to obtain
 the last block and the level of elements is incremented
@@ -347,16 +354,6 @@ a three of Blocks in constructed using the level information.
 -}
 toBlockTree : MarkdownOption -> Document -> Tree Block
 toBlockTree option document =
-    let
-        res =
-            (document
-                |> splitIntoLines
-                |> runFSM option
-                |> flush
-                |> List.map (changeLevel 1)
-            )
-                |> HTree.fromList rootBlock blockLevel
-    in
     document
         |> splitIntoLines
         |> runFSM option
@@ -403,14 +400,6 @@ toMDBlockTree :
     -> Document
     -> Tree MDBlockWithId
 toMDBlockTree version option document =
-    let
-        res =
-            document
-                |> toBlockTree option
-                |> Tree.map (selectParser option)
-
-        --|> Tree.indexedMap (\idx block -> setBlockIndex version idx block))
-    in
     document
         |> toBlockTree option
         |> Tree.map (selectParser option)

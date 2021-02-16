@@ -81,6 +81,7 @@ type Language
     | SqlLang
     | XmlLang
     | NoLang
+    | Verse
 
 
 stringOfLanguage : Language -> String
@@ -109,6 +110,9 @@ stringOfLanguage lang_ =
 
         NoLang ->
             "nolang"
+
+        Verse ->
+            "verse"
 
 
 type MarkdownType
@@ -274,7 +278,7 @@ codeBlock : Parser BlockType
 codeBlock =
     (succeed identity
         |. symbol (Token "```" (Expecting "Expecting three ticks to begin code block"))
-        |= oneOf [ cssLang, elmLang, javascriptLang, jsonLang, pythonLang, sqlLang, xmlLang, noLang ]
+        |= oneOf [ verse, cssLang, elmLang, javascriptLang, jsonLang, pythonLang, sqlLang, xmlLang, noLang ]
     )
         |> map (\lang -> BalancedBlock (DisplayCode lang))
 
@@ -330,6 +334,12 @@ noLang : Parser Language
 noLang =
     succeed NoLang
         |. symbol (Token "nolang" (Expecting "Expecting string for language, use ```nolang if language is unknown or unsupported"))
+
+
+verse : Parser Language
+verse =
+    succeed Verse
+        |. symbol (Token "verse" (Expecting "Expecting string for verse, use ```verse if language is unknown or unsupported"))
 
 
 verbatimBlock : Parser BlockType
