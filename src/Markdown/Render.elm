@@ -64,7 +64,7 @@ import Markdown.Parse as Parse
 import Parser
 import String exposing (String)
 import SvgParser
-import SyntaxHighlight exposing (monokai, toBlockHtml, useTheme)
+import SyntaxHighlight exposing (gitHub, monokai, oneDark, toBlockHtml, useTheme)
 import Tree exposing (Tree)
 
 
@@ -551,11 +551,11 @@ renderBlock selectedId id block =
             case blockContent of
                 T str ->
                     Html.div [ blockLevelClass (level - 1) ]
-                        [ useTheme monokai
+                        [ useTheme oneDark
                         , parserOfLanguage lang (String.trimLeft <| BlockType.deleteLangPrefix lang str)
                             |> Result.map (toBlockHtml (Just 1))
                             |> Result.withDefault
-                                 (Html.pre [] [ Html.code [] [ Html.text str ] ])
+                                (Html.pre [] [ Html.code [] [ Html.text str ] ])
                         ]
 
                 _ ->
@@ -751,7 +751,14 @@ renderQuotation selectedId id level blockContent =
 renderPoetry : Id -> Id -> Level -> BlockContent -> Html MarkdownMsg
 renderPoetry selectedId id level blockContent =
     Html.div
-        [ HA.class "mm-poetry", marginOfLevel level, selectedStyle_ selectedId id ]
+        [ style "margin-left" "24px"
+        , style "margin-top" "18px"
+        , style "margin-right" "36px"
+        , style " margin-bottom" "18px"
+        , style "white-space" "nowrap"
+        , marginOfLevel level
+        , selectedStyle_ selectedId id
+        ]
         [ renderBlockContent selectedId id level blockContent ]
 
 
@@ -820,23 +827,32 @@ renderToHtmlMsg selectedId id level mmInline =
                 "removed" ->
                     Html.span [ HA.style "color" "red" ] [ Html.text (arg ++ "\n") ]
 
-                "ilink1" -> Html.span [] []
+                "ilink1" ->
+                    Html.span [] []
 
-                "ilink2" -> Html.span [] []
+                "ilink2" ->
+                    Html.span [] []
 
-                "ilink3" -> Html.span [] []
+                "ilink3" ->
+                    Html.span [] []
 
-                "ilink4" -> Html.span [] []
+                "ilink4" ->
+                    Html.span [] []
 
-                "ylink" -> Html.span [ HA.style "color" "red" ] [ Html.text ("Y: " ++ String.toUpper arg ++ "\n") ]
+                "ylink" ->
+                    Html.span [ HA.style "color" "red" ] [ Html.text ("Y: " ++ String.toUpper arg ++ "\n") ]
 
                 "xlink" ->
-                  let
-                    (docId, label) = case Parse.getArgPair ">" arg of
-                                         Just (a,b) -> (a,b)
-                                         Nothing -> ("**", "bad document id")
-                  in
-                  Html.a [ HA.href ("https://minilatex.lamdera.app/" ++ docId)] [ Html.text label ]
+                    let
+                        ( docId, label ) =
+                            case Parse.getArgPair ">" arg of
+                                Just ( a, b ) ->
+                                    ( a, b )
+
+                                Nothing ->
+                                    ( "**", "bad document id" )
+                    in
+                    Html.a [ HA.href ("https://minilatex.lamdera.app/" ++ docId) ] [ Html.text label ]
 
                 _ ->
                     Html.span [ HA.class op ] [ Html.text arg ]
@@ -877,7 +893,12 @@ renderToHtmlMsg selectedId id level mmInline =
                     \m -> ( stringFromId id, renderToHtmlMsg selectedId id level m )
             in
             Keyed.node "p"
-                [ idAttr id, selectedStyle_ selectedId id, HA.class "mm-paragraph", blockLevelClass (level - 1) ]
+                -- [ idAttr id, selectedStyle_ selectedId id, HA.class "mm-paragraph", blockLevelClass (level - 1) ]
+                [ idAttr id
+                , selectedStyle_ selectedId id
+                , style "margin" "0"
+                , blockLevelClass (level - 1)
+                ]
                 (List.map mapper arg)
 
         Stanza arg ->
@@ -896,7 +917,15 @@ renderStanza id arg =
         poetryLine line =
             Html.div [] [ Html.text line ]
     in
-    Html.div [ idAttr id, HA.class "mm-poetry" ] (List.map poetryLine lines)
+    Html.div
+        [ idAttr id
+        , style "margin-left" "24px"
+        , style "margin-top" "18px"
+        , style "margin-right" "36px"
+        , style " margin-bottom" "18px"
+        , style "white-space" "nowrap"
+        ]
+        (List.map poetryLine lines)
 
 
 joinLine : Id -> Id -> Level -> List MDInline -> List (Html MarkdownMsg)
@@ -934,7 +963,7 @@ joinLine selectedId id level items =
                         String.join "" accString
 
                     span =
-                        Html.span [ HA.class "X12" ] [ Html.text content ]
+                        Html.span [ HA.class "X12yada" ] [ Html.text content ]
                 in
                 span :: accElement
 

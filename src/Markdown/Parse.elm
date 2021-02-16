@@ -4,6 +4,7 @@ module Markdown.Parse exposing
     , getId, idFromString, stringFromId, idOfBlock, incrementVersion
     , equalContent, equalIds
     , project, projectedStringOfBlockContent, stringOfMDBlockTree, getArgPair
+    , toBlockTree
     )
 
 {-| The purpose of this module is to parse a Document,
@@ -1344,20 +1345,25 @@ mdInlineToText mdInline =
 
 
 -- |> Prefix.truncate
+
+
 {-| Get arguments that are used constructs like @xlink[ arg1 > arg2 ]
-
 -}
-getArgPair : String -> String -> Maybe (String, String)
+getArgPair : String -> String -> Maybe ( String, String )
 getArgPair sep str =
-   case Parser.run (argPairParser sep) str of
-       Ok p -> Just p
-       Err _ -> Nothing
+    case Parser.run (argPairParser sep) str of
+        Ok p ->
+            Just p
 
-argPairParser : String -> Parser (String, String)
+        Err _ ->
+            Nothing
+
+
+argPairParser : String -> Parser ( String, String )
 argPairParser sep =
     succeed Tuple.pair
-      |. Parser.spaces
-      |= (Parser.getChompedString (Parser.chompUntil sep) |> Parser.map String.trim)
-      |. symbol ">"
-      |. Parser.spaces
-      |= (Parser.getChompedString (Parser.chompUntilEndOr "\n") |> Parser.map String.trim)
+        |. Parser.spaces
+        |= (Parser.getChompedString (Parser.chompUntil sep) |> Parser.map String.trim)
+        |. symbol ">"
+        |. Parser.spaces
+        |= (Parser.getChompedString (Parser.chompUntilEndOr "\n") |> Parser.map String.trim)
