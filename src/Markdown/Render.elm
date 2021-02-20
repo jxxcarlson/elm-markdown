@@ -829,10 +829,10 @@ renderToHtmlMsg selectedId id level mmInline =
 
         ExtensionInline op arg ->
             case op of
-                "added" ->
+                "blue" ->
                     Html.span [ HA.style "color" "blue" ] [ Html.text (arg ++ "\n") ]
 
-                "removed" ->
+                "red" ->
                     Html.span [ HA.style "color" "red" ] [ Html.text (arg ++ "\n") ]
 
                 "ilink1" ->
