@@ -371,14 +371,16 @@ selectedStyle_ targetId currentId =
 
 
 {-| DOC sync: if targetId == currentId, then return highlighted style
+NOTE that adding HA.style "line-height" "1.5", HA.style "white-space" "normal" is a cop-out.
 -}
 selectedStyle : Id -> Id -> List (Html.Attribute MarkdownMsg)
 selectedStyle targetId currentId =
     if targetId == currentId then
-        [ HA.style "background-color" highlightColor ]
+        -- TODO: Find a better solution than putting HA.style "line-height" "1.5", HA.style "white-space" "normal" here
+        [ HA.style "background-color" highlightColor, HA.style "line-height" "1.5", HA.style "white-space" "normal" ]
 
     else
-        [ HA.style "background-color" "#fff" ]
+        [ HA.style "background-color" "#fff", HA.style "line-height" "1.5", HA.style "white-space" "normal" ]
 
 
 mmBlockTreeToHtml : Id -> Tree MDBlockWithId -> Html MarkdownMsg
@@ -825,7 +827,9 @@ renderToHtmlMsg selectedId id level mmInline =
             Html.span [ HA.class "bracketed" ] [ Html.text <| "[" ++ str ++ "]" ]
 
         Link url label ->
-            Html.a [ HA.href url, HA.target "_blank" ] [ Html.text (label ++ " ") ]
+            Html.a
+                [ HA.href url, HA.target "_blank" ]
+                [ Html.text (label ++ " ") ]
 
         ExtensionInline op arg ->
             case op of
