@@ -367,7 +367,7 @@ selectedStyle_ targetId currentId =
         HA.style "background-color" highlightColor
 
     else
-        HA.style "background-color" "#fff"
+        HA.style "background-color" "transparent"
 
 
 {-| DOC sync: if targetId == currentId, then return highlighted style
@@ -380,7 +380,7 @@ selectedStyle targetId currentId =
         [ HA.style "background-color" highlightColor, HA.style "line-height" "1.5", HA.style "white-space" "normal" ]
 
     else
-        [ HA.style "background-color" "#fff", HA.style "line-height" "1.5", HA.style "white-space" "normal" ]
+        [ HA.style "background-color" "transparent", HA.style "line-height" "1.5", HA.style "white-space" "normal" ]
 
 
 mmBlockTreeToHtml : Id -> Tree MDBlockWithId -> Html MarkdownMsg
